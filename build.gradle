@@ -1,0 +1,112 @@
+
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
+    // Apply the application plugin to add support for building a CLI application.
+    id 'application'
+    id 'distribution'
+}
+
+repositories {
+    mavenLocal() 
+    ivy {
+        layout 'pattern' , {
+            artifact '[organisation]/Releases/Packages/[module]/[revision]/[artifact]-[revision].[ext]'
+            ivy '[organisation]/Releases/Packages/[module]/[revision]/ivy.xml'
+        }
+        url = uri('https://svn.win.tue.nl/repos')
+        content {
+            includeGroup "prom"
+        }
+    }
+    ivy {
+        layout 'pattern' , {
+            artifact '[module]/[revision]/[artifact]-[revision].[ext]'
+            ivy '[module]/[revision]/ivy.xml'
+        }
+        url = uri('https://svn.win.tue.nl/repos/prom/Libraries')
+    }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'prom:EarthMoversStochasticConformanceChecking:latest'
+    implementation 'prom:StochasticAwareConformanceChecking:latest'
+    implementation 'prom:StochasticWeightEstimation:latest'
+
+    // This dependency is used by the application.
+    implementation 'qut.pm:prom-helpers:0.8.2-SNAPSHOT'
+    implementation 'org.simpleframework:simple-xml:2.7.1'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.13'
+}
+
+application {
+    // Define the main class for the application.
+    mainClassName = 'qut.pm.toothpaste.ModelRunner'
+}
+
+jar {
+    doFirst {
+        manifest.attributes(
+                'Class-Path': 
+                    configurations.runtimeClasspath.files.collect { "$it.name" }.join(' '),
+                'Main-Class': 'qut.pm.toothpaste.ModelRunner'
+    )
+  }
+
+  outputs.file('buildid.txt')
+  inputs.property('version', project.version)
+
+  doLast {
+    project.file('buildid.txt') << project.version
+  }
+}
+
+
+group = 'qut.pm'
+version = '0.7.8'
+description = 'toothpaste'
+sourceCompatibility = '1.8'
+
+clean{
+    mkdir "var"
+}
+
+task(pnmlToDot, dependsOn: 'classes', type: JavaExec) {
+   main 'qut.pm.prom.helpers.PetriNetConverter'
+   classpath sourceSets.main.runtimeClasspath
+   jvmArgs '-Dlog4j.configurationFile=config/static/log4j2.xml'
+}
+
+
+applicationDistribution.from('config') {
+    into "config"
+}
+
+applicationDistribution.from('scripts') {
+    into "scripts"
+}
+
+applicationDistribution.from('ldlib') {
+    into "ldlib"
+}
+
+applicationDistribution.from('hbin') {
+    into "bin"
+}
+
+
+distributions {
+    main {
+        distributionBaseName = 'toothpaste'
+        contents {
+            from 'buildid.txt'
+        }
+    }
+}
+
+
+

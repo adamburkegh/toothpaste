@@ -1,0 +1,28 @@
+/bin/
+# Ignore Gradle project-specific cache directory
+.gradle
+# Ignore Gradle build output directory
+build
+# Eclipse
+.classpath
+.project
+.settings/
+/eclipse/
+# stack
+.stack-work/
+# vi
+*.swp
+# haskell
+*.o
+*.exe
+*.hi
+*.PROF
+# general
+data/
+var/
+out.txt
+atb.bib
+buildid.txt
+results/*.png
+results/*/*.png
+

@@ -52,6 +52,8 @@ Some scripts for running on Windows and Unix are in `scripts/`.
 
 # Results
 
-Result files from experiments performed on this framework are in `results`. "Weight estimation" mining was done using the [spd\_we project](https://github.com/adamburkegh/spd_we). This includes output models 
+Result files from experiments performed on this framework are in `results`. "Weight estimation" mining was done using the [spd\_we project](https://github.com/adamburkegh/spd_we). This includes output model PNML files.
 
+## Result Models
 
+Visualizations of the models from the evaluation are in [eval-models](eval-models/).

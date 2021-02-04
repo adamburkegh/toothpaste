@@ -1,0 +1,52 @@
+<runStats miner="ToothpasteMinerHP" machineName="SEF-1953019678" runnerVersion="">
+   <inputLogFileName>sepsis_k3.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_tmh_sepsis_k3.pnml</outputModelFileName>
+   <runDate>2021-02-03 15:56:22.131 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>31</duration>
+         <start>1612331782147</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">211</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">2947</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>84167</duration>
+         <start>1612331782178</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612331867814</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.7332681177141925</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">3272</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">2896</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
+         <duration>2483</duration>
+         <start>1612331867814</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
+            <number class="java.lang.Double">0.6873244529893238</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>1156</duration>
+         <start>1612331866517</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
+</runStats>

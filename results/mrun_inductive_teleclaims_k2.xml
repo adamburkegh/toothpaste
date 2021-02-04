@@ -1,0 +1,30 @@
+<runStats miner="Inductive Miner" machineName="SEF-1953019678" runnerVersion="1.0.3">
+   <inputLogFileName>teleclaims_k2.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_inductive_teleclaims_k2.pnml</outputModelFileName>
+   <runDate>2021-02-03 11:36:20.869 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>78</duration>
+         <start>1612316180869</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">9319</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">703</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>32</duration>
+         <start>1612316180947</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612316180994</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
+</runStats>

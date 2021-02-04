@@ -1,0 +1,39 @@
+<runStats miner="Rogge-Solti StochasticMinerPlugin (Tracing)" machineName="SEF-1953019678" runnerVersion="">
+   <inputLogFileName>sepsis_k5.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_rssmt_sepsis_k5.pnml</outputModelFileName>
+   <runDate>2021-01-31 02:29:58.436 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>31</duration>
+         <start>1612024198436</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">205</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">2980</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>1562521</duration>
+         <start>1612024198467</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612025761128</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">90</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9906817067189799</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">114</number>
+         </measureStats>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage>Manual edit by AB EarthMovers OutOfMemory - but still outputting a number</errorMessage>
+   <runState>FAILED</runState>
+</runStats>

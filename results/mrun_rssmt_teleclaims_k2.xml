@@ -1,0 +1,44 @@
+<runStats miner="Rogge-Solti StochasticMinerPlugin (Tracing)" machineName="SEF-1953019678" runnerVersion="">
+   <inputLogFileName>teleclaims_k2.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_rssmt_teleclaims_k2.pnml</outputModelFileName>
+   <runDate>2021-02-03 11:23:08.114 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>250</duration>
+         <start>1612315388114</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">703</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">9319</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>437</duration>
+         <start>1612315388364</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612315389145</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">76</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">60</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9979358483391727</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612315388879</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
+</runStats>

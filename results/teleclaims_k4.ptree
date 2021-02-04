@@ -1,0 +1,76 @@
+Seq:703.0
+  "incoming claim":703.0
+  Seq:703.0
+    Choice:703.0
+      Seq:332.0
+        PLoop[2.0]:332.0
+          "B check if sufficient information is available":332.0
+        Choice:332.0
+          tau:42.0
+          Seq:290.0
+            PLoop[2.0]:290.0
+              "B register claim":290.0
+            Seq:290.0
+              PLoop[2.0]:290.0
+                "determine likelihood of claim":290.0
+              Choice:290.0
+                Seq:239.0
+                  PLoop[2.0]:239.0
+                    "assess claim":239.0
+                  Choice:239.0
+                    Choice:128.0
+                      tau:46.0
+                      Seq:82.0
+                        PLoop[2.0]:82.0
+                          "initiate payment":82.0
+                        Conc:82.0
+                          PLoop[2.0]:40.0
+                            "advise claimant on reimbursement":40.0
+                          PLoop[2.0]:42.0
+                            "close claim":42.0
+                    Seq:111.0
+                      PLoop[2.0]:111.0
+                        "advise claimant on reimbursement":111.0
+                      Seq:111.0
+                        PLoop[2.0]:111.0
+                          "initiate payment":111.0
+                        PLoop[2.0]:111.0
+                          "close claim":111.0
+                tau:51.0
+      Seq:371.0
+        PLoop[2.0]:371.0
+          "S check if sufficient information is available":371.0
+        Choice:371.0
+          tau:88.0
+          Seq:283.0
+            PLoop[2.0]:283.0
+              "S register claim":283.0
+            Seq:283.0
+              PLoop[2.0]:283.0
+                "determine likelihood of claim":283.0
+              Choice:283.0
+                Seq:236.0
+                  PLoop[2.0]:236.0
+                    "assess claim":236.0
+                  Choice:236.0
+                    Choice:148.0
+                      tau:47.0
+                      Seq:101.0
+                        PLoop[2.0]:101.0
+                          "initiate payment":101.0
+                        Conc:101.0
+                          PLoop[2.0]:47.0
+                            "advise claimant on reimbursement":47.0
+                          PLoop[2.0]:54.000004
+                            "close claim":54.000004
+                    Seq:88.0
+                      PLoop[2.0]:88.0
+                        "advise claimant on reimbursement":88.0
+                      Seq:88.0
+                        PLoop[2.0]:88.0
+                          "initiate payment":88.0
+                        PLoop[2.0]:88.0
+                          "close claim":88.0
+                tau:47.0
+    PLoop[2.0]:703.0
+      "end":703.0

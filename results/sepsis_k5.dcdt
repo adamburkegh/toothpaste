@@ -1,0 +1,205 @@
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Liquid,,IV Antibiotics
+ER Registration,,IV Liquid,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,CRP,,LacticAcid,,Leucocytes,,Admission IC,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,Admission NC,,Release A,,Return ER
+IV Liquid,,ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,LacticAcid,,Admission IC,,LacticAcid,,CRP,,LacticAcid,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,Leucocytes,,LacticAcid,,LacticAcid,,CRP,,Leucocytes,,Leucocytes,,LacticAcid,,CRP,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,Admission IC,,LacticAcid,,Leucocytes,,CRP,,Leucocytes,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,LacticAcid,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release B
+ER Registration,,ER Triage,,CRP,,Leucocytes,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,Admission NC,,IV Liquid,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Admission NC,,IV Liquid,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Leucocytes,,CRP,,LacticAcid
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,CRP,,LacticAcid,,IV Antibiotics,,Admission NC,,Admission NC,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,Admission NC,,CRP,,Release A,,Return ER
+Leucocytes,,ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release C,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A
+ER Registration,,IV Liquid,,ER Triage,,Leucocytes,,CRP,,LacticAcid,,ER Sepsis Triage,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,Admission NC,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Admission IC,,Leucocytes,,LacticAcid,,CRP,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,CRP,,Release A
+ER Registration,,ER Triage,,CRP,,LacticAcid,,Leucocytes,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A,,Return ER
+Leucocytes,,CRP,,ER Registration,,ER Triage,,ER Sepsis Triage,,IV Antibiotics,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics,,IV Liquid,,Admission NC,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Antibiotics,,CRP,,Leucocytes,,LacticAcid,,Admission NC,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,LacticAcid,,CRP,,Leucocytes,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes
+ER Registration,,CRP,,LacticAcid,,Leucocytes,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,CRP,,Leucocytes,,ER Sepsis Triage,,IV Liquid,,LacticAcid,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Liquid,,IV Antibiotics,,ER Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,Admission NC,,Admission IC,,CRP,,LacticAcid,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,Admission NC,,CRP,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,Leucocytes,,CRP,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Antibiotics,,IV Liquid,,Admission NC,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,CRP,,Leucocytes,,LacticAcid,,Admission NC,,CRP,,Leucocytes,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,LacticAcid,,CRP,,Leucocytes,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,CRP,,Leucocytes,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,CRP,,LacticAcid,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,LacticAcid,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,Admission NC
+ER Registration,,ER Triage,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,Admission NC,,Admission NC,,CRP,,CRP,,CRP,,Release A
+ER Registration,,ER Triage,,Leucocytes,,LacticAcid,,CRP,,ER Sepsis Triage,,Admission NC,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,CRP,,Release D
+ER Registration,,ER Triage,,ER Sepsis Triage
+ER Registration,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,ER Triage,,ER Sepsis Triage,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission IC,,Leucocytes,,LacticAcid,,CRP,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,CRP,,LacticAcid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,Leucocytes,,CRP,,CRP,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics,,IV Liquid,,Admission NC,,Leucocytes,,CRP,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release D
+ER Registration,,ER Triage,,CRP,,LacticAcid,,Leucocytes,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,IV Antibiotics,,Admission NC,,Admission NC,,Admission NC,,CRP,,Release A
+CRP,,Leucocytes,,ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,Admission NC,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,IV Liquid,,Leucocytes,,CRP,,LacticAcid,,ER Sepsis Triage,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,LacticAcid,,Leucocytes,,CRP,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,IV Antibiotics,,Leucocytes,,CRP
+ER Registration,,ER Triage,,IV Liquid,,CRP,,Leucocytes,,LacticAcid,,ER Sepsis Triage,,IV Antibiotics,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Release A
+ER Registration,,IV Liquid,,ER Triage,,ER Sepsis Triage,,IV Antibiotics,,CRP,,Leucocytes,,LacticAcid,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP
+ER Registration,,ER Triage,,CRP,,Leucocytes,,LacticAcid,,ER Sepsis Triage,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release B
+ER Registration,,ER Triage,,CRP,,Leucocytes,,LacticAcid,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission IC,,CRP,,LacticAcid,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,Admission IC,,LacticAcid,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Admission NC,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,Leucocytes,,LacticAcid,,CRP,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission IC,,CRP,,Leucocytes,,LacticAcid,,Admission NC,,Admission NC,,Leucocytes,,CRP,,Release D
+ER Registration,,ER Triage,,Leucocytes,,LacticAcid,,CRP,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,Admission NC,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Antibiotics,,IV Liquid,,LacticAcid
+ER Registration,,ER Triage,,LacticAcid,,Leucocytes,,CRP,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Admission NC,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,Release A,,Return ER
+Leucocytes,,CRP,,ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,Admission NC,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Admission NC,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes
+ER Registration,,Leucocytes,,CRP,,LacticAcid,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,LacticAcid,,Leucocytes,,CRP,,IV Antibiotics,,Admission IC,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,LacticAcid,,CRP,,CRP,,Leucocytes,,LacticAcid,,LacticAcid,,CRP,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A
+ER Registration,,CRP,,Leucocytes,,LacticAcid,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,IV Liquid
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Admission IC,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,LacticAcid,,CRP,,LacticAcid,,CRP,,Leucocytes,,CRP,,Leucocytes,,LacticAcid,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,CRP,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,CRP,,Leucocytes,,LacticAcid,,LacticAcid,,Leucocytes,,CRP,,Leucocytes,,LacticAcid,,CRP,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,Admission NC,,Release A
+ER Registration,,ER Triage,,Leucocytes,,LacticAcid,,CRP,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release B
+ER Registration,,ER Triage,,Leucocytes,,CRP,,LacticAcid,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission IC,,Admission IC,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,CRP,,LacticAcid,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,Leucocytes,,LacticAcid,,CRP,,Admission NC,,Release A
+Leucocytes,,ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,CRP,,LacticAcid,,IV Antibiotics,,Admission NC,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Antibiotics,,IV Liquid,,Admission NC,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Antibiotics,,IV Liquid,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage
+ER Registration,,IV Liquid,,ER Triage,,LacticAcid,,Leucocytes,,CRP,,ER Sepsis Triage,,IV Antibiotics,,Admission NC,,Release A
+ER Registration,,ER Triage,,CRP,,Leucocytes,,LacticAcid,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,CRP,,LacticAcid,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release C
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,LacticAcid,,Leucocytes,,CRP,,Admission NC,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Antibiotics,,IV Liquid,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Antibiotics,,IV Liquid,,Admission NC,,Leucocytes,,Admission NC,,CRP,,Leucocytes,,Release A,,Return ER
+Leucocytes,,CRP,,ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,LacticAcid,,CRP,,Leucocytes,,IV Antibiotics,,Admission NC,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,Admission IC,,Admission NC,,CRP,,Leucocytes,,CRP,,Admission NC,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics,,Leucocytes,,CRP,,LacticAcid,,Admission IC,,Leucocytes,,LacticAcid,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,CRP,,Leucocytes,,Release B
+ER Registration,,ER Triage,,Leucocytes,,CRP,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,Admission NC
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,IV Liquid,,IV Antibiotics,,LacticAcid
+ER Registration,,LacticAcid,,Leucocytes,,CRP,,ER Triage,,ER Sepsis Triage
+ER Registration,,Leucocytes,,LacticAcid,,CRP,,ER Triage,,ER Sepsis Triage,,IV Antibiotics,,IV Liquid
+ER Registration,,ER Triage,,CRP,,LacticAcid,,Leucocytes,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Release C
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,Admission NC,,Admission NC,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,Admission NC,,Admission IC,,Leucocytes,,CRP,,LacticAcid,,CRP,,LacticAcid,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP
+ER Registration,,CRP,,Leucocytes,,LacticAcid,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,LacticAcid,,CRP,,CRP,,LacticAcid,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Antibiotics,,IV Liquid,,Admission NC,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,Admission NC
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,Admission NC,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,Leucocytes,,LacticAcid,,CRP,,ER Sepsis Triage,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,Leucocytes,,CRP,,LacticAcid,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission IC,,Leucocytes,,CRP,,LacticAcid
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,Admission NC,,CRP,,CRP,,Leucocytes,,Leucocytes,,Leucocytes,,Leucocytes,,CRP,,Release D
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,CRP,,LacticAcid,,Leucocytes,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release C
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics
+ER Registration,,ER Triage,,CRP,,Leucocytes,,LacticAcid,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission IC,,LacticAcid,,CRP,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,CRP,,LacticAcid,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission IC,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,CRP,,LacticAcid,,Leucocytes,,Admission NC,,CRP,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,IV Antibiotics,,Admission NC,,LacticAcid,,Admission NC,,Admission NC,,IV Liquid,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes
+ER Registration,,ER Triage,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,LacticAcid,,CRP,,Leucocytes,,CRP,,CRP,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,CRP,,LacticAcid,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,Leucocytes,,CRP,,IV Antibiotics,,Admission NC,,Admission IC,,LacticAcid,,CRP,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,Leucocytes,,LacticAcid,,CRP,,Leucocytes,,LacticAcid,,LacticAcid,,Leucocytes,,LacticAcid,,CRP,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Antibiotics,,IV Liquid,,Admission IC,,CRP,,LacticAcid,,Leucocytes,,LacticAcid,,Leucocytes,,LacticAcid,,CRP,,Leucocytes,,LacticAcid,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,Leucocytes,,CRP,,CRP,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Admission NC,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,CRP,,Leucocytes,,LacticAcid,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics,,Admission NC,,IV Liquid,,Leucocytes,,CRP,,Release C
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,CRP,,Leucocytes,,LacticAcid,,Admission NC,,Admission NC,,CRP,,Leucocytes,,Release D,,Return ER
+ER Registration,,ER Triage,,Leucocytes,,CRP,,LacticAcid,,ER Sepsis Triage,,IV Antibiotics,,Admission NC,,IV Liquid
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,Admission NC,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,Admission NC,,CRP,,Leucocytes,,CRP,,Admission NC,,Admission NC,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,CRP,,Admission NC,,Release D
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Liquid,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,Leucocytes,,CRP,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Admission IC,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,CRP,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,CRP,,LacticAcid,,Leucocytes,,LacticAcid,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,Leucocytes,,LacticAcid,,CRP,,Admission NC,,Release A
+ER Registration,,IV Liquid,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,CRP,,LacticAcid,,Leucocytes,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,LacticAcid,,Leucocytes,,CRP,,IV Antibiotics,,Admission IC,,CRP,,Leucocytes,,LacticAcid,,LacticAcid,,Leucocytes,,Admission NC,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,Leucocytes,,CRP,,ER Sepsis Triage
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,Leucocytes,,CRP,,IV Liquid,,IV Antibiotics,,Admission IC,,Leucocytes,,LacticAcid,,CRP,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,LacticAcid,,CRP,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Antibiotics,,IV Liquid,,Admission NC,,LacticAcid,,CRP,,Leucocytes,,Admission IC,,Leucocytes,,CRP,,LacticAcid,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,CRP,,LacticAcid,,Leucocytes,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,Admission IC,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,LacticAcid,,CRP,,LacticAcid,,CRP,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,CRP,,Leucocytes,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,CRP,,LacticAcid,,LacticAcid,,CRP,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,LacticAcid,,Leucocytes,,Leucocytes,,CRP,,LacticAcid,,CRP,,Leucocytes,,CRP,,Admission NC,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,Leucocytes,,CRP,,LacticAcid,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,CRP,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,Admission NC,,IV Liquid,,IV Antibiotics,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,LacticAcid,,CRP,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission IC,,LacticAcid,,LacticAcid,,CRP,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,LacticAcid,,Leucocytes,,CRP,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Leucocytes,,CRP,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,LacticAcid,,CRP,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,Release B
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Liquid,,IV Antibiotics,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,LacticAcid,,Leucocytes,,IV Liquid,,IV Antibiotics,,Admission NC,,Admission NC,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Leucocytes,,LacticAcid,,CRP,,Admission IC,,LacticAcid,,CRP,,LacticAcid,,Leucocytes,,LacticAcid,,CRP,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,CRP,,Leucocytes,,LacticAcid,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,Admission NC,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A,,Return ER
+ER Registration,,ER Triage,,ER Sepsis Triage,,IV Liquid,,IV Antibiotics,,LacticAcid,,Leucocytes,,CRP,,Admission NC,,Leucocytes,,CRP,,Admission NC,,CRP,,Leucocytes,,CRP,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,CRP,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,CRP,,Leucocytes,,CRP,,Leucocytes,,Leucocytes,,CRP,,CRP,,Leucocytes,,Release A
+ER Registration,,ER Triage,,ER Sepsis Triage,,Leucocytes,,CRP,,LacticAcid,,IV Antibiotics,,Admission NC,,Admission NC,,IV Liquid,,CRP,,Leucocytes,,Admission NC,,Leucocytes,,CRP,,Release A,,Return ER

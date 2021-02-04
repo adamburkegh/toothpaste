@@ -1,0 +1,39 @@
+<runStats miner="Rogge-Solti StochasticMinerPlugin (Tracing)" machineName="SEF-1953019678" runnerVersion="">
+   <inputLogFileName>teleclaims_k4.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_rssmt_teleclaims_k4.pnml</outputModelFileName>
+   <runDate>2021-02-04 09:55:10.813 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>281</duration>
+         <start>1612396510813</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">703</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">9049</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>438</duration>
+         <start>1612396511094</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612396512000</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9979508749224838</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">76</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">60</number>
+         </measureStats>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage>Timeout after 5 hours calculating EarthMovers (manual edit)</errorMessage>
+   <runState>FAILED</runState>
+</runStats>

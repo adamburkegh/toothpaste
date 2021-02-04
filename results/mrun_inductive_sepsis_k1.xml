@@ -1,0 +1,30 @@
+<runStats miner="Inductive Miner" machineName="SEF-1953019678" runnerVersion="1.0.3">
+   <inputLogFileName>sepsis_k1.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_inductive_sepsis_k1.pnml</outputModelFileName>
+   <runDate>2021-01-28 15:40:37.733 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>203</duration>
+         <start>1611812437733</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">212</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">2912</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>156</duration>
+         <start>1611812437936</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1611812438202</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
+</runStats>

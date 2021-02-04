@@ -1,0 +1,44 @@
+<runStats miner="ToothpasteMinerHP" machineName="SEF-1953019678" runnerVersion="">
+   <inputLogFileName>teleclaims_k3.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_tmh_teleclaims_k3.pnml</outputModelFileName>
+   <runDate>2021-02-02 09:03:58.951 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>297</duration>
+         <start>1612220638951</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">703</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">9301</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>4889</duration>
+         <start>1612220639248</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612220644606</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9958737139289302</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">121</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">152</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>16</duration>
+         <start>1612220644184</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
+</runStats>

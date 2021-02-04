@@ -1,0 +1,52 @@
+<runStats miner="Rogge-Solti StochasticMinerPlugin (Tracing)" machineName="SEF-1953019678" runnerVersion="">
+   <inputLogFileName>sepsis_k2.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_rssmt_sepsis_k2.pnml</outputModelFileName>
+   <runDate>2021-01-30 07:19:49.613 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>235</duration>
+         <start>1611955189613</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">211</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">3045</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>6611922</duration>
+         <start>1611955189848</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1611961802036</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">92</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9903032295176267</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">118</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="FAILED">
+         <duration>7634590</duration>
+         <start>1611961802098</start>
+         <errorMessage></errorMessage>
+         <!-- measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
+            <number class="java.lang.Double">0.5645440151312532</number>
+         </measureStats -->
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1611961801880</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage>Manual edit by AB EarthMovers OutOfMemory - but still outputting a number</errorMessage>
+   <runState>FAILED</runState>
+</runStats>

@@ -1,0 +1,30 @@
+<runStats miner="Split Miner" machineName="SEF-1953019678" runnerVersion="1.0.3">
+   <inputLogFileName>BPIC2013_closed_k2.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_split_BPIC2013_closed_k2.pnml</outputModelFileName>
+   <runDate>2021-01-29 12:45:43.513 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>47</duration>
+         <start>1611888343513</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">1309</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">298</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>749</duration>
+         <start>1611888343560</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1611888344309</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
+</runStats>

@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat
 
 plugins {
     // Apply the java plugin to add support for Java
@@ -57,11 +58,13 @@ jar {
     )
   }
 
+  delete 'buildid.txt'
   outputs.file('buildid.txt')
   inputs.property('version', project.version)
 
   doLast {
     project.file('buildid.txt') << project.version
+    project.file('buildid.txt') <<  new SimpleDateFormat(" dd-MM-yyyy HH:mm:ss").format(new Date())
   }
 }
 

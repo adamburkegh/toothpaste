@@ -1,0 +1,44 @@
+<runStats miner="ToothpasteMinerHP" machineName="SEF-1953019678" runnerVersion="">
+   <inputLogFileName>teleclaims_k1.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_tmh_teleclaims_k1.pnml</outputModelFileName>
+   <runDate>2021-01-31 18:55:54.222 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>250</duration>
+         <start>1612083354222</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">704</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">9156</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>2812</duration>
+         <start>1612083354472</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612083357596</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">121</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">152</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9958898923800767</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="EARTH_MOVERS" runState="FAILED">
+         <duration>1612143092253</duration>
+         <start>0</start>
+         <errorMessage>Timeout12+. Manual annotation at Mon Feb 01 11:31:32 AEST 2021</errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage>Timeout12+. Manual annotation at Mon Feb 01 11:31:32 AEST 2021</errorMessage>
+   <runState>FAILED</runState>
+</runStats>

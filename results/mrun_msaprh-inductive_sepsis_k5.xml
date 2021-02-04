@@ -1,0 +1,50 @@
+<runStats miner="Mean Scaled Activity Pair Estimator" machineName="SEF-1953019678" runnerVersion="1.0.3">
+   <inputLogFileName>sepsis_k5.xes</inputLogFileName>
+   <outputModelFileName>var\osmodel_msaprh-inductive_sepsis_k5.pnml</outputModelFileName>
+   <runDate>2021-01-29 18:07:44.827 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>31</duration>
+         <start>1611907664827</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">2980</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">205</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1611907665029</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">40</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">54</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9955860716037274</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Entropy Precision and Recall" runState="SUCCESS">
+         <duration>1204</duration>
+         <start>1611907665029</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ENTROPY_PRECISION">
+            <number class="java.lang.Double">0.046862859099377395</number>
+         </measureStats>
+         <measureStats measure="ENTROPY_RECALL">
+            <number class="java.lang.Double">0.9491966720686983</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="EARTH_MOVERS" runState="FAILED">
+         <duration>1611909823122</duration>
+         <start>0</start>
+         <errorMessage>OutOfMemory. Manual annotation at Fri Jan 29 18:43:43 AEST 2021</errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage>OutOfMemory. Manual annotation at Fri Jan 29 18:43:43 AEST 2021</errorMessage>
+   <runState>FAILED</runState>
+</runStats>

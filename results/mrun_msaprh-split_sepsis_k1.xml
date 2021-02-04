@@ -1,0 +1,48 @@
+<runStats miner="Mean Scaled Activity Pair Estimator" machineName="SEF-1953019678" runnerVersion="1.0.3">
+   <inputLogFileName>sepsis_k1.xes</inputLogFileName>
+   <outputModelFileName>var\osmodel_msaprh-split_sepsis_k1.pnml</outputModelFileName>
+   <runDate>2021-01-31 10:42:59.307 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>31</duration>
+         <start>1612053779307</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">212</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">2912</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612053779495</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">51</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">64</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9947975938871728</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Entropy Precision and Recall" runState="SUCCESS">
+         <duration>1187</duration>
+         <start>1612053779495</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ENTROPY_RECALL">
+            <number class="java.lang.Double">0.2058923783281653</number>
+         </measureStats>
+         <measureStats measure="ENTROPY_PRECISION">
+            <number class="java.lang.Double">0.047985340321168975</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="spmrunner_postrun" runState="FAILED">
+         <duration>1204675</duration>
+         <start>1612053779354</start>
+      </taskStats>
+   </taskRunStats>
+   <runState>FAILED</runState>
+</runStats>

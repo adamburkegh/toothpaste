@@ -1,0 +1,2418 @@
+Choice:212.0
+  Seq:2.0
+    "CRP":2.0
+    Choice:2.0
+      Seq:1.0
+        "ER Registration":1.0
+        Seq:1.0
+          "ER Triage":1.0
+          Seq:1.0
+            "ER Sepsis Triage":1.0
+            Seq:1.0
+              "IV Liquid":1.0
+              Seq:1.0
+                "LacticAcid":1.0
+                Seq:1.0
+                  "Leucocytes":1.0
+                  Seq:1.0
+                    "CRP":1.0
+                    Seq:1.0
+                      "IV Antibiotics":1.0
+                      Seq:1.0
+                        "Admission NC":1.0
+                        Seq:1.0
+                          "Admission IC":1.0
+                          Seq:1.0
+                            "Leucocytes":1.0
+                            Seq:1.0
+                              PLoop[2.0]:1.0
+                                Seq:1.0
+                                  "LacticAcid":1.0
+                                  "CRP":1.0
+                              Seq:1.0
+                                "Leucocytes":1.0
+                                Seq:1.0
+                                  "Admission NC":1.0
+                                  Seq:1.0
+                                    PLoop[2.0]:1.0
+                                      Seq:1.0
+                                        "Leucocytes":1.0
+                                        "CRP":1.0
+                                    "Release A":1.0
+      Seq:1.0
+        "Leucocytes":1.0
+        Seq:1.0
+          "ER Registration":1.0
+          Seq:1.0
+            "Leucocytes":1.0
+            Seq:1.0
+              "CRP":1.0
+              Seq:1.0
+                "ER Triage":1.0
+                "ER Sepsis Triage":1.0
+  Choice:210.0
+    Seq:199.0
+      "ER Registration":199.0
+      Choice:199.0
+        Choice:196.0
+          Choice:14.0
+            Seq:9.0
+              Conc:9.0
+                "LacticAcid":2.0
+                Conc:7.0
+                  "CRP":3.1111112
+                  "Leucocytes":3.8888888
+              Choice:9.0
+                Seq:8.0
+                  "ER Triage":8.0
+                  Seq:8.0
+                    "ER Sepsis Triage":8.0
+                    Choice:8.0
+                      Choice:6.0
+                        "IV Antibiotics":1.0
+                        Seq:5.0
+                          "IV Liquid":5.0
+                          Seq:5.0
+                            "IV Antibiotics":5.0
+                            Choice:5.0
+                              "Admission NC":1.0
+                              Seq:4.0
+                                PLoop[1.25]:4.0
+                                  "Admission NC":1.0
+                                Choice:4.0
+                                  "Release A":1.0
+                                  Choice:3.0
+                                    Seq:2.0
+                                      "CRP":2.0
+                                      Seq:2.0
+                                        "Leucocytes":2.0
+                                        Seq:2.0
+                                          "CRP":2.0
+                                          Seq:2.0
+                                            Choice:2.0
+                                              tau:1.0
+                                              Seq:1.0
+                                                PLoop[2.0]:1.0
+                                                  "Leucocytes":1.0
+                                                "CRP":1.0
+                                            "Release A":2.0
+                                    Seq:1.0
+                                      PLoop[2.0]:1.0
+                                        Seq:1.0
+                                          "CRP":1.0
+                                          "Leucocytes":1.0
+                                      Seq:1.0
+                                        "Release A":1.0
+                                        "Return ER":1.0
+                      Seq:2.0
+                        "IV Antibiotics":2.0
+                        Seq:2.0
+                          Choice:2.0
+                            "Admission NC":1.0
+                            Seq:1.0
+                              "IV Liquid":1.0
+                              Seq:1.0
+                                "Admission NC":1.0
+                                Seq:1.0
+                                  "Leucocytes":1.0
+                                  "CRP":1.0
+                          "Release A":2.0
+                Seq:1.0
+                  "IV Liquid":1.0
+                  Seq:1.0
+                    "ER Triage":1.0
+                    Seq:1.0
+                      "ER Sepsis Triage":1.0
+                      "IV Antibiotics":1.0
+            Seq:5.0
+              "IV Liquid":5.0
+              Choice:5.0
+                Seq:3.0
+                  "ER Triage":3.0
+                  Choice:3.0
+                    Seq:2.0
+                      Choice:2.0
+                        Seq:1.0
+                          "ER Sepsis Triage":1.0
+                          Seq:1.0
+                            "LacticAcid":1.0
+                            Seq:1.0
+                              "Leucocytes":1.0
+                              Seq:1.0
+                                "CRP":1.0
+                                Seq:1.0
+                                  "IV Antibiotics":1.0
+                                  Seq:1.0
+                                    "Admission IC":1.0
+                                    Seq:1.0
+                                      "LacticAcid":1.0
+                                      Seq:1.0
+                                        "Leucocytes":1.0
+                                        Seq:1.0
+                                          "LacticAcid":1.0
+                                          Seq:1.0
+                                            "CRP":1.0
+                                            "Admission NC":1.0
+                        Seq:1.0
+                          "Leucocytes":1.0
+                          Seq:1.0
+                            "CRP":1.0
+                            Seq:1.0
+                              "LacticAcid":1.0
+                              Seq:1.0
+                                "ER Sepsis Triage":1.0
+                                Seq:1.0
+                                  "IV Antibiotics":1.0
+                                  Seq:1.0
+                                    "Admission NC":1.0
+                                    Seq:1.0
+                                      "LacticAcid":1.0
+                                      Seq:1.0
+                                        "Leucocytes":1.0
+                                        Seq:1.0
+                                          PLoop[2.0]:1.0
+                                            "Admission NC":1.0
+                                          Seq:1.0
+                                            "Leucocytes":1.0
+                                            Seq:1.0
+                                              PLoop[2.0]:1.0
+                                                "CRP":1.0
+                                              PLoop[2.0]:1.0
+                                                "Leucocytes":1.0
+                      Seq:2.0
+                        "CRP":2.0
+                        Seq:2.0
+                          "Leucocytes":2.0
+                          "Release A":2.0
+                    Seq:1.0
+                      "ER Sepsis Triage":1.0
+                      Seq:1.0
+                        "IV Antibiotics":1.0
+                        Seq:1.0
+                          "LacticAcid":1.0
+                          Seq:1.0
+                            "Leucocytes":1.0
+                            Seq:1.0
+                              "CRP":1.0
+                              Seq:1.0
+                                "Admission NC":1.0
+                                "Release B":1.0
+                Seq:2.0
+                  "ER Sepsis Triage":2.0
+                  Seq:2.0
+                    "IV Antibiotics":2.0
+                    Seq:2.0
+                      "ER Triage":2.0
+                      Seq:2.0
+                        "LacticAcid":2.0
+                        Seq:2.0
+                          Conc:2.0
+                            "CRP":1.0
+                            "Leucocytes":1.0
+                          Seq:2.0
+                            "Admission NC":2.0
+                            Seq:2.0
+                              "Leucocytes":2.0
+                              Seq:2.0
+                                "CRP":2.0
+                                Seq:2.0
+                                  "Release A":2.0
+                                  Choice:2.0
+                                    "Return ER":1.0
+                                    tau:1.0
+          Seq:182.0
+            "ER Triage":182.0
+            Choice:182.0
+              Choice:176.0
+                "ER Sepsis Triage":10.0
+                Choice:166.0
+                  Choice:16.0
+                    Choice:15.0
+                      Seq:10.0
+                        "Leucocytes":10.0
+                        Choice:10.0
+                          Seq:3.0
+                            Conc:3.0
+                              "CRP":2.0
+                              "LacticAcid":1.0
+                            Seq:3.0
+                              "ER Sepsis Triage":3.0
+                              Seq:3.0
+                                Choice:3.0
+                                  Seq:2.0
+                                    "IV Liquid":2.0
+                                    Seq:2.0
+                                      "IV Antibiotics":2.0
+                                      Seq:2.0
+                                        PLoop[1.5]:2.0
+                                          "Admission NC":1.0
+                                        "Leucocytes":2.0
+                                  Seq:1.0
+                                    "Leucocytes":1.0
+                                    Seq:1.0
+                                      "CRP":1.0
+                                      Seq:1.0
+                                        "LacticAcid":1.0
+                                        "Admission NC":1.0
+                                Seq:3.0
+                                  "CRP":3.0
+                                  Seq:3.0
+                                    "Release A":3.0
+                                    "Return ER":3.0
+                          Seq:7.0
+                            "CRP":7.0
+                            Choice:7.0
+                              Choice:6.0
+                                Seq:4.0
+                                  "LacticAcid":4.0
+                                  Seq:4.0
+                                    "ER Sepsis Triage":4.0
+                                    Choice:4.0
+                                      Seq:3.0
+                                        "IV Liquid":3.0
+                                        Seq:3.0
+                                          "IV Antibiotics":3.0
+                                          Choice:3.0
+                                            tau:1.0
+                                            Seq:2.0
+                                              "Admission NC":2.0
+                                              Seq:2.0
+                                                "Leucocytes":2.0
+                                                Seq:2.0
+                                                  "CRP":2.0
+                                                  Seq:2.0
+                                                    Choice:2.0
+                                                      PLoop[2.0]:1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          "CRP":1.0
+                                                      Seq:1.0
+                                                        "LacticAcid":1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          PLoop[2.0]:1.0
+                                                            "CRP":1.0
+                                                    "Release A":2.0
+                                      Seq:1.0
+                                        PLoop[2.0]:1.0
+                                          "Admission NC":1.0
+                                        Seq:1.0
+                                          "Leucocytes":1.0
+                                          Seq:1.0
+                                            "CRP":1.0
+                                            "Release A":1.0
+                                Seq:2.0
+                                  "ER Sepsis Triage":2.0
+                                  Seq:2.0
+                                    "IV Liquid":2.0
+                                    Seq:2.0
+                                      "IV Antibiotics":2.0
+                                      Seq:2.0
+                                        PLoop[1.5]:2.0
+                                          "Admission NC":1.0
+                                        Seq:2.0
+                                          Conc:2.0
+                                            "CRP":1.0
+                                            "Leucocytes":1.0
+                                          Seq:2.0
+                                            Choice:2.0
+                                              "CRP":1.0
+                                              Seq:1.0
+                                                "Leucocytes":1.0
+                                                Seq:1.0
+                                                  PLoop[2.0]:1.0
+                                                    Seq:1.0
+                                                      PLoop[2.0]:1.0
+                                                        "CRP":1.0
+                                                      "Leucocytes":1.0
+                                                  Seq:1.0
+                                                    "CRP":1.0
+                                                    Seq:1.0
+                                                      PLoop[2.0]:1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          "CRP":1.0
+                                                      Seq:1.0
+                                                        PLoop[2.0]:1.0
+                                                          "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          PLoop[2.0]:1.0
+                                                            "CRP":1.0
+                                                          Seq:1.0
+                                                            PLoop[2.0]:1.0
+                                                              "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              PLoop[3.0]:1.0
+                                                                "CRP":1.0
+                                                              Seq:1.0
+                                                                PLoop[2.0]:1.0
+                                                                  Seq:1.0
+                                                                    "CRP":1.0
+                                                                    "Leucocytes":1.0
+                                                                Seq:1.0
+                                                                  PLoop[2.0]:1.0
+                                                                    "CRP":1.0
+                                                                  "Leucocytes":1.0
+                                            "Release A":2.0
+                              Seq:1.0
+                                "Admission NC":1.0
+                                Seq:1.0
+                                  "ER Sepsis Triage":1.0
+                                  Seq:1.0
+                                    "Admission NC":1.0
+                                    Seq:1.0
+                                      "Leucocytes":1.0
+                                      Seq:1.0
+                                        "CRP":1.0
+                                        Seq:1.0
+                                          PLoop[2.0]:1.0
+                                            Seq:1.0
+                                              "Leucocytes":1.0
+                                              "CRP":1.0
+                                          "Release C":1.0
+                      Seq:5.0
+                        "LacticAcid":5.0
+                        Seq:5.0
+                          Conc:5.0
+                            "CRP":2.0
+                            "Leucocytes":3.0
+                          Seq:5.0
+                            "ER Sepsis Triage":5.0
+                            Seq:5.0
+                              Conc:5.0
+                                "IV Antibiotics":1.0
+                                "IV Liquid":4.0
+                              Seq:5.0
+                                PLoop[1.4]:5.0
+                                  "Admission NC":2.0
+                                Choice:5.0
+                                  Seq:2.0
+                                    "CRP":2.0
+                                    Seq:2.0
+                                      PLoop[2.0]:2.0
+                                        "Leucocytes":2.0
+                                      Seq:2.0
+                                        PLoop[1.5]:2.0
+                                          "CRP":1.0
+                                        Seq:2.0
+                                          Choice:2.0
+                                            "Release A":1.0
+                                            Seq:1.0
+                                              "Admission NC":1.0
+                                              Seq:1.0
+                                                "Leucocytes":1.0
+                                                Seq:1.0
+                                                  "CRP":1.0
+                                                  Seq:1.0
+                                                    PLoop[2.0]:1.0
+                                                      "Leucocytes":1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          PLoop[2.0]:1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            PLoop[2.0]:1.0
+                                                              "CRP":1.0
+                                                            Seq:1.0
+                                                              PLoop[2.0]:1.0
+                                                                Seq:1.0
+                                                                  "Leucocytes":1.0
+                                                                  "CRP":1.0
+                                                              "Release C":1.0
+                                          "Return ER":2.0
+                                  Seq:3.0
+                                    Choice:3.0
+                                      Choice:2.0
+                                        PLoop[2.0]:1.0
+                                          Seq:1.0
+                                            "CRP":1.0
+                                            "Leucocytes":1.0
+                                        Seq:1.0
+                                          "CRP":1.0
+                                          Seq:1.0
+                                            PLoop[2.0]:1.0
+                                              "Leucocytes":1.0
+                                            Seq:1.0
+                                              PLoop[2.0]:1.0
+                                                "CRP":1.0
+                                              "Leucocytes":1.0
+                                      Seq:1.0
+                                        "Leucocytes":1.0
+                                        Seq:1.0
+                                          PLoop[2.0]:1.0
+                                            "CRP":1.0
+                                          Seq:1.0
+                                            "Leucocytes":1.0
+                                            Seq:1.0
+                                              "Admission NC":1.0
+                                              Seq:1.0
+                                                "Leucocytes":1.0
+                                                Seq:1.0
+                                                  "CRP":1.0
+                                                  Seq:1.0
+                                                    "Admission NC":1.0
+                                                    Seq:1.0
+                                                      "Leucocytes":1.0
+                                                      "CRP":1.0
+                                    "Release A":3.0
+                    Seq:1.0
+                      "IV Liquid":1.0
+                      Seq:1.0
+                        "Leucocytes":1.0
+                        Seq:1.0
+                          "CRP":1.0
+                          Seq:1.0
+                            "LacticAcid":1.0
+                            Seq:1.0
+                              "ER Sepsis Triage":1.0
+                              Seq:1.0
+                                "IV Antibiotics":1.0
+                                Seq:1.0
+                                  "Admission NC":1.0
+                                  Seq:1.0
+                                    "Leucocytes":1.0
+                                    Seq:1.0
+                                      "CRP":1.0
+                                      Seq:1.0
+                                        "Admission NC":1.0
+                                        Seq:1.0
+                                          "CRP":1.0
+                                          Seq:1.0
+                                            "Leucocytes":1.0
+                                            Seq:1.0
+                                              "Release A":1.0
+                                              "Return ER":1.0
+                  Seq:150.0
+                    "ER Sepsis Triage":150.0
+                    Choice:150.0
+                      Choice:149.0
+                        Choice:116.0
+                          Choice:113.0
+                            Choice:76.0
+                              Seq:50.0
+                                "Leucocytes":50.0
+                                Choice:50.0
+                                  Choice:49.0
+                                    "CRP":5.0
+                                    Choice:44.0
+                                      Seq:13.0
+                                        "LacticAcid":13.0
+                                        Seq:13.0
+                                          "CRP":13.0
+                                          Choice:13.0
+                                            Choice:12.0
+                                              "IV Antibiotics":1.0
+                                              Seq:11.0
+                                                "IV Liquid":11.0
+                                                Seq:11.0
+                                                  "IV Antibiotics":11.0
+                                                  Choice:11.0
+                                                    tau:1.0
+                                                    Seq:10.0
+                                                      PLoop[1.1]:10.0
+                                                        "Admission NC":1.0
+                                                      Choice:10.0
+                                                        Choice:7.0
+                                                          Choice:5.0
+                                                            Choice:2.0
+                                                              "Release B":1.0
+                                                              Seq:1.0
+                                                                "Release A":1.0
+                                                                "Return ER":1.0
+                                                            Seq:3.0
+                                                              "Leucocytes":3.0
+                                                              Seq:3.0
+                                                                PLoop[1.6666666]:3.0
+                                                                  "CRP":2.0
+                                                                Choice:3.0
+                                                                  Seq:1.0
+                                                                    "Leucocytes":1.0
+                                                                    Seq:1.0
+                                                                      "CRP":1.0
+                                                                      Seq:1.0
+                                                                        "Release A":1.0
+                                                                        "Return ER":1.0
+                                                                  Seq:2.0
+                                                                    Choice:2.0
+                                                                      tau:1.0
+                                                                      Seq:1.0
+                                                                        "LacticAcid":1.0
+                                                                        Seq:1.0
+                                                                          "CRP":1.0
+                                                                          Seq:1.0
+                                                                            "Leucocytes":1.0
+                                                                            Seq:1.0
+                                                                              "Admission NC":1.0
+                                                                              Seq:1.0
+                                                                                "CRP":1.0
+                                                                                Seq:1.0
+                                                                                  PLoop[2.0]:1.0
+                                                                                    "Leucocytes":1.0
+                                                                                  "CRP":1.0
+                                                                    "Release A":2.0
+                                                          Seq:2.0
+                                                            "LacticAcid":2.0
+                                                            Choice:2.0
+                                                              "Release B":1.0
+                                                              Seq:1.0
+                                                                "Admission NC":1.0
+                                                                Seq:1.0
+                                                                  "Leucocytes":1.0
+                                                                  Seq:1.0
+                                                                    "CRP":1.0
+                                                                    "Release A":1.0
+                                                        Seq:3.0
+                                                          "CRP":3.0
+                                                          Seq:3.0
+                                                            PLoop[1.3333334]:3.0
+                                                              "Leucocytes":1.0
+                                                            Choice:3.0
+                                                              "Release A":2.0
+                                                              Seq:1.0
+                                                                "CRP":1.0
+                                                                Seq:1.0
+                                                                  "Admission IC":1.0
+                                                                  Seq:1.0
+                                                                    "Leucocytes":1.0
+                                                                    Seq:1.0
+                                                                      "CRP":1.0
+                                                                      Seq:1.0
+                                                                        PLoop[2.0]:1.0
+                                                                          "LacticAcid":1.0
+                                                                        Seq:1.0
+                                                                          "CRP":1.0
+                                                                          Seq:1.0
+                                                                            "Leucocytes":1.0
+                                                                            Seq:1.0
+                                                                              "LacticAcid":1.0
+                                                                              Seq:1.0
+                                                                                "Leucocytes":1.0
+                                                                                Seq:1.0
+                                                                                  "CRP":1.0
+                                                                                  Seq:1.0
+                                                                                    "Admission NC":1.0
+                                                                                    Seq:1.0
+                                                                                      PLoop[2.0]:1.0
+                                                                                        "Leucocytes":1.0
+                                                                                      Seq:1.0
+                                                                                        "CRP":1.0
+                                                                                        Seq:1.0
+                                                                                          "Release A":1.0
+                                                                                          "Return ER":1.0
+                                            Seq:1.0
+                                              "Admission NC":1.0
+                                              Seq:1.0
+                                                "IV Liquid":1.0
+                                                "IV Antibiotics":1.0
+                                      Seq:31.0
+                                        "CRP":31.0
+                                        Choice:31.0
+                                          Choice:30.0
+                                            Choice:29.0
+                                              Seq:27.0
+                                                "LacticAcid":27.0
+                                                Choice:27.0
+                                                  tau:3.0
+                                                  Choice:24.0
+                                                    Choice:22.0
+                                                      Seq:18.0
+                                                        "IV Liquid":18.0
+                                                        Seq:18.0
+                                                          "IV Antibiotics":18.0
+                                                          Choice:18.0
+                                                            tau:1.0
+                                                            Choice:17.0
+                                                              Choice:15.0
+                                                                Conc:2.0
+                                                                  "CRP":1.0
+                                                                  "Leucocytes":1.0
+                                                                Seq:13.0
+                                                                  PLoop[1.0769231]:13.0
+                                                                    "Admission NC":1.0
+                                                                  Choice:13.0
+                                                                    Choice:10.0
+                                                                      Choice:5.0
+                                                                        "Release A":1.0
+                                                                        Seq:4.0
+                                                                          Choice:4.0
+                                                                            Seq:3.0
+                                                                              Choice:3.0
+                                                                                tau:1.0
+                                                                                PLoop[2.0]:2.0
+                                                                                  "Leucocytes":1.0
+                                                                              "CRP":3.0
+                                                                            Seq:1.0
+                                                                              PLoop[2.0]:1.0
+                                                                                Seq:1.0
+                                                                                  "CRP":1.0
+                                                                                  PLoop[2.0]:1.0
+                                                                                    "Leucocytes":1.0
+                                                                              Seq:1.0
+                                                                                PLoop[2.0]:1.0
+                                                                                  "CRP":1.0
+                                                                                Seq:1.0
+                                                                                  "Leucocytes":1.0
+                                                                                  Seq:1.0
+                                                                                    "CRP":1.0
+                                                                                    Seq:1.0
+                                                                                      PLoop[3.0]:1.0
+                                                                                        "Leucocytes":1.0
+                                                                                      Seq:1.0
+                                                                                        "CRP":1.0
+                                                                                        Seq:1.0
+                                                                                          "Leucocytes":1.0
+                                                                                          Seq:1.0
+                                                                                            PLoop[2.0]:1.0
+                                                                                              "CRP":1.0
+                                                                                            "Leucocytes":1.0
+                                                                          Seq:4.0
+                                                                            "Release A":4.0
+                                                                            "Return ER":4.0
+                                                                      Seq:5.0
+                                                                        Choice:5.0
+                                                                          Choice:2.0
+                                                                            PLoop[2.0]:1.0
+                                                                              Seq:1.0
+                                                                                "CRP":1.0
+                                                                                "Leucocytes":1.0
+                                                                            Seq:1.0
+                                                                              "CRP":1.0
+                                                                              PLoop[2.0]:1.0
+                                                                                Seq:1.0
+                                                                                  "Leucocytes":1.0
+                                                                                  "CRP":1.0
+                                                                          Seq:3.0
+                                                                            "Leucocytes":3.0
+                                                                            Seq:3.0
+                                                                              PLoop[1.6666666]:3.0
+                                                                                "CRP":1.6666667
+                                                                              Choice:3.0
+                                                                                Choice:2.0
+                                                                                  tau:1.0
+                                                                                  Seq:1.0
+                                                                                    PLoop[2.0]:1.0
+                                                                                      "Leucocytes":1.0
+                                                                                    Seq:1.0
+                                                                                      "CRP":1.0
+                                                                                      Seq:1.0
+                                                                                        "Leucocytes":1.0
+                                                                                        Seq:1.0
+                                                                                          "Admission NC":1.0
+                                                                                          Seq:1.0
+                                                                                            "CRP":1.0
+                                                                                            Seq:1.0
+                                                                                              PLoop[3.0]:1.0
+                                                                                                "Leucocytes":1.0
+                                                                                              Seq:1.0
+                                                                                                PLoop[2.0]:1.0
+                                                                                                  "CRP":1.0
+                                                                                                "Leucocytes":1.0
+                                                                                Seq:1.0
+                                                                                  "Admission NC":1.0
+                                                                                  Seq:1.0
+                                                                                    "Leucocytes":1.0
+                                                                                    "CRP":1.0
+                                                                        "Release A":5.0
+                                                                    Seq:3.0
+                                                                      "CRP":3.0
+                                                                      Seq:3.0
+                                                                        "Leucocytes":3.0
+                                                                        Choice:3.0
+                                                                          Seq:2.0
+                                                                            Choice:2.0
+                                                                              tau:1.0
+                                                                              Seq:1.0
+                                                                                "LacticAcid":1.0
+                                                                                Seq:1.0
+                                                                                  PLoop[2.0]:1.0
+                                                                                    Seq:1.0
+                                                                                      "CRP":1.0
+                                                                                      "Leucocytes":1.0
+                                                                                  PLoop[2.0]:1.0
+                                                                                    Seq:1.0
+                                                                                      "Leucocytes":1.0
+                                                                                      "CRP":1.0
+                                                                            "Release A":2.0
+                                                                          Seq:1.0
+                                                                            "Admission NC":1.0
+                                                                            Seq:1.0
+                                                                              "Leucocytes":1.0
+                                                                              Seq:1.0
+                                                                                "CRP":1.0
+                                                                                "Release C":1.0
+                                                              Seq:2.0
+                                                                Choice:2.0
+                                                                  PLoop[2.0]:1.0
+                                                                    Seq:1.0
+                                                                      "Admission NC":1.0
+                                                                      "CRP":1.0
+                                                                  Seq:1.0
+                                                                    PLoop[2.0]:1.0
+                                                                      "Admission NC":1.0
+                                                                    Seq:1.0
+                                                                      "Leucocytes":1.0
+                                                                      "CRP":1.0
+                                                                "Release A":2.0
+                                                      Seq:4.0
+                                                        "IV Antibiotics":4.0
+                                                        Seq:4.0
+                                                          Choice:4.0
+                                                            Choice:2.0
+                                                              Seq:1.0
+                                                                "Admission IC":1.0
+                                                                Seq:1.0
+                                                                  "CRP":1.0
+                                                                  Seq:1.0
+                                                                    "Leucocytes":1.0
+                                                                    Seq:1.0
+                                                                      PLoop[2.0]:1.0
+                                                                        "LacticAcid":1.0
+                                                                      Seq:1.0
+                                                                        PLoop[2.0]:1.0
+                                                                          "Leucocytes":1.0
+                                                                        Seq:1.0
+                                                                          "CRP":1.0
+                                                                          Seq:1.0
+                                                                            "LacticAcid":1.0
+                                                                            Seq:1.0
+                                                                              "Leucocytes":1.0
+                                                                              Seq:1.0
+                                                                                "CRP":1.0
+                                                                                Seq:1.0
+                                                                                  PLoop[2.0]:1.0
+                                                                                    "LacticAcid":1.0
+                                                                                  Seq:1.0
+                                                                                    "Leucocytes":1.0
+                                                                                    Seq:1.0
+                                                                                      "CRP":1.0
+                                                                                      Seq:1.0
+                                                                                        "Admission NC":1.0
+                                                                                        Seq:1.0
+                                                                                          "CRP":1.0
+                                                                                          Seq:1.0
+                                                                                            "Leucocytes":1.0
+                                                                                            Seq:1.0
+                                                                                              PLoop[2.0]:1.0
+                                                                                                "CRP":1.0
+                                                                                              Seq:1.0
+                                                                                                "Leucocytes":1.0
+                                                                                                "CRP":1.0
+                                                              Seq:1.0
+                                                                "Admission NC":1.0
+                                                                "LacticAcid":1.0
+                                                            Seq:2.0
+                                                              "IV Liquid":2.0
+                                                              Choice:2.0
+                                                                Seq:1.0
+                                                                  "Admission IC":1.0
+                                                                  Seq:1.0
+                                                                    "CRP":1.0
+                                                                    Seq:1.0
+                                                                      "LacticAcid":1.0
+                                                                      Seq:1.0
+                                                                        "Leucocytes":1.0
+                                                                        Seq:1.0
+                                                                          PLoop[3.0]:1.0
+                                                                            "LacticAcid":1.0
+                                                                          Seq:1.0
+                                                                            "CRP":1.0
+                                                                            Seq:1.0
+                                                                              "LacticAcid":1.0
+                                                                              Seq:1.0
+                                                                                "Leucocytes":1.0
+                                                                                Seq:1.0
+                                                                                  PLoop[5.0]:1.0
+                                                                                    "LacticAcid":1.0
+                                                                                  Seq:1.0
+                                                                                    "Leucocytes":1.0
+                                                                                    Seq:1.0
+                                                                                      "CRP":1.0
+                                                                                      Seq:1.0
+                                                                                        "Admission NC":1.0
+                                                                                        Seq:1.0
+                                                                                          "CRP":1.0
+                                                                                          Seq:1.0
+                                                                                            PLoop[2.0]:1.0
+                                                                                              "Leucocytes":1.0
+                                                                                            "CRP":1.0
+                                                                Seq:1.0
+                                                                  "Admission NC":1.0
+                                                                  "Leucocytes":1.0
+                                                          "Release A":4.0
+                                                    Seq:2.0
+                                                      "Admission NC":2.0
+                                                      Choice:2.0
+                                                        Seq:1.0
+                                                          "CRP":1.0
+                                                          "Release A":1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            Seq:1.0
+                                                              "Admission NC":1.0
+                                                              Seq:1.0
+                                                                "CRP":1.0
+                                                                Seq:1.0
+                                                                  "Leucocytes":1.0
+                                                                  Seq:1.0
+                                                                    PLoop[2.0]:1.0
+                                                                      Seq:1.0
+                                                                        "Leucocytes":1.0
+                                                                        "CRP":1.0
+                                                                    Seq:1.0
+                                                                      "Release A":1.0
+                                                                      "Return ER":1.0
+                                              Seq:2.0
+                                                Choice:2.0
+                                                  PLoop[2.0]:1.0
+                                                    "Admission NC":1.0
+                                                  Seq:1.0
+                                                    "IV Liquid":1.0
+                                                    Seq:1.0
+                                                      "IV Antibiotics":1.0
+                                                      Seq:1.0
+                                                        "Admission NC":1.0
+                                                        PLoop[5.0]:1.0
+                                                          "Leucocytes":1.0
+                                                Seq:2.0
+                                                  "Release A":2.0
+                                                  "Return ER":2.0
+                                            Seq:1.0
+                                              "IV Antibiotics":1.0
+                                              "IV Liquid":1.0
+                                          Seq:1.0
+                                            "Admission NC":1.0
+                                            Seq:1.0
+                                              "CRP":1.0
+                                              Seq:1.0
+                                                "Leucocytes":1.0
+                                                "Release A":1.0
+                                  Seq:1.0
+                                    "Admission NC":1.0
+                                    Seq:1.0
+                                      PLoop[4.0]:1.0
+                                        "Leucocytes":1.0
+                                      Seq:1.0
+                                        "CRP":1.0
+                                        "Release B":1.0
+                              Seq:26.0
+                                "LacticAcid":26.0
+                                Seq:26.0
+                                  Conc:26.0
+                                    "CRP":13.0
+                                    "Leucocytes":13.0
+                                  Choice:26.0
+                                    Choice:23.0
+                                      Seq:17.0
+                                        "IV Liquid":17.0
+                                        Seq:17.0
+                                          "IV Antibiotics":17.0
+                                          Choice:17.0
+                                            tau:3.0
+                                            Choice:14.0
+                                              Seq:10.0
+                                                PLoop[1.2]:10.0
+                                                  "Admission NC":1.4
+                                                Choice:10.0
+                                                  Choice:8.0
+                                                    Seq:4.0
+                                                      "Leucocytes":4.0
+                                                      Seq:4.0
+                                                        PLoop[1.25]:4.0
+                                                          "CRP":1.0
+                                                        Choice:4.0
+                                                          Choice:2.0
+                                                            tau:1.0
+                                                            Seq:1.0
+                                                              "Release A":1.0
+                                                              "Return ER":1.0
+                                                          Seq:2.0
+                                                            Choice:2.0
+                                                              "Leucocytes":1.0
+                                                              Seq:1.0
+                                                                "Admission NC":1.0
+                                                                Seq:1.0
+                                                                  "Leucocytes":1.0
+                                                                  Seq:1.0
+                                                                    "CRP":1.0
+                                                                    PLoop[2.0]:1.0
+                                                                      Seq:1.0
+                                                                        "Leucocytes":1.0
+                                                                        "CRP":1.0
+                                                            "Release A":2.0
+                                                    Seq:4.0
+                                                      Choice:4.0
+                                                        Seq:2.0
+                                                          PLoop[2.0]:2.0
+                                                            "CRP":1.0
+                                                          Choice:2.0
+                                                            tau:1.0
+                                                            Seq:1.0
+                                                              PLoop[2.0]:1.0
+                                                                "Leucocytes":1.0
+                                                              Seq:1.0
+                                                                PLoop[2.0]:1.0
+                                                                  Seq:1.0
+                                                                    "CRP":1.0
+                                                                    "Leucocytes":1.0
+                                                                PLoop[2.0]:1.0
+                                                                  Seq:1.0
+                                                                    PLoop[2.0]:1.0
+                                                                      "CRP":1.0
+                                                                    "Leucocytes":1.0
+                                                        Choice:2.0
+                                                          PLoop[2.0]:1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            "Admission IC":1.0
+                                                            Seq:1.0
+                                                              "Leucocytes":1.0
+                                                              Seq:1.0
+                                                                "LacticAcid":1.0
+                                                                Seq:1.0
+                                                                  "CRP":1.0
+                                                                  Seq:1.0
+                                                                    "LacticAcid":1.0
+                                                                    Seq:1.0
+                                                                      "Leucocytes":1.0
+                                                                      Seq:1.0
+                                                                        "CRP":1.0
+                                                                        Seq:1.0
+                                                                          "Leucocytes":1.0
+                                                                          Seq:1.0
+                                                                            PLoop[2.0]:1.0
+                                                                              Seq:1.0
+                                                                                "CRP":1.0
+                                                                                "LacticAcid":1.0
+                                                                            Seq:1.0
+                                                                              "Leucocytes":1.0
+                                                                              Seq:1.0
+                                                                                "Admission NC":1.0
+                                                                                Seq:1.0
+                                                                                  "CRP":1.0
+                                                                                  Seq:1.0
+                                                                                    PLoop[2.0]:1.0
+                                                                                      "Leucocytes":1.0
+                                                                                    "CRP":1.0
+                                                      Seq:4.0
+                                                        "Release A":4.0
+                                                        "Return ER":4.0
+                                                  Seq:2.0
+                                                    PLoop[1.5]:2.0
+                                                      "CRP":1.0
+                                                    Seq:2.0
+                                                      Choice:2.0
+                                                        tau:1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            Seq:1.0
+                                                              "Admission NC":1.0
+                                                              Seq:1.0
+                                                                "CRP":1.0
+                                                                Seq:1.0
+                                                                  "Leucocytes":1.0
+                                                                  Seq:1.0
+                                                                    PLoop[2.0]:1.0
+                                                                      "CRP":1.0
+                                                                    Seq:1.0
+                                                                      PLoop[2.0]:1.0
+                                                                        "Leucocytes":1.0
+                                                                      Seq:1.0
+                                                                        PLoop[2.0]:1.0
+                                                                          Seq:1.0
+                                                                            "Leucocytes":1.0
+                                                                            PLoop[2.0]:1.0
+                                                                              "CRP":1.0
+                                                                        PLoop[2.0]:1.0
+                                                                          "Leucocytes":1.0
+                                                      "Release A":2.0
+                                              Seq:4.0
+                                                Choice:4.0
+                                                  Seq:3.0
+                                                    Choice:3.0
+                                                      Choice:2.0
+                                                        Seq:1.0
+                                                          "Admission NC":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            PLoop[2.0]:1.0
+                                                              "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          PLoop[2.0]:1.0
+                                                            Seq:1.0
+                                                              "Admission NC":1.0
+                                                              "LacticAcid":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              "LacticAcid":1.0
+                                                      Seq:1.0
+                                                        "Admission IC":1.0
+                                                        Seq:1.0
+                                                          "LacticAcid":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              Seq:1.0
+                                                                "Admission NC":1.0
+                                                                "Leucocytes":1.0
+                                                    "CRP":3.0
+                                                  Seq:1.0
+                                                    "Admission NC":1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          "Admission NC":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            Seq:1.0
+                                                              PLoop[2.0]:1.0
+                                                                "Leucocytes":1.0
+                                                              PLoop[2.0]:1.0
+                                                                "CRP":1.0
+                                                "Release A":4.0
+                                      Seq:6.0
+                                        "IV Antibiotics":6.0
+                                        Choice:6.0
+                                          Choice:4.0
+                                            Seq:2.0
+                                              "Admission NC":2.0
+                                              Seq:2.0
+                                                Conc:2.0
+                                                  "CRP":1.0
+                                                  "Leucocytes":1.0
+                                                Seq:2.0
+                                                  "Admission NC":2.0
+                                                  Seq:2.0
+                                                    Choice:2.0
+                                                      PLoop[2.0]:1.0
+                                                        "CRP":1.0
+                                                      Seq:1.0
+                                                        "IV Liquid":1.0
+                                                        "CRP":1.0
+                                                    Seq:2.0
+                                                      "Leucocytes":2.0
+                                                      Seq:2.0
+                                                        "Release A":2.0
+                                                        "Return ER":2.0
+                                            Seq:2.0
+                                              Choice:2.0
+                                                Seq:1.0
+                                                  "Admission NC":1.0
+                                                  Seq:1.0
+                                                    "Leucocytes":1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        "Admission NC":1.0
+                                                        Seq:1.0
+                                                          "CRP":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            "CRP":1.0
+                                                Seq:1.0
+                                                  "IV Liquid":1.0
+                                                  "Admission NC":1.0
+                                              "Release A":2.0
+                                          Seq:2.0
+                                            "IV Liquid":2.0
+                                            Choice:2.0
+                                              tau:1.0
+                                              Seq:1.0
+                                                "Admission NC":1.0
+                                                Seq:1.0
+                                                  "Leucocytes":1.0
+                                                  "CRP":1.0
+                                    Seq:3.0
+                                      PLoop[1.6666666]:3.0
+                                        "Admission NC":1.6666667
+                                      Choice:3.0
+                                        "Release A":1.0
+                                        Seq:2.0
+                                          Choice:2.0
+                                            tau:1.0
+                                            Seq:1.0
+                                              "CRP":1.0
+                                              "Leucocytes":1.0
+                                          Seq:2.0
+                                            "Release A":2.0
+                                            "Return ER":2.0
+                            Seq:37.0
+                              "IV Liquid":37.0
+                              Choice:37.0
+                                Choice:29.0
+                                  Choice:12.0
+                                    Seq:7.0
+                                      "Leucocytes":7.0
+                                      Choice:7.0
+                                        Seq:3.0
+                                          "LacticAcid":3.0
+                                          Seq:3.0
+                                            "CRP":3.0
+                                            Seq:3.0
+                                              "IV Antibiotics":3.0
+                                              Choice:3.0
+                                                tau:1.0
+                                                Choice:2.0
+                                                  Seq:1.0
+                                                    "Admission IC":1.0
+                                                    Seq:1.0
+                                                      "LacticAcid":1.0
+                                                      Seq:1.0
+                                                        "CRP":1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            PLoop[2.0]:1.0
+                                                              "LacticAcid":1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              Seq:1.0
+                                                                "Leucocytes":1.0
+                                                                Seq:1.0
+                                                                  "Admission NC":1.0
+                                                                  Seq:1.0
+                                                                    "Leucocytes":1.0
+                                                                    Seq:1.0
+                                                                      "CRP":1.0
+                                                                      Seq:1.0
+                                                                        "Release A":1.0
+                                                                        "Return ER":1.0
+                                                  Seq:1.0
+                                                    "Admission NC":1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          PLoop[2.0]:1.0
+                                                            "LacticAcid":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            Seq:1.0
+                                                              PLoop[2.0]:1.0
+                                                                "Leucocytes":1.0
+                                                              Seq:1.0
+                                                                "CRP":1.0
+                                                                Seq:1.0
+                                                                  "LacticAcid":1.0
+                                                                  "Release E":1.0
+                                        Seq:4.0
+                                          "CRP":4.0
+                                          Choice:4.0
+                                            Seq:2.0
+                                              "LacticAcid":2.0
+                                              Seq:2.0
+                                                "IV Antibiotics":2.0
+                                                Seq:2.0
+                                                  PLoop[1.5]:2.0
+                                                    "Admission NC":1.0
+                                                  Seq:2.0
+                                                    Choice:2.0
+                                                      "Leucocytes":1.0
+                                                      Seq:1.0
+                                                        "CRP":1.0
+                                                        PLoop[2.0]:1.0
+                                                          "Leucocytes":1.0
+                                                    Seq:2.0
+                                                      "CRP":2.0
+                                                      Seq:2.0
+                                                        "Release A":2.0
+                                                        "Return ER":2.0
+                                            Seq:2.0
+                                              "IV Antibiotics":2.0
+                                              Seq:2.0
+                                                "Admission NC":2.0
+                                                Choice:2.0
+                                                  Seq:1.0
+                                                    "CRP":1.0
+                                                    Seq:1.0
+                                                      "Leucocytes":1.0
+                                                      "Release A":1.0
+                                                  Seq:1.0
+                                                    PLoop[2.0]:1.0
+                                                      "Leucocytes":1.0
+                                                    Seq:1.0
+                                                      PLoop[2.0]:1.0
+                                                        "CRP":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          "Release A":1.0
+                                                          "Return ER":1.0
+                                    Seq:5.0
+                                      "LacticAcid":5.0
+                                      Seq:5.0
+                                        Conc:5.0
+                                          "CRP":2.0
+                                          "Leucocytes":3.0
+                                        Seq:5.0
+                                          "IV Antibiotics":5.0
+                                          Seq:5.0
+                                            "Admission NC":5.0
+                                            Choice:5.0
+                                              Seq:3.0
+                                                "Leucocytes":3.0
+                                                Seq:3.0
+                                                  PLoop[1.3333334]:3.0
+                                                    "CRP":1.0
+                                                  Choice:3.0
+                                                    "Release B":1.0
+                                                    Choice:2.0
+                                                      "Release A":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          PLoop[2.0]:1.0
+                                                            "CRP":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              PLoop[2.0]:1.0
+                                                                Seq:1.0
+                                                                  "Leucocytes":1.0
+                                                                  "CRP":1.0
+                                                              Seq:1.0
+                                                                "Release C":1.0
+                                                                "Return ER":1.0
+                                              Seq:2.0
+                                                "CRP":2.0
+                                                Seq:2.0
+                                                  Choice:2.0
+                                                    tau:1.0
+                                                    Seq:1.0
+                                                      "Leucocytes":1.0
+                                                      Seq:1.0
+                                                        "Admission NC":1.0
+                                                        Seq:1.0
+                                                          "CRP":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              PLoop[2.0]:1.0
+                                                                Seq:1.0
+                                                                  "Leucocytes":1.0
+                                                                  "CRP":1.0
+                                                  "Release A":2.0
+                                  Seq:17.0
+                                    "IV Antibiotics":17.0
+                                    Choice:17.0
+                                      Choice:14.0
+                                        Seq:9.0
+                                          "Leucocytes":9.0
+                                          Choice:9.0
+                                            Seq:5.0
+                                              "LacticAcid":5.0
+                                              Seq:5.0
+                                                "CRP":5.0
+                                                Choice:5.0
+                                                  tau:1.0
+                                                  Choice:4.0
+                                                    Seq:1.0
+                                                      "Admission NC":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          "CRP":1.0
+                                                          Seq:1.0
+                                                            "Release A":1.0
+                                                            "Return ER":1.0
+                                                    Seq:3.0
+                                                      Choice:3.0
+                                                        Choice:2.0
+                                                          Seq:1.0
+                                                            "Admission NC":1.0
+                                                            "CRP":1.0
+                                                          Seq:1.0
+                                                            PLoop[2.0]:1.0
+                                                              Seq:1.0
+                                                                "Admission NC":1.0
+                                                                PLoop[2.0]:1.0
+                                                                  Seq:1.0
+                                                                    "Leucocytes":1.0
+                                                                    "CRP":1.0
+                                                            PLoop[2.0]:1.0
+                                                              "Admission NC":1.0
+                                                        Seq:1.0
+                                                          "Admission IC":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              "LacticAcid":1.0
+                                                              Seq:1.0
+                                                                "CRP":1.0
+                                                                Seq:1.0
+                                                                  "Admission NC":1.0
+                                                                  Seq:1.0
+                                                                    "CRP":1.0
+                                                                    PLoop[2.0]:1.0
+                                                                      "Leucocytes":1.0
+                                                      "Release A":3.0
+                                            Seq:4.0
+                                              PLoop[1.25]:4.0
+                                                "CRP":1.0
+                                              Choice:4.0
+                                                Seq:3.0
+                                                  "LacticAcid":3.0
+                                                  Seq:3.0
+                                                    PLoop[1.3333334]:3.0
+                                                      "Admission NC":1.0
+                                                    Seq:3.0
+                                                      Choice:3.0
+                                                        Seq:1.0
+                                                          "LacticAcid":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              Seq:1.0
+                                                                PLoop[2.0]:1.0
+                                                                  "Admission NC":1.0
+                                                                PLoop[2.0]:1.0
+                                                                  Seq:1.0
+                                                                    "Leucocytes":1.0
+                                                                    "CRP":1.0
+                                                        PLoop[2.0]:2.0
+                                                          Seq:2.0
+                                                            PLoop[1.5]:2.0
+                                                              "CRP":1.0
+                                                            PLoop[1.5]:2.0
+                                                              "Leucocytes":1.0
+                                                      "Release A":3.0
+                                                Seq:1.0
+                                                  "Leucocytes":1.0
+                                                  Seq:1.0
+                                                    "LacticAcid":1.0
+                                                    Seq:1.0
+                                                      "Admission IC":1.0
+                                                      Seq:1.0
+                                                        "CRP":1.0
+                                                        Seq:1.0
+                                                          "LacticAcid":1.0
+                                                          Seq:1.0
+                                                            PLoop[2.0]:1.0
+                                                              "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              Seq:1.0
+                                                                "LacticAcid":1.0
+                                                                Seq:1.0
+                                                                  "Admission NC":1.0
+                                                                  Seq:1.0
+                                                                    "Leucocytes":1.0
+                                                                    Seq:1.0
+                                                                      "CRP":1.0
+                                                                      Seq:1.0
+                                                                        "Release A":1.0
+                                                                        "Return ER":1.0
+                                        Seq:5.0
+                                          "LacticAcid":5.0
+                                          Choice:5.0
+                                            Seq:3.0
+                                              "Leucocytes":3.0
+                                              Seq:3.0
+                                                "CRP":3.0
+                                                Choice:3.0
+                                                  tau:1.0
+                                                  Seq:2.0
+                                                    "Admission NC":2.0
+                                                    Seq:2.0
+                                                      "CRP":2.0
+                                                      Seq:2.0
+                                                        PLoop[1.5]:2.0
+                                                          "Leucocytes":1.0
+                                                        Choice:2.0
+                                                          Seq:1.0
+                                                            "Admission NC":1.0
+                                                            Seq:1.0
+                                                              "Release A":1.0
+                                                              "Return ER":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            Seq:1.0
+                                                              "Leucocytes":1.0
+                                                              "Release A":1.0
+                                            Seq:2.0
+                                              "CRP":2.0
+                                              Seq:2.0
+                                                PLoop[1.5]:2.0
+                                                  "Leucocytes":1.0
+                                                Choice:2.0
+                                                  Seq:1.0
+                                                    "Admission NC":1.0
+                                                    Seq:1.0
+                                                      "Leucocytes":1.0
+                                                      Seq:1.0
+                                                        "CRP":1.0
+                                                        "Release A":1.0
+                                                  Seq:1.0
+                                                    "CRP":1.0
+                                                    "LacticAcid":1.0
+                                      Seq:3.0
+                                        "CRP":3.0
+                                        Choice:3.0
+                                          Seq:2.0
+                                            "LacticAcid":2.0
+                                            Seq:2.0
+                                              "Leucocytes":2.0
+                                              Seq:2.0
+                                                "Admission NC":2.0
+                                                Choice:2.0
+                                                  "Release B":1.0
+                                                  Seq:1.0
+                                                    "Leucocytes":1.0
+                                                    "Release A":1.0
+                                          Seq:1.0
+                                            "Leucocytes":1.0
+                                            "LacticAcid":1.0
+                                Seq:8.0
+                                  "CRP":8.0
+                                  Seq:8.0
+                                    Conc:8.0
+                                      "LacticAcid":4.0
+                                      "Leucocytes":4.0
+                                    Seq:8.0
+                                      "IV Antibiotics":8.0
+                                      Choice:8.0
+                                        tau:3.0
+                                        Seq:5.0
+                                          "Admission NC":5.0
+                                          Choice:5.0
+                                            Choice:3.0
+                                              tau:1.0
+                                              Seq:2.0
+                                                Conc:2.0
+                                                  "CRP":1.0
+                                                  "Leucocytes":1.0
+                                                Choice:2.0
+                                                  Seq:1.0
+                                                    "Admission NC":1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          "Release A":1.0
+                                                          "Return ER":1.0
+                                                  Seq:1.0
+                                                    "CRP":1.0
+                                                    "Release A":1.0
+                                            Choice:2.0
+                                              Seq:1.0
+                                                "LacticAcid":1.0
+                                                Seq:1.0
+                                                  PLoop[2.0]:1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      "Leucocytes":1.0
+                                                  Seq:1.0
+                                                    "LacticAcid":1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          "LacticAcid":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              Seq:1.0
+                                                                "Release A":1.0
+                                                                "Return ER":1.0
+                                              Seq:1.0
+                                                "Leucocytes":1.0
+                                                Seq:1.0
+                                                  PLoop[2.0]:1.0
+                                                    Seq:1.0
+                                                      PLoop[2.0]:1.0
+                                                        "CRP":1.0
+                                                      PLoop[2.0]:1.0
+                                                        "Leucocytes":1.0
+                                                  Seq:1.0
+                                                    "CRP":1.0
+                                                    "Release D":1.0
+                          Seq:3.0
+                            "IV Antibiotics":3.0
+                            Choice:3.0
+                              Seq:2.0
+                                Conc:2.0
+                                  "LacticAcid":1.0
+                                  "Leucocytes":1.0
+                                Seq:2.0
+                                  "CRP":2.0
+                                  Choice:2.0
+                                    Seq:1.0
+                                      "Admission NC":1.0
+                                      "Release B":1.0
+                                    Seq:1.0
+                                      "IV Liquid":1.0
+                                      Seq:1.0
+                                        "Admission NC":1.0
+                                        Seq:1.0
+                                          "Leucocytes":1.0
+                                          Seq:1.0
+                                            "CRP":1.0
+                                            Seq:1.0
+                                              "Admission NC":1.0
+                                              "Release C":1.0
+                              Seq:1.0
+                                "CRP":1.0
+                                Seq:1.0
+                                  "LacticAcid":1.0
+                                  Seq:1.0
+                                    "Leucocytes":1.0
+                                    "IV Liquid":1.0
+                        Seq:33.0
+                          "CRP":33.0
+                          Choice:33.0
+                            Choice:32.0
+                              Seq:17.0
+                                "Leucocytes":17.0
+                                Choice:17.0
+                                  tau:5.0
+                                  Choice:12.0
+                                    Choice:10.0
+                                      Seq:8.0
+                                        "LacticAcid":8.0
+                                        Choice:8.0
+                                          Seq:3.0
+                                            "IV Liquid":3.0
+                                            Seq:3.0
+                                              "IV Antibiotics":3.0
+                                              Choice:3.0
+                                                tau:1.0
+                                                Seq:2.0
+                                                  "Admission NC":2.0
+                                                  Choice:2.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        PLoop[2.0]:1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          PLoop[2.0]:1.0
+                                                            Seq:1.0
+                                                              "Leucocytes":1.0
+                                                              "CRP":1.0
+                                                          Seq:1.0
+                                                            PLoop[2.0]:1.0
+                                                              Seq:1.0
+                                                                "CRP":1.0
+                                                                "Leucocytes":1.0
+                                                            "Release A":1.0
+                                                    Seq:1.0
+                                                      "LacticAcid":1.0
+                                                      Seq:1.0
+                                                        "Admission NC":1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            Seq:1.0
+                                                              "Release A":1.0
+                                                              "Return ER":1.0
+                                          Seq:5.0
+                                            "IV Antibiotics":5.0
+                                            Choice:5.0
+                                              "Admission NC":1.0
+                                              Choice:4.0
+                                                "IV Liquid":1.0
+                                                Seq:3.0
+                                                  "Admission NC":3.0
+                                                  Choice:3.0
+                                                    Seq:2.0
+                                                      Conc:2.0
+                                                        "CRP":1.0
+                                                        "Leucocytes":1.0
+                                                      Choice:2.0
+                                                        "IV Liquid":1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            PLoop[2.0]:1.0
+                                                              "CRP":1.0
+                                                            Seq:1.0
+                                                              PLoop[2.0]:1.0
+                                                                "Leucocytes":1.0
+                                                              Seq:1.0
+                                                                "CRP":1.0
+                                                                Seq:1.0
+                                                                  "Leucocytes":1.0
+                                                                  Seq:1.0
+                                                                    PLoop[3.0]:1.0
+                                                                      "CRP":1.0
+                                                                    Seq:1.0
+                                                                      "Release C":1.0
+                                                                      "Return ER":1.0
+                                                    Seq:1.0
+                                                      PLoop[2.0]:1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          "CRP":1.0
+                                                      "Release A":1.0
+                                      Seq:2.0
+                                        "IV Liquid":2.0
+                                        Seq:2.0
+                                          "IV Antibiotics":2.0
+                                          Choice:2.0
+                                            Seq:1.0
+                                              "Admission IC":1.0
+                                              Seq:1.0
+                                                PLoop[2.0]:1.0
+                                                  "LacticAcid":1.0
+                                                Seq:1.0
+                                                  "Leucocytes":1.0
+                                                  Seq:1.0
+                                                    "LacticAcid":1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        PLoop[3.0]:1.0
+                                                          "LacticAcid":1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            Seq:1.0
+                                                              "LacticAcid":1.0
+                                                              Seq:1.0
+                                                                "Leucocytes":1.0
+                                                                Seq:1.0
+                                                                  "CRP":1.0
+                                                                  Seq:1.0
+                                                                    "Admission NC":1.0
+                                                                    Seq:1.0
+                                                                      "Leucocytes":1.0
+                                                                      Seq:1.0
+                                                                        PLoop[2.0]:1.0
+                                                                          "CRP":1.0
+                                                                        Seq:1.0
+                                                                          "Leucocytes":1.0
+                                                                          Seq:1.0
+                                                                            "CRP":1.0
+                                                                            Seq:1.0
+                                                                              PLoop[2.0]:1.0
+                                                                                Seq:1.0
+                                                                                  "Leucocytes":1.0
+                                                                                  "CRP":1.0
+                                                                              "Release A":1.0
+                                            Seq:1.0
+                                              "Admission NC":1.0
+                                              Seq:1.0
+                                                "Leucocytes":1.0
+                                                Seq:1.0
+                                                  "CRP":1.0
+                                                  Seq:1.0
+                                                    "Admission NC":1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        Seq:1.0
+                                                          "CRP":1.0
+                                                          Seq:1.0
+                                                            "Release A":1.0
+                                                            "Return ER":1.0
+                                    Seq:2.0
+                                      "Admission NC":2.0
+                                      Choice:2.0
+                                        Seq:1.0
+                                          "CRP":1.0
+                                          Seq:1.0
+                                            "Leucocytes":1.0
+                                            Seq:1.0
+                                              "CRP":1.0
+                                              Seq:1.0
+                                                PLoop[9.0]:1.0
+                                                  "Leucocytes":1.0
+                                                Seq:1.0
+                                                  "CRP":1.0
+                                                  "Release A":1.0
+                                        Seq:1.0
+                                          "Leucocytes":1.0
+                                          Seq:1.0
+                                            PLoop[2.0]:1.0
+                                              "CRP":1.0
+                                            Seq:1.0
+                                              "Leucocytes":1.0
+                                              Seq:1.0
+                                                "Release A":1.0
+                                                "Return ER":1.0
+                              Seq:15.0
+                                "LacticAcid":15.0
+                                Seq:15.0
+                                  "Leucocytes":15.0
+                                  Choice:15.0
+                                    Choice:14.0
+                                      Seq:11.0
+                                        "IV Liquid":11.0
+                                        Seq:11.0
+                                          "IV Antibiotics":11.0
+                                          Choice:11.0
+                                            tau:3.0
+                                            Seq:8.0
+                                              PLoop[1.375]:8.0
+                                                "Admission NC":2.0
+                                              Choice:8.0
+                                                Seq:5.0
+                                                  Conc:5.0
+                                                    "CRP":3.0
+                                                    "Leucocytes":2.0
+                                                  Choice:5.0
+                                                    Seq:4.0
+                                                      Choice:4.0
+                                                        Seq:2.0
+                                                          Choice:2.0
+                                                            tau:1.0
+                                                            Seq:1.0
+                                                              "Admission NC":1.0
+                                                              "Leucocytes":1.0
+                                                          PLoop[2.5]:2.0
+                                                            "CRP":2.0
+                                                        Choice:2.0
+                                                          "Admission NC":1.0
+                                                          Seq:1.0
+                                                            "LacticAcid":1.0
+                                                            Seq:1.0
+                                                              "Admission NC":1.0
+                                                              Seq:1.0
+                                                                "CRP":1.0
+                                                                "Leucocytes":1.0
+                                                      "Release A":4.0
+                                                    Seq:1.0
+                                                      PLoop[2.0]:1.0
+                                                        "Leucocytes":1.0
+                                                      Seq:1.0
+                                                        "Release A":1.0
+                                                        "Return ER":1.0
+                                                Seq:3.0
+                                                  Choice:3.0
+                                                    Choice:2.0
+                                                      Seq:1.0
+                                                        "CRP":1.0
+                                                        Seq:1.0
+                                                          PLoop[2.0]:1.0
+                                                            "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            "Release C":1.0
+                                                      Seq:1.0
+                                                        "LacticAcid":1.0
+                                                        Seq:1.0
+                                                          "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            "CRP":1.0
+                                                            Seq:1.0
+                                                              "Admission NC":1.0
+                                                              Seq:1.0
+                                                                "Leucocytes":1.0
+                                                                Seq:1.0
+                                                                  PLoop[2.0]:1.0
+                                                                    "CRP":1.0
+                                                                  Seq:1.0
+                                                                    "Leucocytes":1.0
+                                                                    Seq:1.0
+                                                                      PLoop[2.0]:1.0
+                                                                        Seq:1.0
+                                                                          "Leucocytes":1.0
+                                                                          PLoop[2.0]:1.0
+                                                                            "CRP":1.0
+                                                                      Seq:1.0
+                                                                        PLoop[2.0]:1.0
+                                                                          Seq:1.0
+                                                                            "CRP":1.0
+                                                                            "Leucocytes":1.0
+                                                                        Seq:1.0
+                                                                          PLoop[2.0]:1.0
+                                                                            "CRP":1.0
+                                                                          "Release D":1.0
+                                                    Seq:1.0
+                                                      "Leucocytes":1.0
+                                                      Seq:1.0
+                                                        PLoop[2.0]:1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            "CRP":1.0
+                                                        Seq:1.0
+                                                          "Admission IC":1.0
+                                                          Seq:1.0
+                                                            "Leucocytes":1.0
+                                                            Seq:1.0
+                                                              "CRP":1.0
+                                                              Seq:1.0
+                                                                "LacticAcid":1.0
+                                                                Seq:1.0
+                                                                  PLoop[7.0]:1.0
+                                                                    "Leucocytes":1.0
+                                                                  Seq:1.0
+                                                                    "CRP":1.0
+                                                                    Seq:1.0
+                                                                      "LacticAcid":1.0
+                                                                      Seq:1.0
+                                                                        PLoop[8.0]:1.0
+                                                                          "Leucocytes":1.0
+                                                                        Seq:1.0
+                                                                          "LacticAcid":1.0
+                                                                          Seq:1.0
+                                                                            "CRP":1.0
+                                                                            Seq:1.0
+                                                                              "LacticAcid":1.0
+                                                                              Seq:1.0
+                                                                                "Leucocytes":1.0
+                                                                                Seq:1.0
+                                                                                  "CRP":1.0
+                                                                                  Seq:1.0
+                                                                                    "Admission NC":1.0
+                                                                                    Seq:1.0
+                                                                                      PLoop[3.0]:1.0
+                                                                                        "Leucocytes":1.0
+                                                                                      "Release A":1.0
+                                                  "Return ER":3.0
+                                      Seq:3.0
+                                        "IV Antibiotics":3.0
+                                        Choice:3.0
+                                          Seq:2.0
+                                            Conc:2.0
+                                              "Admission NC":1.0
+                                              "IV Liquid":1.0
+                                            Choice:2.0
+                                              "Release B":1.0
+                                              Seq:1.0
+                                                "Leucocytes":1.0
+                                                Seq:1.0
+                                                  "CRP":1.0
+                                                  Seq:1.0
+                                                    "Release A":1.0
+                                                    "Return ER":1.0
+                                          Seq:1.0
+                                            PLoop[2.0]:1.0
+                                              "Admission NC":1.0
+                                            Seq:1.0
+                                              PLoop[2.0]:1.0
+                                                Seq:1.0
+                                                  PLoop[2.0]:1.0
+                                                    "CRP":1.0
+                                                  "Leucocytes":1.0
+                                              Seq:1.0
+                                                PLoop[2.0]:1.0
+                                                  Seq:1.0
+                                                    "CRP":1.0
+                                                    "Leucocytes":1.0
+                                                Seq:1.0
+                                                  "Release A":1.0
+                                                  "Return ER":1.0
+                                    Seq:1.0
+                                      "Admission NC":1.0
+                                      Seq:1.0
+                                        "Leucocytes":1.0
+                                        Seq:1.0
+                                          "CRP":1.0
+                                          Seq:1.0
+                                            "Leucocytes":1.0
+                                            Seq:1.0
+                                              "Admission NC":1.0
+                                              Seq:1.0
+                                                "LacticAcid":1.0
+                                                Seq:1.0
+                                                  "CRP":1.0
+                                                  Seq:1.0
+                                                    "Leucocytes":1.0
+                                                    "Release B":1.0
+                            Seq:1.0
+                              PLoop[2.0]:1.0
+                                "Admission NC":1.0
+                              Seq:1.0
+                                "Release A":1.0
+                                "Return ER":1.0
+                      Seq:1.0
+                        "Admission NC":1.0
+                        Seq:1.0
+                          "Admission IC":1.0
+                          Seq:1.0
+                            "Leucocytes":1.0
+                            Seq:1.0
+                              "CRP":1.0
+                              Seq:1.0
+                                "LacticAcid":1.0
+                                Seq:1.0
+                                  "Leucocytes":1.0
+                                  Seq:1.0
+                                    "LacticAcid":1.0
+                                    Seq:1.0
+                                      "CRP":1.0
+                                      Seq:1.0
+                                        "Leucocytes":1.0
+                                        Seq:1.0
+                                          "CRP":1.0
+                                          Seq:1.0
+                                            "LacticAcid":1.0
+                                            Seq:1.0
+                                              "Admission NC":1.0
+                                              Seq:1.0
+                                                "CRP":1.0
+                                                Seq:1.0
+                                                  PLoop[2.0]:1.0
+                                                    "Leucocytes":1.0
+                                                  Seq:1.0
+                                                    PLoop[2.0]:1.0
+                                                      "CRP":1.0
+                                                    Seq:1.0
+                                                      "Leucocytes":1.0
+                                                      "Release A":1.0
+              Seq:6.0
+                "CRP":6.0
+                Choice:6.0
+                  Seq:2.0
+                    "Leucocytes":2.0
+                    Choice:2.0
+                      "ER Sepsis Triage":1.0
+                      Seq:1.0
+                        "LacticAcid":1.0
+                        Seq:1.0
+                          "Admission NC":1.0
+                          Seq:1.0
+                            "ER Sepsis Triage":1.0
+                            Seq:1.0
+                              "IV Liquid":1.0
+                              Seq:1.0
+                                "IV Antibiotics":1.0
+                                Seq:1.0
+                                  "Admission NC":1.0
+                                  Seq:1.0
+                                    "Leucocytes":1.0
+                                    Seq:1.0
+                                      "CRP":1.0
+                                      "Release A":1.0
+                  Seq:4.0
+                    "LacticAcid":4.0
+                    Seq:4.0
+                      "Leucocytes":4.0
+                      Seq:4.0
+                        "ER Sepsis Triage":4.0
+                        Seq:4.0
+                          Conc:4.0
+                            "IV Antibiotics":1.0
+                            "IV Liquid":3.0
+                          Seq:4.0
+                            "Admission NC":4.0
+                            Choice:4.0
+                              Choice:3.0
+                                Seq:2.0
+                                  Conc:2.0
+                                    "CRP":1.0
+                                    "Leucocytes":1.0
+                                  Choice:2.0
+                                    Seq:1.0
+                                      PLoop[2.0]:1.0
+                                        "Leucocytes":1.0
+                                      Seq:1.0
+                                        "CRP":1.0
+                                        Seq:1.0
+                                          "Leucocytes":1.0
+                                          Seq:1.0
+                                            "Admission NC":1.0
+                                            Seq:1.0
+                                              "Release A":1.0
+                                              "Return ER":1.0
+                                    Seq:1.0
+                                      PLoop[2.0]:1.0
+                                        Seq:1.0
+                                          "Leucocytes":1.0
+                                          "CRP":1.0
+                                      "Release A":1.0
+                                Seq:1.0
+                                  PLoop[2.0]:1.0
+                                    Seq:1.0
+                                      "CRP":1.0
+                                      "Leucocytes":1.0
+                                  Seq:1.0
+                                    "Release A":1.0
+                                    "Return ER":1.0
+                              Seq:1.0
+                                PLoop[2.0]:1.0
+                                  Seq:1.0
+                                    "Leucocytes":1.0
+                                    "CRP":1.0
+                                "Release A":1.0
+        Seq:3.0
+          "ER Sepsis Triage":3.0
+          Seq:3.0
+            "ER Triage":3.0
+            Choice:3.0
+              Seq:2.0
+                Choice:2.0
+                  Seq:1.0
+                    "CRP":1.0
+                    Seq:1.0
+                      "Leucocytes":1.0
+                      Seq:1.0
+                        PLoop[2.0]:1.0
+                          "LacticAcid":1.0
+                        Seq:1.0
+                          "IV Liquid":1.0
+                          Seq:1.0
+                            "IV Antibiotics":1.0
+                            Seq:1.0
+                              "Admission IC":1.0
+                              Seq:1.0
+                                "LacticAcid":1.0
+                                Seq:1.0
+                                  "Leucocytes":1.0
+                                  Seq:1.0
+                                    PLoop[2.0]:1.0
+                                      Seq:1.0
+                                        "CRP":1.0
+                                        "LacticAcid":1.0
+                                    Seq:1.0
+                                      "Leucocytes":1.0
+                                      Seq:1.0
+                                        "Admission NC":1.0
+                                        Seq:1.0
+                                          "Leucocytes":1.0
+                                          Seq:1.0
+                                            "CRP":1.0
+                                            Seq:1.0
+                                              PLoop[2.0]:1.0
+                                                "Leucocytes":1.0
+                                              Seq:1.0
+                                                "CRP":1.0
+                                                Seq:1.0
+                                                  "Leucocytes":1.0
+                                                  Seq:1.0
+                                                    PLoop[2.0]:1.0
+                                                      Seq:1.0
+                                                        "CRP":1.0
+                                                        "Leucocytes":1.0
+                                                    PLoop[2.0]:1.0
+                                                      Seq:1.0
+                                                        "Leucocytes":1.0
+                                                        "CRP":1.0
+                  Seq:1.0
+                    "IV Antibiotics":1.0
+                    Seq:1.0
+                      "Leucocytes":1.0
+                      Seq:1.0
+                        "CRP":1.0
+                        Seq:1.0
+                          "IV Liquid":1.0
+                          Seq:1.0
+                            "Admission NC":1.0
+                            Seq:1.0
+                              PLoop[2.0]:1.0
+                                Seq:1.0
+                                  "CRP":1.0
+                                  "Leucocytes":1.0
+                              Seq:1.0
+                                PLoop[2.0]:1.0
+                                  "CRP":1.0
+                                "Leucocytes":1.0
+                "Release A":2.0
+              Seq:1.0
+                "CRP":1.0
+                Seq:1.0
+                  "Leucocytes":1.0
+                  Seq:1.0
+                    "IV Liquid":1.0
+                    Seq:1.0
+                      "IV Antibiotics":1.0
+                      Seq:1.0
+                        "LacticAcid":1.0
+                        Seq:1.0
+                          "Admission IC":1.0
+                          Seq:1.0
+                            "Leucocytes":1.0
+                            Seq:1.0
+                              "CRP":1.0
+                              Seq:1.0
+                                "Leucocytes":1.0
+                                Seq:1.0
+                                  "LacticAcid":1.0
+                                  Seq:1.0
+                                    "Leucocytes":1.0
+                                    Seq:1.0
+                                      "CRP":1.0
+                                      Seq:1.0
+                                        "LacticAcid":1.0
+                                        "Leucocytes":1.0
+    Choice:11.0
+      Seq:2.0
+        Choice:2.0
+          Seq:1.0
+            "ER Registration":1.0
+            Seq:1.0
+              "Leucocytes":1.0
+              Seq:1.0
+                "LacticAcid":1.0
+                Seq:1.0
+                  "CRP":1.0
+                  Seq:1.0
+                    "ER Triage":1.0
+                    Seq:1.0
+                      "ER Sepsis Triage":1.0
+                      Seq:1.0
+                        "IV Liquid":1.0
+                        Seq:1.0
+                          "IV Antibiotics":1.0
+                          Seq:1.0
+                            PLoop[2.0]:1.0
+                              "Admission NC":1.0
+                            Seq:1.0
+                              "CRP":1.0
+                              "Leucocytes":1.0
+          Seq:1.0
+            "ER Sepsis Triage":1.0
+            Seq:1.0
+              "ER Registration":1.0
+              Seq:1.0
+                "ER Triage":1.0
+                Seq:1.0
+                  "IV Liquid":1.0
+                  Seq:1.0
+                    "IV Antibiotics":1.0
+                    Seq:1.0
+                      "CRP":1.0
+                      Seq:1.0
+                        "LacticAcid":1.0
+                        Seq:1.0
+                          "Leucocytes":1.0
+                          Seq:1.0
+                            "Admission IC":1.0
+                            Seq:1.0
+                              "LacticAcid":1.0
+                              Seq:1.0
+                                "Leucocytes":1.0
+                                Seq:1.0
+                                  "CRP":1.0
+                                  Seq:1.0
+                                    "LacticAcid":1.0
+                                    Seq:1.0
+                                      "Leucocytes":1.0
+                                      Seq:1.0
+                                        "CRP":1.0
+                                        Seq:1.0
+                                          "LacticAcid":1.0
+                                          Seq:1.0
+                                            "Leucocytes":1.0
+                                            Seq:1.0
+                                              "CRP":1.0
+                                              Seq:1.0
+                                                "LacticAcid":1.0
+                                                Seq:1.0
+                                                  "Admission NC":1.0
+                                                  PLoop[2.0]:1.0
+                                                    Seq:1.0
+                                                      "CRP":1.0
+                                                      "Leucocytes":1.0
+        Seq:2.0
+          "Release A":2.0
+          "Return ER":2.0
+      Choice:9.0
+        Seq:6.0
+          "IV Liquid":6.0
+          Seq:6.0
+            "ER Registration":6.0
+            Seq:6.0
+              "ER Triage":6.0
+              Choice:6.0
+                Seq:5.0
+                  "ER Sepsis Triage":5.0
+                  Choice:5.0
+                    Seq:4.0
+                      Choice:4.0
+                        Seq:2.0
+                          "LacticAcid":2.0
+                          Seq:2.0
+                            Conc:2.0
+                              "CRP":1.0
+                              "Leucocytes":1.0
+                            Seq:2.0
+                              "IV Antibiotics":2.0
+                              Choice:2.0
+                                PLoop[2.0]:1.0
+                                  "Admission NC":1.0
+                                Seq:1.0
+                                  "Admission IC":1.0
+                                  Seq:1.0
+                                    "LacticAcid":1.0
+                                    Seq:1.0
+                                      "CRP":1.0
+                                      Seq:1.0
+                                        PLoop[2.0]:1.0
+                                          "Leucocytes":1.0
+                                        Seq:1.0
+                                          "CRP":1.0
+                                          Seq:1.0
+                                            "LacticAcid":1.0
+                                            Seq:1.0
+                                              "Leucocytes":1.0
+                                              Seq:1.0
+                                                "LacticAcid":1.0
+                                                Seq:1.0
+                                                  PLoop[2.0]:1.0
+                                                    "CRP":1.0
+                                                  Seq:1.0
+                                                    "Leucocytes":1.0
+                                                    Seq:1.0
+                                                      "LacticAcid":1.0
+                                                      Seq:1.0
+                                                        "CRP":1.0
+                                                        Seq:1.0
+                                                          PLoop[2.0]:1.0
+                                                            Seq:1.0
+                                                              "LacticAcid":1.0
+                                                              "Leucocytes":1.0
+                                                          Seq:1.0
+                                                            PLoop[2.0]:1.0
+                                                              "CRP":1.0
+                                                            Seq:1.0
+                                                              "Leucocytes":1.0
+                                                              Seq:1.0
+                                                                "LacticAcid":1.0
+                                                                Seq:1.0
+                                                                  "Admission NC":1.0
+                                                                  Seq:1.0
+                                                                    "CRP":1.0
+                                                                    PLoop[2.0]:1.0
+                                                                      "Leucocytes":1.0
+                        Seq:2.0
+                          "Leucocytes":2.0
+                          Seq:2.0
+                            "CRP":2.0
+                            Seq:2.0
+                              "LacticAcid":2.0
+                              Seq:2.0
+                                "IV Antibiotics":2.0
+                                Seq:2.0
+                                  "Admission NC":2.0
+                                  Choice:2.0
+                                    tau:1.0
+                                    Seq:1.0
+                                      "Leucocytes":1.0
+                                      Seq:1.0
+                                        "CRP":1.0
+                                        Seq:1.0
+                                          "LacticAcid":1.0
+                                          PLoop[2.0]:1.0
+                                            Seq:1.0
+                                              "CRP":1.0
+                                              "Leucocytes":1.0
+                      Seq:4.0
+                        "Release A":4.0
+                        "Return ER":4.0
+                    Seq:1.0
+                      "IV Antibiotics":1.0
+                      Seq:1.0
+                        "CRP":1.0
+                        Seq:1.0
+                          "Leucocytes":1.0
+                          Seq:1.0
+                            "LacticAcid":1.0
+                            Seq:1.0
+                              PLoop[2.0]:1.0
+                                "Admission NC":1.0
+                              Seq:1.0
+                                PLoop[2.0]:1.0
+                                  Seq:1.0
+                                    "Leucocytes":1.0
+                                    "CRP":1.0
+                                "Release A":1.0
+                Seq:1.0
+                  "Leucocytes":1.0
+                  Seq:1.0
+                    "CRP":1.0
+                    Seq:1.0
+                      "LacticAcid":1.0
+                      Seq:1.0
+                        "ER Sepsis Triage":1.0
+                        Seq:1.0
+                          "IV Antibiotics":1.0
+                          Seq:1.0
+                            "Admission IC":1.0
+                            Seq:1.0
+                              "LacticAcid":1.0
+                              Seq:1.0
+                                "CRP":1.0
+                                "Leucocytes":1.0
+        Seq:3.0
+          "Leucocytes":3.0
+          Seq:3.0
+            "CRP":3.0
+            Seq:3.0
+              "ER Registration":3.0
+              Seq:3.0
+                "ER Triage":3.0
+                Choice:3.0
+                  Seq:2.0
+                    Choice:2.0
+                      Seq:1.0
+                        "ER Sepsis Triage":1.0
+                        Seq:1.0
+                          "LacticAcid":1.0
+                          Seq:1.0
+                            "Leucocytes":1.0
+                            Seq:1.0
+                              "CRP":1.0
+                              Seq:1.0
+                                "IV Liquid":1.0
+                                Seq:1.0
+                                  "IV Antibiotics":1.0
+                                  Seq:1.0
+                                    "Admission NC":1.0
+                                    Seq:1.0
+                                      "Leucocytes":1.0
+                                      Seq:1.0
+                                        PLoop[2.0]:1.0
+                                          "CRP":1.0
+                                        "Leucocytes":1.0
+                      Seq:1.0
+                        "Leucocytes":1.0
+                        Seq:1.0
+                          "CRP":1.0
+                          Seq:1.0
+                            "LacticAcid":1.0
+                            Seq:1.0
+                              "ER Sepsis Triage":1.0
+                              Seq:1.0
+                                "IV Liquid":1.0
+                                Seq:1.0
+                                  "IV Antibiotics":1.0
+                                  Seq:1.0
+                                    "Admission NC":1.0
+                                    "CRP":1.0
+                    "Release A":2.0
+                  Seq:1.0
+                    "ER Sepsis Triage":1.0
+                    Seq:1.0
+                      "Admission NC":1.0
+                      Seq:1.0
+                        "CRP":1.0
+                        Seq:1.0
+                          "Leucocytes":1.0
+                          Seq:1.0
+                            "Admission NC":1.0
+                            Seq:1.0
+                              "CRP":1.0
+                              Seq:1.0
+                                PLoop[2.0]:1.0
+                                  Seq:1.0
+                                    "Leucocytes":1.0
+                                    "CRP":1.0
+                                "Release C":1.0

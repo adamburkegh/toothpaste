@@ -1,0 +1,565 @@
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+   <net id="net1 imported from (omodel_split_sepsis_k3.pnml)" type="http://www.pnml.org/version-2009/grammar/ptnet">
+      <toolspecific tool="StochasticPetriNet" version="0.2">
+         <property key="executionPolicy">race (enabling memory)</property>
+         <property key="timeUnit">minutes</property>
+      </toolspecific>
+      <page id="p1">
+         <transition id="n18">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Release D</text>
+            </name>
+         </transition>
+         <transition id="n19">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Release B</text>
+            </name>
+         </transition>
+         <transition id="n20">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Release E</text>
+            </name>
+         </transition>
+         <transition id="n21">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Admission NC</text>
+            </name>
+         </transition>
+         <transition id="n22">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Leucocytes</text>
+            </name>
+         </transition>
+         <transition id="n23">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>IV Antibiotics</text>
+            </name>
+         </transition>
+         <transition id="n24">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>ER Registration</text>
+            </name>
+         </transition>
+         <transition id="n25">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Release A</text>
+            </name>
+         </transition>
+         <transition id="n26">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>ER Triage</text>
+            </name>
+         </transition>
+         <transition id="n27">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Admission IC</text>
+            </name>
+         </transition>
+         <transition id="n28">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Release C</text>
+            </name>
+         </transition>
+         <transition id="n29">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>CRP</text>
+            </name>
+         </transition>
+         <transition id="n30">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>LacticAcid</text>
+            </name>
+         </transition>
+         <transition id="n31">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>ER Sepsis Triage</text>
+            </name>
+         </transition>
+         <transition id="n32">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>Return ER</text>
+            </name>
+         </transition>
+         <transition id="n33">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">false</property>
+            </toolspecific>
+            <name>
+               <text>IV Liquid</text>
+            </name>
+         </transition>
+         <transition id="n34">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t1</text>
+            </name>
+         </transition>
+         <transition id="n35">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t2</text>
+            </name>
+         </transition>
+         <transition id="n36">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t3</text>
+            </name>
+         </transition>
+         <transition id="n37">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t4</text>
+            </name>
+         </transition>
+         <transition id="n38">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t5</text>
+            </name>
+         </transition>
+         <transition id="n39">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t6</text>
+            </name>
+         </transition>
+         <transition id="n40">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t7</text>
+            </name>
+         </transition>
+         <transition id="n41">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t8</text>
+            </name>
+         </transition>
+         <transition id="n42">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t9</text>
+            </name>
+         </transition>
+         <transition id="n43">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t10</text>
+            </name>
+         </transition>
+         <transition id="n44">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t11</text>
+            </name>
+         </transition>
+         <transition id="n45">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t12</text>
+            </name>
+         </transition>
+         <transition id="n46">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t13</text>
+            </name>
+         </transition>
+         <transition id="n47">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t14</text>
+            </name>
+         </transition>
+         <transition id="n48">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t15</text>
+            </name>
+         </transition>
+         <transition id="n49">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="invisible">true</property>
+            </toolspecific>
+            <name>
+               <text>t16</text>
+            </name>
+         </transition>
+         <place id="n1">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>END</text>
+            </name>
+         </place>
+         <place id="n2">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n2</text>
+            </name>
+         </place>
+         <place id="n3">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n3</text>
+            </name>
+         </place>
+         <place id="n4">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n4</text>
+            </name>
+         </place>
+         <place id="n5">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n5</text>
+            </name>
+         </place>
+         <place id="n6">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n6</text>
+            </name>
+         </place>
+         <place id="n7">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n7</text>
+            </name>
+         </place>
+         <place id="n8">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n8</text>
+            </name>
+         </place>
+         <place id="n9">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n9</text>
+            </name>
+         </place>
+         <place id="n10">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n10</text>
+            </name>
+         </place>
+         <place id="n11">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n11</text>
+            </name>
+         </place>
+         <place id="n12">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n12</text>
+            </name>
+         </place>
+         <place id="n13">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>n13</text>
+            </name>
+         </place>
+         <place id="n14">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>p1</text>
+            </name>
+         </place>
+         <place id="n15">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>p2</text>
+            </name>
+         </place>
+         <place id="n16">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>p3</text>
+            </name>
+         </place>
+         <place id="n17">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>START</text>
+            </name>
+            <initialMarking>
+               <text>1</text>
+            </initialMarking>
+         </place>
+         <arc id="a0" source="n9" target="n38"/>
+         <arc id="a1" source="n4" target="n32"/>
+         <arc id="a2" source="n8" target="n22"/>
+         <arc id="a3" source="n49" target="n12"/>
+         <arc id="a4" source="n9" target="n28"/>
+         <arc id="a5" source="n37" target="n6"/>
+         <arc id="a6" source="n11" target="n49"/>
+         <arc id="a7" source="n12" target="n30"/>
+         <arc id="a8" source="n25" target="n2"/>
+         <arc id="a9" source="n30" target="n13"/>
+         <arc id="a10" source="n24" target="n15"/>
+         <arc id="a11" source="n5" target="n33"/>
+         <arc id="a12" source="n16" target="n23"/>
+         <arc id="a13" source="n38" target="n8"/>
+         <arc id="a14" source="n47" target="n10"/>
+         <arc id="a15" source="n23" target="n3"/>
+         <arc id="a16" source="n14" target="n31"/>
+         <arc id="a17" source="n20" target="n1"/>
+         <arc id="a18" source="n2" target="n35"/>
+         <arc id="a19" source="n28" target="n1"/>
+         <arc id="a20" source="n9" target="n20"/>
+         <arc id="a21" source="n48" target="n12"/>
+         <arc id="a22" source="n46" target="n10"/>
+         <arc id="a23" source="n3" target="n36"/>
+         <arc id="a24" source="n11" target="n25"/>
+         <arc id="a25" source="n9" target="n48"/>
+         <arc id="a26" source="n13" target="n45"/>
+         <arc id="a27" source="n9" target="n47"/>
+         <arc id="a28" source="n10" target="n29"/>
+         <arc id="a29" source="n3" target="n27"/>
+         <arc id="a30" source="n26" target="n14"/>
+         <arc id="a31" source="n39" target="n10"/>
+         <arc id="a32" source="n29" target="n11"/>
+         <arc id="a33" source="n19" target="n1"/>
+         <arc id="a34" source="n27" target="n12"/>
+         <arc id="a35" source="n7" target="n19"/>
+         <arc id="a36" source="n15" target="n26"/>
+         <arc id="a37" source="n17" target="n24"/>
+         <arc id="a38" source="n11" target="n39"/>
+         <arc id="a39" source="n7" target="n46"/>
+         <arc id="a40" source="n40" target="n12"/>
+         <arc id="a41" source="n35" target="n1"/>
+         <arc id="a42" source="n43" target="n8"/>
+         <arc id="a43" source="n41" target="n8"/>
+         <arc id="a44" source="n36" target="n6"/>
+         <arc id="a45" source="n13" target="n42"/>
+         <arc id="a46" source="n31" target="n5"/>
+         <arc id="a47" source="n6" target="n21"/>
+         <arc id="a48" source="n33" target="n16"/>
+         <arc id="a49" source="n7" target="n44"/>
+         <arc id="a50" source="n44" target="n8"/>
+         <arc id="a51" source="n42" target="n8"/>
+         <arc id="a52" source="n9" target="n18"/>
+         <arc id="a53" source="n11" target="n41"/>
+         <arc id="a54" source="n21" target="n7"/>
+         <arc id="a55" source="n45" target="n10"/>
+         <arc id="a56" source="n13" target="n40"/>
+         <arc id="a57" source="n5" target="n43"/>
+         <arc id="a58" source="n2" target="n34"/>
+         <arc id="a59" source="n7" target="n37"/>
+         <arc id="a60" source="n34" target="n4"/>
+         <arc id="a61" source="n18" target="n4"/>
+         <arc id="a62" source="n32" target="n1"/>
+         <arc id="a63" source="n22" target="n9"/>
+      </page>
+   </net>
+</pnml>

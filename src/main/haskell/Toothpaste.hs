@@ -133,10 +133,10 @@ scale (Node2 op x y w) g = Node2 op (scale x g) (scale y g) (w*g)
 loopMean :: PPTree a -> PPTree a -> PPTree a
 loopMean u1 (Node1 PLoop x2 r2 w2) 
     = Node1 PLoop (scale (merge u1 
-                                (scale x2 w2) ) 
-                         (1/(w1 + w2)  )) 
-                  ((weight u1 + w2*r2)/(w1+w2)) 
-                  ( w1+w2 )
+                                (scale x2 r2) ) 
+                         ((w1 + w2) / (r2*w2+w1) )) 
+                  ((w1 + w2*r2)/(w1+w2)) 
+                  ( w1 + w2 )
      where w1 = weight u1
 
 

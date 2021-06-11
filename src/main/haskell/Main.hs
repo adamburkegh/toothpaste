@@ -28,7 +28,7 @@ toothpasteArgs = ToothpasteArgs{
     pnetfile  = "" &= help "Output Petri Net PNML file",
     ptreefile = "" &= help ""} &=
     help "Discover stochastic models from event logs" 
-        &= summary "Toothpaste Miner 0.8.0, 2021 (GPL)" 
+        &= summary "Toothpaste Miner 0.8.1, 2021 (GPL)" 
 
 ptreeOutMain = Toothpaste.inputMain
 

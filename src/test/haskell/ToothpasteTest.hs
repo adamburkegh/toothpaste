@@ -42,6 +42,7 @@ ccab1 = Node2 Conc la lb 2
 
 la2 = Leaf "a" 2
 la3 = Leaf "a" 3
+la4 = Leaf "a" 4
 lb2 = Leaf "b" 2
 lb3 = Leaf "b" 3
 lc2 = Leaf "c" 2
@@ -153,7 +154,7 @@ clbca = Node2 Choice (Node2 Seq la lc 1)
 loopChoiceFoldTests = [
     "loopChoiceFold1" ~: loopChoiceFold la ~=? la,
     "loopChoiceFold2" ~: loopChoiceFold cab  ~=? cab,
-    "loopChoiceFold3" ~: Node2 Seq (Node1 PLoop  la 1 2)
+    "loopChoiceFold3" ~: Node2 Seq (Node1 PLoop  la2 1 2)
                                    (Node2 Choice lb lc 2) 
                                    2
             ~=? loopChoiceFold clbca ,
@@ -172,9 +173,13 @@ loopChoiceFoldTests = [
 
 choiceRollTests = [
     "choiceRoll1" ~: choiceRoll la ~=? la,
-    "choiceRoll2" ~: Node1 PLoop la 4 4 ~=? 
+    "choiceRoll2" ~: Node1 PLoop la4 4 4 ~=? 
                 choiceRoll (Node2 Choice la 
-                                         (Node1 PLoop la 5 3) 4) ]
+                                         (Node1 PLoop la3 5 3) 4),
+    "choiceRoll3" ~: Node1 PLoop la3 1.3333334 3.0 ~=? 
+                choiceRoll (Node2 Choice la2 
+                                         (Node1 PLoop la 2.0 1.0)
+                                         3.0) ]
 
 
 fixedLoopRollTests = [
@@ -453,12 +458,46 @@ scaleTests = [
     "scaleLeaf" ~: la3 ~=? scale la 3,
     "scaleLoop" ~: Node1 FLoop la3 5 3 ~=? scale (Node1 FLoop la 5 1) 3 ]
 
-loopMeanTests = ["loopMean1" ~: Node1 PLoop la 2.5 4 ~=? 
-                    loopMean la (Node1 PLoop la 3 3) ]
+loopMeanTests = ["loopMean1" ~: Node1 PLoop la4 2.5 4 ~=? 
+                    loopMean la (Node1 PLoop la3 3 3) ]
 
 validateTests = [
     "validSeq"   ~: validate (Node2 Seq la lb 1) @? "val",
-    "invalidSeq" ~: not ( validate (Node2 Seq la lb2 4) ) @? "inval"  ]
+    "invalidSeq" ~: not ( validate (Node2 Seq la lb2 4) ) @? "inval" ,
+    "validCompound1" ~: 
+        validate (Node2 Seq 
+                    (Node1 PLoop 
+                        (Leaf "Eat Chocolate" 5.0) 
+                        1.8 5.0) 
+                    (Node2 Choice 
+                        (Node2 Seq 
+                            (Leaf "Clean Teeth" 2.0) 
+                            (Leaf "Grow Fat" 2.0) 
+                            2.0) 
+                        (Node2 Seq 
+                            (Leaf "Grow Fat" 3.0) 
+                            (Leaf "Clean Teeth" 3.0) 
+                            3.0) 
+                        5.0) 
+                    5.0) @? "val",
+    "validCompound2" ~: 
+        validate ( Node2 Choice 
+                       (Node2 Seq 
+                            (Node1 PLoop 
+                                (Leaf "Eat Chocolate" 3.0) 1.3333334 3.0) 
+                            (Node2 Seq 
+                                (Leaf "Grow Fat" 3.0) 
+                                (Leaf "Clean Teeth" 3.0) 
+                                3.0) 
+                            3.0) 
+                       (Node2 Seq 
+                            (Node1 PLoop 
+                                (Leaf "Eat Chocolate" 2.0) 2.5 2.0) 
+                            (Node2 Seq 
+                                (Leaf "Clean Teeth" 2.0) 
+                                (Leaf "Grow Fat" 2.0) 2.0) 
+                            2.0) 5.0) @? "val"
+                    ]
 
 
 loopRollTests = fixedLoopRollTests  ++ probLoopRollTests

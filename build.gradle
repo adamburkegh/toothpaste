@@ -8,9 +8,9 @@ plugins {
     id 'application'
     id 'distribution'
     
-    // Eclipse
-    id 'eclipse-wtp'
 }
+
+apply plugin: 'eclipse'
 
 repositories {
     mavenLocal() 

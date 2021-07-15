@@ -461,12 +461,7 @@ scaleTests = [
 loopMeanTests = ["loopMean1" ~: Node1 PLoop la4 2.5 4 ~=? 
                     loopMean la (Node1 PLoop la3 3 3) ]
 
-validateTests = [
-    "validSeq"   ~: validate (Node2 Seq la lb 1) @? "val",
-    "invalidSeq" ~: not ( validate (Node2 Seq la lb2 4) ) @? "inval" ,
-    "validCompound1" ~: 
-        validate (Node2 Seq 
-                    (Node1 PLoop 
+comp1 = Node2 Seq (Node1 PLoop 
                         (Leaf "Eat Chocolate" 5.0) 
                         1.8 5.0) 
                     (Node2 Choice 
@@ -479,7 +474,13 @@ validateTests = [
                             (Leaf "Clean Teeth" 3.0) 
                             3.0) 
                         5.0) 
-                    5.0) @? "val",
+                    5.0
+
+validateTests = [
+    "validSeq"   ~: validate (Node2 Seq la lb 1) @? "val",
+    "invalidSeq" ~: not ( validate (Node2 Seq la lb2 4) ) @? "inval" ,
+    "validCompound1" ~: 
+        validate (comp1) @? "val",
     "validCompound2" ~: 
         validate ( Node2 Choice 
                        (Node2 Seq 
@@ -499,6 +500,24 @@ validateTests = [
                             2.0) 5.0) @? "val"
                     ]
 
+verboseValidateTests = [
+    "validSeq"   ~: valOk ~=?
+                        verboseValidate (Node2 Seq la lb 1) ,
+    "invalidSeq" ~: ValEntry False 
+                            ("Seq 4.0 /= 1.0 in " ++ show (Node2 Seq la lb2 4)) 
+                        ~=? verboseValidate (Node2 Seq la lb2 4),
+    "invalidChoice" ~: ValEntry False 
+                            ("Choice 5.0 /= 1.0 + 2.0 in " 
+                            ++ show (Node2 Choice la lb2 5)) 
+                        ~=? verboseValidate (Node2 Choice la lb2 5),
+    "validCompound" ~: valOk ~=? verboseValidate comp1 ,
+    "invalidCompound" ~: ValEntry False ("Seq 7.0 /= 1.0 in " 
+                            ++ show (Node2 Seq la lb 7) )
+                        ~=? verboseValidate (
+                                Node1 PLoop (Node2 Seq la lb 7) 3 7)
+    ]
+
+-- 
 
 loopRollTests = fixedLoopRollTests  ++ probLoopRollTests
 
@@ -516,6 +535,6 @@ huTests =   eqTests ++ helperTests
            ++ ruleTests ++ commutTests ++ longLoopTests
            ++ transformTests ++ transformInOrderTests
            ++ traceTests ++ discoverTests  ++ translateTests
-           ++ validateTests
+           ++ validateTests ++ verboseValidateTests
 
 

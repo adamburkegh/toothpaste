@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c063cf4995a6c2ec1e19ae405e13decf57b7051a60e7b881197f7824a9a3f42c
+-- hash: 007d3602953a812c5749ced625dd1499ae9dda7a4a395a0129e9e5a266c0dd93
 
 name:           toothpaste
-version:        0.8.1.0
+version:        0.8.2.0
 description:    Please see the README
 homepage:       https://github.com/githubuser/adamburkegh#readme
 bug-reports:    https://github.com/githubuser/adamburkegh/issues

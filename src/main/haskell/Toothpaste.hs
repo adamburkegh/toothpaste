@@ -123,18 +123,35 @@ merge (Node1 PLoop x r1 w1) (Node1 op2 y r2 w2)
 merge (Node2 op1 x1 y1 w1) (Node2 op2 x2 y2 w2) 
     = Node2 op1 (merge x1 x2) (merge y1 y2) (w1+w2)
 
+epsilon = 0.0001
+
 scale :: PPTree a -> Float -> PPTree a
 scale (Leaf x w) g = Leaf x (w*g)
 scale (Silent w) g = Silent (w*g)
 scale (Node1 op x r w) g = Node1 op (scale x g) r (w*g)
 scale (Node2 op x y w) g = Node2 op (scale x g) (scale y g) (w*g)
 
+weightForce :: PPTree a -> Weight -> PPTree a
+weightForce (Leaf x w) g = Leaf x g
+weightForce (Silent w) g = Silent g
+weightForce (Node1 op x r w) g = Node1 op x r g
+weightForce (Node2 op x y w) g = Node2 op x y g
+
+-- reduce compounding floating point errors by forcing to known weight
+-- when within an error epsilon
+scaleForce :: PPTree a -> Float -> Float -> PPTree a
+scaleForce u g wref 
+    | abs(w1*g - wref) < epsilon  = weightForce su wref
+    | abs(w1*g - wref) >= epsilon = su
+        where w1 = weight u
+              su = scale u g
+
 -- pre: second parameter is a PLoop
 loopMean :: PPTree a -> PPTree a -> PPTree a
 loopMean u1 (Node1 PLoop x2 r2 w2) 
-    = Node1 PLoop (scale (merge u1 
-                                (scale x2 r2) ) 
-                         ((w1 + w2) / (r2*w2+w1) )) 
+     = Node1 PLoop (scaleForce (merge u1 (scale x2 r2) ) 
+                               ((w1 + w2) / (r2*w2+w1) )
+                               (w1+w2) ) 
                   ((w1 + w2*r2)/(w1+w2)) 
                   ( w1 + w2 )
      where w1 = weight u1
@@ -176,7 +193,10 @@ data TRule a = TRule{ rulename :: String, trule :: PRule a }
 validateDebug :: (Eq a, Show a) => PPTree a -> PPTree a -> TRule r -> b -> b
 validateDebug x y r val
     | x /= y && validate y       = debug msg val
-    | x /= y && not (validate y) = debug ("*** invalid tree *** " ++ msg) val
+    | x /= y && not (validate y) = 
+        debug ("*** invalid tree *** " 
+                ++ valMsg (verboseValidate y) 
+                ++ " :: " ++ msg) val
     | x == y = val  
     -- | x == y = debug (rulename r ++ " 000 " ++ show x) val  
     -- super-verbose option
@@ -719,40 +739,41 @@ validate x = True
 
 
 
-data Validation = ValEntry Bool String deriving (Show,Eq)
-valOk = ValEntry True "Ok"
+data Validation = Validation{valResult::Bool, valMsg:: String} 
+    deriving (Show,Eq)
+valOk = Validation{valResult=True, valMsg="Ok"}
 verboseValidate :: (Show a) => PPTree a -> Validation
 verboseValidate (Node2 Seq x y w) 
-    | w /= weight x    = ValEntry False 
-                                ("Seq " ++ show w ++ " /= " ++ show (weight x)
-                                 ++ " in " ++ sn ) 
-    | w /= weight y    = ValEntry False 
-                                ("Seq " ++ show w ++ " /= " ++ show (weight y)
-                                 ++ " in " ++ sn ) 
+    | w /= weight x    = Validation{valResult=False ,
+                                valMsg=("Seq " ++ show w ++ " /= " 
+                                    ++ show (weight x) ++ " in " ++ sn ) }
+    | w /= weight y    = Validation{valResult=False ,
+                                valMsg=("Seq " ++ show w ++ " /= " 
+                                   ++ show (weight y) ++ " in " ++ sn ) }
     | not (validate x) = verboseValidate x
     | not (validate y) = verboseValidate y
     | validate  (Node2 Seq x y w)   = valOk
     where sn =  show (Node2 Seq x y w)
 verboseValidate (Node2 Choice x y w) 
-    | w /= weight x + weight y  = ValEntry False
-                ("Choice " ++ show w ++ " /= " 
-                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn) 
+    | w /= weight x + weight y  = Validation{valResult=False,
+                valMsg=("Choice " ++ show w ++ " /= " 
+                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn)}
     | not(validate x) = verboseValidate x 
     | not(validate y) = verboseValidate y
     | validate (Node2 Choice x y w) = valOk
     where sn =  show (Node2 Choice x y w)
 verboseValidate (Node2 Conc x y w)
-    | w /= weight x + weight y = ValEntry False
-                ("Conc " ++ show w ++ " /= " 
-                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn) 
+    | w /= weight x + weight y = Validation{valResult=False,
+                valMsg=("Conc " ++ show w ++ " /= " 
+                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn)}
     | not(validate x) = verboseValidate x 
     | not(validate y) = verboseValidate y
     | validate (Node2 Conc x y w) = valOk
     where sn =  show (Node2 Conc x y w)
 verboseValidate (Node1 op x m w)
-    | w /= weight x = ValEntry False
-                ("Node1 " ++ (show op) ++ " " ++ show w ++ " /= " 
-                ++ show (weight x) )
+    | w /= weight x = Validation{valResult=False,
+                valMsg=("Node1 " ++ (show op) ++ " " ++ show w ++ " /= " 
+                ++ show (weight x) ) }
     | not(validate x) = verboseValidate x
     where sn = show (Node1 op x m w)
 verboseValidate x  = valOk

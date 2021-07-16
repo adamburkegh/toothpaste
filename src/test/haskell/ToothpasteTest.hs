@@ -43,6 +43,7 @@ ccab1 = Node2 Conc la lb 2
 la2 = Leaf "a" 2
 la3 = Leaf "a" 3
 la4 = Leaf "a" 4
+la11 = Leaf "a" 11
 lb2 = Leaf "b" 2
 lb3 = Leaf "b" 3
 lc2 = Leaf "c" 2
@@ -456,10 +457,15 @@ mergeTests = ["mergeLeaf" ~: la2 ~=? merge la la,
 
 scaleTests = [
     "scaleLeaf" ~: la3 ~=? scale la 3,
-    "scaleLoop" ~: Node1 FLoop la3 5 3 ~=? scale (Node1 FLoop la 5 1) 3 ]
+    "scaleLoop" ~: Node1 FLoop la3 5 3 ~=? scale (Node1 FLoop la 5 1) 3,
+    "scaleForceNoForce1" ~: la3 ~=? scaleForce la 3 8,
+    "scaleForceNoForce2" ~: Leaf "a" 3.01 ~=? scaleForce la 3.01 3,
+    "scaleForceWithForce" ~: la3 ~=? scaleForce la 3.000001 3  ]
 
 loopMeanTests = ["loopMean1" ~: Node1 PLoop la4 2.5 4 ~=? 
-                    loopMean la (Node1 PLoop la3 3 3) ]
+                    loopMean la (Node1 PLoop la3 3 3),
+                 "loopMeanRounding" ~: Node1 PLoop (Leaf "a" 12) 3.75 12 ~=? 
+                    loopMean la (Node1 PLoop la11 4 11) ]
 
 comp1 = Node2 Seq (Node1 PLoop 
                         (Leaf "Eat Chocolate" 5.0) 
@@ -503,16 +509,17 @@ validateTests = [
 verboseValidateTests = [
     "validSeq"   ~: valOk ~=?
                         verboseValidate (Node2 Seq la lb 1) ,
-    "invalidSeq" ~: ValEntry False 
-                            ("Seq 4.0 /= 1.0 in " ++ show (Node2 Seq la lb2 4)) 
+    "invalidSeq" ~: Validation{valResult=False, valMsg=
+                        ("Seq 4.0 /= 1.0 in " ++ show (Node2 Seq la lb2 4)) }
                         ~=? verboseValidate (Node2 Seq la lb2 4),
-    "invalidChoice" ~: ValEntry False 
+    "invalidChoice" ~: Validation{valResult=False, valMsg=
                             ("Choice 5.0 /= 1.0 + 2.0 in " 
-                            ++ show (Node2 Choice la lb2 5)) 
+                            ++ show (Node2 Choice la lb2 5)) }
                         ~=? verboseValidate (Node2 Choice la lb2 5),
     "validCompound" ~: valOk ~=? verboseValidate comp1 ,
-    "invalidCompound" ~: ValEntry False ("Seq 7.0 /= 1.0 in " 
-                            ++ show (Node2 Seq la lb 7) )
+    "invalidCompound" ~: Validation{valResult=False,
+                        valMsg=("Seq 7.0 /= 1.0 in " 
+                            ++ show (Node2 Seq la lb 7) ) }
                         ~=? verboseValidate (
                                 Node1 PLoop (Node2 Seq la lb 7) 3 7)
     ]

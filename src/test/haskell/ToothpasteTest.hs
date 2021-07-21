@@ -425,7 +425,7 @@ trl = [csimRule]
 
 transformInOrderTests = [
     "troLeaf" ~: la ~=? transformPT la csimRule,
-    "troChoiceNoSim" ~: (Node2 Choice la lb 2)  
+    "troChoiceNoSim" ~: Node2 Choice la lb 2  
             ~=? transformPT (Node2 Choice la lb 2) csimRule,
     "troChoiceSim" ~: la2 ~=? transformPT (Node2 Choice la la 2) csimRule,
     "troChoiceAtSeqDepth" ~:  
@@ -486,7 +486,7 @@ validateTests = [
     "validSeq"   ~: validate (Node2 Seq la lb 1) @? "val",
     "invalidSeq" ~: not ( validate (Node2 Seq la lb2 4) ) @? "inval" ,
     "validCompound1" ~: 
-        validate (comp1) @? "val",
+        validate comp1 @? "val",
     "validCompound2" ~: 
         validate ( Node2 Choice 
                        (Node2 Seq 
@@ -509,17 +509,18 @@ validateTests = [
 verboseValidateTests = [
     "validSeq"   ~: valOk ~=?
                         verboseValidate (Node2 Seq la lb 1) ,
-    "invalidSeq" ~: Validation{valResult=False, valMsg=
-                        ("Seq 4.0 /= 1.0 in " ++ show (Node2 Seq la lb2 4)) }
+    "invalidSeq" ~: Validation{valResult=False, 
+                        valMsg= "Seq 4.0 /= 1.0 in " 
+                            ++ show (Node2 Seq la lb2 4) }
                         ~=? verboseValidate (Node2 Seq la lb2 4),
-    "invalidChoice" ~: Validation{valResult=False, valMsg=
-                            ("Choice 5.0 /= 1.0 + 2.0 in " 
-                            ++ show (Node2 Choice la lb2 5)) }
+    "invalidChoice" ~: Validation{valResult=False, 
+                        valMsg="Choice 5.0 /= 1.0 + 2.0 in " 
+                            ++ show (Node2 Choice la lb2 5) }
                         ~=? verboseValidate (Node2 Choice la lb2 5),
     "validCompound" ~: valOk ~=? verboseValidate comp1 ,
     "invalidCompound" ~: Validation{valResult=False,
-                        valMsg=("Seq 7.0 /= 1.0 in " 
-                            ++ show (Node2 Seq la lb 7) ) }
+                        valMsg="Seq 7.0 /= 1.0 in " 
+                            ++ show (Node2 Seq la lb 7)  }
                         ~=? verboseValidate (
                                 Node1 PLoop (Node2 Seq la lb 7) 3 7)
     ]

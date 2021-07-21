@@ -748,35 +748,35 @@ valOk = Validation{valResult=True, valMsg="Ok"}
 verboseValidate :: (Show a) => PPTree a -> Validation
 verboseValidate (Node2 Seq x y w) 
     | w /= weight x    = Validation{valResult=False ,
-                                valMsg=("Seq " ++ show w ++ " /= " 
-                                    ++ show (weight x) ++ " in " ++ sn ) }
+                                valMsg="Seq " ++ show w ++ " /= " 
+                                    ++ show (weight x) ++ " in " ++ sn }
     | w /= weight y    = Validation{valResult=False ,
-                                valMsg=("Seq " ++ show w ++ " /= " 
-                                   ++ show (weight y) ++ " in " ++ sn ) }
+                                valMsg="Seq " ++ show w ++ " /= " 
+                                   ++ show (weight y) ++ " in " ++ sn }
     | not (validate x) = verboseValidate x
     | not (validate y) = verboseValidate y
     | validate  (Node2 Seq x y w)   = valOk
     where sn =  show (Node2 Seq x y w)
 verboseValidate (Node2 Choice x y w) 
     | w /= weight x + weight y  = Validation{valResult=False,
-                valMsg=("Choice " ++ show w ++ " /= " 
-                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn)}
+                valMsg="Choice " ++ show w ++ " /= " 
+                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn}
     | not(validate x) = verboseValidate x 
     | not(validate y) = verboseValidate y
     | validate (Node2 Choice x y w) = valOk
     where sn =  show (Node2 Choice x y w)
 verboseValidate (Node2 Conc x y w)
     | w /= weight x + weight y = Validation{valResult=False,
-                valMsg=("Conc " ++ show w ++ " /= " 
-                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn)}
+                valMsg="Conc " ++ show w ++ " /= " 
+                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn}
     | not(validate x) = verboseValidate x 
     | not(validate y) = verboseValidate y
     | validate (Node2 Conc x y w) = valOk
     where sn =  show (Node2 Conc x y w)
 verboseValidate (Node1 op x m w)
     | w /= weight x = Validation{valResult=False,
-                valMsg=("Node1 " ++ (show op) ++ " " ++ show w ++ " /= " 
-                ++ show (weight x) ) }
+                valMsg="Node1 " ++ show op ++ " " ++ show w ++ " /= " 
+                ++ show (weight x)  }
     | not(validate x) = verboseValidate x
     where sn = show (Node1 op x m w)
 verboseValidate x  = valOk

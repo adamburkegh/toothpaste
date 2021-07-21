@@ -34,8 +34,7 @@ traceIndexR (a:ta) m mx
     | not (member a m)  = traceIndexR ta (insert a (mx+1) m) (mx+1)
 
 intTrace :: (Ord e) => Trace e -> Map e Int -> Trace Int
-intTrace [] m     = []
-intTrace (x:xs) m = (fromJust (Data.Map.lookup x m) ):(intTrace xs m)
+intTrace xs m = map (\ x -> fromJust (Data.Map.lookup x m)) xs
 
 inverseMap :: Map e Int -> Map Int e
 inverseMap x = fromList (map (\(x, y) -> (y,x)) (toList x) )
@@ -47,11 +46,11 @@ logIndex lg = (rs, inverseMap m)
 logIndexR :: (Ord e) => Log e -> Map e Int -> Int -> (Log Int, Map e Int)
 logIndexR [] m _      = ([],m)
 logIndexR (t:ts) m mx 
-    | size(df)  > 0 = ((intTrace t nm):nl, union rh nm)
-    | size(df) == 0 = ((intTrace t m):zl, zm) 
+    | size df   > 0 = (intTrace t nm:nl, rh `union` nm)
+    | size df  == 0 = (intTrace t m:zl, zm) 
         where rh      = traceIndexR t m mx
               df      = difference rh m
-              (nl,nm) = logIndexR ts rh (mx+size(df))
+              (nl,nm) = logIndexR ts rh (mx+size df)
               (zl,zm) = logIndexR ts m mx
 
 

@@ -200,7 +200,7 @@ validateDebug x y r val
     | x == y = val  
     -- | x == y = debug (rulename r ++ " 000 " ++ show x) val  
     -- super-verbose option
-    where msg =  (rulename r ++ " " ++ show x ++ " => " ++ show y) 
+    where msg =  rulename r ++ " " ++ show x ++ " => " ++ show y 
 
 
 mapRuleList :: (Show a, Eq a) => PPTree a -> [TRule a] -> PPTree a 
@@ -540,7 +540,7 @@ transformWithRules x _ = x
 
 vrule :: (Show a, Eq a) => PPTree a -> TRule a -> PPTree a
 vrule x r = validateDebug x y r y
-    where y = (trule r) x
+    where y = trule r x
 
 transformPT :: (Show a, Eq a) => PPTree a -> TRule a -> PPTree a 
 transformPT (Node1 op x rp w) rl = vrule (Node1 op (transformPT x rl) rp w) rl

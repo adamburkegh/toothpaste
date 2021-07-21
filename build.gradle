@@ -73,7 +73,7 @@ jar {
 
 
 group = 'qut.pm'
-version = '0.8.2'
+version = '0.8.3'
 description = 'toothpaste'
 sourceCompatibility = '1.8'
 

@@ -105,7 +105,7 @@ duplicate string n = concat $ replicate n string
 putPPTree :: (Show a) => PPTree a -> IO ()
 putPPTree = putStrLn . formatPPTree 
 
-emptyTree :: PPTree String
+emptyTree :: PPTree a
 emptyTree = Silent 0
 
 
@@ -605,11 +605,11 @@ ncount (Node2 p a b _)  = 1 + ncount a  + ncount b
 
 -- mining
 
-traceModel :: Log String -> PPTree String
+traceModel :: (Ord a, Eq a) => Log a -> PPTree a
 traceModel = traceModelR 1 . sort 
 
 
-traceModelR :: Weight -> Log String -> PPTree String
+traceModelR :: (Eq a) => Weight -> Log a -> PPTree a
 traceModelR rf [] = emptyTree
 traceModelR rf [x] = tracePPTree rf x
 -- trace order version: inferior, but showed a rule bug
@@ -622,12 +622,15 @@ traceModelR rf (x:y:xs)
             where u1 = tracePPTree rf x 
                   u2 = traceModelR 1 (y:xs)
 
-tracePPTree :: Weight -> Trace String -> PPTree String
+tracePPTree :: Weight -> Trace a -> PPTree a
 tracePPTree rf [x] = Leaf x rf
 tracePPTree rf (x:xs) = Node2 Seq (Leaf x rf) (tracePPTree rf xs) rf
 
 discover :: Parser -> String -> PPTree String
 discover parser = transform . traceModel . parser
+
+discoverGen :: (Ord a, Eq a, Show a) => Log a -> PPTree a
+discoverGen log = transform $ traceModel log
 
 
 -- Petri Net conversion

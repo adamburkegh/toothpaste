@@ -632,6 +632,28 @@ discover parser = transform . traceModel . parser
 discoverGen :: (Ord a, Eq a, Show a) => Log a -> PPTree a
 discoverGen log = transform $ traceModel log
 
+batchIncDiscover :: (Ord a, Eq a, Show a) => Log a -> PPTree a
+batchIncDiscover []     = emptyTree
+batchIncDiscover [t]    = tracePPTree 1 t
+batchIncDiscover (t:ts) = debug ("Processing log with " ++ show (length (t:ts)) 
+                                    ++ " traces")   
+                              (batchIncDiscoverR (sort ts) 
+                                                 (transform $ tracePPTree 1 t))
+
+batchIncDiscoverR :: (Ord a, Eq a, Show a) => Log a -> PPTree a -> PPTree a 
+batchIncDiscoverR []     m = m
+batchIncDiscoverR [t]    m = incDiscover t m
+batchIncDiscoverR (t:ts) m = batchIncDiscoverR ts 
+                                            (incDiscoverDebug t (length ts) m) 
+
+incDiscoverDebug :: (Ord a, Eq a, Show a) => Trace a -> Int 
+                                                -> PPTree a -> PPTree a
+incDiscoverDebug t ct m = debug ("Processing " ++ show (weight m) ) 
+                                (incDiscover t m)
+
+incDiscover :: (Ord a, Eq a, Show a) => Trace a -> PPTree a -> PPTree a
+incDiscover t m = transform $ Node2 Choice (tracePPTree 1 t) m (1+weight m)
+
 
 -- Petri Net conversion
 -- Limited to Petri nets of Strings

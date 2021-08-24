@@ -1,7 +1,7 @@
-import ToothpasteTest (huTests)
+import BinpasteTest (huTests)
 import FlowpasteTest (huTests)
 import EventLogTest (huTests)
-import Toothpaste -- ghci convenience
+import Binpaste -- ghci convenience
 
 import System.Exit
 import Test.HUnit
@@ -9,7 +9,7 @@ import Test.HUnit
 main :: IO ()
 main = do
     results <- runTestTT $ 
-                    test (ToothpasteTest.huTests 
+                    test (BinpasteTest.huTests 
                        ++ FlowpasteTest.huTests
                        ++ EventLogTest.huTests)
     if errors results + failures results == 0 then

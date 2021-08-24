@@ -1,4 +1,4 @@
-module Toothpaste where
+module Binpaste where
 
 import PetriNet
 import EventLog

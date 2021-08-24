@@ -1,6 +1,6 @@
-module ToothpasteTest where
+module BinpasteTest where
 
-import Toothpaste hiding (main)
+import Binpaste hiding (main)
 import PetriNet
 import EventLog
 import Data.Set (Set,toList,fromList)

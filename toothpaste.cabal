@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f464cfbbc0082fc93590f0696b2247940e204a81adc0ff10919e78621c84975b
+-- hash: 648f6e8e004717ff710d876a93f5d1114a1c3602a7c1e39175ba7da620b76c17
 
 name:           toothpaste
 version:        0.8.4.0
@@ -25,12 +25,12 @@ source-repository head
 
 library
   exposed-modules:
+      Binpaste
       EventLog
       Flowpaste
       Main
       PetriNet
       ProcessFormats
-      Toothpaste
       ToString
   other-modules:
       Paths_toothpaste
@@ -48,11 +48,11 @@ library
 executable toothpaste
   main-is: Main.hs
   other-modules:
+      Binpaste
       EventLog
       Flowpaste
       PetriNet
       ProcessFormats
-      Toothpaste
       ToString
       Paths_toothpaste
   hs-source-dirs:
@@ -72,9 +72,9 @@ test-suite toothpaste-test
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
+      BinpasteTest
       EventLogTest
       FlowpasteTest
-      ToothpasteTest
       Paths_toothpaste
   hs-source-dirs:
       src/test/haskell

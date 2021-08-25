@@ -37,7 +37,7 @@ toothpasteArgs = ToothpasteArgs{
     impl      = "batch" &= help "Discovery algo. Valid values batch or incr" } 
         &=
     help "Discover stochastic models from event logs" 
-        &= summary "Toothpaste Miner 0.8.4, 2021 (GPL)" 
+        &= summary "Toothpaste Miner 0.9.0, 2021 (GPL)" 
 
 ptreeOutMain = Binpaste.inputMain
 

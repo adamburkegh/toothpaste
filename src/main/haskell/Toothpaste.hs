@@ -70,6 +70,19 @@ emptyTree = Silent 0
 
 epsilon = 0.0001
 
+-- pre: input trees are structurally equal
+-- note implementation always takes lhs for efficiency
+merge :: PPTree a -> PPTree a -> PPTree a
+merge (Leaf x w1) (Leaf y w2) = Leaf x (w1+w2)
+merge (Silent w1) (Silent w2) = Silent (w1+w2)
+merge (Node1 FLoop x r1 w1) (Node1 op2 y r2 w2)
+   = Node1 FLoop (merge x y) r1 (w1+w2)
+merge (Node1 PLoop x r1 w1) (Node1 op2 y r2 w2)
+   = Node1 PLoop (merge x y) ((w1*r1+w2*r2)/(w1+w2)) (w1+w2)
+merge (NodeN op1 ptl1 w1) (NodeN op2 ptl2 w2)
+    = NodeN op1 (foldr (\(x,y) c -> (merge x y):c) [] (zip ptl1 ptl2))  
+                (w1+w2)
+
 
 -- Rule types
 
@@ -82,15 +95,26 @@ type PPTRuleTransform a = PPTree a -> [TRule a] -> PPTree a
 
 -- Rules
 
-silentSeq :: PPTree a -> PPTree a
+silentSeq :: PRule a
 silentSeq (NodeN Seq ((Silent _):pts) w) = silentSeq (NodeN Seq pts w)
 silentSeq (NodeN Seq (pt:pts) w)         = NodeN Seq (pt:ptsr) w
             where NodeN Seq ptsr w2 = silentSeq (NodeN Seq pts w)
 silentSeq x = x
 
-singleNodeOp :: PPTree a -> PPTree a
+singleNodeOp :: PRule a
 singleNodeOp (NodeN op [u] w)  = u
 singleNodeOp x = x
+
+choiceSim :: (Eq a) => PRule a
+choiceSim (NodeN Choice ptl w)
+             | ptl /= cr  = NodeN Choice cr w
+             where cr = childSimLoop ptl
+choiceSim x = x
+
+childSimLoop :: (Eq a) => [PPTree a] -> [PPTree a]
+childSimLoop (u1:u2:ptl) | u1 =~= u2 = childSimLoop ((merge u1 u2):ptl)
+                         | otherwise = u1:(childSimLoop (u2:ptl))
+childSimLoop x = x
 
 -- Rule lists
 

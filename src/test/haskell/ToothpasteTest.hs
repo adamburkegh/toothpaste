@@ -55,6 +55,8 @@ eqTests = ["eqLeaf1" ~: Leaf "a" 1 ~=? Leaf "a" 1,
            "eqNode1" ~: cab ~=? cab,
            "eqNode2" ~: cab /= cab2 @? "neq"]
 
+-- Rule tests
+
 silentSeqTests = [
     "silentSeqNoop" ~: ccab1 ~=? silentSeq ccab1,
     "silentSeq2Seq" ~: NodeN Seq [la] 1
@@ -66,6 +68,18 @@ singleNodeOpTests = [
     "singleNodeNoop"  ~: cab2 ~=? singleNodeOp cab2 ,
     "singleNodeOpSeq" ~: la ~=? singleNodeOp (NodeN Seq [la] 1)  ]
 
+choiceSimTests = ["choiceSim1" ~: NodeN Choice [la2] 2 
+                        ~=? choiceSim(  NodeN Choice [la,la] 2),
+                 "choiceSim2" ~: cab ~=? choiceSim cab ,
+                 "choiceSim3" ~: NodeN Choice [NodeN Seq [lb2,la2] 2] 2 
+                        ~=? choiceSim cab2,
+                 "choiceSim4" ~: cab3 ~=? choiceSim cab3 ,
+                 "choiceSimLoop" ~: NodeN Choice [Node1 PLoop la2 6 2] 2
+                    ~=? choiceSim (NodeN Choice [(Node1 PLoop la 7 1),
+                                                 (Node1 PLoop la 5 1)] 2) ]
+
+
+--
 
 transformInOrderSimpleTests = [
     "transformRONoop" ~: la ~=? ssRuleOrdered la,
@@ -78,7 +92,7 @@ transformInOrderSimpleTests = [
 
 --
 
-ruleTests   = silentSeqTests ++ singleNodeOpTests
+ruleTests   = silentSeqTests ++ singleNodeOpTests ++ choiceSimTests
 
 transformTests = transformInOrderSimpleTests
 

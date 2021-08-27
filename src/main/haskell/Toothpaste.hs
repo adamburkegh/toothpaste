@@ -107,14 +107,30 @@ singleNodeOp x = x
 
 choiceSim :: (Eq a) => PRule a
 choiceSim (NodeN Choice ptl w)
-             | ptl /= cr  = NodeN Choice cr w
-             where cr = childSimLoop ptl
+    | ptl /= cr  = NodeN Choice cr w
+    where cr = choiceSimList ptl
 choiceSim x = x
 
-childSimLoop :: (Eq a) => [PPTree a] -> [PPTree a]
-childSimLoop (u1:u2:ptl) | u1 =~= u2 = childSimLoop ((merge u1 u2):ptl)
-                         | otherwise = u1:(childSimLoop (u2:ptl))
-childSimLoop x = x
+choiceSimList :: (Eq a) => [PPTree a] -> [PPTree a]
+choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList ((merge u1 u2):ptl)
+                         | otherwise = u1:(choiceSimList (u2:ptl))
+choiceSimList x = x
+
+concSim :: Eq a => PRule a
+concSim (NodeN Conc ptl w)
+    | ptl /= cr = NodeN Conc cr w
+    where cr = concSimList ptl
+concSim x = x
+
+concSimList :: (Eq a) => [PPTree a] -> [PPTree a]
+concSimList (u1:u2:ptl) 
+    | u1 =~= u2 = concSimList ((Node1 FLoop (merge u1 u2) 2 (w1+w2)):ptl)
+    | otherwise = u1:(concSimList (u2:ptl))
+        where w1 = weight u1 
+              w2 = weight u2
+concSimList x = x
+
+
 
 -- Rule lists
 

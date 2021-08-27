@@ -79,6 +79,14 @@ choiceSimTests = ["choiceSim1" ~: NodeN Choice [la2] 2
                                                  (Node1 PLoop la 5 1)] 2) ]
 
 
+concSimTests = [
+    "concSim1" ~: la ~=? concSim la,
+    "concSim2" ~: NodeN Conc [Node1 FLoop la2 2 2] 2 
+                        ~=? concSim(NodeN Conc [la,la] 2) ,
+    "concSim3" ~: NodeN Conc [la,lb] 2 ~=? concSim(NodeN Conc [la,lb] 2)  
+                ]
+
+
 --
 
 transformInOrderSimpleTests = [
@@ -92,7 +100,8 @@ transformInOrderSimpleTests = [
 
 --
 
-ruleTests   = silentSeqTests ++ singleNodeOpTests ++ choiceSimTests
+ruleTests   = silentSeqTests ++ singleNodeOpTests 
+           ++ choiceSimTests ++ concSimTests
 
 transformTests = transformInOrderSimpleTests
 

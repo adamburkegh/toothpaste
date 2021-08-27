@@ -78,7 +78,6 @@ choiceSimTests = ["choiceSim1" ~: NodeN Choice [la2] 2
                     ~=? choiceSim (NodeN Choice [(Node1 PLoop la 7 1),
                                                  (Node1 PLoop la 5 1)] 2) ]
 
-
 concSimTests = [
     "concSim1" ~: la ~=? concSim la,
     "concSim2" ~: NodeN Conc [Node1 FLoop la2 2 2] 2 
@@ -86,6 +85,15 @@ concSimTests = [
     "concSim3" ~: NodeN Conc [la,lb] 2 ~=? concSim(NodeN Conc [la,lb] 2)  
                 ]
 
+flattenTests = [
+    "leaf"          ~: la ~=? flatten la,
+    "choiceNoop"    ~: NodeN Choice [la,NodeN Seq [lb,lc] 2] 3
+                ~=? flatten (NodeN Choice [la,NodeN Seq [lb,lc] 2] 3),
+    "choiceFlatten" ~: NodeN Choice [la,lb,lc] 3 
+                ~=? flatten (NodeN Choice [la, NodeN Choice [lb,lc] 2] 3 ) ,
+    "seqFlatten" ~: NodeN Choice [la,lb,lc] 3 
+                ~=? flatten (NodeN Choice [la, NodeN Choice [lb,lc] 2] 3 ) 
+    ]
 
 --
 
@@ -102,6 +110,7 @@ transformInOrderSimpleTests = [
 
 ruleTests   = silentSeqTests ++ singleNodeOpTests 
            ++ choiceSimTests ++ concSimTests
+           ++ flattenTests
 
 transformTests = transformInOrderSimpleTests
 

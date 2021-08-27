@@ -130,6 +130,16 @@ concSimList (u1:u2:ptl)
               w2 = weight u2
 concSimList x = x
 
+flatten :: (Eq a) => PRule a
+flatten (NodeN op1 ptl w) = NodeN op1 (flattenList op1 ptl) w
+flatten x = x
+
+flattenList :: (Eq a) => POperN -> [PPTree a] -> [PPTree a]
+flattenList op1 ((NodeN op2 ptl2 w2):ptl1)
+    | op1 == op2 = ptl2 ++ (flattenList op1 ptl1)
+    | otherwise  = (NodeN op2 ptl2 w2):ptl1
+flattenList op1 (pt:ptl) = pt:(flattenList op1 ptl)
+flattenList op1 [] = []
 
 
 -- Rule lists

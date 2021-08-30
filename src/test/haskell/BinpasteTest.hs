@@ -316,26 +316,7 @@ discoverTests = [
 pin = Place "I" "pI"
 pout = Place "O" "pO"
 
-emptyWFNet = WorkflowNet (fromList []) (fromList []) (fromList []) pin pout
 tla = WTransition "a" "t2" 1
-
-vs = " == vs == "
-
-plid x = map placeId (toList (places x))
-trid x = map tranId (toList (transitions x))
-
-wfid x = show (plid x ++ trid x)
-
-cmp :: WorkflowNet -> WorkflowNet -> String
-cmp x y | x == y = "Same"
-        | show x == show y = "Id Diff: " ++ wfid x ++ vs ++ wfid y
-        | places x == places y && transitions x == transitions y
-                    && edges x /= edges y
-                = "Edge Diff: " ++ show (edges x) ++ vs ++ show (edges y)
-        | places x == places y && transitions x /= transitions y
-                = "Transition Diff: " ++ show (transitions x) 
-                        ++ vs ++ show (transitions y)
-        | otherwise = "Diff: " ++ show x ++ vs ++ show y
 
 
 pmidSeq = Place "" "p2"

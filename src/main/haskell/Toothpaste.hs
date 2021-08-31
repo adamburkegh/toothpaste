@@ -55,7 +55,7 @@ instance (Eq a) => Eq (PPTree a) where
 x =~= y = False
 
 (=$=) :: (Eq a) => [PPTree a] -> [PPTree a] -> Bool
-ptl1 =$= ptl2 = length(ptl1) == length(ptl2) 
+ptl1 =$= ptl2 = length ptl1  == length ptl2  
         && foldl (\c (pt1,pt2) -> (pt1 =~= pt2) && c) True z
     where z = zip ptl1 ptl2
 
@@ -94,7 +94,7 @@ merge (Node1 FLoop x r1 w1) (Node1 op2 y r2 w2)
 merge (Node1 PLoop x r1 w1) (Node1 op2 y r2 w2)
    = Node1 PLoop (merge x y) ((w1*r1+w2*r2)/(w1+w2)) (w1+w2)
 merge (NodeN op1 ptl1 w1) (NodeN op2 ptl2 w2)
-    = NodeN op1 (foldr (\(x,y) c -> (merge x y):c) [] (zip ptl1 ptl2))  
+    = NodeN op1 (foldr (\(x,y) c -> merge x y:c) [] (zip ptl1 ptl2))  
                 (w1+w2)
 
 
@@ -126,8 +126,8 @@ choiceSim (NodeN Choice ptl w)
 choiceSim x = x
 
 choiceSimList :: (Eq a) => [PPTree a] -> [PPTree a]
-choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList ((merge u1 u2):ptl)
-                         | otherwise = u1:(choiceSimList (u2:ptl))
+choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList (merge u1 u2:ptl)
+                          | otherwise = u1 : choiceSimList (u2:ptl)
 choiceSimList x = x
 
 concSim :: Eq a => PRule a
@@ -138,8 +138,8 @@ concSim x = x
 
 concSimList :: (Eq a) => [PPTree a] -> [PPTree a]
 concSimList (u1:u2:ptl) 
-    | u1 =~= u2 = concSimList ((Node1 FLoop (merge u1 u2) 2 (w1+w2)):ptl)
-    | otherwise = u1:(concSimList (u2:ptl))
+    | u1 =~= u2 = concSimList (Node1 FLoop (merge u1 u2) 2 (w1+w2):ptl)
+    | otherwise = u1:concSimList (u2:ptl)
         where w1 = weight u1 
               w2 = weight u2
 concSimList x = x
@@ -150,9 +150,9 @@ flatten x = x
 
 flattenList :: (Eq a) => POperN -> [PPTree a] -> [PPTree a]
 flattenList op1 ((NodeN op2 ptl2 w2):ptl1)
-    | op1 == op2 = ptl2 ++ (flattenList op1 ptl1)
-    | otherwise  = (NodeN op2 ptl2 w2):ptl1
-flattenList op1 (pt:ptl) = pt:(flattenList op1 ptl)
+    | op1 == op2 = ptl2 ++ flattenList op1 ptl1
+    | otherwise  = NodeN op2 ptl2 w2:ptl1
+flattenList op1 (pt:ptl) = pt:flattenList op1 ptl
 flattenList op1 [] = []
 
 
@@ -194,7 +194,7 @@ vrule x r = trule r x
 transformPT :: (Show a, Eq a) => PPTree a -> TRule a -> PPTree a
 transformPT (Node1 op x rp w) rl = vrule (Node1 op (transformPT x rl) rp w) rl
 transformPT (NodeN op ptl w) rl =
-    vrule (NodeN op (map (\pt -> transformPT pt rl) ptl) w) rl
+    vrule (NodeN op (map (`transformPT` rl) ptl) w) rl
 transformPT pt rl = vrule pt rl
 
 
@@ -237,8 +237,8 @@ ptreeWeightedNet (Node1 FLoop x m w) pi po idp
             px      =   ptreeWeightedNet x pi midp1 ( idp+2 )
             nx      =   ptreeWeightedNet (Node1 FLoop x (m-1) w) midp1 po
                                                         ( wnmaxnodeid px )
-        in WeightedNet (unions [(wnplaces px),(wnplaces nx),
-                               (fromList [midp1,pi,po])]) 
+        in WeightedNet (unions [wnplaces px,wnplaces nx,
+                               fromList [midp1,pi,po]]) 
                    (wntransitions px `union` wntransitions nx)
                    (wnedges px `union` wnedges nx)
                    pi po (wnmaxnodeid px)
@@ -268,11 +268,11 @@ ptreeWeightedNet (NodeN Conc ptl w) pi po idp =
     let ptlr = ptreeWeightedNetConcList ptl trantauin trantauout (idp+2)
         trantauin  = WTransition "tau" (nextid idp) w
         trantauout = WTransition "tau" (nextid (idp+1)) 1
-    in WeightedNet (unions ((map wnplaces ptlr) 
+    in WeightedNet (unions (map wnplaces ptlr 
                            ++ [fromList[pi,po]]))
-                   (unions ((map wntransitions ptlr)
+                   (unions (map wntransitions ptlr
                            ++ [fromList[trantauin,trantauout]]))
-                   (unions ((map wnedges ptlr)
+                   (unions (map wnedges ptlr
                            ++ [fromList [WToTransition pi trantauin,
                                         WToPlace trantauout po]]))
         pi po (wnmaxnodeid (last ptlr))
@@ -290,14 +290,14 @@ ptreeWeightedNet (Silent w) pi po idp
 ptreeWeightedNetChoiceList :: [PPTree String] -> Place String 
     -> Place String -> Int -> [WeightedNet]
 ptreeWeightedNetChoiceList (pt:ptl) pi po idp = 
-    ph:(ptreeWeightedNetChoiceList ptl pi po (wnmaxnodeid ph) )
+    ph:ptreeWeightedNetChoiceList ptl pi po (wnmaxnodeid ph) 
     where ph = ptreeWeightedNet pt pi po idp
 ptreeWeightedNetChoiceList [] pi po idp       = []
 
 ptreeWeightedNetSeqList :: [PPTree String] -> Place String 
     -> Place String -> Int -> [WeightedNet]
 ptreeWeightedNetSeqList (pt1:pt2:ptl) pi po idp = 
-    ph:(ptreeWeightedNetSeqList (pt2:ptl) midp1 po (wnmaxnodeid ph) )
+    ph:ptreeWeightedNetSeqList (pt2:ptl) midp1 po (wnmaxnodeid ph) 
     where ph    = ptreeWeightedNet pt1 pi midp1 (idp+1)
           midp1 = midp (idp+1)
 ptreeWeightedNetSeqList [pt] pi po idp =
@@ -310,7 +310,7 @@ ptreeWeightedNetSeqList [] pi po idp       = []
 ptreeWeightedNetConcList :: [PPTree String] -> WTransition String 
     -> WTransition String -> Int -> [WeightedNet]
 ptreeWeightedNetConcList (pt:ptl) ti to idp = 
-    php:(ptreeWeightedNetConcList ptl ti to mxid)
+    php:ptreeWeightedNetConcList ptl ti to mxid
     where iph = midp (idp+1)
           oph = midp (idp+2)
           ph    = ptreeWeightedNet pt iph oph (idp+2)

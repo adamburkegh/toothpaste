@@ -18,8 +18,8 @@ le = Leaf "e" 1
 lf = Leaf "f" 1
 lg = Leaf "g" 1
 cab = NodeN Choice [la,lb] 2
-cab2 = NodeN Choice [(NodeN Seq [lb,la] 1),(NodeN Seq [lb,la] 1)] 2
-cab3 = NodeN Choice [(NodeN Seq [lb,la] 1),(NodeN Seq [lb,lb] 1)] 2
+cab2 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,la] 1] 2
+cab3 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,lb] 1] 2
 cabc1 = NodeN Choice [la,lb,lc] 1
 saa = NodeN Seq [la,la] 1
 
@@ -79,8 +79,8 @@ choiceSimTests = ["choiceSim1" ~: NodeN Choice [la2] 2
                         ~=? choiceSim cab2,
                  "choiceSim4" ~: cab3 ~=? choiceSim cab3 ,
                  "choiceSimLoop" ~: NodeN Choice [Node1 PLoop la2 6 2] 2
-                    ~=? choiceSim (NodeN Choice [(Node1 PLoop la 7 1),
-                                                 (Node1 PLoop la 5 1)] 2) ]
+                    ~=? choiceSim (NodeN Choice [Node1 PLoop la 7 1,
+                                                 Node1 PLoop la 5 1] 2) ]
 
 concSimTests = [
     "concSim1" ~: la ~=? concSim la,
@@ -104,9 +104,9 @@ flattenTests = [
 transformInOrderSimpleTests = [
     "transformRONoop" ~: la ~=? ssRuleOrdered la,
     "transformROsilent" ~: NodeN Seq [lb2,la2] 2 
-                        ~=? ssRuleOrdered (NodeN Seq [lb2,(Silent 2),la2] 2),
+                        ~=? ssRuleOrdered (NodeN Seq [lb2,Silent 2,la2] 2),
     "transformROSilentSingle" ~: NodeN Seq [lb2,la2] 2
-            ~=? ssRuleOrdered (NodeN Seq [lb2,(NodeN Seq [la2,Silent 2] 2)] 2)]
+            ~=? ssRuleOrdered (NodeN Seq [lb2,NodeN Seq [la2,Silent 2] 2] 2)]
 
 
 -- Petri net conversion
@@ -217,7 +217,7 @@ translateTests = [
                    pin pout 4,
     "translateChoice2" ~:
         translate (NodeN Choice [la,
-                                (NodeN Choice [lb,lc] 2)] 3)
+                                NodeN Choice [lb,lc] 2] 3)
         ~=?  WeightedNet (fromList [pin,pout]) (fromList [tca,tcb1,tcc])
                   (fromList [WToTransition pin tca, WToPlace tca pout,
                              WToTransition pin tcb1, WToPlace tcb1 pout,

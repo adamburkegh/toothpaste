@@ -1,9 +1,13 @@
 module ToothpasteTest where
 
+import PetriNet
+import Toothpaste hiding (main)
+
+import Data.List (sort)
+import Data.Set (Set,toList,fromList)
 import System.Exit
 import Test.HUnit
 
-import Toothpaste hiding (main)
 
 
 la = Leaf "a" 1
@@ -105,6 +109,137 @@ transformInOrderSimpleTests = [
             ~=? ssRuleOrdered (NodeN Seq [lb2,(NodeN Seq [la2,Silent 2] 2)] 2)]
 
 
+-- Petri net conversion
+pin = Place "I" "pI"
+pout = Place "O" "pO"
+
+tla = WTransition "a" "t2" 1
+
+pmidSeq  = Place "" "p2"
+pmidSeq2 = Place "" "p4"
+tsa = WTransition "a" "t3" 1
+tsb4 = WTransition "b" "t4" 1
+tsb5 = WTransition "b" "t5" 1
+tsc = WTransition "c" "t6" 1
+
+tca = WTransition "a" "t3" 1
+tcb = WTransition "b" "t4" 1
+
+tcb1 = WTransition "b" "t5" 1
+tcc = WTransition "c" "t6" 1
+
+pmidLoop1 = Place "" "p2"
+pmidLoop2 = Place "" "p3"
+tlpa = WTransition "a" "t6" 5
+ttauin1 = WTransition "tauin" "t4" 1
+ttauout2 = WTransition "tauout" "t5" 1
+
+
+pmidConcain = Place "" "p4"
+pmidConcaout = Place "" "p5"
+pmidConcbin = Place "" "p7"
+pmidConcbout = Place "" "p8"
+tcoa = WTransition "a" "t6" 1
+tcob = WTransition "b" "t9" 1
+ttauin2= WTransition "tau" "t2" 2
+ttauout3 = WTransition "tau" "t3" 1
+translateConcExpected =
+    WeightedNet (fromList[pin,pout,pmidConcain,pmidConcaout,
+                          pmidConcbin,pmidConcbout])
+                (fromList[tcoa,tcob,ttauin2,ttauout3])
+                (fromList[WToTransition pin ttauin2,
+                          WToPlace ttauin2 pmidConcain, 
+                          WToPlace ttauin2 pmidConcbin,
+                          WToTransition pmidConcain tcoa,
+                          WToTransition pmidConcbin tcob,
+                          WToPlace tcoa pmidConcaout, 
+                          WToPlace tcob pmidConcbout,
+                          WToTransition pmidConcaout ttauout3,
+                          WToTransition pmidConcbout ttauout3,
+                          WToPlace ttauout3 pout])
+                pin pout 9
+
+vs = " \n== vs == \n"
+
+plid x = map placeId (toList (wnplaces x))
+trid x = map wtranId (toList (wntransitions x))
+
+vshowEdge :: (Show a) => WEdge a -> String
+vshowEdge (WToPlace t p) = show (wtranId t) ++ "->" ++ show (placeId p)
+vshowEdge (WToTransition p t) = show (placeId p) ++ "->" ++ show (wtranId t)
+
+eid x  = map vshowEdge (toList (wnedges x))
+
+wnid x = show( sort (plid x ++ trid x) ) 
+
+cmpWN :: WeightedNet -> WeightedNet -> String
+cmpWN x y | x == y = "Same"
+          | show x == show y = "Id Diff:\n" ++ wnid x ++ vs ++ wnid y
+          | wnplaces x == wnplaces y && wntransitions x == wntransitions y
+                    && wnedges x /= wnedges y
+                = "Edge Diff:\n" ++ show (wnedges x) ++ vs ++ show (wnedges y)
+          | wnplaces x == wnplaces y && wntransitions x /= wntransitions y
+                = "Transition Diff:\n" ++ show (wntransitions x)
+                        ++ vs ++ show (wntransitions y)
+          | otherwise = "Diff:\n" ++ show x ++ vs ++ show y
+
+diffWN :: WeightedNet -> WeightedNet -> IO ()
+diffWN x y = putStrLn (cmpWN x y)
+
+
+translateTests = [
+    "translateLeaf" ~: translate la ~=?
+                    WeightedNet (fromList [pin,pout]) (fromList [tla])
+                                (fromList [WToTransition pin tla,
+                                           WToPlace tla pout]) pin pout 2,
+    "translateSeq" ~: 
+          WeightedNet (fromList [pin,pmidSeq,pout]) (fromList [tsa,tsb4])
+                      (fromList [WToTransition pin tsa, WToPlace tsa pmidSeq,
+                                 WToTransition pmidSeq tsb4,
+                                 WToPlace tsb4 pout] )
+                                 pin pout 4
+                       ~=? translate (NodeN Seq [la,lb] 1)  ,
+    "translateSeq3" ~: 
+          WeightedNet (fromList[pin,pmidSeq,pmidSeq2,pout])
+                      (fromList[tsa,tsb5,tsc])
+                      (fromList [WToTransition pin tsa, 
+                                 WToPlace tsa pmidSeq,
+                                 WToTransition pmidSeq tsb5,
+                                 WToPlace tsb5 pmidSeq2,
+                                 WToTransition pmidSeq2 tsc,
+                                 WToPlace tsc pout] )
+                                 pin pout 6
+                    ~=? translate (NodeN Seq [la,lb,lc] 1) ,
+    "translateChoice1" ~: translate (NodeN Choice [la,lb] 2) ~=?
+        WeightedNet (fromList [pin,pout]) (fromList [tca,tcb])
+                  (fromList [WToTransition pin tca, WToPlace tca pout,
+                             WToTransition pin tcb, WToPlace tcb pout] )
+                   pin pout 4,
+    "translateChoice2" ~:
+        translate (NodeN Choice [la,
+                                (NodeN Choice [lb,lc] 2)] 3)
+        ~=?  WeightedNet (fromList [pin,pout]) (fromList [tca,tcb1,tcc])
+                  (fromList [WToTransition pin tca, WToPlace tca pout,
+                             WToTransition pin tcb1, WToPlace tcb1 pout,
+                             WToTransition pin tcc, WToPlace tcc pout] )
+                   pin pout 6,
+    "translateLoop" ~:
+        WeightedNet (fromList [pin,pout,pmidLoop1])
+                 (fromList [tlpa, ttauin1, ttauout2])
+                 (fromList [WToTransition pin ttauin1,
+                            WToPlace ttauin1 pmidLoop1,
+                            WToTransition pmidLoop1 tlpa,
+                            WToPlace tlpa pmidLoop1,
+                            WToTransition pmidLoop1 ttauout2,
+                            WToPlace ttauout2 pout])
+                   pin pout 6
+                   ~=? translate (Node1 PLoop la 5 1) ,
+    "translateConc" ~: translateConcExpected
+                   ~=?  translate (NodeN Conc [la,lb] 2)
+
+    ]
+
+
 
 --
 
@@ -116,6 +251,7 @@ transformTests = transformInOrderSimpleTests
 
 huTests     = eqTests
             ++ transformTests
+            ++ translateTests
             ++ ruleTests
 
 

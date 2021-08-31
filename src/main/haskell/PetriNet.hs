@@ -42,7 +42,7 @@ data WTransition a
       deriving (Eq, Ord)
 instance (Show a, Typeable a) => Show (WTransition a) where
   show (WTransition a nodeId weight) = "t" ++ toString a 
-        ++ " : " ++ show weight 
+        ++ ":" ++ show weight 
 
 toTransition :: WTransition a -> Transition a
 toTransition wt = Transition (wtransitionName wt) (wtranId wt)  

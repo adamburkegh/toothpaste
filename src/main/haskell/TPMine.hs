@@ -19,13 +19,18 @@ debug = trace
 -- TODO sort and consolidate
 traceModel :: (Ord a, Eq a) => Log a -> PPTree a
 traceModel lg = NodeN Choice ul ulw
-    where ul  = map (\t -> tracePPTree 1 t) lg
+    where ul  = traceConsolidate $ sort lg
           ulw = sum (map weight ul)
+
+traceConsolidate :: (Eq a) => Log a -> [PPTree a]
+traceConsolidate (t1:t2:lg) 
+    | t1 == t2 = (tracePPTree 2 t1):(traceConsolidate lg)
+    | t1 /= t2 = (tracePPTree 1 t1):(traceConsolidate (t2:lg))
+traceConsolidate [t] = [tracePPTree 1 t]
+traceConsolidate []  = []
 
 tracePPTree :: Weight -> Trace a -> PPTree a
 tracePPTree rf t = NodeN Seq (map (\e -> Leaf e rf) t) rf
--- tracePPTree rf [x] = Leaf x rf
--- tracePPTree rf (x:xs) = NodeN Seq   [Leaf x rf:tracePPTree rf xs] rf
 
 discover :: Parser -> String -> PPTree String
 discover parser = transform . traceModel . parser

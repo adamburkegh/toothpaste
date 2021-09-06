@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 88b71696a7ecb5cb0f3f3a6486bc5548fbe6889c3c033dcaf1c0a2d47a3902c5
+-- hash: 08f7dbe1dd03e7d666db0e9bfc83ecad54d45afe0b6c762646e832c54c924287
 
 name:           toothpaste
 version:        0.9.0.0
@@ -33,6 +33,7 @@ library
       ProcessFormats
       Toothpaste
       ToString
+      TPMine
   other-modules:
       Paths_toothpaste
   hs-source-dirs:
@@ -56,6 +57,7 @@ executable toothpaste
       ProcessFormats
       Toothpaste
       ToString
+      TPMine
       Paths_toothpaste
   hs-source-dirs:
       src/main/haskell
@@ -78,6 +80,7 @@ test-suite toothpaste-test
       EventLogTest
       FlowpasteTest
       ToothpasteTest
+      TPMineTest
       Paths_toothpaste
   hs-source-dirs:
       src/test/haskell

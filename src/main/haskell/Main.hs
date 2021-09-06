@@ -6,6 +6,8 @@ import Data.Map (Map,lookup)
 import Data.Maybe (fromJust)
 import Binpaste 
 import Flowpaste hiding (main)
+import Toothpaste hiding (main)
+import TPMine
 import EventLog
 import ProcessFormats
 import System.Console.CmdArgs
@@ -23,7 +25,7 @@ data Model = Stochastic | ControlFlow
         deriving (Show,Eq)
 
 
-data Impl = Incr | Batch
+data Impl = Incr | Batch | MNode
         deriving (Show,Eq)
 
 toothpasteArgs = ToothpasteArgs{
@@ -55,38 +57,61 @@ modelSelector mstr | mstr == "stoch" = Stochastic
 implSelector :: String -> Impl
 implSelector istr | istr == "incr"  = Incr
                   | istr == "batch" = Batch
+                  | istr == "mnode" = MNode
                   | otherwise       = Batch
 
-pptree :: ToothpasteArgs -> String -> PPTree String
-pptree tpargs = Binpaste.discover (parseSelector $ logformat tpargs)
-
-pptreeIntToStr :: PPTree Int -> Map Int String -> PPTree String
-pptreeIntToStr (Binpaste.Leaf x n) m       = 
+-- Binpaste invocation
+pptreeIntToStrB :: Binpaste.PPTree Int -> Map Int String 
+    -> Binpaste.PPTree String
+pptreeIntToStrB (Binpaste.Leaf x n) m       = 
     Binpaste.Leaf (fromJust (Data.Map.lookup x m)) n
-pptreeIntToStr (Binpaste.Silent n) _       = Binpaste.Silent n
-pptreeIntToStr (Binpaste.Node1 op x r n) m = 
-    Binpaste.Node1 op (pptreeIntToStr x m) r n
-pptreeIntToStr (Binpaste.Node2 op x y n) m = 
-    Binpaste.Node2 op (pptreeIntToStr x m) (pptreeIntToStr y m) n
+pptreeIntToStrB (Binpaste.Silent n) _       = Binpaste.Silent n
+pptreeIntToStrB (Binpaste.Node1 op x r n) m = 
+    Binpaste.Node1 op (pptreeIntToStrB x m) r n
+pptreeIntToStrB (Binpaste.Node2 op x y n) m = 
+    Binpaste.Node2 op (pptreeIntToStrB x m) (pptreeIntToStrB y m) n
 
-
-ptreeOnIntBatch :: ToothpasteArgs -> String -> PPTree String
-ptreeOnIntBatch tpargs rawlog = 
-                    pptreeIntToStr (Binpaste.discoverGen intlog) m
+ptreeOnIntBatchB :: ToothpasteArgs -> String -> Binpaste.PPTree String
+ptreeOnIntBatchB tpargs rawlog = 
+                    pptreeIntToStrB (Binpaste.discoverGen intlog) m
         where   strlog     = (parseSelector $ logformat tpargs) rawlog
                 (intlog,m) = logIndex strlog
 
 
-ptreeOnIntInc :: ToothpasteArgs -> String -> PPTree String
+ptreeOnIntInc :: ToothpasteArgs -> String -> Binpaste.PPTree String
 ptreeOnIntInc tpargs rawlog   = 
-                    pptreeIntToStr (Binpaste.batchIncDiscover intlog) m
+                    pptreeIntToStrB (Binpaste.batchIncDiscover intlog) m
         where   strlog     = (parseSelector $ logformat tpargs) rawlog
                 (intlog,m) = logIndex strlog
 
+
+-- Toothpaste invocation (some redundancy with Binpaste)
+pptreeIntToStr :: Toothpaste.PPTree Int -> Map Int String 
+    -> Toothpaste.PPTree String
+pptreeIntToStr (Toothpaste.Leaf x n) m       = 
+    Toothpaste.Leaf (fromJust (Data.Map.lookup x m)) n
+pptreeIntToStr (Toothpaste.Silent n) _       = Toothpaste.Silent n
+pptreeIntToStr (Toothpaste.Node1 op x r n) m = 
+    Toothpaste.Node1 op (pptreeIntToStr x m) r n
+pptreeIntToStr (Toothpaste.NodeN op ptl n) m = 
+    Toothpaste.NodeN op (pptreeIntToStrList ptl m) n
+
+pptreeIntToStrList :: [Toothpaste.PPTree Int] -> Map Int String 
+    -> [Toothpaste.PPTree String]
+pptreeIntToStrList ptl m = map (\pt -> pptreeIntToStr pt m) ptl
+
+ptreeOnIntBatch :: ToothpasteArgs -> String -> Toothpaste.PPTree String
+ptreeOnIntBatch tpargs rawlog = 
+                    pptreeIntToStr (TPMine.discoverGen intlog) m
+        where   strlog     = (parseSelector $ logformat tpargs) rawlog
+                (intlog,m) = logIndex strlog
+
+
+
+
+-- Flowpaste
 ptree ::  ToothpasteArgs -> String -> PTree String
 ptree tpargs = Flowpaste.discover (parseSelector $ logformat tpargs)
-
-
 
 
 mine :: ToothpasteArgs -> String -> (String, String)
@@ -97,14 +122,18 @@ mine tpargs logtext
     | model == Stochastic && algo == Incr = 
          (formatPPTree ppti, 
           weightedNetToString (Binpaste.translate ppti) "spn" )
+    | model == Stochastic && algo == MNode = 
+         (formatPPTree ppti, 
+          weightedNetToString (TPMine.translate pptm) "spn" ) 
     | model == ControlFlow = 
         (formatPTree pt,  petriNetToString (Flowpaste.translate pt) "pnet" )
     where model  = modelSelector $ modeltype tpargs 
           parser = parseSelector $ logformat tpargs
           algo   = implSelector  $ impl tpargs
           -- ppt    = Binpaste.discover parser logtext
-          pptb   = ptreeOnIntBatch tpargs logtext
+          pptb   = ptreeOnIntBatchB tpargs logtext
           ppti   = ptreeOnIntInc   tpargs logtext
+          pptm   = ptreeOnIntBatch tpargs logtext
           pt     = Flowpaste.discover  parser logtext
 
 

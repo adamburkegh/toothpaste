@@ -97,6 +97,31 @@ merge (NodeN op1 ptl1 w1) (NodeN op2 ptl2 w2)
     = NodeN op1 (foldr (\(x,y) c -> merge x y:c) [] (zip ptl1 ptl2))  
                 (w1+w2)
 
+-- Pretty printing
+indentStr = "  "
+
+formatWeight :: Weight -> String
+formatWeight n = ":" ++ show n ++ "\n"
+
+formatPPTree :: (Show a) => PPTree a -> String
+formatPPTree x = formatPPTreeIndent x 0
+
+formatPPTreeIndent :: (Show a) => PPTree a -> Int -> String
+formatPPTreeIndent (Leaf x n) indent =
+    duplicate indentStr indent ++ show x ++ formatWeight n
+formatPPTreeIndent (Silent n) indent =
+    duplicate indentStr indent ++ tau ++ formatWeight n
+formatPPTreeIndent (Node1 op x r n) indent =
+    duplicate indentStr indent ++ show op ++ "[" ++ show r ++ "]"
+        ++ formatWeight n
+        ++ formatPPTreeIndent x (indent+1)
+formatPPTreeIndent (NodeN op ptl n) indent =
+    duplicate indentStr indent ++ show op  ++ formatWeight n
+        ++ (foldl (++) "" 
+                (map (\pt -> formatPPTreeIndent pt (indent+1) ) ptl ) )
+
+duplicate string n = concat $ replicate n string
+
 
 -- Rule types
 

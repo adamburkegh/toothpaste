@@ -117,13 +117,13 @@ ptree tpargs = Flowpaste.discover (parseSelector $ logformat tpargs)
 mine :: ToothpasteArgs -> String -> (String, String)
 mine tpargs logtext
     | model == Stochastic && algo == Batch = 
-        (formatPPTree pptb, 
+        (Binpaste.formatPPTree pptb, 
          weightedNetToString (Binpaste.translate pptb) "spn" )
     | model == Stochastic && algo == Incr = 
-         (formatPPTree ppti, 
+         (Binpaste.formatPPTree ppti, 
           weightedNetToString (Binpaste.translate ppti) "spn" )
     | model == Stochastic && algo == MNode = 
-         (formatPPTree ppti, 
+         (Toothpaste.formatPPTree pptm, 
           weightedNetToString (TPMine.translate pptm) "spn" ) 
     | model == ControlFlow = 
         (formatPTree pt,  petriNetToString (Flowpaste.translate pt) "pnet" )

@@ -16,7 +16,6 @@ debug = trace
 -- debug x y = y
 
 -- Mining
--- TODO sort and consolidate
 traceModel :: (Ord a, Eq a) => Log a -> PPTree a
 traceModel lg = NodeN Choice ul ulw
     where ul  = traceConsolidate $ sort lg

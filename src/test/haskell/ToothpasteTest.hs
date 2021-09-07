@@ -1,6 +1,5 @@
 module ToothpasteTest where
 
-import PetriNet
 import Toothpaste hiding (main)
 
 import Data.List (sort)
@@ -20,6 +19,7 @@ lg = Leaf "g" 1
 cab = NodeN Choice [la,lb] 2
 cab2 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,la] 1] 2
 cab3 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,lb] 1] 2
+cab4 = NodeN Choice [NodeN Seq [lb,la,lc] 1,NodeN Seq [lb,lb,lb] 1] 2
 cabc1 = NodeN Choice [la,lb,lc] 1
 saa = NodeN Seq [la,la] 1
 
@@ -89,6 +89,46 @@ concSimTests = [
     "concSim3" ~: NodeN Conc [la,lb] 2 ~=? concSim(NodeN Conc [la,lb] 2)  
                 ]
 
+choiceFoldPrefixTests = [
+    "choiceFold1" ~: choiceFoldPrefix la ~=? la,
+    "choiceFold2" ~: choiceFoldPrefix cab  ~=? cab,
+    "choiceFoldEmptyTailSeq" ~: 
+        NodeN Choice [NodeN Seq [lb2, NodeN Choice [NodeN Seq [la] 1,
+                                                    NodeN Seq [la] 1] 2] 
+                             2] 2 
+                            ~=? choiceFoldPrefix cab2 ,
+    "choiceFoldLeftoverSeq" ~: 
+        NodeN Choice [NodeN Seq [lb2,
+                      NodeN Choice [NodeN Seq [la,lc] 1,
+                                    NodeN Seq [lb,lb] 1] 2] 
+              2] 2 
+                            ~=? choiceFoldPrefix cab4 ,
+    "choiceFoldPrefixMore4Choices" ~:
+        NodeN Choice [NodeN Seq [la,lb] 1,
+                      NodeN Seq [lb2, 
+                                 NodeN Choice [NodeN Seq [lc] 1,
+                                               NodeN Seq [ld] 1] 2] 2,
+                      NodeN Seq [la,lb] 1] 4
+            ~=? choiceFoldPrefix (NodeN Choice [NodeN Seq [la,lb] 1,
+                                               NodeN Seq [lb,lc] 1,
+                                               NodeN Seq [lb,ld] 1,
+                                               NodeN Seq [la,lb] 1] 4),
+    "choiceFoldId1" ~: choiceSim (choiceFoldPrefix cab2) /= 
+                            choiceFoldPrefix (choiceSim cab2) @? "neq" ]
+
+{-
+    "choiceFoldLongSuffix" ~:
+           Node2 Seq (NodeN Choice (Node2 Seq la
+                                              (Node2 Seq lb lc 1) 1)
+                                   (Node2 Seq le
+                                              (Node2 Seq lf lg 1) 1)
+                                   2)
+                      ld2 2
+                            ~=? choiceFold (Node2 Choice sabcd sefgd 2)  -}
+
+
+--
+
 flattenTests = [
     "leaf"          ~: la ~=? flatten la,
     "choiceNoop"    ~: NodeN Choice [la,NodeN Seq [lb,lc] 2] 3
@@ -109,90 +149,12 @@ transformInOrderSimpleTests = [
             ~=? ssRuleOrdered (NodeN Seq [lb2,NodeN Seq [la2,Silent 2] 2] 2)]
 
 
--- Petri net conversion
-pin = Place "I" "pI"
-pout = Place "O" "pO"
-
-tla = WTransition "a" "t2" 1
-
-pmidSeq  = Place "" "p2"
-pmidSeq2 = Place "" "p4"
-tsa = WTransition "a" "t3" 1
-tsb4 = WTransition "b" "t4" 1
-tsb5 = WTransition "b" "t5" 1
-tsc = WTransition "c" "t6" 1
-
-tca = WTransition "a" "t3" 1
-tcb = WTransition "b" "t4" 1
-
-tcb1 = WTransition "b" "t5" 1
-tcc = WTransition "c" "t6" 1
-
-pmidLoop1 = Place "" "p2"
-pmidLoop2 = Place "" "p3"
-tlpa = WTransition "a" "t6" 5
-ttauin1 = WTransition "tauin" "t4" 1
-ttauout2 = WTransition "tauout" "t5" 1
-
-
-pmidConcain = Place "" "p4"
-pmidConcaout = Place "" "p5"
-pmidConcbin = Place "" "p7"
-pmidConcbout = Place "" "p8"
-tcoa = WTransition "a" "t6" 1
-tcob = WTransition "b" "t9" 1
-ttauin2= WTransition "tau" "t2" 2
-ttauout3 = WTransition "tau" "t3" 1
-translateConcExpected =
-    WeightedNet (fromList[pin,pout,pmidConcain,pmidConcaout,
-                          pmidConcbin,pmidConcbout])
-                (fromList[tcoa,tcob,ttauin2,ttauout3])
-                (fromList[WToTransition pin ttauin2,
-                          WToPlace ttauin2 pmidConcain, 
-                          WToPlace ttauin2 pmidConcbin,
-                          WToTransition pmidConcain tcoa,
-                          WToTransition pmidConcbin tcob,
-                          WToPlace tcoa pmidConcaout, 
-                          WToPlace tcob pmidConcbout,
-                          WToTransition pmidConcaout ttauout3,
-                          WToTransition pmidConcbout ttauout3,
-                          WToPlace ttauout3 pout])
-                pin pout 9
-
-vs = " \n== vs == \n"
-
-plid x = map placeId (toList (wnplaces x))
-trid x = map wtranId (toList (wntransitions x))
-
-vshowEdge :: (Show a) => WEdge a -> String
-vshowEdge (WToPlace t p) = show (wtranId t) ++ "->" ++ show (placeId p)
-vshowEdge (WToTransition p t) = show (placeId p) ++ "->" ++ show (wtranId t)
-
-eid x  = map vshowEdge (toList (wnedges x))
-
-wnid x = show( sort (plid x ++ trid x) ) 
-
-cmpWN :: WeightedNet -> WeightedNet -> String
-cmpWN x y | x == y = "Same"
-          | show x == show y = "Id Diff:\n" ++ wnid x ++ vs ++ wnid y
-          | wnplaces x == wnplaces y && wntransitions x == wntransitions y
-                    && wnedges x /= wnedges y
-                = "Edge Diff:\n" ++ show (wnedges x) ++ vs ++ show (wnedges y)
-          | wnplaces x == wnplaces y && wntransitions x /= wntransitions y
-                = "Transition Diff:\n" ++ show (wntransitions x)
-                        ++ vs ++ show (wntransitions y)
-          | otherwise = "Diff:\n" ++ show x ++ vs ++ show y
-
-diffWN :: WeightedNet -> WeightedNet -> IO ()
-diffWN x y = putStrLn (cmpWN x y)
-
-
-
 
 --
 
 ruleTests   = silentSeqTests ++ singleNodeOpTests 
            ++ choiceSimTests ++ concSimTests
+           ++ choiceFoldPrefixTests
            ++ flattenTests
 
 transformTests = transformInOrderSimpleTests

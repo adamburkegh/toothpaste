@@ -181,6 +181,29 @@ flattenList op1 (pt:ptl) = pt:flattenList op1 ptl
 flattenList op1 [] = []
 
 
+seqPrefixMerge :: (Eq a) => [PPTree a] -> [PPTree a]
+seqPrefixMerge ((NodeN Seq (pt1:ptl1) w1):(NodeN Seq (pt2:ptl2) w2):ptl)
+    | pt1 =~= pt2 && (ptl1 /= [] || ptl2 /= [])
+          = ((NodeN Seq [(merge pt1 pt2),
+                       (NodeN Choice [NodeN Seq ptl1 w1,
+                                      NodeN Seq ptl2 w2] nw)] nw):
+                     (seqPrefixMerge ptl))
+    | pt1 =~= pt2 && (ptl1 == [] && ptl2 == []) 
+         = (merge pt1 pt2):(seqPrefixMerge ptl)
+    | otherwise = (NodeN Seq (pt1:ptl1) w1):
+                  (seqPrefixMerge ((NodeN Seq (pt2:ptl2) w2):ptl))
+    where nw = (w1+w2)
+seqPrefixMerge ptl = ptl
+
+
+choiceFoldPrefix :: (Eq a, Ord a) => PRule a
+choiceFoldPrefix (NodeN Choice ptl w)
+    | ptl /= nptl = NodeN Choice nptl w
+        where nptl = seqPrefixMerge ptl
+choiceFoldPrefix x = x
+
+
+
 -- Rule lists
 
 baseRuleList :: (Eq a, Ord a) => [TRule a]
@@ -188,7 +211,8 @@ baseRuleList = [
             TRule{rulename="silentSeq",trule=silentSeq},
             TRule{rulename="singleNodeOp",trule=singleNodeOp},
             TRule{rulename="choiceSim",trule=choiceSim},
-            TRule{rulename="concSim",trule=concSim}
+            TRule{rulename="concSim",trule=concSim},
+            TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix}
             ]
 
 ruleList :: (Show a, Eq a, Ord a) => [TRule a]

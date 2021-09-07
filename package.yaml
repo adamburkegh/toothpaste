@@ -1,7 +1,7 @@
 name:                toothpaste
 version:             0.9.0.0
 github:              "githubuser/adamburkegh"
-license:             BSD3
+license:             GPL-3
 author:              "Adam Burke"
 maintainer:          
 copyright:           "2020 Adam Burke"
@@ -37,7 +37,7 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-    - -O2
+      # - -O2
     dependencies:
     - toothpaste
 

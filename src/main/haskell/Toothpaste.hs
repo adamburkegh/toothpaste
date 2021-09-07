@@ -169,6 +169,26 @@ concSimList (u1:u2:ptl)
               w2 = weight u2
 concSimList x = x
 
+-- no loops of substrings >= 2
+fixedLoopRoll :: Eq a => PRule a
+fixedLoopRoll (NodeN Seq (u1:ptl) w) 
+    | nptl /= ptl && (length nptl) > 1  = NodeN Seq nptl w
+    | nptl /= ptl && (length nptl) == 1 = head nptl
+    where nptl = fixedLoopRollList ptl u1 1
+fixedLoopRoll x = x    
+
+fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Int -> [PPTree a]
+fixedLoopRollList (u1:ptl) prev ct 
+    | u1 == prev            = fixedLoopRollList ptl prev (ct+1)
+    | u1 /= prev && ct > 1  = 
+            (Node1 FLoop prev (fromIntegral ct) (weight prev)):
+                        (fixedLoopRollList ptl u1 1)
+    | u1 /= prev && ct <= 1 = prev:(fixedLoopRollList ptl u1 1)
+fixedLoopRollList [] prev ct 
+    | ct  > 1 = [Node1 FLoop prev (fromIntegral ct) (weight prev)]
+    | ct <= 1 = [prev]
+
+
 flatten :: (Eq a) => PRule a
 flatten (NodeN op1 ptl w) = NodeN op1 (flattenList op1 ptl) w
 flatten x = x
@@ -232,11 +252,12 @@ baseRuleList :: (Eq a, Ord a) => [TRule a]
 baseRuleList = [
             TRule{rulename="silentSeq",trule=silentSeq},
             TRule{rulename="singleNodeOp",trule=singleNodeOp},
+            TRule{rulename="flatten",trule=flatten},
+            TRule{rulename="fixedLoopRoll", trule=fixedLoopRoll},
             TRule{rulename="choiceSim",trule=choiceSim},
             TRule{rulename="concSim",trule=concSim},
             TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix},
-            TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
-            TRule{rulename="flatten",trule=flatten}
+            TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix}
             ]
 
 ruleList :: (Show a, Eq a, Ord a) => [TRule a]

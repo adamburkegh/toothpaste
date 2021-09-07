@@ -22,7 +22,8 @@ cab3 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,lb] 1] 2
 cab4 = NodeN Choice [NodeN Seq [lb,la,lc] 1,NodeN Seq [lb,lb,lb] 1] 2
 cabc1 = NodeN Choice [la,lb,lc] 1
 saa = NodeN Seq [la,la] 1
-
+saaa = NodeN Seq [la,la,la] 1
+saaat = NodeN Seq [la,NodeN Seq [la,la] 1] 1
 
 
 sab = NodeN Seq [la,lb] 1
@@ -127,6 +128,14 @@ choiceFoldPrefixTests = [
                       ld2 2
                             ~=? choiceFold (Node2 Choice sabcd sefgd 2)  -}
 
+fixedLoopRollTests = [
+    "floopRoll1" ~: fixedLoopRoll la ~=? la,
+    "floopRoll2" ~: Node1 FLoop la 2 1 ~=? fixedLoopRoll saa , 
+    "floopRoll3" ~: Node1 FLoop la 3 1
+                            ~=? fixedLoopRoll saaa ,
+    "floopRollMid1" ~: saaat ~=? fixedLoopRoll saaat   ]
+
+
 
 --
 
@@ -166,6 +175,7 @@ transformInOrderSimpleTests = [
 ruleTests   = silentSeqTests ++ singleNodeOpTests 
            ++ choiceSimTests ++ concSimTests
            ++ choiceFoldPrefixTests
+           ++ fixedLoopRollTests
            ++ flattenTests
 
 transformTests = transformInOrderSimpleTests

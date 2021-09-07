@@ -37,6 +37,7 @@ la11 = Leaf "a" 11
 lb2 = Leaf "b" 2
 lb3 = Leaf "b" 3
 lc2 = Leaf "c" 2
+lc3 = Leaf "c" 3
 ld2 = Leaf "d" 2
 loopa1 = Node1 FLoop la 1 1
 
@@ -130,14 +131,24 @@ choiceFoldPrefixTests = [
 --
 
 flattenTests = [
-    "leaf"          ~: la ~=? flatten la,
-    "choiceNoop"    ~: NodeN Choice [la,NodeN Seq [lb,lc] 2] 3
-                ~=? flatten (NodeN Choice [la,NodeN Seq [lb,lc] 2] 3),
+    "leaf"        ~: la ~=? flatten la,
+    "choiceNoop"  ~: NodeN Choice [la,NodeN Seq [lb,lc] 2] 3
+                  ~=? flatten (NodeN Choice [la,NodeN Seq [lb,lc] 2] 3),
     "choiceFlatten" ~: NodeN Choice [la,lb,lc] 3 
-                ~=? flatten (NodeN Choice [la, NodeN Choice [lb,lc] 2] 3 ) ,
-    "seqFlatten" ~: NodeN Choice [la,lb,lc] 3 
-                ~=? flatten (NodeN Choice [la, NodeN Choice [lb,lc] 2] 3 ) 
-    ]
+                  ~=? flatten (NodeN Choice [la, NodeN Choice [lb,lc] 2] 3 ) ,
+    "seqFlatten" ~: NodeN Seq [la,lb,lc] 3 
+                   ~=? flatten (NodeN Seq [la, NodeN Seq [lb,lc] 2] 3 ),
+    "mixFlatten" ~: NodeN Choice [la,lb,lc,ld] 4 
+                  ~=? flatten (NodeN Choice [la, NodeN Choice [lb,lc] 2, ld] 4),
+    "compound"  ~: NodeN Choice [NodeN Seq [la,lb] 1,
+                                 NodeN Seq [lb,ld] 1,
+                                 NodeN Seq [ld,lb] 1] 3
+                  ~=? flatten ( NodeN Choice 
+                                    [NodeN Choice 
+                                           [NodeN Seq [la,lb] 1,
+                                           NodeN Seq [lb,ld] 1] 2, 
+                                    NodeN Seq [ld,lb] 1] 3) ]
+               
 
 --
 

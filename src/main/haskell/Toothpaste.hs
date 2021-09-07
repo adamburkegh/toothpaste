@@ -195,12 +195,34 @@ seqPrefixMerge ((NodeN Seq (pt1:ptl1) w1):(NodeN Seq (pt2:ptl2) w2):ptl)
     where nw = (w1+w2)
 seqPrefixMerge ptl = ptl
 
-
 choiceFoldPrefix :: (Eq a, Ord a) => PRule a
 choiceFoldPrefix (NodeN Choice ptl w)
     | ptl /= nptl = NodeN Choice nptl w
         where nptl = seqPrefixMerge ptl
 choiceFoldPrefix x = x
+
+-- Warning last is O(N) on lists
+seqSuffixMerge :: (Eq a) => [PPTree a] -> [PPTree a]
+seqSuffixMerge ((NodeN Seq ptl1 w1):(NodeN Seq ptl2 w2):ptl)
+    | pt1 =~= pt2 = ((NodeN Seq [(NodeN Choice [NodeN Seq nptl1 w1,
+                                                NodeN Seq nptl2 w2] nw),
+                                 merge pt1 pt2] nw):
+                     (seqSuffixMerge ptl))
+    | otherwise = (NodeN Seq ptl1 w1):
+                  (seqSuffixMerge ((NodeN Seq ptl2 w2):ptl))
+     where pt1 = last ptl1
+           pt2 = last ptl2
+           nptl1 = fst $ splitAt ((length ptl1)-1) ptl1
+           nptl2 = fst $ splitAt ((length ptl2)-1) ptl2
+           nw = w1+w2
+seqSuffixMerge ptl = ptl
+
+-- duplication across prefix suffix folds and maybe other choice
+choiceFoldSuffix :: (Eq a, Ord a) => PRule a
+choiceFoldSuffix (NodeN Choice ptl w)
+    | ptl /= nptl = NodeN Choice nptl w
+        where nptl = seqSuffixMerge ptl
+choiceFoldSuffix x = x
 
 
 
@@ -212,7 +234,9 @@ baseRuleList = [
             TRule{rulename="singleNodeOp",trule=singleNodeOp},
             TRule{rulename="choiceSim",trule=choiceSim},
             TRule{rulename="concSim",trule=concSim},
-            TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix}
+            TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix},
+            TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
+            TRule{rulename="flatten",trule=flatten}
             ]
 
 ruleList :: (Show a, Eq a, Ord a) => [TRule a]

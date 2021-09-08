@@ -169,11 +169,10 @@ concSimList (u1:u2:ptl)
               w2 = weight u2
 concSimList x = x
 
--- no loops of substrings >= 2
+-- no loops of subseq >= 2
 fixedLoopRoll :: Eq a => PRule a
 fixedLoopRoll (NodeN Seq (u1:ptl) w) 
-    | nptl /= ptl && (length nptl) > 1  = NodeN Seq nptl w
-    | nptl /= ptl && (length nptl) == 1 = head nptl
+    | nptl /= ptl = NodeN Seq nptl w
     where nptl = fixedLoopRollList ptl u1 1
 fixedLoopRoll x = x    
 
@@ -186,6 +185,25 @@ fixedLoopRollList (u1:ptl) prev ct
     | u1 /= prev && ct <= 1 = prev:(fixedLoopRollList ptl u1 1)
 fixedLoopRollList [] prev ct 
     | ct  > 1 = [Node1 FLoop prev (fromIntegral ct) (weight prev)]
+    | ct <= 1 = [prev]
+
+
+-- no loops of subseq >= 2
+probLoopRoll :: Eq a => PRule a
+probLoopRoll (NodeN Seq (u1:ptl) w) 
+    | nptl /= ptl = NodeN Seq nptl w
+    where nptl = probLoopRollList ptl u1 1
+probLoopRoll x = x    
+
+probLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Int -> [PPTree a]
+probLoopRollList (u1:ptl) prev ct 
+    | u1 == prev            = probLoopRollList ptl prev (ct+1)
+    | u1 /= prev && ct > 1  = 
+            (Node1 PLoop prev (fromIntegral ct) (weight prev)):
+                        (probLoopRollList ptl u1 1)
+    | u1 /= prev && ct <= 1 = prev:(probLoopRollList ptl u1 1)
+probLoopRollList [] prev ct 
+    | ct  > 1 = [Node1 PLoop prev (fromIntegral ct) (weight prev)]
     | ct <= 1 = [prev]
 
 loopFixToProb :: PRule a
@@ -287,6 +305,7 @@ baseRuleList = [
             TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix},
             TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
             TRule{rulename="loopNest",trule=loopNest},
+            TRule{rulename="loopGeo",trule=loopGeo},
             TRule{rulename="loopFixToProb", trule=loopFixToProb}
             ]
 

@@ -25,7 +25,6 @@ saa = NodeN Seq [la,la] 1
 saaa = NodeN Seq [la,la,la] 1
 saaat = NodeN Seq [la,NodeN Seq [la,la] 1] 1
 
-
 sab = NodeN Seq [la,lb] 1
 sba = NodeN Seq [lb,la] 1
 
@@ -130,10 +129,24 @@ choiceFoldPrefixTests = [
 
 fixedLoopRollTests = [
     "floopRoll1" ~: fixedLoopRoll la ~=? la,
-    "floopRoll2" ~: Node1 FLoop la 2 1 ~=? fixedLoopRoll saa , 
-    "floopRoll3" ~: Node1 FLoop la 3 1
+    "floopRoll2" ~: NodeN Seq [Node1 FLoop la 2 1] 1 ~=? fixedLoopRoll saa , 
+    "floopRoll3" ~: NodeN Seq [Node1 FLoop la 3 1] 1
                             ~=? fixedLoopRoll saaa ,
-    "floopRollMid1" ~: saaat ~=? fixedLoopRoll saaat   ]
+    "floopRollMid1" ~: saaat ~=? fixedLoopRoll saaat ,
+    "floopRollMid2" ~: NodeN Seq [lb,Node1 FLoop la 3 1] 1 
+                ~=? fixedLoopRoll (NodeN Seq [lb,la,la,la] 1)
+        ]
+
+probLoopRollTests = [
+    "ploopRoll1" ~: la ~=? probLoopRoll la ,
+    "ploopRoll2" ~: NodeN Seq [Node1 PLoop la 2 1] 1
+                        ~=? probLoopRoll saa ,
+    "ploopRoll3" ~: NodeN Seq [Node1 PLoop la 3 1] 1
+                        ~=? probLoopRoll saaa ,
+    "ploopRollMid1" ~: saaat ~=? probLoopRoll saaat ,
+    "ploopRollMid2" ~: NodeN Seq [lb,Node1 PLoop la 3 1] 1 
+                ~=? probLoopRoll (NodeN Seq [lb,la,la,la] 1)
+    ]
 
 loopNestTests = [
     "loopNestFF1" ~: Node1 FLoop la 6 5
@@ -208,6 +221,7 @@ ruleTests   = silentSeqTests ++ singleNodeOpTests
            ++ choiceSimTests ++ concSimTests
            ++ choiceFoldPrefixTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
+           ++ probLoopRollTests
            ++ flattenTests
 
 transformTests = transformInOrderSimpleTests

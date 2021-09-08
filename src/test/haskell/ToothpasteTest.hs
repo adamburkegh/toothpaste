@@ -145,6 +145,29 @@ loopNestTests = [
     "loopNestPP1" ~: Node1 PLoop la 30 5
         ~=? loopNest (Node1 PLoop (Node1 PLoop la 10 5) 3 5)   ]
 
+loopGeoTests = [
+    "loopGeoNull" ~: la ~=? loopGeo la,
+    "loopGeoSim" ~: NodeN Choice [Node1 PLoop lb2 3 2] 2
+        ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
+                                   Node1 FLoop lb 4 1] 2),
+    "loopGeoId" ~: NodeN Choice [Node1 PLoop lb2 2 2] 2
+        ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
+                                   Node1 FLoop lb 2 1] 2),
+    "loopGeoNe" ~: loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
+                                          Node1 FLoop la 4 1] 2)
+        ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
+                                   Node1 FLoop la 4 1] 2),
+    -- FLoop / PLoop merge depends on PLoop conversion 
+    "loopGeo3" ~: NodeN Choice [Node1 PLoop lb2 3 2, Node1 FLoop lb 3 1] 3
+        ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
+                                   Node1 FLoop lb 4 1,
+                                   Node1 FLoop lb 3 1] 3),
+    "loopGeoPartial" ~: NodeN Choice [Node1 PLoop la2 3 2, lb] 3
+        ~=? loopGeo (NodeN Choice [Node1 FLoop la 2 1,
+                                   Node1 FLoop la 4 1,
+                                   lb] 3)
+    ]
+
 
 --
 
@@ -184,7 +207,7 @@ transformInOrderSimpleTests = [
 ruleTests   = silentSeqTests ++ singleNodeOpTests 
            ++ choiceSimTests ++ concSimTests
            ++ choiceFoldPrefixTests
-           ++ fixedLoopRollTests ++ loopNestTests
+           ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ flattenTests
 
 transformTests = transformInOrderSimpleTests

@@ -200,6 +200,22 @@ loopNest (Node1 PLoop (Node1 op x rf wf) rp wp)
     | op == FLoop || op == PLoop = Node1 PLoop x (rf*rp) wp
 loopNest x = x
 
+loopGeo :: (Eq a) => PRule a
+loopGeo (NodeN Choice ptl w)
+    | ptl /= cr = NodeN Choice cr w
+    where cr = loopGeoList ptl
+loopGeo x = x
+
+loopGeoList :: (Eq a) => [PPTree a] -> [PPTree a]
+loopGeoList ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl) 
+    | u1 =~= u2 = loopGeoList  (
+                    (Node1 PLoop (merge u1 u2) 
+                                 (((r1*w1)+(r2*w2))/(w1+w2)) 
+                                 (w1+w2) )
+                    :ptl)
+    | otherwise = u1 : loopGeoList (u2:ptl)
+loopGeoList x = x
+
 
 flatten :: (Eq a) => PRule a
 flatten (NodeN op1 ptl w) = NodeN op1 (flattenList op1 ptl) w
@@ -262,9 +278,9 @@ choiceFoldSuffix x = x
 
 baseRuleList :: (Eq a, Ord a) => [TRule a]
 baseRuleList = [
-            TRule{rulename="silentSeq",trule=silentSeq},
             TRule{rulename="singleNodeOp",trule=singleNodeOp},
             TRule{rulename="flatten",trule=flatten},
+            TRule{rulename="silentSeq",trule=silentSeq},
             TRule{rulename="fixedLoopRoll", trule=fixedLoopRoll},
             TRule{rulename="choiceSim",trule=choiceSim},
             TRule{rulename="concSim",trule=concSim},

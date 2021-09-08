@@ -337,10 +337,23 @@ maxTransformRuleOrder x rules | x == y      = x
 
 
 vrule :: (Show a, Eq a) => PPTree a -> TRule a -> PPTree a
-vrule x r = trule r x
+-- vrule x r = trule r x
 -- validation disabled
--- vrule x r = validateDebug x y r y
---     where y = trule r x
+vrule x r = validateDebug x y r y
+     where y = trule r x
+
+validateDebug :: (Eq a, Show a) => PPTree a -> PPTree a -> TRule r -> b -> b
+validateDebug x y r val
+    | x /= y && validate y       = debug msg val
+    | x /= y && not (validate y) =
+        debug ("*** invalid tree *** "
+                ++ valMsg (verboseValidate y)
+                ++ " :: " ++ msg) val
+    | x == y = val
+    -- | x == y = debug (rulename r ++ " 000 " ++ show x) val
+    -- super-verbose option
+    where msg =  rulename r ++ " " ++ show x ++ " => " ++ show y
+
 
 transformPT :: (Show a, Eq a) => PPTree a -> TRule a -> PPTree a
 transformPT (Node1 op x rp w) rl = vrule (Node1 op (transformPT x rl) rp w) rl
@@ -369,38 +382,35 @@ validate x = True
 validateList :: [PPTree a] -> Bool
 validateList ptl = foldl (&&) True (map validate ptl)
 
-{-
 data Validation = Validation{valResult::Bool, valMsg:: String}
     deriving (Show,Eq)
 valOk = Validation{valResult=True, valMsg="Ok"}
 verboseValidate :: (Show a) => PPTree a -> Validation
 verboseValidate (NodeN Seq ptl w)
-    | w /= weight x    = Validation{valResult=False ,
+    | validate  (NodeN Seq ptl w)  = valOk
+    | (length sw) /= 1 || w /= (head sw) 
+                    = Validation{valResult=False ,
                                 valMsg="Seq " ++ show w ++ " /= "
-                                    ++ show (weight x) ++ " in " ++ sn }
-    | w /= weight y    = Validation{valResult=False ,
-                                valMsg="Seq " ++ show w ++ " /= "
-                                   ++ show (weight y) ++ " in " ++ sn }
-    | not (validate x) = verboseValidate x
-    | not (validate y) = verboseValidate y
-    | validate  (Node2 Seq x y w)   = valOk
-    where sn =  show (Node2 Seq x y w)
-verboseValidate (Node2 Choice x y w)
-    | w /= weight x + weight y  = Validation{valResult=False,
-                valMsg="Choice " ++ show w ++ " /= "
-                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn}
-    | not(validate x) = verboseValidate x
-    | not(validate y) = verboseValidate y
-    | validate (Node2 Choice x y w) = valOk
-    where sn =  show (Node2 Choice x y w)
-verboseValidate (Node2 Conc x y w)
-    | w /= weight x + weight y = Validation{valResult=False,
-                valMsg="Conc " ++ show w ++ " /= "
-                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn}
-    | not(validate x) = verboseValidate x
-    | not(validate y) = verboseValidate y
-    | validate (Node2 Conc x y w) = valOk
-    where sn =  show (Node2 Conc x y w)
+                                    ++ (show sw) ++ " in " ++ sn }
+    | not (validateList ptl) = verboseValidateList ptl
+    where sn =  show (NodeN Seq ptl w)
+          sw = nub $ map weight ptl
+verboseValidate (NodeN Choice ptl w)
+    | validate (NodeN Choice ptl w) = valOk
+    | w /= ws = Validation{valResult=False,
+                    valMsg="Choice " ++ show w ++ " /= "
+                        ++ show (ws) ++ " in " ++ sn}
+    | not(validateList ptl) = verboseValidateList ptl
+    where sn =  show (NodeN Choice ptl w)
+          ws = sum $ map weight ptl
+verboseValidate (NodeN Conc ptl w)
+    | validate (NodeN Conc ptl w) = valOk
+    | w /= ws = Validation{valResult=False,
+                    valMsg="Conc " ++ show w ++ " /= "
+                        ++ show (ws) ++ " in " ++ sn}
+    | not(validateList ptl) = verboseValidateList ptl
+    where sn =  show (NodeN Conc ptl w)
+          ws = sum $ map weight ptl
 verboseValidate (Node1 op x m w)
     | w /= weight x = Validation{valResult=False,
                 valMsg="Node1 " ++ show op ++ " " ++ show w ++ " /= "
@@ -408,6 +418,14 @@ verboseValidate (Node1 op x m w)
     | not(validate x) = verboseValidate x
     where sn = show (Node1 op x m w)
 verboseValidate x  = valOk
--}
+
+verboseValidateList :: (Show a) => [PPTree a] -> Validation
+verboseValidateList (pt:ptl) 
+    | validate pt       = verboseValidateList ptl
+    | not (validate pt) = Validation{
+                              valResult=False, 
+                              valMsg=(valMsg $ verboseValidate pt) 
+                                  ++ (valMsg $ verboseValidateList ptl) }
+verboseValidateList []  = valOk
 
 

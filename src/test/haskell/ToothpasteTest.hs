@@ -135,6 +135,15 @@ fixedLoopRollTests = [
                             ~=? fixedLoopRoll saaa ,
     "floopRollMid1" ~: saaat ~=? fixedLoopRoll saaat   ]
 
+loopNestTests = [
+    "loopNestFF1" ~: Node1 FLoop la 6 5
+        ~=? loopNest (Node1 FLoop (Node1 FLoop la 2 5) 3 5),
+    "loopNestFP1" ~: Node1 PLoop la 6 5
+        ~=? loopNest (Node1 FLoop (Node1 PLoop la 2 5) 4 5),
+    "loopNestPF1" ~: Node1 PLoop la 40 5
+        ~=? loopNest (Node1 PLoop (Node1 FLoop la 10 5) 4 5),
+    "loopNestPP1" ~: Node1 PLoop la 30 5
+        ~=? loopNest (Node1 PLoop (Node1 PLoop la 10 5) 3 5)   ]
 
 
 --
@@ -175,7 +184,7 @@ transformInOrderSimpleTests = [
 ruleTests   = silentSeqTests ++ singleNodeOpTests 
            ++ choiceSimTests ++ concSimTests
            ++ choiceFoldPrefixTests
-           ++ fixedLoopRollTests
+           ++ fixedLoopRollTests ++ loopNestTests
            ++ flattenTests
 
 transformTests = transformInOrderSimpleTests

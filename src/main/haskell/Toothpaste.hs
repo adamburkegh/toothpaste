@@ -188,6 +188,18 @@ fixedLoopRollList [] prev ct
     | ct  > 1 = [Node1 FLoop prev (fromIntegral ct) (weight prev)]
     | ct <= 1 = [prev]
 
+loopFixToProb :: PRule a
+loopFixToProb (Node1 FLoop x m w) = Node1 PLoop x m w
+loopFixToProb x = x
+
+loopNest :: PRule a
+loopNest (Node1 FLoop (Node1 FLoop x r1 w1) r2 w2) = Node1 FLoop x (r1*r2) w2
+loopNest (Node1 FLoop (Node1 PLoop x rp wp) rf wf)
+    | rf > 1 = Node1 PLoop x (rp*(rf-1)) wf
+loopNest (Node1 PLoop (Node1 op x rf wf) rp wp)
+    | op == FLoop || op == PLoop = Node1 PLoop x (rf*rp) wp
+loopNest x = x
+
 
 flatten :: (Eq a) => PRule a
 flatten (NodeN op1 ptl w) = NodeN op1 (flattenList op1 ptl) w
@@ -257,7 +269,9 @@ baseRuleList = [
             TRule{rulename="choiceSim",trule=choiceSim},
             TRule{rulename="concSim",trule=concSim},
             TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix},
-            TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix}
+            TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
+            TRule{rulename="loopNest",trule=loopNest},
+            TRule{rulename="loopFixToProb", trule=loopFixToProb}
             ]
 
 ruleList :: (Show a, Eq a, Ord a) => [TRule a]

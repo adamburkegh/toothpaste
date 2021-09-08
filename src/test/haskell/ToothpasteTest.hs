@@ -213,6 +213,47 @@ transformInOrderSimpleTests = [
     "transformROSilentSingle" ~: NodeN Seq [lb2,la2] 2
             ~=? ssRuleOrdered (NodeN Seq [lb2,NodeN Seq [la2,Silent 2] 2] 2)]
 
+--
+
+comp1 = NodeN Seq [Node1 PLoop
+                        (Leaf "Eat Chocolate" 5.0)
+                        1.8 5.0,
+                   NodeN Choice
+                        [NodeN Seq
+                            [Leaf "Clean Teeth" 2.0,
+                             Leaf "Grow Fat" 2.0]
+                            2.0,
+                         NodeN Seq
+                            [Leaf "Grow Fat" 3.0,
+                             Leaf "Clean Teeth" 3.0]
+                            3.0]
+                        5.0]
+              5.0
+
+
+validateTests = [
+    "validSeq"   ~: validate (NodeN Seq [la,lb,lc] 1) @? "val",
+    "invalidSeqWeight" ~: not ( validate (NodeN Seq [la,lb2] 4) ) @? "inval" ,
+    "validCompound1" ~: validate comp1 @? "val",
+    "validCompound2" ~:
+        validate ( NodeN Choice
+                       [NodeN Seq
+                            [Node1 PLoop
+                                (Leaf "Eat Chocolate" 3.0) 1.3333334 3.0,
+                             NodeN Seq
+                                [Leaf "Grow Fat" 3.0,
+                                 Leaf "Clean Teeth" 3.0]
+                                3.0]
+                            3.0,
+                        NodeN Seq
+                            [Node1 PLoop
+                                (Leaf "Eat Chocolate" 2.0) 2.5 2.0,
+                             NodeN Seq [Leaf "Clean Teeth" 2.0,
+                                        Leaf "Grow Fat" 2.0] 
+                                   2.0 ] 
+                              2.0 ] 
+                        5.0) @? "val"
+                    ]
 
 
 --
@@ -229,5 +270,6 @@ transformTests = transformInOrderSimpleTests
 huTests     = eqTests
             ++ transformTests
             ++ ruleTests
+            ++ validateTests
 
 

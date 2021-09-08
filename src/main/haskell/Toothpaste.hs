@@ -2,6 +2,7 @@ module Toothpaste where
 
 import PetriNet -- mainly for Weight
 import Debug.Trace
+import Data.List (nub)
 import Data.Set (fromList,union,unions)
 
 -- debug and trace
@@ -306,7 +307,8 @@ baseRuleList = [
             TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
             TRule{rulename="loopNest",trule=loopNest},
             TRule{rulename="loopGeo",trule=loopGeo},
-            TRule{rulename="loopFixToProb", trule=loopFixToProb}
+            TRule{rulename="loopFixToProb", trule=loopFixToProb},
+            TRule{rulename="probLoopRoll", trule=loopFixToProb}
             ]
 
 ruleList :: (Show a, Eq a, Ord a) => [TRule a]
@@ -353,5 +355,59 @@ ncount (Silent _) = 1
 ncount (Node1 op a _ _) = 1 + ncount a
 ncount (NodeN op ptl _)  = 1 + foldl (\c pt -> c + ncount pt) 0 ptl
 
+
+
+validate :: PPTree a -> Bool
+validate (NodeN Seq ptl w)
+    = w == (head sw) && length sw == 1 && validateList ptl
+    where sw = nub $ map weight ptl
+validate (NodeN Choice ptl w) = w == sum (map weight ptl) && validateList ptl
+validate (NodeN Conc ptl w)   = w == sum (map weight ptl) && validateList ptl
+validate (Node1 op x m w)     = w == weight x && validate x
+validate x = True
+
+validateList :: [PPTree a] -> Bool
+validateList ptl = foldl (&&) True (map validate ptl)
+
+{-
+data Validation = Validation{valResult::Bool, valMsg:: String}
+    deriving (Show,Eq)
+valOk = Validation{valResult=True, valMsg="Ok"}
+verboseValidate :: (Show a) => PPTree a -> Validation
+verboseValidate (NodeN Seq ptl w)
+    | w /= weight x    = Validation{valResult=False ,
+                                valMsg="Seq " ++ show w ++ " /= "
+                                    ++ show (weight x) ++ " in " ++ sn }
+    | w /= weight y    = Validation{valResult=False ,
+                                valMsg="Seq " ++ show w ++ " /= "
+                                   ++ show (weight y) ++ " in " ++ sn }
+    | not (validate x) = verboseValidate x
+    | not (validate y) = verboseValidate y
+    | validate  (Node2 Seq x y w)   = valOk
+    where sn =  show (Node2 Seq x y w)
+verboseValidate (Node2 Choice x y w)
+    | w /= weight x + weight y  = Validation{valResult=False,
+                valMsg="Choice " ++ show w ++ " /= "
+                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn}
+    | not(validate x) = verboseValidate x
+    | not(validate y) = verboseValidate y
+    | validate (Node2 Choice x y w) = valOk
+    where sn =  show (Node2 Choice x y w)
+verboseValidate (Node2 Conc x y w)
+    | w /= weight x + weight y = Validation{valResult=False,
+                valMsg="Conc " ++ show w ++ " /= "
+                ++ show (weight x) ++ " + " ++ show (weight y) ++ " in " ++ sn}
+    | not(validate x) = verboseValidate x
+    | not(validate y) = verboseValidate y
+    | validate (Node2 Conc x y w) = valOk
+    where sn =  show (Node2 Conc x y w)
+verboseValidate (Node1 op x m w)
+    | w /= weight x = Validation{valResult=False,
+                valMsg="Node1 " ++ show op ++ " " ++ show w ++ " /= "
+                ++ show (weight x)  }
+    | not(validate x) = verboseValidate x
+    where sn = show (Node1 op x m w)
+verboseValidate x  = valOk
+-}
 
 

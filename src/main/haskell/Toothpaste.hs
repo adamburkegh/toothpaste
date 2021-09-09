@@ -98,6 +98,15 @@ merge (NodeN op1 ptl1 w1) (NodeN op2 ptl2 w2)
     = NodeN op1 (foldr (\(x,y) c -> merge x y:c) [] (zip ptl1 ptl2))  
                 (w1+w2)
 
+scale :: PPTree a -> Float -> PPTree a
+scale (Leaf x w) g = Leaf x (w*g)
+scale (Silent w) g = Silent (w*g)
+scale (Node1 op x r w) g = Node1 op (scale x g) r (w*g)
+scale (NodeN op ptl w) g = NodeN op (map (\pt -> scale pt g) ptl) (w*g)
+
+seqMerge :: PPTree a -> PPTree a -> PPTree a
+seqMerge x y = scale (merge x y) 0.5
+
 -- Pretty printing
 indentStr = "  "
 
@@ -186,13 +195,15 @@ fixedLoopRollList (u1:ptl) prev ct
     | u1 == prev            = fixedLoopRollList ptl prev (ct+1)
     | u1 /= prev  = (fixedLoopRollEndPattern prev ct):
                             (fixedLoopRollList ptl u1 1)
-fixedLoopRollList [] prev ct 
-    = [fixedLoopRollEndPattern prev ct]
+fixedLoopRollList [] prev ct = [fixedLoopRollEndPattern prev ct]
+
+loopRollEndPattern :: (Eq a) => PPTree a -> Float -> POper1 -> PPTree a
+loopRollEndPattern prev ct poper
+    | ct > 1  = (Node1 poper prev ct (weight prev))
+    | ct <= 1 = prev
 
 fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
-fixedLoopRollEndPattern prev ct 
-    | ct > 1  = (Node1 FLoop prev ct (weight prev))
-    | ct <= 1 = prev
+fixedLoopRollEndPattern prev ct = loopRollEndPattern prev ct FLoop 
 
 
 -- no loops of subseq >= 2
@@ -202,16 +213,21 @@ probLoopRoll (NodeN Seq (u1:ptl) w)
     where nptl = probLoopRollList ptl u1 1
 probLoopRoll x = x    
 
-probLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Int -> [PPTree a]
+probLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
+probLoopRollList ((Node1 PLoop u1 r1 w1):ptl) prev ct
+    | u1 =~= prev = probLoopRollList ptl (seqMerge u1 prev) (ct+r1-1)
+    | not(u1 =~= prev) = (probLoopRollEndPattern prev ct):
+                         (probLoopRollList ptl u1 r1)
 probLoopRollList (u1:ptl) prev ct 
-    | u1 == prev            = probLoopRollList ptl prev (ct+1)
-    | u1 /= prev && ct > 1  = 
-            (Node1 PLoop prev (fromIntegral ct) (weight prev)):
-                        (probLoopRollList ptl u1 1)
-    | u1 /= prev && ct <= 1 = prev:(probLoopRollList ptl u1 1)
-probLoopRollList [] prev ct 
-    | ct  > 1 = [Node1 PLoop prev (fromIntegral ct) (weight prev)]
-    | ct <= 1 = [prev]
+    | u1 =~= prev            = probLoopRollList ptl (seqMerge u1 prev) (ct+1)
+    | not (u1 =~= prev) = (probLoopRollEndPattern prev ct):
+                            (probLoopRollList ptl u1 1)
+probLoopRollList [] prev ct = [probLoopRollEndPattern prev ct]
+     
+
+probLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
+probLoopRollEndPattern prev ct = loopRollEndPattern prev ct PLoop
+
 
 loopFixToProb :: PRule a
 loopFixToProb (Node1 FLoop x m w) = Node1 PLoop x m w

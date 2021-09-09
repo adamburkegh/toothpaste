@@ -147,7 +147,15 @@ probLoopRollTests = [
                         ~=? probLoopRoll saaa ,
     "ploopRollMid1" ~: saaat ~=? probLoopRoll saaat ,
     "ploopRollMid2" ~: NodeN Seq [lb,Node1 PLoop la 3 1] 1 
-                ~=? probLoopRoll (NodeN Seq [lb,la,la,la] 1)
+                ~=? probLoopRoll (NodeN Seq [lb,la,la,la] 1),
+    "ploopRollSim" ~: NodeN Seq [lb3,
+                                 Node1 PLoop (NodeN Choice 
+                                                    [Leaf "a" 1.5,
+                                                     Leaf "b" 1.5] 3) 2 3,
+                                 la3] 3
+                ~=? probLoopRoll (NodeN Seq [lb3,NodeN Choice [la2,lb] 3,
+                                                 NodeN Choice [la,lb2] 3, 
+                                                la3] 3)
     ]
 
 loopNestTests = [

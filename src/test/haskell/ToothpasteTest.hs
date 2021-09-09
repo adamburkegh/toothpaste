@@ -134,7 +134,9 @@ fixedLoopRollTests = [
                             ~=? fixedLoopRoll saaa ,
     "floopRollMid1" ~: saaat ~=? fixedLoopRoll saaat ,
     "floopRollMid2" ~: NodeN Seq [lb,Node1 FLoop la 3 1] 1 
-                ~=? fixedLoopRoll (NodeN Seq [lb,la,la,la] 1)
+                ~=? fixedLoopRoll (NodeN Seq [lb,la,la,la] 1),
+    "floopRollPartial" ~: NodeN Seq [lb,Node1 FLoop la 5 1] 1 
+                ~=? fixedLoopRoll (NodeN Seq [lb,Node1 FLoop la 3 1,la,la] 1)
         ]
 
 probLoopRollTests = [

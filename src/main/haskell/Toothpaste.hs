@@ -177,16 +177,22 @@ fixedLoopRoll (NodeN Seq (u1:ptl) w)
     where nptl = fixedLoopRollList ptl u1 1
 fixedLoopRoll x = x    
 
-fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Int -> [PPTree a]
+fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
+fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct 
+    | u1 == prev = fixedLoopRollList ptl prev (ct+r1-1)
+    | u1 /= prev = (fixedLoopRollEndPattern prev ct):
+                        (fixedLoopRollList ptl u1 r1) 
 fixedLoopRollList (u1:ptl) prev ct 
     | u1 == prev            = fixedLoopRollList ptl prev (ct+1)
-    | u1 /= prev && ct > 1  = 
-            (Node1 FLoop prev (fromIntegral ct) (weight prev)):
-                        (fixedLoopRollList ptl u1 1)
-    | u1 /= prev && ct <= 1 = prev:(fixedLoopRollList ptl u1 1)
+    | u1 /= prev  = (fixedLoopRollEndPattern prev ct):
+                            (fixedLoopRollList ptl u1 1)
 fixedLoopRollList [] prev ct 
-    | ct  > 1 = [Node1 FLoop prev (fromIntegral ct) (weight prev)]
-    | ct <= 1 = [prev]
+    = [fixedLoopRollEndPattern prev ct]
+
+fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
+fixedLoopRollEndPattern prev ct 
+    | ct > 1  = (Node1 FLoop prev ct (weight prev))
+    | ct <= 1 = prev
 
 
 -- no loops of subseq >= 2

@@ -23,13 +23,13 @@ traceModel lg = NodeN Choice ul ulw
 
 traceConsolidate :: (Eq a) => Log a -> [PPTree a]
 traceConsolidate (t1:t2:lg) 
-    | t1 == t2 = (tracePPTree 2 t1):(traceConsolidate lg)
-    | t1 /= t2 = (tracePPTree 1 t1):(traceConsolidate (t2:lg))
+    | t1 == t2 = tracePPTree 2 t1:traceConsolidate lg
+    | t1 /= t2 = tracePPTree 1 t1:traceConsolidate (t2:lg)
 traceConsolidate [t] = [tracePPTree 1 t]
 traceConsolidate []  = []
 
 tracePPTree :: Weight -> Trace a -> PPTree a
-tracePPTree rf t = NodeN Seq (map (\e -> Leaf e rf) t) rf
+tracePPTree rf t = NodeN Seq (map (`Leaf` rf) t) rf
 
 discover :: Parser -> String -> PPTree String
 discover parser = transform . traceModel . parser

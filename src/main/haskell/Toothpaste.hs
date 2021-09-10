@@ -102,7 +102,7 @@ scale :: PPTree a -> Float -> PPTree a
 scale (Leaf x w) g = Leaf x (w*g)
 scale (Silent w) g = Silent (w*g)
 scale (Node1 op x r w) g = Node1 op (scale x g) r (w*g)
-scale (NodeN op ptl w) g = NodeN op (map (\pt -> scale pt g) ptl) (w*g)
+scale (NodeN op ptl w) g = NodeN op (map (`scale` g) ptl) (w*g)
 
 seqMerge :: PPTree a -> PPTree a -> PPTree a
 seqMerge x y = scale (merge x y) 0.5
@@ -127,8 +127,7 @@ formatPPTreeIndent (Node1 op x r n) indent =
         ++ formatPPTreeIndent x (indent+1)
 formatPPTreeIndent (NodeN op ptl n) indent =
     duplicate indentStr indent ++ show op  ++ formatWeight n
-        ++ (foldl (++) "" 
-                (map (\pt -> formatPPTreeIndent pt (indent+1) ) ptl ) )
+        ++ concatMap (\pt -> formatPPTreeIndent pt (indent+1) ) ptl  
 
 duplicate string n = concat $ replicate n string
 
@@ -193,17 +192,17 @@ fixedLoopRoll x = x
 fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
 fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct 
     | u1 == prev = fixedLoopRollList ptl prev (ct+r1-1)
-    | u1 /= prev = (fixedLoopRollEndPattern prev ct):
-                        (fixedLoopRollList ptl u1 r1) 
+    | u1 /= prev = fixedLoopRollEndPattern prev ct:
+                        fixedLoopRollList ptl u1 r1
 fixedLoopRollList (u1:ptl) prev ct 
     | u1 == prev            = fixedLoopRollList ptl prev (ct+1)
-    | u1 /= prev  = (fixedLoopRollEndPattern prev ct):
-                            (fixedLoopRollList ptl u1 1)
+    | u1 /= prev  = fixedLoopRollEndPattern prev ct:
+                            fixedLoopRollList ptl u1 1
 fixedLoopRollList [] prev ct = [fixedLoopRollEndPattern prev ct]
 
 loopRollEndPattern :: (Eq a) => PPTree a -> Float -> POper1 -> PPTree a
 loopRollEndPattern prev ct poper
-    | ct > 1  = (Node1 poper prev ct (weight prev))
+    | ct > 1  = Node1 poper prev ct (weight prev)
     | ct <= 1 = prev
 
 fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
@@ -220,12 +219,12 @@ probLoopRoll x = x
 probLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
 probLoopRollList ((Node1 PLoop u1 r1 w1):ptl) prev ct
     | u1 =~= prev = probLoopRollList ptl (seqMerge u1 prev) (ct+r1-1)
-    | not(u1 =~= prev) = (probLoopRollEndPattern prev ct):
-                         (probLoopRollList ptl u1 r1)
+    | not(u1 =~= prev) = probLoopRollEndPattern prev ct:
+                           probLoopRollList ptl u1 r1
 probLoopRollList (u1:ptl) prev ct 
     | u1 =~= prev            = probLoopRollList ptl (seqMerge u1 prev) (ct+1)
-    | not (u1 =~= prev) = (probLoopRollEndPattern prev ct):
-                            (probLoopRollList ptl u1 1)
+    | not (u1 =~= prev) = probLoopRollEndPattern prev ct:
+                            probLoopRollList ptl u1 1
 probLoopRollList [] prev ct = [probLoopRollEndPattern prev ct]
      
 
@@ -251,9 +250,9 @@ loopGeo = choiceChildMR loopGeoList
 loopGeoList :: (Eq a) => LRule a
 loopGeoList ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl) 
     | u1 =~= u2 = loopGeoList  (
-                    (Node1 PLoop (merge u1 u2) 
+                    Node1 PLoop (merge u1 u2) 
                                  (((r1*w1)+(r2*w2))/(w1+w2)) 
-                                 (w1+w2) )
+                                 (w1+w2) 
                     :ptl)
     | otherwise = u1 : loopGeoList (u2:ptl)
 loopGeoList x = x
@@ -275,15 +274,15 @@ flattenList op1 [] = []
 seqPrefixMerge :: (Eq a) => [PPTree a] -> [PPTree a]
 seqPrefixMerge ((NodeN Seq (pt1:ptl1) w1):(NodeN Seq (pt2:ptl2) w2):ptl)
     | pt1 =~= pt2 && (ptl1 /= [] || ptl2 /= [])
-          = ((NodeN Seq [(merge pt1 pt2),
-                       (NodeN Choice [NodeN Seq ptl1 w1,
-                                      NodeN Seq ptl2 w2] nw)] nw):
-                     (seqPrefixMerge ptl))
-    | pt1 =~= pt2 && (ptl1 == [] && ptl2 == []) 
-         = (merge pt1 pt2):(seqPrefixMerge ptl)
-    | otherwise = (NodeN Seq (pt1:ptl1) w1):
-                  (seqPrefixMerge ((NodeN Seq (pt2:ptl2) w2):ptl))
-    where nw = (w1+w2)
+          = NodeN Seq [merge pt1 pt2,
+                       NodeN Choice [NodeN Seq ptl1 w1,
+                                      NodeN Seq ptl2 w2] nw] nw:
+                     seqPrefixMerge ptl
+    | pt1 =~= pt2 && (null ptl1 && null ptl2) 
+         = merge pt1 pt2:seqPrefixMerge ptl
+    | otherwise = NodeN Seq (pt1:ptl1) w1:
+                    seqPrefixMerge (NodeN Seq (pt2:ptl2) w2:ptl)
+    where nw = w1+w2
 seqPrefixMerge ptl = ptl
 
 choiceFoldPrefix :: (Eq a, Ord a) => PRule a
@@ -292,16 +291,16 @@ choiceFoldPrefix = choiceChildMR seqPrefixMerge
 -- Warning last is O(N) on lists
 seqSuffixMerge :: (Eq a) => [PPTree a] -> [PPTree a]
 seqSuffixMerge ((NodeN Seq ptl1 w1):(NodeN Seq ptl2 w2):ptl)
-    | pt1 =~= pt2 = ((NodeN Seq [(NodeN Choice [NodeN Seq nptl1 w1,
-                                                NodeN Seq nptl2 w2] nw),
-                                 merge pt1 pt2] nw):
-                     (seqSuffixMerge ptl))
-    | otherwise = (NodeN Seq ptl1 w1):
-                  (seqSuffixMerge ((NodeN Seq ptl2 w2):ptl))
+    | pt1 =~= pt2 = NodeN Seq [NodeN Choice [NodeN Seq nptl1 w1,
+                                                NodeN Seq nptl2 w2] nw,
+                                 merge pt1 pt2] nw:
+                     seqSuffixMerge ptl
+    | otherwise = NodeN Seq ptl1 w1:
+                  seqSuffixMerge (NodeN Seq ptl2 w2:ptl)
      where pt1 = last ptl1
            pt2 = last ptl2
-           nptl1 = fst $ splitAt ((length ptl1)-1) ptl1
-           nptl2 = fst $ splitAt ((length ptl2)-1) ptl2
+           nptl1 = take (length ptl1-1) ptl1
+           nptl2 = take (length ptl2-1) ptl2
            nw = w1+w2
 seqSuffixMerge ptl = ptl
 
@@ -409,7 +408,7 @@ ncount (NodeN op ptl _)  = 1 + foldl (\c pt -> c + ncount pt) 0 ptl
 
 validate :: PPTree a -> Bool
 validate (NodeN Seq ptl w)
-    = w == (head sw) && length sw == 1 && validateList ptl
+    = w == head sw && length sw == 1 && validateList ptl
     where sw = nub $ map weight ptl
 validate (NodeN Choice ptl w) = w == sum (map weight ptl) && validateList ptl
 validate (NodeN Conc ptl w)   = w == sum (map weight ptl) && validateList ptl
@@ -417,7 +416,7 @@ validate (Node1 op x m w)     = w == weight x && validate x
 validate x = True
 
 validateList :: [PPTree a] -> Bool
-validateList ptl = foldl (&&) True (map validate ptl)
+validateList = all validate 
 
 data Validation = Validation{valResult::Bool, valMsg:: String}
     deriving (Show,Eq)
@@ -425,10 +424,10 @@ valOk = Validation{valResult=True, valMsg="Ok"}
 verboseValidate :: (Show a) => PPTree a -> Validation
 verboseValidate (NodeN Seq ptl w)
     | validate  (NodeN Seq ptl w)  = valOk
-    | (length sw) /= 1 || w /= (head sw) 
+    | length sw /= 1 || w /= head sw
                     = Validation{valResult=False ,
                                 valMsg="Seq " ++ show w ++ " /= "
-                                    ++ (show sw) ++ " in " ++ sn }
+                                    ++ show sw ++ " in " ++ sn }
     | not (validateList ptl) = verboseValidateList ptl
     where sn =  show (NodeN Seq ptl w)
           sw = nub $ map weight ptl
@@ -436,7 +435,7 @@ verboseValidate (NodeN Choice ptl w)
     | validate (NodeN Choice ptl w) = valOk
     | w /= ws = Validation{valResult=False,
                     valMsg="Choice " ++ show w ++ " /= "
-                        ++ show (ws) ++ " in " ++ sn}
+                        ++ show ws ++ " in " ++ sn}
     | not(validateList ptl) = verboseValidateList ptl
     where sn =  show (NodeN Choice ptl w)
           ws = sum $ map weight ptl
@@ -444,7 +443,7 @@ verboseValidate (NodeN Conc ptl w)
     | validate (NodeN Conc ptl w) = valOk
     | w /= ws = Validation{valResult=False,
                     valMsg="Conc " ++ show w ++ " /= "
-                        ++ show (ws) ++ " in " ++ sn}
+                        ++ show ws ++ " in " ++ sn}
     | not(validateList ptl) = verboseValidateList ptl
     where sn =  show (NodeN Conc ptl w)
           ws = sum $ map weight ptl
@@ -461,8 +460,8 @@ verboseValidateList (pt:ptl)
     | validate pt       = verboseValidateList ptl
     | not (validate pt) = Validation{
                               valResult=False, 
-                              valMsg=(valMsg $ verboseValidate pt) 
-                                  ++ (valMsg $ verboseValidateList ptl) }
+                              valMsg=valMsg (verboseValidate pt)
+                                  ++ valMsg (verboseValidateList ptl) }
 verboseValidateList []  = valOk
 
 

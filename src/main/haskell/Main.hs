@@ -98,7 +98,7 @@ pptreeIntToStr (Toothpaste.NodeN op ptl n) m =
 
 pptreeIntToStrList :: [Toothpaste.PPTree Int] -> Map Int String 
     -> [Toothpaste.PPTree String]
-pptreeIntToStrList ptl m = map (\pt -> pptreeIntToStr pt m) ptl
+pptreeIntToStrList ptl m = map (`pptreeIntToStr` m) ptl
 
 ptreeOnIntBatch :: ToothpasteArgs -> String -> Toothpaste.PPTree String
 ptreeOnIntBatch tpargs rawlog = 

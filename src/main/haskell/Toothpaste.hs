@@ -136,6 +136,7 @@ duplicate string n = concat $ replicate n string
 -- Rule types
 
 type PRule a = PPTree a -> PPTree a
+type LRule a = [PPTree a] -> [PPTree a]
 
 data TRule a = TRule{ rulename :: String, trule :: PRule a }
 
@@ -154,13 +155,16 @@ singleNodeOp :: PRule a
 singleNodeOp (NodeN op [u] w)  = u
 singleNodeOp x = x
 
-choiceSim :: (Eq a) => PRule a
-choiceSim (NodeN Choice ptl w)
+choiceChildMR :: (Eq a) => ([PPTree a] -> [PPTree a]) -> PPTree a -> PPTree a
+choiceChildMR crule (NodeN Choice ptl w) 
     | ptl /= cr  = NodeN Choice cr w
-    where cr = choiceSimList ptl
-choiceSim x = x
+    where cr = crule ptl
+choiceChildMR crule x = x
 
-choiceSimList :: (Eq a) => [PPTree a] -> [PPTree a]
+choiceSim :: (Eq a) => PRule a
+choiceSim = choiceChildMR choiceSimList
+
+choiceSimList :: (Eq a) => LRule a
 choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList (merge u1 u2:ptl)
                           | otherwise = u1 : choiceSimList (u2:ptl)
 choiceSimList x = x
@@ -171,7 +175,7 @@ concSim (NodeN Conc ptl w)
     where cr = concSimList ptl
 concSim x = x
 
-concSimList :: (Eq a) => [PPTree a] -> [PPTree a]
+concSimList :: (Eq a) => LRule a
 concSimList (u1:u2:ptl) 
     | u1 =~= u2 = concSimList (Node1 FLoop (merge u1 u2) 2 (w1+w2):ptl)
     | otherwise = u1:concSimList (u2:ptl)
@@ -242,12 +246,9 @@ loopNest (Node1 PLoop (Node1 op x rf wf) rp wp)
 loopNest x = x
 
 loopGeo :: (Eq a) => PRule a
-loopGeo (NodeN Choice ptl w)
-    | ptl /= cr = NodeN Choice cr w
-    where cr = loopGeoList ptl
-loopGeo x = x
+loopGeo = choiceChildMR loopGeoList
 
-loopGeoList :: (Eq a) => [PPTree a] -> [PPTree a]
+loopGeoList :: (Eq a) => LRule a
 loopGeoList ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl) 
     | u1 =~= u2 = loopGeoList  (
                     (Node1 PLoop (merge u1 u2) 
@@ -269,6 +270,7 @@ flattenList op1 ((NodeN op2 ptl2 w2):ptl1)
 flattenList op1 (pt:ptl) = pt:flattenList op1 ptl
 flattenList op1 [] = []
 
+-- choice folds
 
 seqPrefixMerge :: (Eq a) => [PPTree a] -> [PPTree a]
 seqPrefixMerge ((NodeN Seq (pt1:ptl1) w1):(NodeN Seq (pt2:ptl2) w2):ptl)
@@ -285,10 +287,7 @@ seqPrefixMerge ((NodeN Seq (pt1:ptl1) w1):(NodeN Seq (pt2:ptl2) w2):ptl)
 seqPrefixMerge ptl = ptl
 
 choiceFoldPrefix :: (Eq a, Ord a) => PRule a
-choiceFoldPrefix (NodeN Choice ptl w)
-    | ptl /= nptl = NodeN Choice nptl w
-        where nptl = seqPrefixMerge ptl
-choiceFoldPrefix x = x
+choiceFoldPrefix = choiceChildMR seqPrefixMerge 
 
 -- Warning last is O(N) on lists
 seqSuffixMerge :: (Eq a) => [PPTree a] -> [PPTree a]
@@ -308,10 +307,26 @@ seqSuffixMerge ptl = ptl
 
 -- duplication across prefix suffix folds and maybe other choice
 choiceFoldSuffix :: (Eq a, Ord a) => PRule a
-choiceFoldSuffix (NodeN Choice ptl w)
-    | ptl /= nptl = NodeN Choice nptl w
-        where nptl = seqSuffixMerge ptl
-choiceFoldSuffix x = x
+choiceFoldSuffix = choiceChildMR seqSuffixMerge
+
+
+-- conc creation
+-- concFromChoice :: (Eq a) => PRule a
+-- concFromChoice = choiceChildMR concFromChoiceList 
+
+isNontrivSeq :: PPTree a -> Bool
+isNontrivSeq (NodeN Seq pt w) = length pt > 1
+isNontrivSeq x                = False
+
+{-
+concFromChoiceList :: (Eq a) => LRule a
+concFromChoiceList ptl
+   factorial?
+    | seqs 
+    | ns <= 1  = ptl
+    where seqs = filter isNontrivSeq ptl
+          ns   = length seqs
+-}
 
 
 

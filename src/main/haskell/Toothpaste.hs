@@ -171,7 +171,7 @@ singleNodeOp x = x
 
 choiceChildMR :: (Eq a) => ([PPTree a] -> [PPTree a]) -> PPTree a -> PPTree a
 choiceChildMR crule (NodeN Choice ptl w) 
-    | ptl /= cr  = NodeN Choice cr w
+    | ptl /= cr  = choiceP cr w
     where cr = crule ptl
 choiceChildMR crule x = x
 

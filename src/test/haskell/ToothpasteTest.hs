@@ -73,13 +73,13 @@ singleNodeOpTests = [
     "singleNodeNoop"  ~: cab2 ~=? singleNodeOp cab2 ,
     "singleNodeOpSeq" ~: la ~=? singleNodeOp (NodeN Seq [la] 1)  ]
 
-choiceSimTests = ["choiceSim1" ~: NodeN Choice [la2] 2 
+choiceSimTests = ["choiceSim1" ~: la2 
                         ~=? choiceSim(  NodeN Choice [la,la] 2),
                  "choiceSim2" ~: cab ~=? choiceSim cab ,
-                 "choiceSim3" ~: NodeN Choice [NodeN Seq [lb2,la2] 2] 2 
+                 "choiceSim3" ~: NodeN Seq [lb2,la2] 2
                         ~=? choiceSim cab2,
                  "choiceSim4" ~: cab3 ~=? choiceSim cab3 ,
-                 "choiceSimLoop" ~: NodeN Choice [Node1 PLoop la2 6 2] 2
+                 "choiceSimLoop" ~: Node1 PLoop la2 6 2
                     ~=? choiceSim (NodeN Choice [Node1 PLoop la 7 1,
                                                  Node1 PLoop la 5 1] 2) ]
 
@@ -94,15 +94,14 @@ choiceFoldPrefixTests = [
     "choiceFold1" ~: choiceFoldPrefix la ~=? la,
     "choiceFold2" ~: choiceFoldPrefix cab  ~=? cab,
     "choiceFoldEmptyTailSeq" ~: 
-        NodeN Choice [NodeN Seq [lb2, NodeN Choice [NodeN Seq [la] 1,
-                                                    NodeN Seq [la] 1] 2] 
-                             2] 2 
+        NodeN Seq [lb2, NodeN Choice [NodeN Seq [la] 1,
+                                                    NodeN Seq [la] 1] 2] 2
                             ~=? choiceFoldPrefix cab2 ,
     "choiceFoldLeftoverSeq" ~: 
-        NodeN Choice [NodeN Seq [lb2,
+            NodeN Seq [lb2,
                       NodeN Choice [NodeN Seq [la,lc] 1,
                                     NodeN Seq [lb,lb] 1] 2] 
-              2] 2 
+              2
                             ~=? choiceFoldPrefix cab4 ,
     "choiceFoldPrefixMore4Choices" ~:
         NodeN Choice [NodeN Seq [la,lb] 1,
@@ -212,10 +211,10 @@ loopNestTests = [
 
 loopGeoTests = [
     "loopGeoNull" ~: la ~=? loopGeo la,
-    "loopGeoSim" ~: NodeN Choice [Node1 PLoop lb2 3 2] 2
+    "loopGeoSim" ~: Node1 PLoop lb2 3 2
         ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
                                    Node1 FLoop lb 4 1] 2),
-    "loopGeoId" ~: NodeN Choice [Node1 PLoop lb2 2 2] 2
+    "loopGeoId" ~: Node1 PLoop lb2 2 2
         ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
                                    Node1 FLoop lb 2 1] 2),
     "loopGeoNe" ~: loopGeo (NodeN Choice [Node1 FLoop lb 2 1,

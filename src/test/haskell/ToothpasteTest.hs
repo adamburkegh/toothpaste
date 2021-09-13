@@ -161,17 +161,17 @@ fixedLoopRollTests = [
 
 fixedLoopRollTestsN = [
     "floopRoll1" ~: fixedLoopRollN la ~=? la,
-    "floopRoll2" ~: NodeN Seq [Node1 FLoop (NodeN Seq [la,lb] 1) 2 1] 1 
+    "floopRoll2" ~: Node1 FLoop (NodeN Seq [la,lb] 1) 2 1
         ~=? fixedLoopRollN (NodeN Seq [la,lb,la,lb] 1), 
-    "floopRoll3a" ~: NodeN Seq [Node1 FLoop (NodeN Seq [la,lb,lc] 1) 2 1] 1 
+    "floopRoll3a" ~: Node1 FLoop (NodeN Seq [la,lb,lc] 1) 2 1
          ~=? fixedLoopRollN (NodeN Seq [la,lb,lc,la,lb,lc] 1),  
-    "floopRoll3b" ~: NodeN Seq [Node1 FLoop (NodeN Seq [la,lb,lc] 1) 3 1] 1 
+    "floopRoll3b" ~: Node1 FLoop (NodeN Seq [la,lb,lc] 1) 3 1
          ~=? fixedLoopRollN (NodeN Seq [la,lb,lc,la,lb,lc,la,lb,lc] 1),  
     "floopRollMid1" ~: saaat ~=? fixedLoopRollN saaat ,
     "floopRollMid2" ~: NodeN Seq [lc,Node1 FLoop (NodeN Seq [la,lb] 1) 2 1] 1 
                 ~=? fixedLoopRollN (NodeN Seq [lc,la,lb,la,lb] 1),
     "fixedLoopRollListN1No" ~: [la,lc,lb] ~=? fixedLoopRollListN [lc,lb] [la] 1,
-    "fixedLoopRollListN1Yes" ~: [Node1 FLoop (NodeN Seq [la] 1) 4 1] 
+    "fixedLoopRollListN1Yes" ~: [Node1 FLoop la 4 1] 
             ~=? fixedLoopRollListN [la,la,la] [la] 1,
     "fixedLoopRollListN3No" ~: [la,lb,lc,la,lb] 
             ~=? fixedLoopRollListN [la,lb] [la,lb,lc] 1,

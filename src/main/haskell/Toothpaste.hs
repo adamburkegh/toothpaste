@@ -27,7 +27,7 @@ data PPTree a = Leaf a Weight
 
 data POperN = Choice | Seq | Conc deriving (Enum,Show,Eq,Ord)
 data POper1 = PLoop | FLoop deriving (Enum,Show,Eq,Ord)
-data POper = POper1 | POper2
+data POper  = POper1 | POperN
 
 silent :: Weight -> PPTree String
 silent = Silent
@@ -66,6 +66,21 @@ weight (Leaf x n) = n
 weight (Silent n) = n
 weight (Node1 op x r n) = n
 weight (NodeN op ptl n) = n
+
+-- Constructors for NodeN auto-consolidate
+pptree :: POperN -> [PPTree a] -> Weight -> PPTree a
+pptree poper (u1:u2:ptl) w  = NodeN poper (u1:u2:ptl) w
+pptree poper [u1] w         = u1
+pptree poper []  w          = emptyTree
+
+seqP :: [PPTree a] -> Weight -> PPTree a
+seqP = pptree Seq 
+
+choiceP :: [PPTree a] -> Weight -> PPTree a
+choiceP = pptree Choice
+
+concP :: [PPTree a] -> Weight -> PPTree a
+concP = pptree Conc
 
 
 -- Careful using this one - it breaks consistency and can produce invalid trees
@@ -212,25 +227,9 @@ fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
 fixedLoopRollEndPattern prev ct = loopRollEndPattern prev ct FLoop 
 
 
--- experimental - not in paper
-fixedLoopRoll2 :: Eq a => PRule a
-fixedLoopRoll2 (NodeN Seq (u1:u2:u3:ptl) w) 
-    | nptl /= ptl 
-    && (nptl2 == ptl || (nptl2 /= ptl && length nptl < length nptl2+1))
-        = NodeN Seq nptl w
-    | nptl2 /= ptl  
-    && (nptl  == ptl || (nptl /= ptl && length nptl > length nptl2+1))
-        = NodeN Seq (u1:nptl2) w
-    where nptl  = fixedLoopRollListN (u3:ptl) [u1,u2] 1
-          nptl2 = fixedLoopRollListN ptl [u2,u3] 1
-fixedLoopRoll2 (NodeN Seq (u1:u2:ptl) w) 
-    | nptl /= ptl = NodeN Seq nptl w
-    where nptl  = fixedLoopRollListN ptl [u1,u2] 1
-fixedLoopRoll2 x = x    
-
 fixedLoopRollN :: (Eq a) => PRule a
 fixedLoopRollN (NodeN Seq ptl w) 
-    | nptl /= ptl  = NodeN Seq nptl w
+    | nptl /= ptl  = seqP nptl w
     where (lss, _) = length ptl `divMod` 2
           rs       = sortOn length $ fixedLoopRollForN ptl lss
           nptl     = head rs
@@ -263,7 +262,7 @@ fixedLoopRollListN iptl prev ct
 
 loopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> POper1 -> [PPTree a]
 loopRollEndPatternL prev ct poper
-    | ct > 1  = [Node1 poper (NodeN Seq prev w) ct w]
+    | ct > 1  = [Node1 poper (seqP prev w) ct w]
     | ct <= 1 = prev
     where w = weight $ head prev
 

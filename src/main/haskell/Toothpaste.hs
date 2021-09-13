@@ -2,7 +2,7 @@ module Toothpaste where
 
 import PetriNet -- mainly for Weight
 import Debug.Trace
-import Data.List (nub)
+import Data.List (nub,sortOn)
 import Data.Set (fromList,union,unions)
 
 -- debug and trace
@@ -188,6 +188,9 @@ fixedLoopRoll (NodeN Seq (u1:ptl) w)
     | nptl /= ptl = NodeN Seq nptl w
     where nptl = fixedLoopRollList ptl u1 1
 fixedLoopRoll x = x    
+-- TODO cutover
+-- fixedLoopRoll :: Eq a => PRule a
+-- fixedLoopRoll = fixedLoopRollN
 
 fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
 fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct 
@@ -195,8 +198,8 @@ fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct
     | u1 /= prev = fixedLoopRollEndPattern prev ct:
                         fixedLoopRollList ptl u1 r1
 fixedLoopRollList (u1:ptl) prev ct 
-    | u1 == prev            = fixedLoopRollList ptl prev (ct+1)
-    | u1 /= prev  = fixedLoopRollEndPattern prev ct:
+    | u1 == prev = fixedLoopRollList ptl prev (ct+1)
+    | u1 /= prev = fixedLoopRollEndPattern prev ct:
                             fixedLoopRollList ptl u1 1
 fixedLoopRollList [] prev ct = [fixedLoopRollEndPattern prev ct]
 
@@ -208,6 +211,64 @@ loopRollEndPattern prev ct poper
 fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
 fixedLoopRollEndPattern prev ct = loopRollEndPattern prev ct FLoop 
 
+
+-- experimental - not in paper
+fixedLoopRoll2 :: Eq a => PRule a
+fixedLoopRoll2 (NodeN Seq (u1:u2:u3:ptl) w) 
+    | nptl /= ptl 
+    && (nptl2 == ptl || (nptl2 /= ptl && length nptl < length nptl2+1))
+        = NodeN Seq nptl w
+    | nptl2 /= ptl  
+    && (nptl  == ptl || (nptl /= ptl && length nptl > length nptl2+1))
+        = NodeN Seq (u1:nptl2) w
+    where nptl  = fixedLoopRollListN (u3:ptl) [u1,u2] 1
+          nptl2 = fixedLoopRollListN ptl [u2,u3] 1
+fixedLoopRoll2 (NodeN Seq (u1:u2:ptl) w) 
+    | nptl /= ptl = NodeN Seq nptl w
+    where nptl  = fixedLoopRollListN ptl [u1,u2] 1
+fixedLoopRoll2 x = x    
+
+fixedLoopRollN :: (Eq a) => PRule a
+fixedLoopRollN (NodeN Seq ptl w) 
+    | nptl /= ptl  = NodeN Seq nptl w
+    where (lss, _) = length ptl `divMod` 2
+          rs       = sortOn length $ fixedLoopRollForN ptl lss
+          nptl     = head rs
+fixedLoopRollN x = x    
+
+fixedLoopRollForN :: (Eq a) => [PPTree a] -> Int -> [[PPTree a]]
+fixedLoopRollForN iptl ls 
+    | ls >= 1 && length ptl >= ls 
+            = [fixedLoopRollListN ptl ss 1]
+                ++ (map ([pth] ++) (fixedLoopRollForN (tail iptl) ls) )
+                ++ (fixedLoopRollForN iptl (ls-1) )
+    | ls >= 1 && length ptl < ls = [iptl]
+    | ls == 0 = []
+    where (ss, ptl) = splitAt ls iptl
+          pth = head iptl
+
+
+fixedLoopRollListN :: (Eq a) => [PPTree a] -> [PPTree a] -> Float -> [PPTree a]
+fixedLoopRollListN iptl prev ct 
+    | length iptl < length prev 
+        = fixedLoopRollEndPatternL prev ct ++ iptl
+    | length iptl >= length prev && next == prev 
+        = fixedLoopRollListN ptl prev (ct+1)
+    | length iptl >= length prev && next /= prev 
+        = fixedLoopRollEndPatternL prev ct ++
+                            fixedLoopRollListN ptl next 1
+    where (next, ptl) = splitAt (length prev) iptl
+
+
+
+loopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> POper1 -> [PPTree a]
+loopRollEndPatternL prev ct poper
+    | ct > 1  = [Node1 poper (NodeN Seq prev w) ct w]
+    | ct <= 1 = prev
+    where w = weight $ head prev
+
+fixedLoopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> [PPTree a]
+fixedLoopRollEndPatternL prev ct = loopRollEndPatternL prev ct FLoop 
 
 -- no loops of subseq >= 2
 probLoopRoll :: Eq a => PRule a
@@ -317,16 +378,20 @@ isNontrivSeq :: PPTree a -> Bool
 isNontrivSeq (NodeN Seq pt w) = length pt > 1
 isNontrivSeq x                = False
 
-{-
+
+
+{- stuck 
+
 concFromChoiceList :: (Eq a) => LRule a
 concFromChoiceList ptl
    factorial?
-    | seqs 
-    | ns <= 1  = ptl
+    | ns > 1 && seqs 
+    | ns <= 1           = ptl
     where seqs = filter isNontrivSeq ptl
           ns   = length seqs
--}
+          mset = Data.MultiSet.fromList seqs
 
+-}
 
 
 -- Rule lists

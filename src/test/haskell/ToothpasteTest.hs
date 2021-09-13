@@ -127,6 +127,11 @@ choiceFoldPrefixTests = [
                       ld2 2
                             ~=? choiceFold (Node2 Choice sabcd sefgd 2)  -}
 
+{-
+ - TODO switch back to this after stabilization and auto-simplifying 
+ - constructors
+ -
+-}
 fixedLoopRollTests = [
     "floopRoll1" ~: fixedLoopRoll la ~=? la,
     "floopRoll2" ~: NodeN Seq [Node1 FLoop la 2 1] 1 ~=? fixedLoopRoll saa , 
@@ -138,6 +143,43 @@ fixedLoopRollTests = [
     "floopRollPartial" ~: NodeN Seq [lb,Node1 FLoop la 5 1] 1 
                 ~=? fixedLoopRoll (NodeN Seq [lb,Node1 FLoop la 3 1,la,la] 1)
         ]
+
+{-
+fixedLoopRollTests = [
+    "floopRoll1" ~: fixedLoopRoll la ~=? la,
+    "floopRoll2" ~: NodeN Seq [Node1 FLoop (NodeN Seq [la] 1) 2 1] 1 
+                ~=? fixedLoopRoll saa , 
+    "floopRoll3" ~: NodeN Seq [Node1 FLoop (NodeN Seq [la] 1) 3 1] 1
+                            ~=? fixedLoopRoll saaa ,
+    "floopRollMid1" ~: saaat ~=? fixedLoopRoll saaat ,
+    "floopRollMid2" ~: NodeN Seq [lb,Node1 FLoop (NodeN Seq [la] 1) 3 1] 1 
+                ~=? fixedLoopRoll (NodeN Seq [lb,la,la,la] 1),
+    "floopRollPartial" ~: NodeN Seq [lb,Node1 FLoop (NodeN Seq [la] 1) 5 1] 1 
+                ~=? fixedLoopRoll (NodeN Seq [lb,Node1 FLoop la 3 1,la,la] 1)
+        ]
+-}
+
+fixedLoopRollTestsN = [
+    "floopRoll1" ~: fixedLoopRollN la ~=? la,
+    "floopRoll2" ~: NodeN Seq [Node1 FLoop (NodeN Seq [la,lb] 1) 2 1] 1 
+        ~=? fixedLoopRollN (NodeN Seq [la,lb,la,lb] 1), 
+    "floopRoll3a" ~: NodeN Seq [Node1 FLoop (NodeN Seq [la,lb,lc] 1) 2 1] 1 
+         ~=? fixedLoopRollN (NodeN Seq [la,lb,lc,la,lb,lc] 1),  
+    "floopRoll3b" ~: NodeN Seq [Node1 FLoop (NodeN Seq [la,lb,lc] 1) 3 1] 1 
+         ~=? fixedLoopRollN (NodeN Seq [la,lb,lc,la,lb,lc,la,lb,lc] 1),  
+    "floopRollMid1" ~: saaat ~=? fixedLoopRollN saaat ,
+    "floopRollMid2" ~: NodeN Seq [lc,Node1 FLoop (NodeN Seq [la,lb] 1) 2 1] 1 
+                ~=? fixedLoopRollN (NodeN Seq [lc,la,lb,la,lb] 1),
+    "fixedLoopRollListN1No" ~: [la,lc,lb] ~=? fixedLoopRollListN [lc,lb] [la] 1,
+    "fixedLoopRollListN1Yes" ~: [Node1 FLoop (NodeN Seq [la] 1) 4 1] 
+            ~=? fixedLoopRollListN [la,la,la] [la] 1,
+    "fixedLoopRollListN3No" ~: [la,lb,lc,la,lb] 
+            ~=? fixedLoopRollListN [la,lb] [la,lb,lc] 1,
+    "fixedLoopRollListN3Yes" ~: [Node1 FLoop (NodeN Seq [la,lb,lc] 1) 7 1]
+            ~=? fixedLoopRollListN [la,lb,lc] [la,lb,lc] 6
+        ]
+
+
 
 probLoopRollTests = [
     "ploopRoll1" ~: la ~=? probLoopRoll la ,
@@ -272,6 +314,7 @@ ruleTests   = silentSeqTests ++ singleNodeOpTests
            ++ choiceSimTests ++ concSimTests
            ++ choiceFoldPrefixTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
+           ++ fixedLoopRollTestsN
            ++ probLoopRollTests
            ++ flattenTests
 

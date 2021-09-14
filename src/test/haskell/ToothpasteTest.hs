@@ -144,19 +144,19 @@ fixedLoopRollTests = [
         ]
 
 fixedLoopRollTestsN = [
-    "floopRoll1" ~: fixedLoopRollN la ~=? la,
+    "floopRoll1" ~: fixedLoopRoll la ~=? la,
     "floopRoll2" ~: Node1 FLoop (NodeN Seq [la,lb] 1) 2 1
-        ~=? fixedLoopRollN (NodeN Seq [la,lb,la,lb] 1), 
+        ~=? fixedLoopRoll (NodeN Seq [la,lb,la,lb] 1), 
     "floopRoll3a" ~: Node1 FLoop (NodeN Seq [la,lb,lc] 1) 2 1
-         ~=? fixedLoopRollN (NodeN Seq [la,lb,lc,la,lb,lc] 1),  
+         ~=? fixedLoopRoll (NodeN Seq [la,lb,lc,la,lb,lc] 1),  
     "floopRoll3b" ~: Node1 FLoop (NodeN Seq [la,lb,lc] 1) 3 1
-         ~=? fixedLoopRollN (NodeN Seq [la,lb,lc,la,lb,lc,la,lb,lc] 1),  
-    "floopRollMid1" ~: saaat ~=? fixedLoopRollN saaat ,
+         ~=? fixedLoopRoll (NodeN Seq [la,lb,lc,la,lb,lc,la,lb,lc] 1),  
+    "floopRollMid1" ~: saaat ~=? fixedLoopRoll saaat ,
     -- interesting edge case: no simplification if loop introduced
     "floopRollMidNoop" ~: NodeN Seq [lc,la,lb,la,lb] 1
-                ~=? fixedLoopRollN (NodeN Seq [lc,la,lb,la,lb] 1),
+                ~=? fixedLoopRoll (NodeN Seq [lc,la,lb,la,lb] 1),
     "floopRollMid3" ~: NodeN Seq [lc,Node1 FLoop (NodeN Seq [la,lb] 1) 3 1] 1 
-                ~=? fixedLoopRollN (NodeN Seq [lc,la,lb,la,lb,la,lb] 1),
+                ~=? fixedLoopRoll (NodeN Seq [lc,la,lb,la,lb,la,lb] 1),
     "fixedLoopRollListN1No" ~: [la,lc,lb] ~=? fixedLoopRollListN [lc,lb] [la] 1,
     "fixedLoopRollListN1Yes" ~: [Node1 FLoop la 4 1] 
             ~=? fixedLoopRollListN [la,la,la] [la] 1,

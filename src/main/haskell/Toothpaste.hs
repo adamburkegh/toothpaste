@@ -197,9 +197,14 @@ concSimList (u1:u2:ptl)
               w2 = weight u2
 concSimList x = x
 
--- TODO merge fully
+
 fixedLoopRoll :: Eq a => PRule a
-fixedLoopRoll = fixedLoopRollN
+fixedLoopRoll (NodeN Seq ptl w) 
+    | nptl /= ptl  = seqP nptl w
+    where (lss, _) = length ptl `divMod` 2
+          rs       = sortOn ncountL (fixedLoopRollForN ptl lss)
+          nptl     = head rs
+fixedLoopRoll x = x    
 
 fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
 fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct 
@@ -222,14 +227,6 @@ fixedLoopRollEndPattern prev ct = loopRollEndPattern prev ct FLoop
 
 ncountL :: [PPTree a] -> Int
 ncountL ptl = sum $ map ncount ptl
-
-fixedLoopRollN :: (Eq a) => PRule a
-fixedLoopRollN (NodeN Seq ptl w) 
-    | nptl /= ptl  = seqP nptl w
-    where (lss, _) = length ptl `divMod` 2
-          rs       = sortOn ncountL (fixedLoopRollForN ptl lss)
-          nptl     = head rs
-fixedLoopRollN x = x    
 
 fixedLoopRollForN :: (Eq a) => [PPTree a] -> Int -> [[PPTree a]]
 fixedLoopRollForN iptl ls 

@@ -197,15 +197,9 @@ concSimList (u1:u2:ptl)
               w2 = weight u2
 concSimList x = x
 
--- no loops of subseq >= 2
+-- TODO merge fully
 fixedLoopRoll :: Eq a => PRule a
-fixedLoopRoll (NodeN Seq (u1:ptl) w) 
-    | nptl /= ptl = NodeN Seq nptl w
-    where nptl = fixedLoopRollList ptl u1 1
-fixedLoopRoll x = x    
--- TODO cutover
--- fixedLoopRoll :: Eq a => PRule a
--- fixedLoopRoll = fixedLoopRollN
+fixedLoopRoll = fixedLoopRollN
 
 fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
 fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct 
@@ -226,12 +220,14 @@ loopRollEndPattern prev ct poper
 fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
 fixedLoopRollEndPattern prev ct = loopRollEndPattern prev ct FLoop 
 
+ncountL :: [PPTree a] -> Int
+ncountL ptl = sum $ map ncount ptl
 
 fixedLoopRollN :: (Eq a) => PRule a
 fixedLoopRollN (NodeN Seq ptl w) 
     | nptl /= ptl  = seqP nptl w
     where (lss, _) = length ptl `divMod` 2
-          rs       = sortOn length $ fixedLoopRollForN ptl lss
+          rs       = sortOn ncountL (fixedLoopRollForN ptl lss)
           nptl     = head rs
 fixedLoopRollN x = x    
 
@@ -241,11 +237,22 @@ fixedLoopRollForN iptl ls
             = [fixedLoopRollListN ptl ss 1]
                 ++ (map ([pth] ++) (fixedLoopRollForN (tail iptl) ls) )
                 ++ (fixedLoopRollForN iptl (ls-1) )
+                ++ [existingLoopRoll iptl]
     | ls >= 1 && length ptl < ls = [iptl]
     | ls == 0 = []
     where (ss, ptl) = splitAt ls iptl
           pth = head iptl
 
+-- length == 1
+existingLoopRoll :: (Eq a) => [PPTree a] -> [PPTree a]
+existingLoopRoll ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl)
+    | u1 == u2 = existingLoopRoll ((Node1 FLoop u1 (r1+r2) w1):ptl)
+existingLoopRoll ((Node1 FLoop u1 r1 w1):u2:ptl)
+    | u1 == u2 = existingLoopRoll ((Node1 FLoop u1 (r1+1) w1) :ptl)
+existingLoopRoll (u1:(Node1 FLoop u2 r2 w2):ptl)
+    | u1 == u2 = existingLoopRoll ((Node1 FLoop u1 (r2+1) w2): ptl)
+existingLoopRoll (u1:ptl) = u1:(existingLoopRoll ptl)
+existingLoopRoll []       = []
 
 fixedLoopRollListN :: (Eq a) => [PPTree a] -> [PPTree a] -> Float -> [PPTree a]
 fixedLoopRollListN iptl prev ct 

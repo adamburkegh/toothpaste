@@ -69,6 +69,13 @@ silentSeqTests = [
     "silentSeq3Seq" ~: NodeN Seq [la,lb] 1 
                         ~=? silentSeq (NodeN Seq [la,Silent 1,lb] 1)  ]
 
+silentConcTests = [
+    "silentConcNoop" ~: ccab1 ~=? silentConc ccab1,
+    "silentConc2Seq" ~: NodeN Conc [la] 1
+                        ~=? silentConc (NodeN Conc [la,Silent 1] 1),
+    "silentConc3Seq" ~: NodeN Conc [la,lb] 1 
+                        ~=? silentConc (NodeN Conc [la,Silent 1,lb] 1)  ]
+
 singleNodeOpTests = [ 
     "singleNodeNoop"  ~: cab2 ~=? singleNodeOp cab2 ,
     "singleNodeOpSeq" ~: la ~=? singleNodeOp (NodeN Seq [la] 1)  ]
@@ -297,7 +304,8 @@ validateTests = [
 
 --
 
-ruleTests   = silentSeqTests ++ singleNodeOpTests 
+ruleTests   = silentSeqTests  ++ silentConcTests
+           ++ singleNodeOpTests 
            ++ choiceSimTests ++ concSimTests
            ++ choiceFoldPrefixTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests

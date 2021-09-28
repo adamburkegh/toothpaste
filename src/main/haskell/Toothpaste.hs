@@ -165,6 +165,12 @@ silentSeq (NodeN Seq (pt:pts) w)         = NodeN Seq (pt:ptsr) w
             where NodeN Seq ptsr w2 = silentSeq (NodeN Seq pts w)
 silentSeq x = x
 
+silentConc :: PRule a
+silentConc (NodeN Conc ((Silent _):pts) w) = silentConc (NodeN Conc pts w)
+silentConc (NodeN Conc (pt:pts) w)         = NodeN Conc (pt:ptsr) w
+            where NodeN Conc ptsr w2 = silentConc (NodeN Conc pts w)
+silentConc x = x
+
 singleNodeOp :: PRule a
 singleNodeOp (NodeN op [u] w)  = u
 singleNodeOp x = x
@@ -403,8 +409,9 @@ baseRuleList :: (Eq a, Ord a) => [TRule a]
 baseRuleList = [
             TRule{rulename="singleNodeOp",trule=singleNodeOp},
             TRule{rulename="flatten",trule=flatten},
-            TRule{rulename="silentSeq",trule=silentSeq},
             TRule{rulename="fixedLoopRoll", trule=fixedLoopRoll},
+            TRule{rulename="silentSeq",trule=silentSeq},
+            TRule{rulename="silentConc",trule=silentSeq},
             TRule{rulename="choiceSim",trule=choiceSim},
             TRule{rulename="concSim",trule=concSim},
             TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix},

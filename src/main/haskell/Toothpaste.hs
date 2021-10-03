@@ -2,8 +2,10 @@ module Toothpaste where
 
 import PetriNet -- mainly for Weight
 import Debug.Trace
-import Data.List (nub,sortOn)
+import Data.List (nub,sort,sortOn)
 import Data.Set (fromList,union,unions)
+import Data.Maybe
+import qualified Data.Map as Map
 
 -- debug and trace
 debug :: String -> a -> a
@@ -67,20 +69,30 @@ weight (Silent n) = n
 weight (Node1 op x r n) = n
 weight (NodeN op ptl n) = n
 
+children :: PPTree a -> [PPTree a]
+children (Leaf x n) = []
+children (Silent n) = []
+children (Node1 op u r n) = [u]
+children (NodeN op ptl n) = ptl
+
+
 -- Constructors for NodeN auto-consolidate
 pptree :: POperN -> [PPTree a] -> Weight -> PPTree a
 pptree poper (u1:u2:ptl) w  = NodeN poper (u1:u2:ptl) w
 pptree poper [u1] w         = u1
 pptree poper []  w          = emptyTree
 
+pptreeSort :: (Ord a) => POperN -> [PPTree a] -> Weight -> PPTree a
+pptreeSort poper ptl w = pptree poper (sort ptl) w
+
 seqP :: [PPTree a] -> Weight -> PPTree a
 seqP = pptree Seq 
 
-choiceP :: [PPTree a] -> Weight -> PPTree a
-choiceP = pptree Choice
+choiceP :: (Ord a) => [PPTree a] -> Weight -> PPTree a
+choiceP = pptreeSort Choice
 
-concP :: [PPTree a] -> Weight -> PPTree a
-concP = pptree Conc
+concP :: (Ord a) => [PPTree a] -> Weight -> PPTree a
+concP = pptreeSort Conc
 
 
 -- Careful using this one - it breaks consistency and can produce invalid trees
@@ -175,16 +187,17 @@ singleNodeOp :: PRule a
 singleNodeOp (NodeN op [u] w)  = u
 singleNodeOp x = x
 
-choiceChildMR :: (Eq a) => ([PPTree a] -> [PPTree a]) -> PPTree a -> PPTree a
+choiceChildMR :: (Eq a, Ord a) => 
+    ([PPTree a] -> [PPTree a]) -> PPTree a -> PPTree a
 choiceChildMR crule (NodeN Choice ptl w) 
     | ptl /= cr  = choiceP cr w
     where cr = crule ptl
 choiceChildMR crule x = x
 
-choiceSim :: (Eq a) => PRule a
+choiceSim :: (Eq a, Ord a) => PRule a
 choiceSim = choiceChildMR choiceSimList
 
-choiceSimList :: (Eq a) => LRule a
+choiceSimList :: (Eq a, Ord a) => LRule a
 choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList (merge u1 u2:ptl)
                           | otherwise = u1 : choiceSimList (u2:ptl)
 choiceSimList x = x
@@ -204,7 +217,7 @@ concSimList (u1:u2:ptl)
 concSimList x = x
 
 
-fixedLoopRoll :: Eq a => PRule a
+fixedLoopRoll :: (Eq a, Ord a) => PRule a
 fixedLoopRoll (NodeN Seq ptl w) 
     | nptl /= ptl  = seqP nptl w
     where (lss, _) = length ptl `divMod` 2
@@ -314,7 +327,7 @@ loopNest (Node1 PLoop (Node1 op x rf wf) rp wp)
     | op == FLoop || op == PLoop = Node1 PLoop x (rf*rp) wp
 loopNest x = x
 
-loopGeo :: (Eq a) => PRule a
+loopGeo :: (Eq a, Ord a) => PRule a
 loopGeo = choiceChildMR loopGeoList
 
 loopGeoList :: (Eq a) => LRule a
@@ -380,27 +393,52 @@ choiceFoldSuffix = choiceChildMR seqSuffixMerge
 
 
 -- conc creation
--- concFromChoice :: (Eq a) => PRule a
--- concFromChoice = choiceChildMR concFromChoiceList 
+concFromChoice :: (Eq a, Ord a) => PRule a
+concFromChoice = choiceChildMR concFromChoiceList 
 
 isNontrivSeq :: PPTree a -> Bool
 isNontrivSeq (NodeN Seq pt w) = length pt > 1
 isNontrivSeq x                = False
 
-
-
-{- stuck 
-
-concFromChoiceList :: (Eq a) => LRule a
+concFromChoiceList :: (Eq a, Ord a) => LRule a
 concFromChoiceList ptl
-   factorial?
-    | ns > 1 && seqs 
-    | ns <= 1           = ptl
-    where seqs = filter isNontrivSeq ptl
-          ns   = length seqs
-          mset = Data.MultiSet.fromList seqs
+    | length rs /= length sq  = rs ++ fl
+    | otherwise               = ptl
+    where sq = filter isNontrivSeq ptl
+          fl = filter (not . isNontrivSeq) ptl
+          rs = concFromSeqList sq
 
--}
+concFromSeqList :: (Ord a) => [PPTree a] -> [PPTree a]
+concFromSeqList ptl 
+    | length rs /= length hds 
+        = map (\(x,y) -> convertConcMapEntryToNode x y) (Map.toList rs)
+    | otherwise               = ptl
+    where (hds,tls) = unzip $ map (\x -> splitAt 2 (children x)) ptl
+          rs   = concMapFromSeqChildren hds tls
+
+convertConcMapEntryToNode :: (Ord a) => [PPTree a] -> [[PPTree a]] -> PPTree a
+convertConcMapEntryToNode ptl tptl
+    | length tptl > 1  && length cc >= 1 = seqP [concP ptl w, choiceP cc w] w
+    | length tptl > 1  && length cc == 0 = concP ptl w
+    | otherwise        = seqP (ptl ++ (head tptl) ) w
+    where w  = sum $ map weight ptl
+          cc = mapMaybe convertConcTailEntry tptl
+
+convertConcTailEntry :: [PPTree a] -> Maybe (PPTree a)
+convertConcTailEntry [pt] = Just pt
+convertConcTailEntry []   = Nothing
+convertConcTailEntry ptl  = Just (NodeN Seq ptl (weight $ head ptl))
+
+-- pre: sublists of len 2
+concMapFromSeqChildren :: (Ord a) => [[PPTree a]] -> [[PPTree a]]
+                                        -> Map.Map [PPTree a] [[PPTree a]]
+concMapFromSeqChildren (ptl:ptls) (tptl:tptls)
+    | ptl `Map.member` sm = Map.update (\x -> Just (tptl:x) ) ptl sm
+    | pml `Map.member` sm = Map.update (\x -> Just (tptl:x) ) pml sm
+    | otherwise            = Map.insert ptl [tptl] sm
+    where sm  = concMapFromSeqChildren ptls tptls
+          pml = reverse ptl
+concMapFromSeqChildren [] _ = Map.empty
 
 
 -- Rule lists
@@ -418,6 +456,7 @@ baseRuleList = [
             TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
             TRule{rulename="loopNest",trule=loopNest},
             TRule{rulename="loopGeo",trule=loopGeo},
+            TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="loopFixToProb", trule=loopFixToProb},
             TRule{rulename="probLoopRoll", trule=loopFixToProb}
             ]

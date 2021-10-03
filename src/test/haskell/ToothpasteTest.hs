@@ -2,7 +2,6 @@ module ToothpasteTest where
 
 import Toothpaste hiding (main)
 
-import Data.List (sort)
 import Data.Set (Set,toList,fromList)
 import System.Exit
 import Test.HUnit
@@ -111,7 +110,7 @@ choiceFoldPrefixTests = [
               2
                             ~=? choiceFoldPrefix cab4 ,
     "choiceFoldPrefixMore4Choices" ~:
-        NodeN Choice [NodeN Seq [la,lb] 1,
+             choiceP [NodeN Seq [la,lb] 1,
                       NodeN Seq [lb2, 
                                  NodeN Choice [NodeN Seq [lc] 1,
                                                NodeN Seq [ld] 1] 2] 2,
@@ -221,12 +220,21 @@ loopGeoTests = [
         ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
                                    Node1 FLoop lb 4 1,
                                    Node1 FLoop lb 3 1] 3),
-    "loopGeoPartial" ~: NodeN Choice [Node1 PLoop la2 3 2, lb] 3
+    "loopGeoPartial" ~: choiceP [Node1 PLoop la2 3 2, lb] 3
         ~=? loopGeo (NodeN Choice [Node1 FLoop la 2 1,
                                    Node1 FLoop la 4 1,
                                    lb] 3)
     ]
 
+-- conc
+
+concFromChoiceTests = [ 
+    "concFromChoice1" ~: concFromChoice ccab1 ~=? ccab1,
+    "concFromChoice2" ~: concFromChoice la  ~=? la,
+    "concFromChoice3" ~: concP [la,lb] 2 
+                            ~=? concFromChoice( NodeN Choice [sab,sba] 2) ]
+
+-- TODO many more len > 2 cases at different levels
 
 --
 
@@ -308,6 +316,7 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ singleNodeOpTests 
            ++ choiceSimTests ++ concSimTests
            ++ choiceFoldPrefixTests
+           ++ concFromChoiceTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ fixedLoopRollTestsN
            ++ probLoopRollTests

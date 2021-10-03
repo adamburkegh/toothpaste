@@ -1,5 +1,6 @@
 module ToothpasteTest where
 
+import ProbProcessTree
 import Toothpaste hiding (main)
 
 import Data.Set (Set,toList,fromList)

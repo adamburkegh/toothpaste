@@ -6,6 +6,7 @@ import Data.Map (Map,lookup)
 import Data.Maybe (fromJust)
 import Binpaste 
 import Flowpaste hiding (main)
+import ProbProcessTree
 import Toothpaste hiding (main)
 import TPMine
 import EventLog
@@ -86,21 +87,21 @@ ptreeOnIntInc tpargs rawlog   =
 
 
 -- Toothpaste invocation (some redundancy with Binpaste)
-pptreeIntToStr :: Toothpaste.PPTree Int -> Map Int String 
-    -> Toothpaste.PPTree String
-pptreeIntToStr (Toothpaste.Leaf x n) m       = 
-    Toothpaste.Leaf (fromJust (Data.Map.lookup x m)) n
-pptreeIntToStr (Toothpaste.Silent n) _       = Toothpaste.Silent n
-pptreeIntToStr (Toothpaste.Node1 op x r n) m = 
-    Toothpaste.Node1 op (pptreeIntToStr x m) r n
-pptreeIntToStr (Toothpaste.NodeN op ptl n) m = 
-    Toothpaste.NodeN op (pptreeIntToStrList ptl m) n
+pptreeIntToStr :: ProbProcessTree.PPTree Int -> Map Int String 
+    -> ProbProcessTree.PPTree String
+pptreeIntToStr (ProbProcessTree.Leaf x n) m       = 
+    ProbProcessTree.Leaf (fromJust (Data.Map.lookup x m)) n
+pptreeIntToStr (ProbProcessTree.Silent n) _       = ProbProcessTree.Silent n
+pptreeIntToStr (ProbProcessTree.Node1 op x r n) m = 
+    ProbProcessTree.Node1 op (pptreeIntToStr x m) r n
+pptreeIntToStr (ProbProcessTree.NodeN op ptl n) m = 
+    ProbProcessTree.NodeN op (pptreeIntToStrList ptl m) n
 
-pptreeIntToStrList :: [Toothpaste.PPTree Int] -> Map Int String 
-    -> [Toothpaste.PPTree String]
+pptreeIntToStrList :: [ProbProcessTree.PPTree Int] -> Map Int String 
+    -> [ProbProcessTree.PPTree String]
 pptreeIntToStrList ptl m = map (`pptreeIntToStr` m) ptl
 
-ptreeOnIntBatch :: ToothpasteArgs -> String -> Toothpaste.PPTree String
+ptreeOnIntBatch :: ToothpasteArgs -> String -> ProbProcessTree.PPTree String
 ptreeOnIntBatch tpargs rawlog = 
                     pptreeIntToStr (TPMine.discoverGen intlog) m
         where   strlog     = (parseSelector $ logformat tpargs) rawlog
@@ -123,7 +124,7 @@ mine tpargs logtext
          (Binpaste.formatPPTree ppti, 
           weightedNetToString (Binpaste.translate ppti) "spn" )
     | model == Stochastic && algo == MNode = 
-         (Toothpaste.formatPPTree pptm, 
+         (ProbProcessTree.formatPPTree pptm, 
           weightedNetToString (TPMine.translate pptm) "spn" ) 
     | model == ControlFlow = 
         (formatPTree pt,  petriNetToString (Flowpaste.translate pt) "pnet" )

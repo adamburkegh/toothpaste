@@ -2,7 +2,8 @@ module TPMine where
 
 import EventLog
 import PetriNet
-import Toothpaste
+import ProbProcessTree
+import Toothpaste (transform)
 import Debug.Trace
 import Data.List (sort)
 import Data.Set (fromList,union,unions)

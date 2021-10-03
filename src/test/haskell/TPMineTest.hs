@@ -1,6 +1,7 @@
 module TPMineTest where
 
 import PetriNet
+import ProbProcessTree
 import Toothpaste hiding (main)
 import TPMine
 

@@ -146,7 +146,9 @@ formatPPTreeIndent (NodeN op ptl n) indent =
     duplicate indentStr indent ++ show op  ++ formatWeight n
         ++ concatMap (\pt -> formatPPTreeIndent pt (indent+1) ) ptl  
 
-duplicate string n = concat $ replicate n string
+-- not really duplicating if you do it n times is it
+duplicate :: [a] -> Int -> [a]
+duplicate sq n = concat $ replicate n sq
 
 
 ncount :: PPTree a -> Int

@@ -10,3 +10,6 @@ debug = trace
 -- Debug OFF
 -- debug x y = y
 
+warn :: String -> a -> a
+warn msg x = trace ("WARNING " ++ msg) x
+

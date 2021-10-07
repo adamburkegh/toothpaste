@@ -4,7 +4,6 @@ import ProbProcessTree
 import Toothpaste hiding (main)
 
 import Data.Set (Set,toList,fromList)
-import System.Exit
 import Test.HUnit
 
 

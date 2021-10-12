@@ -100,8 +100,7 @@ choiceFoldPrefixTests = [
     "choiceFold1" ~: choiceFoldPrefix la ~=? la,
     "choiceFold2" ~: choiceFoldPrefix cab  ~=? cab,
     "choiceFoldEmptyTailSeq" ~: 
-        NodeN Seq [lb2, NodeN Choice [NodeN Seq [la] 1,
-                                                    NodeN Seq [la] 1] 2] 2
+        NodeN Seq [lb2, NodeN Choice [la,la] 2] 2
                             ~=? choiceFoldPrefix cab2 ,
     "choiceFoldLeftoverSeq" ~: 
             NodeN Seq [lb2,
@@ -112,8 +111,7 @@ choiceFoldPrefixTests = [
     "choiceFoldPrefixMore4Choices" ~:
              choiceP [NodeN Seq [la,lb] 1,
                       NodeN Seq [lb2, 
-                                 NodeN Choice [NodeN Seq [lc] 1,
-                                               NodeN Seq [ld] 1] 2] 2,
+                                 NodeN Choice [lc,ld] 2] 2,
                       NodeN Seq [la,lb] 1] 4
             ~=? choiceFoldPrefix (NodeN Choice [NodeN Seq [la,lb] 1,
                                                NodeN Seq [lb,lc] 1,

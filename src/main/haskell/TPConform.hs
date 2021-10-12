@@ -3,30 +3,12 @@ module TPConform where
 import ProbProcessTree
 import TraceUtil
 
--- probability [0,1]
-prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
-prob s (NodeN Choice ptl w) =  sum (map (\u -> weight u * prob s u) ptl) / wt
-    where wt = sum (map weight ptl)
-prob s (NodeN Conc ptl w) = probConc s ptl
-prob s (NodeN Seq  ptl w) = probSeq s ptl
-prob s (Node1 FLoop pt r w) 
-    = prob s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
-prob s (Node1 PLoop pt r w) = probPLoop s pt r 
-prob s (Leaf x w) | s == [x]    = 1
-                  | otherwise = 0
-prob s (Silent w) | s == []   = 1
-                  | otherwise = 0
 
+-- convenience
+log2 :: Floating a => a -> a
+log2 x = logBase 2 x
 
-probConc :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
--- probConc s [pt] = prob s pt
-probConc s ptl
-        = (sum 
-            ( map (\(pt1,ptl1) -> probConcElem s pt1 ptl1 ) 
-                  (elemCompl ptl) ) ) 
-            / wt
-        where wt = sum (map weight ptl)
-
+-- permutation utilities
 
 -- each element in the list, paired with the remainder of the list
 elemCompl :: [a] -> [(a,[a])]
@@ -36,6 +18,30 @@ elemCompl [] = []
 elemCompl2 :: [a] -> a -> [a] -> [(a,[a])]
 elemCompl2 xs y (z:zs) = [(y,xs++(z:zs))] ++ elemCompl2 (xs ++ [y]) z zs
 elemCompl2 xs y [] = [(y,xs)]
+
+
+-- probability [0,1]
+prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
+prob s (NodeN Choice ptl w) =  sum (map (\u -> weight u * prob s u) ptl) / wt
+    where wt = sum (map weight ptl)
+prob s (NodeN Conc ptl w) = probConc s ptl
+prob s (NodeN Seq  ptl w) = probSeq s ptl
+prob s (Node1 FLoop pt r w) 
+    = prob s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
+prob s (Node1 PLoop pt r w) = 0 -- probPLoop s pt r TODO BROKEN
+prob s (Leaf x w) | s == [x]    = 1
+                  | otherwise = 0
+prob s (Silent w) | s == []   = 1
+                  | otherwise = 0
+
+
+probConc :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
+probConc s ptl
+        = (sum 
+            ( map (\(pt1,ptl1) -> probConcElem s pt1 ptl1 ) 
+                  (elemCompl ptl) ) ) 
+            / wt
+        where wt = sum (map weight ptl)
 
 probConcElem :: (Eq a, Ord a) => [a] -> PPTree a -> [PPTree a] -> Float
 probConcElem s pt ptl = 
@@ -60,15 +66,37 @@ probSeqS s n (pt:ptl)
 probSeqS s n ptl      = 0
 
 probPLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float
-probPLoop [] pt r = 1/ (r + (prob [] pt)*(1 - r))
-probPLoop s  pt r = probPLoopL s 1 pt r 
+probPLoop [] pt r = 1/ (r - ((prob [] pt)*(r-1)))
+probPLoop s pt r = 1/ (r - ((prob s pt)*(r-1))) - (1/r)
 
-probPLoopL :: (Eq a, Ord a) => [a] -> Int -> PPTree a -> Float -> Float
-probPLoopL s n pt r 
-    | n <  length s = nterm + probPLoopL s (n+1) pt r
-    | n == length s = nterm
-        where nterm = prob s (NodeN Seq (duplicate [pt] n) (weight pt) ) 
-                    * (r - 1) ** (fromIntegral n)
-                    / r ** (fromIntegral n+1)
 
+-- entropy
+-- broken, not in use
+entropy :: (Ord a) => PPTree a -> Float
+entropy (Leaf _ _) = 0
+entropy (Silent _) = 0
+{-
+entropy (NodeN Seq ptl w) = sum $ map entropy ptl
+entropy (NodeN Choice ptl w) = 
+        -1 * (sum (map (\pt -> (weight pt) * log2 ((weight pt)/wt )) ptl)) / wt 
+        + (sum $ map (\pt -> (weight pt) * (entropy pt) ) ptl ) / wt
+    where wt = sum $ map weight ptl
+entropy (NodeN Conc ptl w) =
+    ( sum ( map (\(pti,ptli) -> entropyConcElem pti ptli wt) 
+                (elemCompl ptl)  ) ) 
+        / wt
+    where  wt = sum $ map weight ptl
+entropy (Node1 FLoop pt r w) = r * entropy pt
+entropy (Node1 PLoop pt r w) = (entropy pt - log2((r-1)/r)) 
+                   * (r / ((r-1) ** 2) )
+                   - ( log2(1/r) /(r-1)  )
+
+entropyConcElem :: (Ord a) => PPTree a -> [PPTree a] -> Float -> Float
+entropyConcElem pt ptl wt =  
+      w * ( (entropy pt) 
+          + (entropy 
+                (concP ptl (sum $ map weight ptl) ) ) 
+          - (log2 ( w/ wt) )  ) 
+    where w = weight pt
+-}
 

@@ -212,12 +212,12 @@ flattenList op1 [] = []
 
 -- choice folds
 
-seqPrefixMerge :: (Eq a) => [PPTree a] -> [PPTree a]
+seqPrefixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
 seqPrefixMerge ((NodeN Seq (pt1:ptl1) w1):(NodeN Seq (pt2:ptl2) w2):ptl)
     | pt1 =~= pt2 && (ptl1 /= [] || ptl2 /= [])
-          = NodeN Seq [merge pt1 pt2,
-                       NodeN Choice [NodeN Seq ptl1 w1,
-                                      NodeN Seq ptl2 w2] nw] nw:
+          = seqP [merge pt1 pt2,
+                  choiceP [seqP ptl1 w1,
+                           seqP ptl2 w2] nw] nw:
                      seqPrefixMerge ptl
     | pt1 =~= pt2 && (null ptl1 && null ptl2) 
          = merge pt1 pt2:seqPrefixMerge ptl
@@ -230,10 +230,10 @@ choiceFoldPrefix :: (Eq a, Ord a) => PRule a
 choiceFoldPrefix = choiceChildMR seqPrefixMerge 
 
 -- Warning last is O(N) on lists
-seqSuffixMerge :: (Eq a) => [PPTree a] -> [PPTree a]
+seqSuffixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
 seqSuffixMerge ((NodeN Seq ptl1 w1):(NodeN Seq ptl2 w2):ptl)
-    | pt1 =~= pt2 = NodeN Seq [NodeN Choice [NodeN Seq nptl1 w1,
-                                                NodeN Seq nptl2 w2] nw,
+    | pt1 =~= pt2 = NodeN Seq [ choiceP [NodeN Seq nptl1 w1,
+                                         NodeN Seq nptl2 w2] nw,
                                  merge pt1 pt2] nw:
                      seqSuffixMerge ptl
     | otherwise = NodeN Seq ptl1 w1:
@@ -251,6 +251,8 @@ choiceFoldSuffix = choiceChildMR seqSuffixMerge
 
 
 -- conc creation
+-- len == 2 only
+-- includes concSubsume rule as considers all sequence prefixes
 concFromChoice :: (Eq a, Ord a) => PRule a
 concFromChoice = choiceChildMR concFromChoiceList 
 
@@ -297,6 +299,7 @@ concMapFromSeqChildren (ptl:ptls) (tptl:tptls)
     where sm  = concMapFromSeqChildren ptls tptls
           pml = reverse ptl
 concMapFromSeqChildren [] _ = Map.empty
+
 
 
 -- Rule lists

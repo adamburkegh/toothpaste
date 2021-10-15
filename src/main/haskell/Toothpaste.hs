@@ -271,16 +271,16 @@ concFromChoiceList ptl
 concFromSeqList :: (Ord a) => [PPTree a] -> [PPTree a]
 concFromSeqList ptl 
     | length rs /= length hds 
-        = map (\(x,y) -> convertConcMapEntryToNode x y) (Map.toList rs)
+        = map (uncurry convertConcMapEntryToNode) (Map.toList rs)
     | otherwise               = ptl
-    where (hds,tls) = unzip $ map (\x -> splitAt 2 (children x)) ptl
+    where (hds,tls) = unzip $ map (splitAt 2 . children) ptl
           rs   = concMapFromSeqChildren hds tls
 
 convertConcMapEntryToNode :: (Ord a) => [PPTree a] -> [[PPTree a]] -> PPTree a
 convertConcMapEntryToNode ptl tptl
-    | length tptl > 1  && length cc >= 1 = seqP [concP ptl w, choiceP cc w] w
-    | length tptl > 1  && length cc == 0 = concP ptl w
-    | otherwise        = seqP (ptl ++ (head tptl) ) w
+    | length tptl > 1  && not (null cc) = seqP [concP ptl w, choiceP cc w] w
+    | length tptl > 1  && null cc       = concP ptl w
+    | otherwise        = seqP (ptl ++ head tptl ) w
     where w  = sum $ map weight ptl
           cc = mapMaybe convertConcTailEntry tptl
 
@@ -336,7 +336,7 @@ transformRuleOrdered x = maxTransformRuleOrder x ruleList
 transformInRuleOrder :: (Show a, Eq a) => PPTRuleTransform a
 transformInRuleOrder pt [r] = transformPT pt r
 transformInRuleOrder pt (r:rs) =
-    transformInRuleOrder (transformInRuleOrder pt [r]) rs
+          transformInRuleOrder (transformInRuleOrder pt [r]) rs
 transformInRuleOrder x _ = x
 
 maxTransformRuleOrder :: (Show a, Eq a) => PPTRuleTransform a

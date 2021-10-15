@@ -73,7 +73,7 @@ pptree poper [u1] w         = u1
 pptree poper []  w          = emptyTree
 
 pptreeSort :: (Ord a) => POperN -> [PPTree a] -> Weight -> PPTree a
-pptreeSort poper ptl w = pptree poper (sort ptl) w
+pptreeSort poper ptl = pptree poper (sort ptl) 
 
 seqP :: [PPTree a] -> Weight -> PPTree a
 seqP = pptree Seq 

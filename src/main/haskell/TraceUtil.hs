@@ -11,5 +11,5 @@ debug = trace
 -- debug x y = y
 
 warn :: String -> a -> a
-warn msg x = trace ("WARNING " ++ msg) x
+warn msg = trace ("WARNING " ++ msg) 
 

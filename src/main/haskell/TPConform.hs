@@ -6,7 +6,7 @@ import TraceUtil
 
 -- convenience
 log2 :: Floating a => a -> a
-log2 x = logBase 2 x
+log2 = logBase 2 
 
 -- permutation utilities
 
@@ -16,7 +16,7 @@ elemCompl (x:xs) = elemCompl2 [] x xs
 elemCompl [] = []
 
 elemCompl2 :: [a] -> a -> [a] -> [(a,[a])]
-elemCompl2 xs y (z:zs) = [(y,xs++(z:zs))] ++ elemCompl2 (xs ++ [y]) z zs
+elemCompl2 xs y (z:zs) = (y,xs++(z:zs)) : elemCompl2 (xs ++ [y]) z zs
 elemCompl2 xs y [] = [(y,xs)]
 
 
@@ -31,21 +31,21 @@ prob s (Node1 FLoop pt r w)
 prob s (Node1 PLoop pt r w) = 0 -- probPLoop s pt r TODO BROKEN
 prob s (Leaf x w) | s == [x]    = 1
                   | otherwise = 0
-prob s (Silent w) | s == []   = 1
+prob s (Silent w) | null s    = 1
                   | otherwise = 0
 
 
 probConc :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
 probConc s ptl
-        = (sum 
-            ( map (\(pt1,ptl1) -> probConcElem s pt1 ptl1 ) 
-                  (elemCompl ptl) ) ) 
+        = sum 
+            ( map (uncurry (probConcElem s)) 
+                  (elemCompl ptl) )  
             / wt
         where wt = sum (map weight ptl)
 
 probConcElem :: (Eq a, Ord a) => [a] -> PPTree a -> [PPTree a] -> Float
 probConcElem s pt ptl = 
-        w * (prob s (NodeN Seq [pt, concP ptl w] w) ) 
+        w * prob s (NodeN Seq [pt, concP ptl w] w) 
     where w  = weight pt
 
 probSeq :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
@@ -53,8 +53,8 @@ probSeq s [pt]     = prob s pt
 probSeq s (pt:ptl) = prob [] pt * probSeq s ptl
                    + probSeqS s 1 (pt:ptl)
     where w = weight pt
-probSeq [] [] = warn ("Empty in probSeq (empty trace) " ) 1
-probSeq s  [] = warn ("Empty in probSeq " ) 0
+probSeq [] [] = warn "Empty in probSeq (empty trace) "  1
+probSeq s  [] = warn "Empty in probSeq "  0
 
 probSeqS :: (Eq a, Ord a) => [a] -> Int -> [PPTree a] -> Float
 probSeqS s n (pt:ptl) 
@@ -66,8 +66,8 @@ probSeqS s n (pt:ptl)
 probSeqS s n ptl      = 0
 
 probPLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float
-probPLoop [] pt r = 1/ (r - ((prob [] pt)*(r-1)))
-probPLoop s pt r = 1/ (r - ((prob s pt)*(r-1))) - (1/r)
+probPLoop [] pt r = 1/ (r - (prob [] pt*(r-1)))
+probPLoop s pt r = 1/ (r - (prob s pt*(r-1))) - (1/r)
 
 
 -- entropy

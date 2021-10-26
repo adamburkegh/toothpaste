@@ -331,7 +331,7 @@ tcc = WTransition "c" "t6" 1
 
 pmidLoop1 = Place "" "p2" 
 pmidLoop2 = Place "" "p3" 
-tlpa = WTransition "a" "t6" 5
+tlpa = WTransition "a" "t6" 4
 ttauin1 = WTransition "tauin" "t4" 1
 ttauout2 = WTransition "tauout" "t5" 1
 

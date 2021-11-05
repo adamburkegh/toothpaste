@@ -27,6 +27,27 @@ permute (x:xs) = concatMap (\(y,yl) -> headify y (permute yl)  )
                               (elemCompl (x:xs))
 permute []     = [[]]
 
+-- ordered sub projections
+ordSubProj :: [a] -> [[a]]
+ordSubProj (x:xs) = ordSubProj2 [x] xs
+ordSubProj []     = []
+
+ordSubProj2 :: [a] -> [a] -> [[a]]
+ordSubProj2 pref (x:xs) = ordSubProj2 (pref++[x]) xs ++ ordSubProj2 pref xs
+ordSubProj2 pref []     = [pref]
+
+-- ordered sub projections, paired with complement
+ordSubProjPairs :: [a] -> [([a],[a])]
+ordSubProjPairs (x:xs) = ordSubProjPairs2 [x] [] xs
+ordSubProjPairs []     = []
+
+ordSubProjPairs2 :: [a] -> [a] -> [a] -> [([a],[a])]
+ordSubProjPairs2 pref pref2 (x:xs) = b1 ++ b2
+    where b1 = ordSubProjPairs2 (pref++[x]) pref2 xs
+          b2 = ordSubProjPairs2 pref (pref2++[x]) xs
+ordSubProjPairs2 pref pref2 []     = [(pref,pref2)]
+
+
 -- probability [0,1]
 prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
 prob s (NodeN Choice ptl w) =  sum (map (\u -> weight u * prob s u) ptl) / wt
@@ -56,7 +77,7 @@ probConcSplits :: (Eq a, Ord a) => [a] -> [a] -> [PPTree a] -> Float
 probConcSplits s1 s2 ptl = sum( map (\(u,uptl) -> (weight u)
                                        * prob s1 u
                                        * probConc s2 uptl )
-                                (elemCompl (ptl)) )
+                                (elemCompl ptl) )
                            / wt
                where wt = sum (map weight ptl) 
 

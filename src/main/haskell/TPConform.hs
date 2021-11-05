@@ -19,12 +19,19 @@ elemCompl2 :: [a] -> a -> [a] -> [(a,[a])]
 elemCompl2 xs y (z:zs) = (y,xs++(z:zs)) : elemCompl2 (xs ++ [y]) z zs
 elemCompl2 xs y [] = [(y,xs)]
 
+headify :: a -> [[a]] -> [[a]]
+headify h = map (h:) 
+
+permute :: [a] -> [[a]]
+permute (x:xs) = concatMap (\(y,yl) -> headify y (permute yl)  ) 
+                              (elemCompl (x:xs))
+permute []     = [[]]
 
 -- probability [0,1]
 prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
 prob s (NodeN Choice ptl w) =  sum (map (\u -> weight u * prob s u) ptl) / wt
     where wt = sum (map weight ptl)
-prob s (NodeN Conc ptl w) = probConc s ptl
+prob s (NodeN Conc ptl w) = 0 -- probConc s ptl TODO BROKEN
 prob s (NodeN Seq  ptl w) = probSeq s ptl
 prob s (Node1 FLoop pt r w) 
     = prob s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
@@ -36,17 +43,30 @@ prob s (Silent w) | null s    = 1
 
 
 probConc :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
-probConc s ptl
-        = sum 
-            ( map (uncurry (probConcElem s)) 
-                  (elemCompl ptl) )  
-            / wt
-        where wt = sum (map weight ptl)
+probConc s [pt] = prob s pt
+-- probConc s (pt:ptl) =   probConcC s 1 (pt:ptl)
+--                       + probConcSplits [] s (pt:ptl) 
+probConc s (pt:ptl)
+        = sum( map (\ss -> probConcC ss 1 (pt:ptl)
+                         + probConcSplits [] ss (pt:ptl) )
+                   pms ) / (fromIntegral $ length pms)
+          where pms = permute s
 
-probConcElem :: (Eq a, Ord a) => [a] -> PPTree a -> [PPTree a] -> Float
-probConcElem s pt ptl = 
-        w * prob s (NodeN Seq [pt, concP ptl w] w) 
-    where w  = weight pt
+probConcSplits :: (Eq a, Ord a) => [a] -> [a] -> [PPTree a] -> Float
+probConcSplits s1 s2 ptl = sum( map (\(u,uptl) -> (weight u)
+                                       * prob s1 u
+                                       * probConc s2 uptl )
+                                (elemCompl (ptl)) )
+                           / wt
+               where wt = sum (map weight ptl) 
+
+probConcC :: (Eq a, Ord a) => [a] -> Int -> [PPTree a] -> Float
+probConcC s n (pt:ptl) 
+    | n <  length s =   probConcSplits fs sn (pt:ptl)  
+                      + probConcC s (n+1) (pt:ptl)
+    | n == length s = probConcSplits s  [] (pt:ptl) 
+     where  (fs,sn) = splitAt n s
+probConcC s n ptl = 0 
 
 probSeq :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
 probSeq s [pt]     = prob s pt

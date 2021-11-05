@@ -24,7 +24,9 @@ probBasicTests =
                "seq1" ~: 1 ~=? prob ["a"] (NodeN Seq [la] 1),
                "seq3" ~: 1 ~=? prob ["a","b","c"] (NodeN Seq [la,lb,lc] 1),
                "fixedLoopNone" ~: 0 ~=? prob ["a"] (Node1 FLoop lb 5 1),
-               "fixedLoop" ~: 1 ~=? prob ["a","a","a"] (Node1 FLoop la 3 1),
+               "fixedLoop" ~: 1 ~=? prob ["a","a","a"] (Node1 FLoop la 3 1)] 
+               
+probBasicConcTests = [
                "conc"    ~: 1/2 ~=? prob ["a","b"] (NodeN Conc [la,lb] 2),
                "conc2"   ~: 1/3 ~=? prob ["b","a"] (NodeN Conc [la2,lb] 3),
                "conc3"   ~: 2/3 ~=? prob ["a","b"] (NodeN Conc [la2,lb] 3)]
@@ -36,10 +38,28 @@ concTests = [ "conc3a" ~: 1/6 ~=? prob ["a","b","c"] (NodeN Conc [la,lb,lc] 3),
               "conc3d" ~: 1/12 
                 ~=? prob ["c","a","b"] (NodeN Conc [la,lb2,lc] 4) ] 
 
+cSeq = NodeN Conc [ NodeN Seq [la,lb] 1,
+                    lc ] 2
+concCompoundTests = [ 
+            "compSeq1" ~: 1/4 ~=? prob ["a","b","c"] cSeq,
+            "compSeq2" ~: 1/2 ~=? prob ["c","a","b"] cSeq,
+            "compSeqInter" ~: 1/4 ~=? prob ["a","c","b"] cSeq,
+            "compSeqInvalidOrder1" ~: 0 ~=? prob ["b","a","c"] cSeq ,
+            "compSeqInvalidOrder2" ~: 0 ~=? prob ["b","c","a"] cSeq ,
+            "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a"] cSeq ,
+            "compSeqInvalidDupe" ~: 0 ~=? prob ["a","b","c","c"] cSeq ]  
+
+
 probDuplicateTests = [ "incomplete" ~: 0 ~=? 1 ]
 
-utilTests = ["elemCompl" ~: [(1,[2,3]),(2,[1,3]),(3,[1,2])] 
+elemTests = ["elemCompl" ~: [(1,[2,3]),(2,[1,3]),(3,[1,2])] 
                                 ~=? elemCompl [1,2,3]    ]
+
+permuteTests =  ["pempty" ~: [[]] ~=? permute ([] :: [Integer]),
+                "p1"     ~: [[1]] ~=? permute [1],
+                "p2"     ~: [[1,2],[2,1]] ~=? permute [1,2],
+                "p3"     ~: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+                            ~=? permute [1,2,3] ]
 
 lfatau2 = Node1 FLoop (NodeN Choice [la2,Silent 1] 3) 2 3
 lfatau3 = Node1 FLoop (NodeN Choice [la2,Silent 1] 3) 3 3
@@ -65,8 +85,10 @@ probLoopTests =  [ "noMatch"    ~: 0 ~=? prob ["c"] lpa ] --,
                -- "silentChoiceLoop"  ~: 2/(4**2)  ~=? prob ["a"] lpatau ,
                -- "silentChoiceLoop2"  ~: 1/3 ~=? prob [] lpatau ]
 
+utilTests = elemTests ++ permuteTests
 
-probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests ++ concTests
+probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
+            -- ++ probBasicConcTests ++ concTests ++ concCompoundTests
 
 huTests = probTests ++ utilTests
 

@@ -38,7 +38,7 @@ ordSubProj2 pref []     = [pref]
 
 -- ordered sub projections, paired with complement
 ordSubProjPairs :: [a] -> [([a],[a])]
-ordSubProjPairs (x:xs) = ordSubProjPairs2 [x] [] xs
+ordSubProjPairs (x:xs) = [([],(x:xs))] ++ ordSubProjPairs2 [x] [] xs
 ordSubProjPairs []     = []
 
 ordSubProjPairs2 :: [a] -> [a] -> [a] -> [([a],[a])]

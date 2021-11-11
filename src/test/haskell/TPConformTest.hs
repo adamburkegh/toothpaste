@@ -74,15 +74,14 @@ ordSubProjTests = ["empty" ~: ([]::[[Integer]]) ~=? ordSubProj ([]::[Integer]),
 ordSubProjPairsTests = 
                   ["empty" ~: ([]::[([Integer],[Integer]) ] ) 
                                     ~=? ordSubProjPairs ([]::[Integer]),
-                   "one"   ~: Set.fromList [([1],[]),([],[1])]   
+                   "one"   ~: Set.fromList [([1],[])]   
                                 ~=? Set.fromList (ordSubProjPairs [1]),
-                   "two"   ~: Set.fromList [([1,2],[]),([1],[2]),([],[1,2])]   
+                   "two"   ~: Set.fromList [([1,2],[]),([1],[2])]   
                                 ~=?  Set.fromList (ordSubProjPairs [1,2]),
                    "three"   ~: Set.fromList [([1,2,3],[]),
                                               ([1,2],[3]),
                                               ([1,3],[2]),
-                                              ([1],[2,3]),
-                                              ([],[1,2,3])]   
+                                              ([1],[2,3]) ]
                                 ~=?  Set.fromList (ordSubProjPairs [1,2,3])
                   ] 
 

@@ -111,33 +111,4 @@ probPLoop [] pt r = 1/ (r - (prob [] pt*(r-1)))
 probPLoop s pt r = 1/ (r - (prob s pt*(r-1))) - (1/r)
 
 
--- entropy
--- broken, not in use
-entropy :: (Ord a) => PPTree a -> Float
-entropy (Leaf _ _) = 0
-entropy (Silent _) = 0
-{-
-entropy (NodeN Seq ptl w) = sum $ map entropy ptl
-entropy (NodeN Choice ptl w) = 
-        -1 * (sum (map (\pt -> (weight pt) * log2 ((weight pt)/wt )) ptl)) / wt 
-        + (sum $ map (\pt -> (weight pt) * (entropy pt) ) ptl ) / wt
-    where wt = sum $ map weight ptl
-entropy (NodeN Conc ptl w) =
-    ( sum ( map (\(pti,ptli) -> entropyConcElem pti ptli wt) 
-                (elemCompl ptl)  ) ) 
-        / wt
-    where  wt = sum $ map weight ptl
-entropy (Node1 FLoop pt r w) = r * entropy pt
-entropy (Node1 PLoop pt r w) = (entropy pt - log2((r-1)/r)) 
-                   * (r / ((r-1) ** 2) )
-                   - ( log2(1/r) /(r-1)  )
-
-entropyConcElem :: (Ord a) => PPTree a -> [PPTree a] -> Float -> Float
-entropyConcElem pt ptl wt =  
-      w * ( (entropy pt) 
-          + (entropy 
-                (concP ptl (sum $ map weight ptl) ) ) 
-          - (log2 ( w/ wt) )  ) 
-    where w = weight pt
--}
 

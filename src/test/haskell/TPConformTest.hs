@@ -63,27 +63,6 @@ permuteTests =  ["pempty" ~: [[]] ~=? permute ([] :: [Integer]),
                 "p3"     ~: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
                             ~=? permute [1,2,3] ]
 
-ordSubProjTests = ["empty" ~: ([]::[[Integer]]) ~=? ordSubProj ([]::[Integer]),
-                   "one"   ~: [[1]]   ~=? ordSubProj [1],
-                   "two"   ~: Set.fromList [[1,2],[1]]   
-                                ~=?  Set.fromList (ordSubProj [1,2]),
-                   "three"   ~: Set.fromList [[1,2,3],[1,2],[1,3],[1]]   
-                                ~=?  Set.fromList (ordSubProj [1,2,3])
-                  ] 
-
-ordSubProjPairsTests = 
-                  ["empty" ~: ([]::[([Integer],[Integer]) ] ) 
-                                    ~=? ordSubProjPairs ([]::[Integer]),
-                   "one"   ~: Set.fromList [([1],[])]   
-                                ~=? Set.fromList (ordSubProjPairs [1]),
-                   "two"   ~: Set.fromList [([1,2],[]),([1],[2])]   
-                                ~=?  Set.fromList (ordSubProjPairs [1,2]),
-                   "three"   ~: Set.fromList [([1,2,3],[]),
-                                              ([1,2],[3]),
-                                              ([1,3],[2]),
-                                              ([1],[2,3]) ]
-                                ~=?  Set.fromList (ordSubProjPairs [1,2,3])
-                  ] 
 
 lfatau2 = Node1 FLoop (NodeN Choice [la2,Silent 1] 3) 2 3
 lfatau3 = Node1 FLoop (NodeN Choice [la2,Silent 1] 3) 3 3
@@ -109,11 +88,21 @@ probLoopTests =  [ "noMatch"    ~: 0 ~=? prob ["c"] lpa ] --,
                -- "silentChoiceLoop"  ~: 2/(4**2)  ~=? prob ["a"] lpatau ,
                -- "silentChoiceLoop2"  ~: 1/3 ~=? prob [] lpatau ]
 
-utilTests = elemTests ++ permuteTests ++ ordSubProjTests 
-            ++ ordSubProjPairsTests
+
+loudTests = [ "silent" ~: False ~=? loud (Silent 1),
+              "leaf" ~:   True  ~=? loud la,
+              "choice" ~: True  ~=? loud (NodeN Choice [la,lb] 2),
+              "ploop" ~:  False ~=? loud (Node1 PLoop la 3 1) ]
+
+--
+
+
+utilTests = elemTests ++ permuteTests ++ loudTests
 
 probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
             -- ++ probBasicConcTests ++ concTests ++ concCompoundTests
 
 huTests = probTests ++ utilTests
+
+
 

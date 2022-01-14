@@ -27,25 +27,13 @@ permute (x:xs) = concatMap (\(y,yl) -> headify y (permute yl)  )
                               (elemCompl (x:xs))
 permute []     = [[]]
 
--- ordered sub projections
-ordSubProj :: [a] -> [[a]]
-ordSubProj (x:xs) = ordSubProj2 [x] xs
-ordSubProj []     = []
 
-ordSubProj2 :: [a] -> [a] -> [[a]]
-ordSubProj2 pref (x:xs) = ordSubProj2 (pref++[x]) xs ++ ordSubProj2 pref xs
-ordSubProj2 pref []     = [pref]
-
--- ordered sub projections, paired with complement
-ordSubProjPairs :: [a] -> [([a],[a])]
-ordSubProjPairs (x:xs) = ordSubProjPairs2 [x] [] xs
-ordSubProjPairs []     = []
-
-ordSubProjPairs2 :: [a] -> [a] -> [a] -> [([a],[a])]
-ordSubProjPairs2 pref pref2 (x:xs) = b1 ++ b2
-    where b1 = ordSubProjPairs2 (pref++[x]) pref2 xs
-          b2 = ordSubProjPairs2 pref (pref2++[x]) xs
-ordSubProjPairs2 pref pref2 []     = [(pref,pref2)]
+loud :: PPTree a -> Bool
+loud (NodeN op ptl w) = all (loud) ptl
+loud (Node1 FLoop pt r w) = loud pt
+loud (Node1 PLoop pt r w) = False
+loud (Leaf x w) = True
+loud (Silent w) = False
 
 
 -- probability [0,1]
@@ -61,6 +49,13 @@ prob s (Leaf x w) | s == [x]    = 1
                   | otherwise = 0
 prob s (Silent w) | null s    = 1
                   | otherwise = 0
+
+-- probConcRegion :: (Eq a, Ord a) => [a] -> PPTree a -> Float
+-- TODO rest
+-- probConcRegion s (Leaf x w) = prob s (Leaf x w)
+-- probConcRegion s (Silent w) = prob s (Silent w)
+
+
 
 
 probConc :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float

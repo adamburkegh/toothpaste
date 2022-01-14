@@ -35,6 +35,7 @@ executables:
     source-dirs:         src/main/haskell
     ghc-options:
     - -threaded
+    - -fwarn-unused-imports
     - -rtsopts
     - -with-rtsopts=-N
       # - '"-with-rtsopts=-M250M -N -xc"' 

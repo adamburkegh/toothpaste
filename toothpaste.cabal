@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d5c2a432289f69ec95b230b8904f6cda765ed8fb0fb9f7b6ead58c27cd7744eb
+-- hash: b46dd3cc8a4a7e2b5d4872d1c8905340cdde71a1fd3149f915eb5f0ecfc3c790
 
 name:           toothpaste
 version:        0.9.0.0
@@ -67,7 +67,7 @@ executable toothpaste
       Paths_toothpaste
   hs-source-dirs:
       src/main/haskell
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -threaded -fwarn-unused-imports -rtsopts -with-rtsopts=-N
   build-depends:
       HUnit >=1.6.1.0 && <2
     , base >=4.7 && <5

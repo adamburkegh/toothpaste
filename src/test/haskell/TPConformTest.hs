@@ -82,11 +82,12 @@ fixedLoopTests = let ?epsilon = 0.0001 in
 lpa = Node1 PLoop la 3 1
 lpatau = Node1 PLoop (NodeN Choice [la2,Silent 1] 3) 4 3
 
-probLoopTests =  [ "noMatch"    ~: 0 ~=? prob ["c"] lpa ] --,
-               --"loopMatch"  ~: (2/9) ~=? prob ["a"] lpa,
-               -- "loopMatch2"  ~: (2**3/3**4) ~=? prob ["a","a","a"] lpa,
-               -- "silentChoiceLoop"  ~: 2/(4**2)  ~=? prob ["a"] lpatau ,
-               -- "silentChoiceLoop2"  ~: 1/3 ~=? prob [] lpatau ]
+probLoopTests =  [ "noMatch"    ~: 0 ~=? prob ["c"] lpa ,
+                   "emptySingleton" ~: (1/3) ~=? prob [] lpa,
+                   "loopMatch"  ~: (2/9) ~=? prob ["a"] lpa ] --,
+                   -- "loopMatch2"  ~: (2**3/3**4) ~=? prob ["a","a","a"] lpa,
+                   -- "silentChoiceLoop"  ~: 2/(4**2)  ~=? prob ["a"] lpatau ,
+                   -- "silentChoiceLoop2"  ~: 1/3 ~=? prob [] lpatau ]
 
 
 loudTests = [ "silent" ~: False ~=? loud (Silent 1),

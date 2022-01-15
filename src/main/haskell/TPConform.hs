@@ -40,15 +40,15 @@ loud (Silent w) = False
 prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
 prob s (NodeN Choice ptl w) =  sum (map (\u -> weight u * prob s u) ptl) / wt
     where wt = sum (map weight ptl)
-prob s (NodeN Conc ptl w) = 0 -- probConc s ptl TODO BROKEN
-prob s (NodeN Seq  ptl w) = probSeq s ptl
-prob s (Node1 FLoop pt r w) 
-    = prob s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
-prob s (Node1 PLoop pt r w) = 0 -- probPLoop s pt r TODO BROKEN
 prob s (Leaf x w) | s == [x]    = 1
                   | otherwise = 0
 prob s (Silent w) | null s    = 1
                   | otherwise = 0
+prob s (NodeN Seq  ptl w) = probSeq s ptl
+prob s (Node1 FLoop pt r w) 
+    = prob s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
+prob s (NodeN Conc ptl w) = 0 -- probConc s ptl TODO BROKEN
+prob s (Node1 PLoop pt r w) = probPLoop s pt r 
 
 -- probConcRegion :: (Eq a, Ord a) => [a] -> PPTree a -> Float
 -- TODO rest
@@ -102,8 +102,17 @@ probSeqS s n (pt:ptl)
 probSeqS s n ptl      = 0
 
 probPLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float
-probPLoop [] pt r = 1/ (r - (prob [] pt*(r-1)))
-probPLoop s pt r = 1/ (r - (prob s pt*(r-1))) - (1/r)
+probPLoop [] pt r = (1/r) + (prob [] pt) / r**2
+probPLoop s pt r | length s == 1 = prob s pt *((r-1)/r^2) 
+                                 + prob s pt * (prob [] pt) / r**2
+                 | loud (pt) = (1/r) * probLoudLoop s pt r 1
+                 | otherwise = 0 -- TODO pending
+
+
+probLoudLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Int -> Float 
+probLoudLoop s pt r n | n < length s    = pli + probLoudLoop s pt r (n+1)
+                      | n >= (length s) = pli 
+            where pli = prob s (Node1 FLoop pt (fromIntegral n) (weight pt))
 
 
 

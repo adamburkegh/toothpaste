@@ -12,6 +12,7 @@ import Test.HUnit.Approx
 
 la  = Leaf "a" 1
 la2 = Leaf "a" 2
+la3 = Leaf "a" 3
 lb  = Leaf "b" 1
 lb2 = Leaf "b" 2
 lb4 = Leaf "b" 4
@@ -157,12 +158,27 @@ fixedLoopTests = let ?epsilon = eps in
 
 
 lpa = Node1 PLoop la 3 1
-lpatau = Node1 PLoop (NodeN Choice [la2,Silent 1] 3) 4 3
+lpaseq = Node1 PLoop (NodeN Seq [la,lb] 1) 3 1
+lpach  = Node1 PLoop (NodeN Choice [la3,lb] 4) 3 4
+lpach2  = Node1 PLoop (NodeN Choice [la3,NodeN Seq [lb,lc] 1] 4) 3 4
+lpatau = Node1 PLoop (NodeN Choice [la2,Silent 1] 3) 3 3
 
-probLoopTests =  [ "noMatch"    ~: 0 ~=? prob ["c"] lpa ,
-                   "emptySingleton" ~: (1/3) ~=? prob [] lpa,
-                   "loopMatch"  ~: (2/9) ~=? prob ["a"] lpa ] --,
-                   -- "loopMatch2"  ~: (2**3/3**4) ~=? prob ["a","a","a"] lpa,
+probLoopTests =  let ?epsilon = eps in 
+            [ "noMatch"    ~: 0 ~=? prob ["c"] lpa ,
+              "emptySingleton" ~: (1/3) ~=? prob [] lpa,
+              "loopMatch"  ~: (2/9) ~=? prob ["a"] lpa ,
+              "loopMatch2" ~: (2**3/3**4) ~?~ prob ["a","a","a"] lpa ,
+              "noMatchSeq" ~: 0 ~=? prob ["a","a"] lpaseq,
+              "twoMatchSeq" ~: (2**2/3**3) ~?~ prob ["a","b","a","b"] lpaseq,
+              "noMatchChoice" ~: 0 ~=? prob ["c"] lpach,
+              "oneMatchChoice" ~: 3*2/(4*3*3) ~?~ prob ["a"] lpach,
+              "twoMatchChoice1" ~: 3*2*2/(4*4*3**3) ~?~ prob ["a","b"] lpach,
+              "twoMatchChoice2" ~: 3*2*2/(4*4*3**3) ~?~ prob ["b","a"] lpach,
+              "threeMatchChoice" ~: 3*3*2**3/(4**3*3**4) ~?~ 
+                                        prob ["a","b","a"] lpach,
+              "twoMatchChoice3" ~: 3*2*2/(4*4*3**3) ~?~ 
+                                            prob ["b","c","a"] lpach2
+              ]
                    -- "silentChoiceLoop"  ~: 2/(4**2)  ~=? prob ["a"] lpatau ,
                    -- "silentChoiceLoop2"  ~: 1/3 ~=? prob [] lpatau ]
 

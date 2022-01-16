@@ -104,15 +104,17 @@ probSeqS s n ptl      = 0
 probPLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float
 probPLoop [] pt r = (1/r) + (prob [] pt) / r**2
 probPLoop s pt r | length s == 1 = prob s pt *((r-1)/r^2) 
-                                 + prob s pt * (prob [] pt) / r**2
-                 | loud (pt) = (1/r) * probLoudLoop s pt r 1
-                 | otherwise = 0 -- TODO pending
+                                 + prob s pt * (prob [] pt) / r**2  
+                 | loud (pt) = (probLoudLoop s pt r 1) /r 
+                 | otherwise = 0 -- TODO
 
 
 probLoudLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Int -> Float 
 probLoudLoop s pt r n | n < length s    = pli + probLoudLoop s pt r (n+1)
                       | n >= (length s) = pli 
-            where pli = prob s (Node1 FLoop pt (fromIntegral n) (weight pt))
+            where pli = ((r-1)/r)^n * (prob s (Node1 FLoop pt (fromIntegral n) 
+                                                               (weight pt)) )
+                        
 
 
 

@@ -13,8 +13,13 @@ import Test.HUnit.Approx
 la  = Leaf "a" 1
 la2 = Leaf "a" 2
 lb  = Leaf "b" 1
-lb2  = Leaf "b" 2
+lb2 = Leaf "b" 2
+lb4 = Leaf "b" 4
 lc  = Leaf "c" 1
+ld  = Leaf "d" 1
+
+eps =  0.0001
+
 
 -- Tests
 
@@ -28,21 +33,38 @@ probBasicTests =
                "fixedLoopNone" ~: 0 ~=? prob ["a"] (Node1 FLoop lb 5 1),
                "fixedLoop" ~: 1 ~=? prob ["a","a","a"] (Node1 FLoop la 3 1)] 
                
+basicSilentTests = [
+            "silentLeafOk" ~: 1 ~=? prob ([]::String) (Silent 1),
+            "silentLeafFail" ~: 0 ~=? prob ["a"] (Silent 1),
+            "seqSilent" ~: 1.0 ~=?
+                   prob ["a","b"] (NodeN Seq [la, Silent 1, lb] 1),
+            -- "silentConc" ~: 1.0 ~=? prob ["a"] (NodeN Conc [la,Silent 1] 2),
+            "silentChoice" ~: 0.5 ~=? prob ["a"] (NodeN Choice [la,Silent 1] 2),
+            "silentChoiceEmpty" ~: 0.5 ~=?
+                prob [] (NodeN Choice [la,Silent 1] 2)
+                ]
+
+
 probBasicConcTests = [
                "conc"    ~: 1/2 ~=? prob ["a","b"] (NodeN Conc [la,lb] 2),
                "conc2"   ~: 1/3 ~=? prob ["b","a"] (NodeN Conc [la2,lb] 3),
                "conc3"   ~: 2/3 ~=? prob ["a","b"] (NodeN Conc [la2,lb] 3)]
 
 
-concTests = [ "conc3a" ~: 1/6 ~=? prob ["a","b","c"] (NodeN Conc [la,lb,lc] 3),
-              "conc3b" ~: 1/6 ~=? prob ["a","b","c"] (NodeN Conc [la,lb2,lc] 4),
-              "conc3c" ~: 1/4 ~=? prob ["b","a","c"] (NodeN Conc [la,lb2,lc] 4),
-              "conc3d" ~: 1/12 
-                ~=? prob ["c","a","b"] (NodeN Conc [la,lb2,lc] 4) ] 
+concSimpleTests = let ?epsilon = eps in
+       ["conc3evens1" ~: 1/6 ~=? prob ["a","b","c"] (NodeN Conc [la,lb,lc] 3),
+        "conc3evens2" ~: 1/6 ~=? prob ["a","c","b"] (NodeN Conc [la,lb,lc] 3),
+        "conc3a1" ~: 1/6  ~?~ prob ["a","b","c"] (NodeN Conc [la,lb2,lc] 4),
+        "conc3a2" ~: 1/12 ~?~ prob ["a","c","b"] (NodeN Conc [la,lb2,lc] 4),
+        "conc3b1" ~: 1/4  ~?~ prob ["b","a","c"] (NodeN Conc [la,lb2,lc] 4),
+        "conc3b2" ~: 1/4  ~?~ prob ["b","c","a"] (NodeN Conc [la,lb2,lc] 4),
+        "conc3c1" ~: 1/12 ~?~ prob ["c","a","b"] (NodeN Conc [la,lb2,lc] 4),
+        "conc3c2" ~: 1/6  ~?~ prob ["c","b","a"] (NodeN Conc [la,lb2,lc] 4) ]
+
 
 cSeq = NodeN Conc [ NodeN Seq [la,lb] 1,
                     lc ] 2
-concCompoundTests = [ 
+concSeqCompound1 = [ 
             "compSeq1" ~: 1/4 ~=? prob ["a","b","c"] cSeq,
             "compSeq2" ~: 1/2 ~=? prob ["c","a","b"] cSeq,
             "compSeqInter" ~: 1/4 ~=? prob ["a","c","b"] cSeq,
@@ -50,6 +72,61 @@ concCompoundTests = [
             "compSeqInvalidOrder2" ~: 0 ~=? prob ["b","c","a"] cSeq ,
             "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a"] cSeq ,
             "compSeqInvalidDupe" ~: 0 ~=? prob ["a","b","c","c"] cSeq ]  
+
+cSeq2 = NodeN Conc [ NodeN Seq [la,lb,lc] 1,
+                    ld ] 2
+
+concSeqCompound2 = [
+            "compSeq1" ~: 1/6 ~=? prob ["a","b","c","d"] cSeq2,
+            "compSeq2" ~: 1/2 ~=? prob ["d","a","b","c"] cSeq2,
+            "compSeqInter1" ~: 1/6 ~=? prob ["a","d","b","c"] cSeq2,
+            "compSeqInter2" ~: 1/6 ~=? prob ["a","b","d","c"] cSeq2,
+            "compSeqInvalidOrder1" ~: 0 ~=? prob ["b","a","c","d"] cSeq2 ,
+            "compSeqInvalidOrder2" ~: 0 ~=? prob ["b","c","a","d"] cSeq2 ,
+            "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a","d"] cSeq2 ,
+            "compSeqInvalidDupe" ~: 0 ~=? prob ["a","b","c","c"] cSeq2 ]
+concSeqCompound = concSeqCompound1 ++ concSeqCompound2
+
+cChoice = NodeN Conc [ NodeN Choice [la2, Silent 1] 3,
+                       lc] 4
+concChoiceCompound1 = [
+            "compChoice1" ~: 1/2 ~=? prob ["a", "c"] cChoice ,
+            "compChoice2" ~: 1/3 ~=? prob ["c"] cChoice ,
+            "compChoice3" ~: 1/6 ~=? prob ["c", "a"] cChoice,
+            "compChoiceWrong" ~: 0 ~=? prob ["a"] cChoice ]
+
+
+cChoice2 = NodeN Conc [ NodeN Choice [la2, Silent 1] 3,
+                       lc,ld] 5
+concChoiceCompound2 = let ?epsilon = eps in [
+            "compChoice2-1" ~: 1/5  ~?~ prob ["a","c","d" ] cChoice2,
+            "compChoice2-2" ~: 1/5  ~?~ prob ["a","d","c" ] cChoice2,
+            "compChoice2-3" ~: 7/30 ~?~ prob ["c","d" ] cChoice2,
+            "compChoice2-4" ~: 7/30 ~?~ prob ["d","c" ] cChoice2,
+            "compChoice2-5" ~: 1/10 ~?~ prob ["c","a","d"] cChoice2,
+            "compChoice2-6" ~: 1/30 ~?~ prob ["c","d","a"] cChoice2,
+            "compChoice2-7" ~: 1/10 ~?~ prob ["d","a","c"] cChoice2,
+            "compChoice2-8" ~: 1/30 ~?~ prob ["d","c","a"] cChoice2,
+            "compChoice2-9" ~: 0.0  ~=? prob ["a","b"] cChoice2 ]
+
+cConc1 = NodeN Conc [la, NodeN Conc [lb4,lc] 5] 6
+concConcCompound = let ?epsilon = eps in [
+        "concc1" ~: 0 ~?~ prob ["a","b","c"] cConc1 -- TODO wrong
+    ]
+
+concCompoundTests = concSeqCompound
+                    ++ concChoiceCompound1 ++ concChoiceCompound2
+
+cSil = NodeN Conc [ NodeN Seq [la,Silent 1,lb] 1,
+                    lc ] 2
+concCompoundSilentTests = [
+            "compSeq1" ~: 1/4 ~=? prob ["a","b","c"] cSil,
+            "compSeq2" ~: 1/2 ~=? prob ["c","a","b"] cSil,
+            "compSeqInter" ~: 1/4 ~=? prob ["a","c","b"] cSil,
+            "compSeqInvalidOrder1" ~: 0 ~=? prob ["b","a","c"] cSil ,
+            "compSeqInvalidOrder2" ~: 0 ~=? prob ["b","c","a"] cSil ,
+            "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a"] cSil ,
+            "compSeqInvalidDupe" ~: 0 ~=? prob ["a","b","c","c"] cSil ]
 
 
 probDuplicateTests = [ "incomplete" ~: 0 ~=? 1 ]
@@ -67,7 +144,7 @@ permuteTests =  ["pempty" ~: [[]] ~=? permute ([] :: [Integer]),
 lfatau2 = Node1 FLoop (NodeN Choice [la2,Silent 1] 3) 2 3
 lfatau3 = Node1 FLoop (NodeN Choice [la2,Silent 1] 3) 3 3
 
-fixedLoopTests = let ?epsilon = 0.0001 in 
+fixedLoopTests = let ?epsilon = eps in 
              [ "loopMatch0_2"  ~: (1/9) ~?~ prob [] lfatau2,
                "loopMatch1_2"  ~: (4/9) ~?~ prob ["a"] lfatau2,
                "loopMatch2_2"  ~: (4/9) ~?~ prob ["a","a"] lfatau2,
@@ -97,11 +174,16 @@ loudTests = [ "silent" ~: False ~=? loud (Silent 1),
 
 --
 
+concTests = probBasicConcTests
+           ++ concSimpleTests
+           ++ concCompoundTests
+           ++ concCompoundSilentTests
+
 
 utilTests = elemTests ++ permuteTests ++ loudTests
 
 probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
-            -- ++ probBasicConcTests ++ concTests ++ concCompoundTests
+            -- ++ concTests 
 
 huTests = probTests ++ utilTests
 

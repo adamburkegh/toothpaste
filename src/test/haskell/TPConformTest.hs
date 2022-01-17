@@ -177,11 +177,21 @@ probLoopTests =  let ?epsilon = eps in
               "threeMatchChoice" ~: 3*3*2**3/(4**3*3**4) ~?~ 
                                         prob ["a","b","a"] lpach,
               "twoMatchChoice3" ~: 3*2*2/(4*4*3**3) ~?~ 
-                                            prob ["b","c","a"] lpach2
-              ]
-                   -- "silentChoiceLoop"  ~: 2/(4**2)  ~=? prob ["a"] lpatau ,
-                   -- "silentChoiceLoop2"  ~: 1/3 ~=? prob [] lpatau ]
+                                            prob ["b","c","a"] lpach2,
+              "silentChoiceLoop"  ~: 2*2/(3*9) + 2/(3*3*9)  
+                                        ~=? prob ["a"] lpatau,
+              "silentChoiceLoopEmpty" ~: 1/3 + 1/(3*3**2) ~=? prob [] lpatau,
+              "silentChoiceLoop2" ~: 0.13994 ~?~ prob ["a","a"] lpatau] 
 
+loopApproxKTests = [ "t0" ~: 1  ~=? findLoopApproxK 2 0.6,
+                     "t1" ~: 2  ~=? findLoopApproxK 2 0.5,
+                     "t2" ~: 2  ~=? findLoopApproxK 2 0.3,
+                     "t3" ~: 3  ~=? findLoopApproxK 2 0.2,
+                     "t4" ~: 4  ~=? findLoopApproxK 2 0.12,
+                     "t5" ~: 2  ~=? findLoopApproxK 3 0.9,
+                     "t6" ~: 3  ~=? findLoopApproxK 3 0.6,
+                     "t7" ~: 6  ~=? findLoopApproxK 3 0.2,
+                     "t7" ~: 14 ~=? findLoopApproxK 3 0.01 ]
 
 loudTests = [ "silent" ~: False ~=? loud (Silent 1),
               "leaf" ~:   True  ~=? loud la,
@@ -199,6 +209,7 @@ concTests = probBasicConcTests
 utilTests = elemTests ++ permuteTests ++ loudTests
 
 probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
+            ++ loopApproxKTests
             -- ++ concTests 
 
 huTests = probTests ++ utilTests

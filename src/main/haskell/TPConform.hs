@@ -35,6 +35,8 @@ loud (Node1 PLoop pt r w) = False
 loud (Leaf x w) = True
 loud (Silent w) = False
 
+-- default epsilon for approximations
+defaulteps = 0.001
 
 -- probability [0,1]
 prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
@@ -48,7 +50,7 @@ prob s (NodeN Seq  ptl w) = probSeq s ptl
 prob s (Node1 FLoop pt r w) 
     = prob s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
 prob s (NodeN Conc ptl w) = 0 -- probConc s ptl TODO BROKEN
-prob s (Node1 PLoop pt r w) = probPLoop s pt r 
+prob s (Node1 PLoop pt r w) = probPLoop s pt r defaulteps
 
 -- probConcRegion :: (Eq a, Ord a) => [a] -> PPTree a -> Float
 -- TODO rest
@@ -101,20 +103,39 @@ probSeqS s n (pt:ptl)
               w       = weight pt
 probSeqS s n ptl      = 0
 
-probPLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float
-probPLoop [] pt r = (1/r) + (prob [] pt) / r**2
-probPLoop s pt r | length s == 1 = prob s pt *((r-1)/r^2) 
-                                 + prob s pt * (prob [] pt) / r**2  
-                 | loud (pt) = (probLoudLoop s pt r 1) /r 
-                 | otherwise = 0 -- TODO
+-- probPLoop is an approximation for silent subtrees
+-- sigma subtree reps epsilon
+probPLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float -> Float
+probPLoop [] pt r eps = (1/r) + (prob [] pt) / r**2
+probPLoop s pt r eps | length s == 1 = prob s pt *((r-1)/r^2) 
+                                     + prob s pt * (prob [] pt) / r**2  
+                     | loud (pt) = (probLoudLoop s pt r) /r 
+                     | otherwise = probPLoopApprox s pt r eps
 
 
-probLoudLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Int -> Float 
-probLoudLoop s pt r n | n < length s    = pli + probLoudLoop s pt r (n+1)
-                      | n >= (length s) = pli 
-            where pli = ((r-1)/r)^n * (prob s (Node1 FLoop pt (fromIntegral n) 
-                                                               (weight pt)) )
+probLoudLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float 
+probLoudLoop s pt r = probPLoopNth s pt r 1 (length s)
                         
+probPLoopApprox :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float -> Float
+probPLoopApprox s pt r eps = (probPLoopNth s pt r 1 k)/r
+            where k = findLoopApproxK r eps
+
+probPLoopNth ::  (Eq a, Ord a) => [a] -> PPTree a -> Float -> Int -> Int 
+                                      -> Float 
+probPLoopNth s pt r i n | i < n  = pli + probPLoopNth s pt r (i+1) n
+                        | i >= n = pli 
+            where pli = ((r-1)/r)^i * (prob s (Node1 FLoop pt (fromIntegral i) 
+                                                               (weight pt)) )
+ 
+findLoopApproxK :: Float -> Float -> Int
+findLoopApproxK r eps = findLoopApproxKAccum r eps (r-1) 1
+
+findLoopApproxKAccum :: Float -> Float -> Float -> Int -> Int
+findLoopApproxKAccum r eps cum i 
+    | nc  <  eps = i
+    | nc  >= eps = findLoopApproxKAccum r eps nc (i+1)
+    where nc = cum*(r-1)/r 
+
 
 
 

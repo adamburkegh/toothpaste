@@ -13,6 +13,7 @@ import Test.HUnit.Approx
 la  = Leaf "a" 1
 la2 = Leaf "a" 2
 la3 = Leaf "a" 3
+la10 = Leaf "a" 10
 lb  = Leaf "b" 1
 lb2 = Leaf "b" 2
 lb4 = Leaf "b" 4
@@ -20,6 +21,24 @@ lc  = Leaf "c" 1
 ld  = Leaf "d" 1
 
 eps =  0.0001
+
+(~~~) :: Float -> Float -> Bool
+(~~~) x y = (x-y) < eps
+
+acmp :: (Eq a) => PPTree a -> PPTree a -> Bool
+acmp (Leaf a n) (Leaf b m) = a == b && n ~~~ m
+acmp (Silent n) (Silent m) = n ~~~ m
+acmp (Node1 p1 a r1 n) (Node1 p2 b r2 m)
+        = (p1 == p2) && (acmp a b) && (r1 ~~~ r2) && (n ~~~ m)
+acmp (NodeN po1 ptl1 n) (NodeN po2 ptl2 m)
+        = (po1 == po2) && (acmpl ptl1 ptl2) && (n ~~~ m)
+acmp x y = False
+
+acmpl :: (Eq a) => [PPTree a] -> [PPTree a] -> Bool
+acmpl ptl1 ptl2 =  length ptl1  == length ptl2
+        && foldl (\c (pt1,pt2) -> (acmp pt1 pt2) && c) True z
+    where z = zip ptl1 ptl2
+
 
 
 -- Tests
@@ -198,6 +217,30 @@ loudTests = [ "silent" ~: False ~=? loud (Silent 1),
               "choice" ~: True  ~=? loud (NodeN Choice [la,lb] 2),
               "ploop" ~:  False ~=? loud (Node1 PLoop la 3 1) ]
 
+pathsetBasicTests = [ 
+            "silent" ~: (Silent 3) ~=? pathset ((Silent 3)::(PPTree String)),
+            "leaf"   ~: la ~=? pathset la,
+            "seq"    ~: NodeN Seq [la,lb] 1 ~=? pathset (NodeN Seq [la,lb] 1),
+            "choice" ~: NodeN Choice [la,lb] 2 
+                            ~=? pathset (NodeN Choice [la,lb] 2), 
+            "floop" ~: NodeN Seq [la,la,la] 1 
+                            ~=? pathset (Node1 FLoop la 3 1)  ]
+               
+pathsetPLoopTests = [ "leaf" ~: 
+         acmp (NodeN Seq [Silent 10,
+                    NodeN Choice 
+                          [scale (NodeN Seq [la10,la10,la10,la10,Silent 10] 10) 
+                                 ((2**4)/(3**5)),
+                           scale (NodeN Seq [la10,la10,la10,Silent 10] 10) 
+                                 ((2**3)/(3**4)),
+                           scale (NodeN Seq [la10,la10,Silent 10] 10) 
+                                 ((2*2)/(3**3)),
+                           scale (NodeN Seq [la10,Silent 10] 10) (2/(3*3)),
+                           Silent (10/3)] 
+                           10] 10)
+              (pathsetEps (Node1 PLoop la10 3 10) 0.4) 
+              @? "pathset mismatch" ]
+
 --
 
 concTests = probBasicConcTests
@@ -208,11 +251,14 @@ concTests = probBasicConcTests
 
 utilTests = elemTests ++ permuteTests ++ loudTests
 
+pathsetTests = pathsetBasicTests ++ pathsetPLoopTests
+
 probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
             ++ loopApproxKTests
+            ++ pathsetTests
             -- ++ concTests 
 
-huTests = probTests ++ utilTests
+huTests = probTests ++ utilTests 
 
 
 

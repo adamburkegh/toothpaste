@@ -136,6 +136,45 @@ findLoopApproxKAccum r eps cum i
     | nc  >= eps = findLoopApproxKAccum r eps nc (i+1)
     where nc = cum*(r-1)/r 
 
+-- pathsets are represented as PPTs
+pathset :: PPTree a -> PPTree a
+pathset pt = pathsetEps pt defaulteps
+
+pathsetEps :: PPTree a -> Float -> PPTree a
+pathsetEps (NodeN Seq ptl w) eps = NodeN Seq (map (`pathsetEps` eps) ptl) w
+pathsetEps (NodeN Choice ptl w) eps = NodeN Choice
+                                            (map (`pathsetEps` eps) ptl) w
+pathsetEps (NodeN Conc ptl w) eps = emptyTree -- TODO
+pathsetEps (Node1 FLoop pt r w) eps = 
+                    NodeN Seq 
+                          (duplicate (map (`pathsetEps` eps) [pt]) (round r)) 
+                          (weight pt) 
+pathsetEps (Node1 PLoop pt r w) eps = pathsetPLoop pt r eps k
+    where k = findLoopApproxK r eps
+pathsetEps pt eps = pt
+
+pathsetPLoop :: PPTree a -> Float -> Float -> Int -> PPTree a
+pathsetPLoop pt r eps k = NodeN Seq [Silent w,
+                                     NodeN Choice 
+                                           (pathsetPLoopList pt r eps k []) w] 
+                                     w
+             where w = weight pt
+
+pathsetPLoopList :: PPTree a -> Float -> Float -> Int -> [PPTree a] 
+                             -> [PPTree a]
+pathsetPLoopList pt r eps n ptl 
+        | i < n     = pathsetPLoopList pt r eps n (ipt:ptl)
+        | otherwise = (ipt:ptl)
+            where i   = length ptl 
+                  j   = fromIntegral i
+                  sf  = (r-1)**j/(r**(j+1))
+                  w   = weight pt
+                  ipt = scale (seqP ((duplicate (map (`pathsetEps` eps) 
+                                                    [pt]) 
+                                                    i) 
+                                     ++ [Silent w] ) 
+                                    w)
+                              sf
 
 
 

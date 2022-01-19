@@ -160,6 +160,7 @@ pathsetPLoop pt r eps k = NodeN Seq [Silent w,
                                      w
              where w = weight pt
 
+-- This would be better as a deterministic prefix tree
 pathsetPLoopList :: PPTree a -> Float -> Float -> Int -> [PPTree a] 
                              -> [PPTree a]
 pathsetPLoopList pt r eps n ptl 

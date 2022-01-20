@@ -137,6 +137,14 @@ findLoopApproxKAccum r eps cum i
     where nc = cum*(r-1)/r 
 
 -- pathsets are represented as PPTs
+isPathset :: PPTree a -> Bool
+isPathset (NodeN Conc ptl w) = False
+isPathset (NodeN op ptl w) = all (isPathset) ptl
+isPathset (Node1 FLoop pt r w) = False
+isPathset (Node1 PLoop pt r w) = False
+isPathset (Leaf x w) = True
+isPathset (Silent w) = True
+
 pathset :: PPTree a -> PPTree a
 pathset pt = pathsetEps pt defaulteps
 
@@ -176,6 +184,9 @@ pathsetPLoopList pt r eps n ptl
                                      ++ [Silent w] ) 
                                     w)
                               sf
+
+
+-- pathsetConc :: PPTree a -> Float -> PPTree a
 
 
 

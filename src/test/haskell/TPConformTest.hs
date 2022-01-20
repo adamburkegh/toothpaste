@@ -217,6 +217,14 @@ loudTests = [ "silent" ~: False ~=? loud (Silent 1),
               "choice" ~: True  ~=? loud (NodeN Choice [la,lb] 2),
               "ploop" ~:  False ~=? loud (Node1 PLoop la 3 1) ]
 
+
+isPathsetTests = [ "silent" ~: True ~=? isPathset (Silent 1),
+                   "leaf" ~:   True  ~=? isPathset la,
+                   "choice" ~: True  ~=? isPathset (NodeN Choice [la,lb] 2),
+                   "conc" ~: False  ~=? isPathset (NodeN Conc [la,lb] 2),
+                   "seq" ~: True  ~=? isPathset (NodeN Seq [la,lb] 2),
+                   "ploop" ~:  False ~=? isPathset (Node1 PLoop la 3 1) ]
+
 pathsetBasicTests = [ 
             "silent" ~: (Silent 3) ~=? pathset ((Silent 3)::(PPTree String)),
             "leaf"   ~: la ~=? pathset la,
@@ -251,7 +259,7 @@ concTests = probBasicConcTests
 
 utilTests = elemTests ++ permuteTests ++ loudTests
 
-pathsetTests = pathsetBasicTests ++ pathsetPLoopTests
+pathsetTests = isPathsetTests ++ pathsetBasicTests ++ pathsetPLoopTests
 
 probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
             ++ loopApproxKTests

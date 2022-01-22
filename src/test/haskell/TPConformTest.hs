@@ -283,7 +283,7 @@ pathsetConcTests = [
 --
 
 concTests = probBasicConcTests
-           -- ++ concSimpleTests
+           ++ concSimpleTests
            -- ++ concCompoundTests
            -- ++ concCompoundSilentTests
 

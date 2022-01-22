@@ -38,6 +38,7 @@ loud (Silent w) = False
 -- default epsilon for approximations
 defaulteps = 0.001
 
+-- TODO switch to implicit params
 -- probability [0,1]
 prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
 prob s (NodeN Choice ptl w) =  sum (map (\u -> weight u * prob s u) ptl) / wt
@@ -49,7 +50,7 @@ prob s (Silent w) | null s    = 1
 prob s (NodeN Seq  ptl w) = probSeq s ptl
 prob s (Node1 FLoop pt r w) 
     = prob s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
-prob s (NodeN Conc ptl w) = 0 -- probConc s ptl TODO BROKEN
+prob s (NodeN Conc ptl w) = prob s (pathsetConc (NodeN Conc ptl w) defaulteps)
 prob s (Node1 PLoop pt r w) = probPLoop s pt r defaulteps
 
 -- probConcRegion :: (Eq a, Ord a) => [a] -> PPTree a -> Float
@@ -145,14 +146,14 @@ isPathset (Node1 PLoop pt r w) = False
 isPathset (Leaf x w) = True
 isPathset (Silent w) = True
 
-pathset :: PPTree a -> PPTree a
+pathset :: (Ord a) => PPTree a -> PPTree a
 pathset pt = pathsetEps pt defaulteps
 
-pathsetEps :: PPTree a -> Float -> PPTree a
+pathsetEps :: (Ord a) =>  PPTree a -> Float -> PPTree a
 pathsetEps (NodeN Seq ptl w) eps = NodeN Seq (map (`pathsetEps` eps) ptl) w
 pathsetEps (NodeN Choice ptl w) eps = NodeN Choice
                                             (map (`pathsetEps` eps) ptl) w
-pathsetEps (NodeN Conc ptl w) eps = emptyTree -- TODO
+pathsetEps (NodeN Conc ptl w) eps = pathsetConc (NodeN Conc ptl w) eps
 pathsetEps (Node1 FLoop pt r w) eps = 
                     NodeN Seq 
                           (duplicate (map (`pathsetEps` eps) [pt]) (round r)) 
@@ -161,7 +162,7 @@ pathsetEps (Node1 PLoop pt r w) eps = pathsetPLoop pt r eps k
     where k = findLoopApproxK r eps
 pathsetEps pt eps = pt
 
-pathsetPLoop :: PPTree a -> Float -> Float -> Int -> PPTree a
+pathsetPLoop :: (Ord a) => PPTree a -> Float -> Float -> Int -> PPTree a
 pathsetPLoop pt r eps k = NodeN Seq [Silent w,
                                      NodeN Choice 
                                            (pathsetPLoopList pt r eps k []) w] 
@@ -169,7 +170,7 @@ pathsetPLoop pt r eps k = NodeN Seq [Silent w,
              where w = weight pt
 
 -- This would be better as a deterministic prefix tree
-pathsetPLoopList :: PPTree a -> Float -> Float -> Int -> [PPTree a] 
+pathsetPLoopList :: (Ord a) => PPTree a -> Float -> Float -> Int -> [PPTree a] 
                              -> [PPTree a]
 pathsetPLoopList pt r eps n ptl 
         | i < n     = pathsetPLoopList pt r eps n (ipt:ptl)
@@ -186,7 +187,32 @@ pathsetPLoopList pt r eps n ptl
                               sf
 
 
--- pathsetConc :: PPTree a -> Float -> PPTree a
+pathsetConc :: (Ord a) => PPTree a -> Float -> PPTree a
+pathsetConc (NodeN Conc ptl w) eps = 
+    NodeN Seq [Silent w,psConcChild (map (\pt -> pathsetEps pt eps) ptl)] w
+pathsetConc s eps = warn "Non conc operator passed to pathsetConc" emptyTree
 
+-- pre: all isPathset ptl
+psConcChild :: (Ord a) => [PPTree a] -> PPTree a
+psConcChild ptl = choiceP (map psConcChildElem (elemCompl ptl)) 
+                              (sum (map weight ptl))
+
+psConcChildElem :: (Ord a) => (PPTree a,[PPTree a]) -> PPTree a
+psConcChildElem (pt,[]) = pt
+psConcChildElem ((Leaf x w),ptl) = NodeN Seq [Leaf x w,psConcTail ptl w] w
+psConcChildElem ((Silent w),ptl) = NodeN Seq [Silent w,psConcTail ptl w] w
+-- choice and sequence
+psConcChildElem (pt,ptl) = warn "Non conc operator passed to psConcChildElem" 
+                                emptyTree
+
+-- TODO partial
+psConcTail :: (Ord a) => [PPTree a] -> Weight -> PPTree a
+psConcTail [] w = warn "Empty seq passed to psConcTail" emptyTree
+psConcTail [pt] w = replaceWeight pt w
+psConcTail (pt:ptl) w =  psConcChild (map (`scale` (w/sw)) 
+                                          (pt:ptl)  )
+                               -- (map (`scale` (w/sw)) 
+                               --      (psConcChildElem (pt,ptl))) w
+    where sw = sum (map weight (pt:ptl))
 
 

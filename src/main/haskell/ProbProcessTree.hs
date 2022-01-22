@@ -1,4 +1,6 @@
-module ProbProcessTree where
+module ProbProcessTree 
+    (module ProbProcessTree,
+     Weight) where
 
 import PetriNet -- mainly for Weight
 import TraceUtil

@@ -249,22 +249,54 @@ pathsetPLoopTests = [ "leaf" ~:
               (pathsetEps (Node1 PLoop la10 3 10) 0.4) 
               @? "pathset mismatch" ]
 
+pathsetConcTests = [ 
+    "twoLeaves" ~: NodeN Seq 
+                         [Silent 2, 
+                          NodeN Choice 
+                                [NodeN Seq [la,lb] 1, 
+                                 NodeN Seq [lb,la] 1] 2] 2 
+               ~=? pathsetConc (NodeN Conc [la,lb] 2) eps,
+    "oneLeafOneSilent" ~: NodeN Seq 
+                                [Silent 2, 
+                                 NodeN Choice 
+                                       [NodeN Seq [la,Silent 1] 1, 
+                                        NodeN Seq [Silent 1,la] 1] 2] 2 
+               ~=? pathsetConc (NodeN Conc [la,Silent 1] 2) eps,
+    "twoLeafOneSilent" ~: 
+        NodeN Seq 
+              [Silent 6, 
+               NodeN Choice 
+                     [NodeN Seq [la2,
+                                 choiceP [seqP [lb,Silent 1] 1,
+                                          seqP [Silent 1,lb] 1 ] 2] 2,
+                      NodeN Seq [lb2,
+                                 choiceP [seqP [la,Silent 1] 1,
+                                          seqP [Silent 1,la] 1] 2] 2,
+                      NodeN Seq [Silent 2,
+                                 choiceP [seqP [la,lb] 1,
+                                          seqP [lb,la] 1] 2] 2
+                                 ] 6] 
+               6
+               ~=? pathsetConc (NodeN Conc [la2,Silent 2, lb2] 6) eps
+                    ]
+
 --
 
 concTests = probBasicConcTests
-           ++ concSimpleTests
-           ++ concCompoundTests
-           ++ concCompoundSilentTests
+           -- ++ concSimpleTests
+           -- ++ concCompoundTests
+           -- ++ concCompoundSilentTests
 
 
 utilTests = elemTests ++ permuteTests ++ loudTests
 
 pathsetTests = isPathsetTests ++ pathsetBasicTests ++ pathsetPLoopTests
+            ++ pathsetConcTests
 
 probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
             ++ loopApproxKTests
             ++ pathsetTests
-            -- ++ concTests 
+            ++ concTests 
 
 huTests = probTests ++ utilTests 
 

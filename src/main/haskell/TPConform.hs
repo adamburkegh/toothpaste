@@ -1,3 +1,5 @@
+{-# LANGUAGE ImplicitParams #-}
+
 module TPConform where
 
 import ProbProcessTree
@@ -38,29 +40,28 @@ loud (Silent w) = False
 -- default epsilon for approximations
 defaulteps = 0.001
 
--- TODO switch to implicit params
 -- probability [0,1]
 prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
-prob s (NodeN Choice ptl w) =  sum (map (\u -> weight u * prob s u) ptl) / wt
+prob s pt = let ?eps = defaulteps in probEps s pt 
+
+-- probability [0,1]
+probEps :: (Eq a, Ord a, ?eps :: Float) => [a] -> PPTree a -> Float 
+probEps s (NodeN Choice ptl w) =  
+    sum (map (\u -> weight u * probEps s u) ptl) / wt
     where wt = sum (map weight ptl)
-prob s (Leaf x w) | s == [x]    = 1
-                  | otherwise = 0
-prob s (Silent w) | null s    = 1
-                  | otherwise = 0
-prob s (NodeN Seq  ptl w) = probSeq s ptl
-prob s (Node1 FLoop pt r w) 
-    = prob s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
-prob s (NodeN Conc ptl w) = prob s (pathsetConc (NodeN Conc ptl w) defaulteps)
-prob s (Node1 PLoop pt r w) = probPLoop s pt r defaulteps
-
--- probConcRegion :: (Eq a, Ord a) => [a] -> PPTree a -> Float
--- TODO rest
--- probConcRegion s (Leaf x w) = prob s (Leaf x w)
--- probConcRegion s (Silent w) = prob s (Silent w)
+probEps s (Leaf x w) | s == [x]    = 1
+                     | otherwise = 0
+probEps s (Silent w) | null s    = 1
+                     | otherwise = 0
+probEps s (NodeN Seq  ptl w) = probSeq s ptl
+probEps s (Node1 FLoop pt r w) 
+    = probEps s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
+probEps s (NodeN Conc ptl w) = probEps s (pathsetConc (NodeN Conc ptl w) ?eps) 
+probEps s (Node1 PLoop pt r w) = probPLoop s pt r ?eps
 
 
 
-
+-- TODO dead code
 probConc :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
 probConc s [pt] = prob s pt
 -- probConc s (pt:ptl) =   probConcC s 1 (pt:ptl)

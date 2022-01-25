@@ -202,6 +202,9 @@ psConcChildElem :: (Ord a) => (PPTree a,[PPTree a]) -> PPTree a
 psConcChildElem (pt,[]) = pt
 psConcChildElem ((Leaf x w),ptl) = NodeN Seq [Leaf x w,psConcTail ptl w] w
 psConcChildElem ((Silent w),ptl) = NodeN Seq [Silent w,psConcTail ptl w] w
+-- psConcChildElem ((NodeN Seq (spt:sptl) w),ptl) = 
+    -- NodeN Seq [spt, NodeN Choice  w] w
+-- pathsetEps needed on these at some point, this covers seq of leaves only
 -- choice and sequence
 psConcChildElem (pt,ptl) = warn "Non conc operator passed to psConcChildElem" 
                                 emptyTree
@@ -212,8 +215,56 @@ psConcTail [] w = warn "Empty seq passed to psConcTail" emptyTree
 psConcTail [pt] w = replaceWeight pt w
 psConcTail (pt:ptl) w =  psConcChild (map (`scale` (w/sw)) 
                                           (pt:ptl)  )
-                               -- (map (`scale` (w/sw)) 
-                               --      (psConcChildElem (pt,ptl))) w
     where sw = sum (map weight (pt:ptl))
+
+-- pre: sorted order
+shuffle :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a
+shuffle (Leaf x1 w1) (Leaf x2 w2) = shuffleSingles (Leaf x1 w1) (Leaf x2 w2) 
+shuffle (Leaf x1 w1) (Silent w2)  = shuffleSingles (Leaf x1 w1) (Silent w2)
+shuffle (Silent w1)  (Silent w2)  = shuffleSingles (Silent w1) (Silent w2)
+shuffle (Leaf x1 w1) (NodeN Seq ptl w2) = 
+    shuffleSingleSeq (Leaf x1 w1) (NodeN Seq ptl w2) 
+shuffle (Silent w1)  (NodeN Seq ptl w2) = 
+    shuffleSingleSeq (Silent w1) (NodeN Seq ptl w2) 
+shuffle (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2) = 
+    shuffleSeq ptl1 ptl2
+shuffle x y = emptyTree
+
+
+
+shuffleSingles :: (Eq a,Ord a) => PPTree a -> PPTree a -> PPTree a
+shuffleSingles pt1 pt2 = 
+               choiceP [NodeN Seq [pt1,scale pt2 (w1/w2) ] w1,
+                        NodeN Seq [pt2,scale pt1 (w2/w1) ] w2] w
+    where w1 = weight pt1
+          w2 = weight pt2
+          w  = w1+w2
+
+shuffleSingleSeq :: (Eq a,Ord a) => PPTree a -> PPTree a -> PPTree a
+shuffleSingleSeq pt (NodeN Seq [spt] w)
+    = shuffleSingles pt spt
+shuffleSingleSeq pt (NodeN Seq (spt:sptl) w2)
+    = choiceP [NodeN Seq ([pt] ++ map (`scale` (w1/w2)) (spt:sptl)) w1,
+               NodeN Seq [spt,
+                          shuffleSingleSeq (scale pt (w2/w)) 
+                                           (scale (NodeN Seq sptl w2) 
+                                                  (w2/w)) ]
+                     w2] w
+        where w1 = weight pt
+              w  = w1+w2
+shuffleSingleSeq _ _ = warn "No match" emptyTree
+                    
+shuffleSeq :: (Eq a,Ord a) => [PPTree a] -> [PPTree a] -> PPTree a
+shuffleSeq [pt1] y = shuffle pt1 (NodeN Seq y (weight (head y)))
+shuffleSeq x [pt2] = shuffle pt2 (NodeN Seq x (weight (head x)))
+shuffleSeq (pt1:ptl1) (pt2:ptl2) 
+    = choiceP [NodeN Seq [pt1, scale (shuffleSeq ptl1 (pt2:ptl2)) (w1/w)] w1,
+               NodeN Seq [pt2, scale (shuffleSeq (pt1:ptl1) ptl2) (w2/w)] w2] 
+              w
+         where w1 = weight pt1
+               w2 = weight pt2
+               w = w1+w2
+
+-- Choice - pick both (with op) and scale? Or?
 
 

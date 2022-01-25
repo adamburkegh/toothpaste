@@ -13,12 +13,17 @@ import Test.HUnit.Approx
 la  = Leaf "a" 1
 la2 = Leaf "a" 2
 la3 = Leaf "a" 3
+la4 = Leaf "a" 4
 la10 = Leaf "a" 10
 lb  = Leaf "b" 1
 lb2 = Leaf "b" 2
 lb4 = Leaf "b" 4
 lc  = Leaf "c" 1
+lc2 = Leaf "c" 2
+lc4 = Leaf "c" 4
 ld  = Leaf "d" 1
+ld2 = Leaf "d" 2
+ld4 = Leaf "d" 4
 
 eps =  0.0001
 
@@ -105,6 +110,7 @@ concSeqCompound2 = [
             "compSeqInvalidOrder2" ~: 0 ~=? prob ["b","c","a","d"] cSeq2 ,
             "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a","d"] cSeq2 ,
             "compSeqInvalidDupe" ~: 0 ~=? prob ["a","b","c","c"] cSeq2 ]
+
 concSeqCompound = concSeqCompound1 ++ concSeqCompound2
 
 cChoice = NodeN Conc [ NodeN Choice [la2, Silent 1] 3,
@@ -135,7 +141,7 @@ concConcCompound = let ?epsilon = eps in [
     ]
 
 concCompoundTests = concSeqCompound
-                    ++ concChoiceCompound1 ++ concChoiceCompound2
+                    -- TODO ++ concChoiceCompound1 ++ concChoiceCompound2
 
 cSil = NodeN Conc [ NodeN Seq [la,Silent 1,lb] 1,
                     lc ] 2
@@ -281,6 +287,48 @@ pathsetConcTests = [
                     ]
 
 --
+-- Not sure if I will keep this
+shuffleSingleTests = [
+    "leaves" ~: choiceP [NodeN Seq [la,lb] 1,NodeN Seq [lb,la] 1] 2
+                ~=? shuffle la lb,
+    "leavesUneven" ~: choiceP [NodeN Seq [la,lb] 1,NodeN Seq [lb2,la2] 2] 3
+                ~=? shuffle la lb2 ,
+    "leafSeq" ~: choiceP [NodeN Seq [la2,lb2,lc2] 2,
+                          NodeN Seq [lb,
+                                     choiceP [scale (seqP [la,lc] 1) (2/3),
+                                              scale (seqP [lc,la] 1) (1/3)] 1] 
+                                1] 3
+                ~=? shuffle la2 (NodeN Seq [lb,lc] 1),
+    "silentSeq" ~: choiceP [NodeN Seq [Silent 2,lb2,lc2] 2,
+                            NodeN Seq [lb,
+                                     choiceP [scale (seqP [Silent 1,lc] 1) 
+                                                    (2/3),
+                                              scale (seqP [lc,Silent 1] 1) 
+                                                    (1/3)] 1] 
+                                1] 3
+                ~=? shuffle (Silent 2) (NodeN Seq [lb,lc] 1)
+                ]
+
+shuffleSeqTests = [
+    "seq1" ~: choiceP [seqP [la4,
+                             choiceP [seqP [lb2,lc2,ld2] 2,
+                                      seqP [lc2,
+                                            choiceP[seqP [lb,ld] 1,
+                                                    seqP [ld,lb] 1] 2] 2] 4] 4,
+                       seqP [lc4,
+                             choiceP [seqP [ld2,la2,lb2] 2,
+                                      seqP [la2,
+                                            choiceP[seqP [lb,ld] 1,
+                                                    seqP [ld,lb] 1] 2] 2] 4] 4 
+                       ] 8
+                ~=? shuffle (NodeN Seq [la4,lb4] 4) 
+                            (NodeN Seq [lc4,ld4] 4)
+                ]
+
+
+shuffleTests = shuffleSingleTests ++ shuffleSeqTests
+
+--
 
 concTests = probBasicConcTests
            ++ concSimpleTests
@@ -298,7 +346,7 @@ probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests
             ++ pathsetTests
             ++ concTests 
 
-huTests = probTests ++ utilTests 
+huTests = probTests ++ utilTests ++ shuffleTests
 
 
 

@@ -24,6 +24,10 @@ lc4 = Leaf "c" 4
 ld  = Leaf "d" 1
 ld2 = Leaf "d" 2
 ld4 = Leaf "d" 4
+le2 = Leaf "e" 2
+le  = Leaf "e" 1
+le4 = Leaf "e" 4
+lf4 = Leaf "f" 4
 
 eps =  0.0001
 
@@ -306,7 +310,10 @@ shuffleSingleTests = [
                                               scale (seqP [lc,Silent 1] 1) 
                                                     (1/3)] 1] 
                                 1] 3
-                ~=? shuffle (Silent 2) (NodeN Seq [lb,lc] 1)
+                ~=? shuffle (Silent 2) (NodeN Seq [lb,lc] 1),
+    "choiceLeaf" ~: choiceP[seqP [choiceP [la2,lb2] 4, lc4] 4,
+                            seqP [lc4, choiceP [la2,lb2] 4] 4] 8
+                ~=? shuffle (choiceP [la2,lb2] 4) lc4
                 ]
 
 shuffleSeqTests = [
@@ -325,8 +332,22 @@ shuffleSeqTests = [
                             (NodeN Seq [lc4,ld4] 4)
                 ]
 
+shuffleChoiceTests = [
+    "choiceSeq1" ~: choiceP [seqP [la2,le2] 2, seqP [le2,la2] 2,
+                             seqP [lb,
+                                   scale (choiceP [seqP [lc,le] 1,
+                                                   seqP [le,lc] 1] 2)
+                                         (1/2)]
+                                   1,
+                             seqP [le,lb,lc] 1,
+                             seqP [ld,le] 1, seqP [le,ld] 1]
+                            8
+                ~=? shuffle (choiceP [la2, seqP [lb,lc] 1,ld] 4)
+                            le4
+    ]
+    
 
-shuffleTests = shuffleSingleTests ++ shuffleSeqTests
+shuffleTests = shuffleSingleTests ++ shuffleSeqTests ++ shuffleChoiceTests
 
 --
 

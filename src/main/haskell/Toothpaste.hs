@@ -1,10 +1,8 @@
 module Toothpaste where
 
-import PetriNet -- mainly for Weight
 import ProbProcessTree
 import Debug.Trace
-import Data.List (nub,sort,sortOn)
-import Data.Set (fromList,union,unions)
+import Data.List (sortOn)
 import Data.Maybe
 import qualified Data.Map as Map
 
@@ -199,16 +197,8 @@ loopGeoList ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl)
 loopGeoList x = x
 
 
-flatten :: (Eq a) => PRule a
-flatten (NodeN op1 ptl w) = NodeN op1 (flattenList op1 ptl) w
-flatten x = x
-
-flattenList :: (Eq a) => POperN -> [PPTree a] -> [PPTree a]
-flattenList op1 ((NodeN op2 ptl2 w2):ptl1)
-    | op1 == op2 = ptl2 ++ flattenList op1 ptl1
-    | otherwise  = NodeN op2 ptl2 w2:ptl1
-flattenList op1 (pt:ptl) = pt:flattenList op1 ptl
-flattenList op1 [] = []
+flattenRule :: (Eq a) => PRule a
+flattenRule x = flatten x
 
 -- choice folds
 
@@ -307,7 +297,7 @@ concMapFromSeqChildren [] _ = Map.empty
 baseRuleList :: (Eq a, Ord a) => [TRule a]
 baseRuleList = [
             TRule{rulename="singleNodeOp",trule=singleNodeOp},
-            TRule{rulename="flatten",trule=flatten},
+            TRule{rulename="flatten",trule=flattenRule},
             TRule{rulename="fixedLoopRoll", trule=fixedLoopRoll},
             TRule{rulename="silentSeq",trule=silentSeq},
             TRule{rulename="silentConc",trule=silentSeq},

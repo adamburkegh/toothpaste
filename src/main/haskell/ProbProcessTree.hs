@@ -3,9 +3,7 @@ module ProbProcessTree
      Weight) where
 
 import PetriNet -- mainly for Weight
-import TraceUtil
-import Data.List (nub,sort,sortOn)
-import Data.Set (fromList,union,unions)
+import Data.List (nub,sort)
 
 
 -- Process Trees
@@ -67,6 +65,11 @@ children (Silent n) = []
 children (Node1 op u r n) = [u]
 children (NodeN op ptl n) = ptl
 
+isLeafy :: PPTree a -> Bool
+isLeafy (Leaf x w) = True
+isLeafy (Silent w) = True
+isLeafy pt = False
+
 
 -- Constructors for NodeN auto-consolidate
 pptree :: POperN -> [PPTree a] -> Weight -> PPTree a
@@ -126,6 +129,31 @@ scale (NodeN op ptl w) g = NodeN op (map (`scale` g) ptl) (w*g)
 seqMerge :: PPTree a -> PPTree a -> PPTree a
 seqMerge x y = scale (merge x y) 0.5
 
+-- Normal form rules promoted to functions
+-- Partial - not all preserving compressions
+norm :: (Ord a, Eq a) => PPTree a -> PPTree a
+norm (Leaf x w) = Leaf x w
+norm (Silent w) = Silent w
+norm (Node1 op pt r w) = Node1 op (norm pt) r w
+norm (NodeN Choice ptl w) = 
+        choiceP (flattenList Choice (map norm ptl) ) w
+norm (NodeN Conc ptl w) = 
+        concP (flattenList Conc (map norm ptl)) w
+norm (NodeN Seq ptl w) = flatten $ NodeN Seq (map norm ptl) w
+
+
+flatten :: (Eq a) => PPTree a -> PPTree a
+flatten (NodeN op1 ptl w) = NodeN op1 (flattenList op1 ptl) w
+flatten x = x
+
+flattenList :: (Eq a) => POperN -> [PPTree a] -> [PPTree a]
+flattenList op1 ((NodeN op2 ptl2 w2):ptl1)
+    | op1 == op2 = ptl2 ++ flattenList op1 ptl1
+    | otherwise  = NodeN op2 ptl2 w2:ptl1
+flattenList op1 (pt:ptl) = pt:flattenList op1 ptl
+flattenList op1 [] = []
+
+
 -- Pretty printing
 indentStr = "  "
 
@@ -160,7 +188,7 @@ ncount (Node1 op a _ _) = 1 + ncount a
 ncount (NodeN op ptl _)  = 1 + foldl (\c pt -> c + ncount pt) 0 ptl
 
 
-
+-- validation
 validate :: PPTree a -> Bool
 validate (NodeN Seq ptl w)
     = w == head sw && length sw == 1 && validateList ptl

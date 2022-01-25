@@ -217,19 +217,30 @@ psConcTail (pt:ptl) w =  psConcChild (map (`scale` (w/sw))
                                           (pt:ptl)  )
     where sw = sum (map weight (pt:ptl))
 
--- pre: sorted order
+-- pre: pathsets && sorted order 
 shuffle :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a
-shuffle (Leaf x1 w1) (Leaf x2 w2) = shuffleSingles (Leaf x1 w1) (Leaf x2 w2) 
-shuffle (Leaf x1 w1) (Silent w2)  = shuffleSingles (Leaf x1 w1) (Silent w2)
-shuffle (Silent w1)  (Silent w2)  = shuffleSingles (Silent w1) (Silent w2)
-shuffle (Leaf x1 w1) (NodeN Seq ptl w2) = 
-    shuffleSingleSeq (Leaf x1 w1) (NodeN Seq ptl w2) 
-shuffle (Silent w1)  (NodeN Seq ptl w2) = 
-    shuffleSingleSeq (Silent w1) (NodeN Seq ptl w2) 
+shuffle pt1 pt2
+    | isShuffleTermNode pt1 &&  isShuffleTermNode pt2 
+            = shuffleSingles pt1 pt2
+shuffle pt (NodeN Seq ptl w2)  
+    | isShuffleTermNode pt = shuffleSingleSeq pt (NodeN Seq ptl w2) 
+shuffle pt (NodeN Choice ptl w2)  
+    | isShuffleTermNode pt = shuffleChoice (NodeN Choice ptl w2) pt
+shuffle (NodeN Choice ptl w2) pt 
+    | isShuffleTermNode pt = shuffleChoice (NodeN Choice ptl w2) pt
+shuffle (NodeN Choice ptl1 w1) (NodeN Seq ptl2 w2) 
+    | not (isShuffleTermNode (NodeN Choice ptl1 w1) )
+        = shuffleChoice (NodeN Choice ptl1 w1) (NodeN Seq ptl2 w2)
 shuffle (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2) = 
     shuffleSeq ptl1 ptl2
-shuffle x y = emptyTree
+shuffle (NodeN Seq ptl1 w1) pt = shuffle pt (NodeN Seq ptl1 w1)
+shuffle x y = warn "Unsupported in shuffle" emptyTree
 
+isShuffleTermNode :: PPTree a -> Bool
+isShuffleTermNode (Leaf x w) = True
+isShuffleTermNode (Silent w) = True
+isShuffleTermNode (NodeN Choice ptl w) = all isLeafy ptl
+isShuffleTermNode pt = False
 
 
 shuffleSingles :: (Eq a,Ord a) => PPTree a -> PPTree a -> PPTree a
@@ -239,6 +250,16 @@ shuffleSingles pt1 pt2 =
     where w1 = weight pt1
           w2 = weight pt2
           w  = w1+w2
+
+shuffleChoice :: (Eq a,Ord a) => PPTree a -> PPTree a -> PPTree a
+shuffleChoice (NodeN Choice ptl1 w1) pt2
+    = norm $ 
+          choiceP (map (\pt -> shuffle pt  
+                                 (scale pt2
+                                        ((weight pt)/w1) )) 
+                       ptl1) 
+                  (w1+w2)
+      where w2 = weight pt2
 
 shuffleSingleSeq :: (Eq a,Ord a) => PPTree a -> PPTree a -> PPTree a
 shuffleSingleSeq pt (NodeN Seq [spt] w)

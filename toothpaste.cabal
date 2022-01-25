@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b46dd3cc8a4a7e2b5d4872d1c8905340cdde71a1fd3149f915eb5f0ecfc3c790
+-- hash: c942bccd294d4747d3fbc350a2c4f3a0797882bbf32f74b3b39260a5a037bab2
 
 name:           toothpaste
 version:        0.9.0.0
@@ -85,6 +85,7 @@ test-suite toothpaste-test
       BinpasteTest
       EventLogTest
       FlowpasteTest
+      PPTTestUtil
       ToothpasteTest
       TPConformTest
       TPMineTest

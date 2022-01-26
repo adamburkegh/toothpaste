@@ -27,6 +27,7 @@ ld4 = Leaf "d" 4
 le2 = Leaf "e" 2
 le  = Leaf "e" 1
 le4 = Leaf "e" 4
+lf  = Leaf "f" 1
 lf4 = Leaf "f" 4
 
 eps =  0.0001
@@ -291,7 +292,10 @@ pathsetConcTests = [
                     ]
 
 --
--- Not sure if I will keep this
+
+cab = choiceP [la,lb] 2
+ccd = choiceP [lc,ld] 2
+
 shuffleSingleTests = [
     "leaves" ~: choiceP [NodeN Seq [la,lb] 1,NodeN Seq [lb,la] 1] 2
                 ~=? shuffle la lb,
@@ -313,7 +317,10 @@ shuffleSingleTests = [
                 ~=? shuffle (Silent 2) (NodeN Seq [lb,lc] 1),
     "choiceLeaf" ~: choiceP[seqP [choiceP [la2,lb2] 4, lc4] 4,
                             seqP [lc4, choiceP [la2,lb2] 4] 4] 8
-                ~=? shuffle (choiceP [la2,lb2] 4) lc4
+                ~=? shuffle (choiceP [la2,lb2] 4) lc4,
+    "twoTermChoices" ~: choiceP[ seqP [cab,ccd] 2,
+                                 seqP [ccd,cab] 2] 4
+                ~=? shuffle cab ccd
                 ]
 
 shuffleSeqTests = [
@@ -343,8 +350,31 @@ shuffleChoiceTests = [
                              seqP [ld,le] 1, seqP [le,ld] 1]
                             8
                 ~=? shuffle (choiceP [la2, seqP [lb,lc] 1,ld] 4)
-                            le4
-    ]
+                            le4 ]
+    {- TODO
+    "choiceChoice1" ~: choiceP [seqP [la2,choiceP [ld,le] 2] 2, 
+                                seqP [choiceP [ld,le] 4,la4] 4,
+                                seqP [choiceP [ld,le] 2,lb,lc] 1,
+                                seqP [lb,choiceP [ld,le] 2,lc] 1,
+                                seqP [lb,lc,choiceP [ld,le] 2] 1]
+                                8
+                ~=? shuffle (choiceP [la2, seqP [lb2,lc2] 2] 4)
+                            (choiceP [ld2, le2] 4) ,
+    "choiceChoiceSeq1" ~: 
+                    choiceP [seqP [la2,le2] 2, seqP [le2,la2] 2,
+                             seqP [lb,
+                                   scale (choiceP [seqP [lc,le] 1,
+                                                   seqP [le,lc] 1] 2)
+                                         (1/2)]
+                                   1,
+                             seqP [le,lb,lc] 1,
+                             seqP [ld,le] 1, seqP [le,ld] 1]
+                            8
+                ~=? shuffle (choiceP [la, seqP [lb,lc] 1] 2)
+                            (choiceP [ld, seqP [le,lf] 1] 2) 
+                            -- FAIL
+    ] 
+    -}
     
 
 shuffleTests = shuffleSingleTests ++ shuffleSeqTests ++ shuffleChoiceTests

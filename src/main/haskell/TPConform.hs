@@ -228,6 +228,8 @@ shuffle pt (NodeN Choice ptl w2)
     | isShuffleTermNode pt = shuffleChoice (NodeN Choice ptl w2) pt
 shuffle (NodeN Choice ptl w2) pt 
     | isShuffleTermNode pt = shuffleChoice (NodeN Choice ptl w2) pt
+shuffle (NodeN Choice ptl1 w1) (NodeN Choice ptl2 w2) 
+    = shuffleChoice (NodeN Choice ptl1 w1) (NodeN Choice ptl2 w2)
 shuffle (NodeN Choice ptl1 w1) (NodeN Seq ptl2 w2) 
     | not (isShuffleTermNode (NodeN Choice ptl1 w1) )
         = shuffleChoice (NodeN Choice ptl1 w1) (NodeN Seq ptl2 w2)

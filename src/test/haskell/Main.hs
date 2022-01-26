@@ -1,5 +1,6 @@
 import BinpasteTest (huTests)
 import FlowpasteTest (huTests)
+import ProbProcessTreeTest (huTests)
 import ToothpasteTest (huTests)
 import EventLogTest (huTests)
 import TPMineTest (huTests)
@@ -13,6 +14,7 @@ main = do
     results <- runTestTT $ 
                     test (BinpasteTest.huTests 
                        ++ FlowpasteTest.huTests
+                       ++ ProbProcessTreeTest.huTests
                        ++ ToothpasteTest.huTests
                        ++ TPMineTest.huTests
                        ++ EventLogTest.huTests

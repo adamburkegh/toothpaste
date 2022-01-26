@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c942bccd294d4747d3fbc350a2c4f3a0797882bbf32f74b3b39260a5a037bab2
+-- hash: 9e835c19ebc2a809c4c43503a03992ae3b23c9efbda7c70110fb40ba03577243
 
 name:           toothpaste
 version:        0.9.0.0
@@ -31,6 +31,7 @@ library
       Main
       PetriNet
       ProbProcessTree
+      ProbProcessTreeTest
       ProcessFormats
       Toothpaste
       ToString
@@ -58,6 +59,7 @@ executable toothpaste
       Flowpaste
       PetriNet
       ProbProcessTree
+      ProbProcessTreeTest
       ProcessFormats
       Toothpaste
       ToString

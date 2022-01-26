@@ -101,6 +101,7 @@ replaceWeight (NodeN op ptl n) w = NodeN op ptl w
 
 -- tau = "\120591"
 tau = "tau" -- encoding issues for Haskell on windows, TODO
+latexTau = "\\tau"
 
 emptyTree :: PPTree a
 emptyTree = Silent 0
@@ -175,6 +176,66 @@ formatPPTreeIndent (Node1 op x r n) indent =
 formatPPTreeIndent (NodeN op ptl n) indent =
     duplicate indentStr indent ++ show op  ++ formatWeight n
         ++ concatMap (\pt -> formatPPTreeIndent pt (indent+1) ) ptl  
+
+-- LaTeX
+--
+-- % imports required:
+-- \usepackage{tikz}
+-- \usetikzlibrary{svg.path,positioning,shapes,calc,arrows.meta} % (maybe)
+-- \usepackage{forest}
+-- % definitions
+-- \def\choicep{\times}
+-- \def\concp{\land}
+-- \def\seqop{\rightarrow}
+-- \def\loopp[#1]{\circlearrowright_p^{#1}}
+-- \def\loopn[#1]{\circlearrowright_n^{#1}}
+--
+latexPPTree :: PPTree String -> String
+latexPPTree x = latexForestBegin 
+             ++ (latexPPTreeIndent x 4)
+             ++ latexForestEnd
+
+latexForestBegin = 
+    "\\begin{figure} \n\
+    \    \\begin{forest} \n\
+    \    for tree={edge = {->},math content,anchor=center,fit=tight},\n"
+latexForestEnd = 
+    "    \\end{forest} \n\
+    \    \\caption{\\LaTeX PPT formatter test} \n\
+    \    \\label{fig:formatTest} \n\
+    \\\end{figure} \n"
+
+latexWeight :: Weight -> String
+latexWeight n = "\\colon " ++ show n
+
+latexCloseNode = "]\n"
+
+latexLoopOp :: POper1 -> Repeat -> String
+latexLoopOp FLoop r = "{\\loopn[" ++ show r ++ "]}"
+latexLoopOp PLoop r = "{\\loopp[" ++ show r ++ "]}"
+
+latexNOp :: POperN -> String
+latexNOp Choice = "\\choicep"
+latexNOp Conc = "\\concp"
+latexNOp Seq = "\\seqop"
+
+latexPPTreeIndent :: PPTree String -> Int -> String
+latexPPTreeIndent (Leaf x n) indent =
+    duplicate indentStr indent ++ "[ " ++ x ++ latexWeight n ++ latexCloseNode
+latexPPTreeIndent (Silent n) indent =
+    duplicate indentStr indent ++ "[ " ++ latexTau ++ latexWeight n 
+                               ++ latexCloseNode
+latexPPTreeIndent (Node1 op x r n) indent =
+    duplicate indentStr indent ++ "[ " ++ (latexLoopOp op r) 
+        ++ latexWeight n ++ "\n"
+        ++ latexPPTreeIndent x (indent+1)
+        ++ duplicate indentStr indent ++ latexCloseNode 
+latexPPTreeIndent (NodeN op ptl n) indent =
+    duplicate indentStr indent ++ "[ " ++ latexNOp op  
+        ++ latexWeight n ++ "\n" 
+        ++ concatMap (\pt -> latexPPTreeIndent pt (indent+1) ) ptl  
+        ++ duplicate indentStr indent ++ latexCloseNode 
+
 
 -- not really duplicating if you do it n times is it
 duplicate :: [a] -> Int -> [a]

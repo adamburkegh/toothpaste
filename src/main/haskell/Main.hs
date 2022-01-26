@@ -7,12 +7,10 @@ import Data.Maybe (fromJust)
 import Binpaste 
 import Flowpaste hiding (main)
 import ProbProcessTree
-import Toothpaste hiding (main)
 import TPMine
 import EventLog
 import ProcessFormats
 import System.Console.CmdArgs
-import System.Environment
 import System.IO
 
 data ToothpasteArgs = 

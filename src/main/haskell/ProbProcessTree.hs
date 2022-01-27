@@ -132,15 +132,20 @@ seqMerge x y = scale (merge x y) 0.5
 
 -- Normal form rules promoted to functions
 -- Partial - not all preserving compressions
-norm :: (Ord a, Eq a) => PPTree a -> PPTree a
-norm (Leaf x w) = Leaf x w
-norm (Silent w) = Silent w
-norm (Node1 op pt r w) = Node1 op (norm pt) r w
-norm (NodeN Choice ptl w) = 
+norm ::  (Ord a, Eq a) => PPTree a -> PPTree a
+norm pt | pt == ptn = pt
+        | otherwise = norm ptn
+    where ptn = norm1 pt
+
+norm1 :: (Ord a, Eq a) => PPTree a -> PPTree a
+norm1 (Leaf x w) = Leaf x w
+norm1 (Silent w) = Silent w
+norm1 (Node1 op pt r w) = Node1 op (norm pt) r w
+norm1 (NodeN Choice ptl w) = 
         choiceP (flattenList Choice (map norm ptl) ) w
-norm (NodeN Conc ptl w) = 
+norm1 (NodeN Conc ptl w) = 
         concP (flattenList Conc (map norm ptl)) w
-norm (NodeN Seq ptl w) = flatten $ NodeN Seq (map norm ptl) w
+norm1 (NodeN Seq ptl w) = flatten $ NodeN Seq (map norm ptl) w
 
 
 flatten :: (Eq a) => PPTree a -> PPTree a

@@ -350,16 +350,24 @@ shuffleChoiceTests = [
                              seqP [ld,le] 1, seqP [le,ld] 1]
                             8
                 ~=? shuffle (choiceP [la2, seqP [lb,lc] 1,ld] 4)
-                            le4 ]
-    {- TODO
+                            le4 ,
     "choiceChoice1" ~: choiceP [seqP [la2,choiceP [ld,le] 2] 2, 
-                                seqP [choiceP [ld,le] 4,la4] 4,
-                                seqP [choiceP [ld,le] 2,lb,lc] 1,
-                                seqP [lb,choiceP [ld,le] 2,lc] 1,
-                                seqP [lb,lc,choiceP [ld,le] 2] 1]
+                                seqP [choiceP [ld,le] 2,la2] 2,
+                                seqP [choiceP [ld,le] 2,lb2,lc2] 2,
+                                seqP [lb2,
+                                      choiceP[seqP [scale (choiceP [ld,
+                                                                    le] 2) 
+                                                           0.5,
+                                                    lc] 1,
+                                              seqP [lc,
+                                                    scale (choiceP [ld,
+                                                                    le] 2) 
+                                                           0.5] 1] 2] 
+                                      2 ] 
                                 8
                 ~=? shuffle (choiceP [la2, seqP [lb2,lc2] 2] 4)
-                            (choiceP [ld2, le2] 4) ,
+                            (choiceP [ld2, le2] 4) ] 
+                            {- TODO,
     "choiceChoiceSeq1" ~: 
                     choiceP [seqP [la2,le2] 2, seqP [le2,la2] 2,
                              seqP [lb,
@@ -374,7 +382,7 @@ shuffleChoiceTests = [
                             (choiceP [ld, seqP [le,lf] 1] 2) 
                             -- FAIL
     ] 
-    -}
+    -} 
     
 
 shuffleTests = shuffleSingleTests ++ shuffleSeqTests ++ shuffleChoiceTests

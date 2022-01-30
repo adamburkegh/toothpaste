@@ -29,7 +29,6 @@ permute (x:xs) = concatMap (\(y,yl) -> headify y (permute yl)  )
                               (elemCompl (x:xs))
 permute []     = [[]]
 
-
 loud :: PPTree a -> Bool
 loud (NodeN op ptl w) = all (loud) ptl
 loud (Node1 FLoop pt r w) = loud pt
@@ -219,6 +218,7 @@ psConcTail (pt:ptl) w =  psConcChild (map (`scale` (w/sw))
 
 -- pre: pathsets && sorted order 
 shuffle :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a
+-- shuffle = s2 -- s2 is a promising alt impl
 shuffle pt1 pt2
     | isShuffleTermNode pt1 &&  isShuffleTermNode pt2 
             = shuffleSingles pt1 pt2
@@ -288,6 +288,39 @@ shuffleSeq (pt1:ptl1) (pt2:ptl2)
                w2 = weight pt2
                w = w1+w2
 
--- Choice - pick both (with op) and scale? Or?
+-- alt shuffle impl
+s2 :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a
+s2 pt1 pt2 = norm $ choiceP [sh pt1 pt2, sh pt2 pt1] (w1+w2)
+    where w1 = weight pt1
+          w2 = weight pt2
+
+
+sh :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a
+sh (Leaf x w1) pt2 = NodeN Seq [Leaf x w1, scale pt2 (w1/w2)] w1
+    where w2 = weight pt2
+sh (Silent w1) pt2 = NodeN Seq [Silent w1, scale pt2 (w1/w2)] w1
+    where w2 = weight pt2
+sh (NodeN Seq [pt1] w1) pt2 = sh pt1 pt2
+sh (NodeN Seq ((NodeN Seq ptl1 w1a):ptl) w1) pt2 =
+    sh (NodeN Seq (ptl1 ++ ptl) w1) pt2
+sh (NodeN Seq ((NodeN Choice ptlc w1a):ptl1) w1) pt2 =
+    NodeN Choice (map (\pt -> sh (shc pt ptl1) pt2 )
+                      ptlc ) w1  
+sh (NodeN Seq (pt:ptl) wx) pty | isLeafy pt 
+    = NodeN Seq [pt,
+                 scale (shuffle (NodeN Seq ptl wx) pty) 
+                       (wx/(wx+wy))] wx
+    where wy = weight pty
+sh (NodeN Seq _ w1) pt2 = warn "sh Seq [] / other fallthrough" emptyTree
+sh (NodeN Choice ptl w) pt2 = choiceP (map (\pt -> sh pt pt2) ptl) w
+sh pt1 pt2 = warn "sh fallthrough" emptyTree
+
+shc :: (Eq a, Ord a) => PPTree a -> [PPTree a] -> PPTree a
+shc pt ptl = NodeN Seq 
+                   (pt:(map (\pt2 -> scale pt2 (w1/w2) ) 
+                            ptl) ) 
+                   w1 
+    where w1 = weight pt 
+          w2 = weight (head ptl)
 
 

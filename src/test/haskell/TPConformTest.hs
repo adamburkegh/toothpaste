@@ -21,13 +21,16 @@ lb4 = Leaf "b" 4
 lc  = Leaf "c" 1
 lc2 = Leaf "c" 2
 lc4 = Leaf "c" 4
+lc8 = Leaf "c" 8
 ld  = Leaf "d" 1
 ld2 = Leaf "d" 2
 ld4 = Leaf "d" 4
 le2 = Leaf "e" 2
 le  = Leaf "e" 1
 le4 = Leaf "e" 4
+le8 = Leaf "e" 8
 lf  = Leaf "f" 1
+lf2 = Leaf "f" 2
 lf4 = Leaf "f" 4
 
 eps =  0.0001
@@ -49,6 +52,9 @@ acmpl ptl1 ptl2 =  length ptl1  == length ptl2
         && foldl (\c (pt1,pt2) -> (acmp pt1 pt2) && c) True z
     where z = zip ptl1 ptl2
 
+
+tokprob :: String -> PPTree String -> Float
+tokprob s pt = prob (map (\x -> [x]) s) pt
 
 
 -- Tests
@@ -314,11 +320,14 @@ shuffleSingleTests = [
                                                     (1/3)] 1] 
                                 1] 3
                 ~=? shuffle (Silent 2) (NodeN Seq [lb,lc] 1),
-    "choiceLeaf" ~: choiceP[seqP [choiceP [la2,lb2] 4, lc4] 4,
+    "choiceLeaf" ~: choiceP[seqP [la2,lc2] 2,
+                            seqP [lb2,lc2] 2,
                             seqP [lc4, choiceP [la2,lb2] 4] 4] 8
                 ~=? shuffle (choiceP [la2,lb2] 4) lc4,
-    "twoTermChoices" ~: choiceP[ seqP [cab,ccd] 2,
-                                 seqP [ccd,cab] 2] 4
+    "twoTermChoices" ~: choiceP[ seqP [la,scale (choiceP [lc,ld] 2) 0.5] 1, 
+                                 seqP [lb,scale (choiceP [lc,ld] 2) 0.5] 1, 
+                                 seqP [lc,scale (choiceP [la,lb] 2) 0.5] 1, 
+                                 seqP [ld,scale (choiceP [la,lb] 2) 0.5] 1] 4 
                 ~=? shuffle cab ccd
                 ]
 
@@ -339,41 +348,152 @@ shuffleSeqTests = [
                 ]
 
 shuffleChoiceTests = [
-    "choiceSeq1" ~: choiceP [seqP [la2,le2] 2, seqP [le2,la2] 2,
+    "choiceSeq1" ~: choiceP [seqP [la2,le2] 2, 
                              seqP [lb,
-                                   scale (choiceP [seqP [lc,le] 1,
-                                                   seqP [le,lc] 1] 2)
-                                         (1/2)]
+                                   scale (choiceP [seqP [lc2,le2] 2,
+                                                   seqP [le8,lc8] 8] 10)
+                                         (1/10)]
                                    1,
-                             seqP [le,lb,lc] 1,
-                             seqP [ld,le] 1, seqP [le,ld] 1]
+                             seqP [ld,le] 1, 
+                             seqP [le4,choiceP[la2,ld,
+                                               seqP [lb,lc] 1] 4] 4 ]
                             8
                 ~=? shuffle (choiceP [la2, seqP [lb,lc] 1,ld] 4)
-                            le4
-                           ] {-,
+                            le4 ,
     "choiceChoice1" ~: 
-                -- TODO bugs
-                la
+        choiceP [seqP [la2,choiceP [ld,le] 2] 2,
+                 seqP [lb2,
+                       scale (choiceP [ seqP [lc2,
+                                              choiceP [ld,le] 2] 2,
+                                        seqP [ld2,lc2] 2,
+                                        seqP [le2,lc2] 2] 6 )
+                             (1/3)] 2,
+                 seqP [ld2,choiceP [la,
+                                    seqP [lb,lc] 1] 2 ] 2,
+                 seqP [le2,choiceP [la,
+                                    seqP [lb,lc] 1] 2 ] 2
+                      ] 8
                 ~=? shuffle (choiceP [la2, seqP [lb2,lc2] 2] 4)
-                            (choiceP [ld2, le2] 4) ] 
+                            (choiceP [ld2, le2] 4) ,
     "choiceChoiceSeq1" ~: 
-                    choiceP [seqP [la2,le2] 2, seqP [le2,la2] 2,
-                             seqP [lb,
-                                   scale (choiceP [seqP [lc,le] 1,
-                                                   seqP [le,lc] 1] 2)
-                                         (1/2)]
-                                   1,
-                             seqP [le,lb,lc] 1,
-                             seqP [ld,le] 1, seqP [le,ld] 1]
-                            8
+                    choiceP [seqP [la,scale (choiceP [ld,seqP [le,lf] 1 ] 2)
+                                             (1/2)] 1, 
+                             seqP [lb, 
+                                   scale (
+                                        choiceP [ seqP [lc2, 
+                                                      choiceP [ld,
+                                                               seqP [le,
+                                                                     lf] 1] 2 
+                                                        ] 2,
+                                             seqP [ld2,lc2] 2,
+                                             seqP [le2,
+                                                   choiceP [ seqP [lc,lf] 1,
+                                                             seqP [lf,lc] 1] 
+                                                             2
+                                                   ] 2] 6 ) 
+                                        (1/6)] 1,
+                             seqP [ld, scale (choiceP [la, 
+                                                       seqP [lb,lc] 1 ] 2)
+                                             (1/2) ] 1, 
+                             seqP [le, 
+                                   scale (
+                                        choiceP [ 
+                                             seqP [la2,lf2] 2,
+                                             seqP [lb2,
+                                                   choiceP [ seqP [lc,lf] 1,
+                                                             seqP [lf,lc] 1] 
+                                                             2 
+                                                  ] 2,
+                                             seqP [lf2,
+                                                      choiceP [la,
+                                                               seqP [lb,
+                                                                     lc] 1] 2 
+                                                        ] 2
+                                                   ] 6 ) 
+                                        (1/6)] 1 ] 
+                            4
                 ~=? shuffle (choiceP [la, seqP [lb,lc] 1] 2)
                             (choiceP [ld, seqP [le,lf] 1] 2) 
-                            -- FAIL
     ] 
-    -} 
+
+cc1 =  shuffle (choiceP [la2, seqP [lb2,lc2] 2] 4)
+                            (choiceP [ld2, le2] 4)
+shuffleProbChoiceChoiceTests = [ 
+    "choiceChoice1p1"  ~: 1/8 ~=? tokprob "ad" cc1 ,
+    "choiceChoice1p2"  ~: 1/8 ~=? tokprob "ae" cc1 ,
+    "choiceChoice1p3"  ~: 1/24 ~=? tokprob "bce" cc1 ,
+    "choiceChoice1p4"  ~: 1/24 ~=? tokprob "bcd" cc1 ,
+    "choiceChoice1p5"  ~: 1/12 ~=? tokprob "bdc" cc1 ,
+    "choiceChoice1p6"  ~: 1/12 ~=? tokprob "bec" cc1 ,
+    "choiceChoice1p7"  ~: 1/8 ~=? tokprob "da" cc1 ,
+    "choiceChoice1p8"  ~: 1/8 ~=? tokprob "dbc" cc1 ,
+    "choiceChoice1p9"  ~: 1/8 ~=? tokprob "ea" cc1,
+    "choiceChoice1p10" ~: 1/8 ~=? tokprob "ebc" cc1
+    ]
     
+cl1 = shuffle (choiceP [la2,lb2] 4) lc4
+shuffleProbChoiceLeafTests1 = [
+    "cl1" ~: 0 ~=? tokprob "ab" cl1,
+    "cl2" ~: 1/4 ~=? tokprob "ac" cl1,
+    "cl3" ~: 1/4 ~=? tokprob "bc" cl1,
+    "cl4" ~: 1/4 ~=? tokprob "ca" cl1,
+    "cl5" ~: 1/4 ~=? tokprob "cb" cl1
+    ]
+
+    
+cl2 = shuffle (choiceP [la2,lb2] 4) lc2
+shuffleProbChoiceLeafTests2 = [
+    "cl1" ~: 0 ~=? tokprob "ab" cl2,
+    "cl2" ~: 1/3 ~=? tokprob "ac" cl2,
+    "cl3" ~: 1/3 ~=? tokprob "bc" cl2,
+    "cl4" ~: 1/6 ~=? tokprob "ca" cl2,
+    "cl5" ~: 1/6 ~=? tokprob "cb" cl2
+    ]
+
+shuffleProbChoiceTermTests = [
+        "ct1" ~:  all (\p -> p == 1/8)
+                (map (\s -> tokprob s (shuffle cab ccd) ) 
+                    ["ac","ad","bc","bd","ca","cb","da","db"] ) 
+                    @? "1/8 expected"
+    ]
+
+cs1 = shuffle (choiceP [la2, seqP [lb,lc] 1,ld] 4) le4 
+shuffleProbChoiceSeqTests = [
+    "cs1" ~: 1/4 ~=? tokprob "ae" cs1,
+    "cs2" ~: 1/40 ~=? tokprob "bce" cs1,
+    "cs3" ~: 1/10 ~=? tokprob "bec" cs1,
+    "cs4" ~: 1/8 ~=? tokprob "de" cs1,
+    "cs5" ~: 1/4 ~=? tokprob "ea" cs1,
+    "cs6" ~: 1/8 ~=? tokprob "ebc" cs1,
+    "cs7" ~: 1/8 ~=? tokprob "ed" cs1
+    ] 
+
+ccs1 = shuffle (choiceP [la, seqP [lb,lc] 1] 2)
+               (choiceP [ld, seqP [le,lf] 1] 2) 
+shuffleProbChoiceChoiceSeqTests = [
+    "cs1" ~:  1/8 ~=?  tokprob "ad"   ccs1,
+    "cs2" ~:  1/8 ~=?  tokprob "aef"  ccs1,
+    "cs3" ~:  1/12 ~=? tokprob "bdc"  ccs1,
+    "cs4" ~:  1/24 ~=? tokprob "becf" ccs1,
+    "cs5" ~:  1/24 ~=? tokprob "bcef" ccs1,
+    "cs6" ~:  1/24 ~=? tokprob "bcd"  ccs1,
+    "cs7" ~:  1/8 ~=?  tokprob "da"   ccs1,
+    "cs8" ~:  1/8 ~=?  tokprob "dbc"  ccs1,
+    "cs9" ~:  1/12 ~=? tokprob "eaf"  ccs1,
+    "cs10" ~: 1/24 ~=? tokprob "efa"  ccs1,
+    "cs11" ~: 1/24 ~=? tokprob "efbc"  ccs1,
+    "cs12" ~: 1/24 ~=? tokprob "ebfc"  ccs1,
+    "cs13" ~: 1/24 ~=? tokprob "ebcf"  ccs1
+    ]
+
+shuffleProbTests = shuffleProbChoiceLeafTests1 ++ shuffleProbChoiceLeafTests2 
+    ++ shuffleProbChoiceChoiceTests 
+    ++ shuffleProbChoiceTermTests
+    ++ shuffleProbChoiceSeqTests
+    ++ shuffleProbChoiceChoiceSeqTests
 
 shuffleTests = shuffleSingleTests ++ shuffleSeqTests ++ shuffleChoiceTests
+    ++ shuffleProbTests
 
 --
 

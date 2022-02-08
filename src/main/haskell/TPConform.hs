@@ -68,33 +68,6 @@ probEps s (Node1 PLoop pt r w) = probPLoop s pt r ?eps
 
 
 
--- TODO dead code
-probConc :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
-probConc s [pt] = prob s pt
--- probConc s (pt:ptl) =   probConcC s 1 (pt:ptl)
---                       + probConcSplits [] s (pt:ptl) 
-probConc s (pt:ptl)
-        = sum( map (\ss -> probConcC ss 1 (pt:ptl)
-                         + probConcSplits [] ss (pt:ptl) )
-                   pms ) / (fromIntegral $ length pms)
-          where pms = permute s
-
-probConcSplits :: (Eq a, Ord a) => [a] -> [a] -> [PPTree a] -> Float
-probConcSplits s1 s2 ptl = sum( map (\(u,uptl) -> (weight u)
-                                       * prob s1 u
-                                       * probConc s2 uptl )
-                                (elemCompl ptl) )
-                           / wt
-               where wt = sum (map weight ptl) 
-
-probConcC :: (Eq a, Ord a) => [a] -> Int -> [PPTree a] -> Float
-probConcC s n (pt:ptl) 
-    | n <  length s =   probConcSplits fs sn (pt:ptl)  
-                      + probConcC s (n+1) (pt:ptl)
-    | n == length s = probConcSplits s  [] (pt:ptl) 
-     where  (fs,sn) = splitAt n s
-probConcC s n ptl = 0 
-
 probSeq :: (Eq a, Ord a) => [a] -> [PPTree a] -> Float
 probSeq s [pt]     = prob s pt
 probSeq s (pt:ptl) = prob [] pt * probSeq s ptl

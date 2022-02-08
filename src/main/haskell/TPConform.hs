@@ -36,6 +36,14 @@ loud (Node1 PLoop pt r w) = False
 loud (Leaf x w) = True
 loud (Silent w) = False
 
+-- Prefix Tree
+data PFTree a = PFNode (PFToken a) [PFTree a] Weight 
+
+data PFToken a = PFSymbol a | PFSilent
+
+pfweight :: PFTree a -> Weight
+pfweight (PFNode t ctl w) = w
+
 -- default epsilon for approximations
 defaulteps = 0.001
 
@@ -249,5 +257,26 @@ shc pt ptl = NodeN Seq
                    w1 
     where w1 = weight pt 
           w2 = weight (head ptl)
+
+-- prefix tree prob
+pfprob :: (Eq a) => [a] -> PFTree a -> Float
+pfprob (sh:st) (PFNode (PFSymbol x) (n:ns) w) 
+    | ph == 0   = 0
+    | otherwise = ph * (sum (map (\c -> (pfprob st c) * (pfweight c) / ct)  
+                                 (n:ns) ) )    
+    where ph = pftokenprob [sh] (PFSymbol x)
+          ct = sum (map pfweight (n:ns))
+pfprob (sh:st) (PFNode (PFSilent) (n:ns) w) 
+    = (sum (map (\c -> (pfprob (sh:st) c) * (pfweight c) / ct)  
+                            (n:ns) ) )    
+    where ct = sum (map pfweight (n:ns))
+pfprob s (PFNode x [] w) = pftokenprob s x
+
+pftokenprob :: (Eq a) => [a] -> PFToken a -> Float
+pftokenprob s (PFSymbol x) | s == [x]  = 1
+                           | otherwise = 0
+pftokenprob s (PFSilent)   | s == []   = 1
+                           | otherwise = 0
+
 
 

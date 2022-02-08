@@ -496,6 +496,34 @@ shuffleTests = shuffleSingleTests ++ shuffleSeqTests ++ shuffleChoiceTests
     ++ shuffleProbTests
 
 --
+pfa = PFSymbol 'a'
+pfb = PFSymbol 'b'
+
+
+
+pfProbTests = [ 
+    "leaf1"     ~: 1   ~=? pfprob "a" (PFNode (pfa) [] 1),
+    "leaf2"     ~: 0   ~=? pfprob "b" (PFNode (pfa) [] 1),
+    "silent1"   ~: 1   ~=? pfprob ""  (PFNode (PFSilent) [] 1),
+    "silent2"   ~: 0   ~=? pfprob "b" (PFNode (PFSilent) [] 1),
+    "choice1"   ~: 1/2 ~=? pfprob "a" 
+                                  (PFNode (pfa) 
+                                          [PFNode PFSilent [] 1,
+                                           PFNode (pfb) [] 1] 5),
+    "choice2"   ~: 1/3 ~=? pfprob "a" 
+                                  (PFNode (PFSilent) 
+                                          [PFNode (pfa) [] 1,
+                                           PFNode (pfb) [] 2] 5),
+    "choice2"   ~: 2/3 ~=? pfprob "ab" 
+                                  (PFNode (pfa) 
+                                          [PFNode (PFSilent) [] 1,
+                                           PFNode (pfb) [] 2] 5) 
+    ]
+
+pfTests = pfProbTests 
+
+
+--
 
 concTests = probBasicConcTests
            ++ concSimpleTests
@@ -513,7 +541,7 @@ probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests
             ++ pathsetTests
             ++ concTests 
 
-huTests = probTests ++ utilTests ++ shuffleTests
+huTests = probTests ++ utilTests ++ shuffleTests ++ pfTests
 
 
 

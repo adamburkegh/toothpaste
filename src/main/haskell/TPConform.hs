@@ -230,7 +230,7 @@ ps2 (NodeN Seq (pt:ptl) w) eps =
     pfappend (ps2 pt eps)
              (map (`ps2` eps) ptl) 
 ps2 (NodeN Choice ptl w) eps = PFNode PFSilent (map (`ps2` eps) ptl) w
-ps2 (NodeN Conc ptl w) eps = deadPFTree -- pathsetConc (NodeN Conc ptl w) eps
+ps2 (NodeN Conc ptl w) eps = ps2Conc (NodeN Conc ptl w) eps -- pathsetConc (NodeN Conc ptl w) eps
 ps2 (NodeN op [] w) eps   = 
     warn "empty NodeN children in ps2" PFNode PFSilent [] w
 ps2 (Node1 FLoop pt r w) eps = 
@@ -261,10 +261,27 @@ ps2PLoop (PFNode x pcl w) cumpf k cw r =
           nw      = (cw*(r-1)/r)
           ncumpf  = pfappend pf [cumpf]
 
-
 ps3 pt = ps2 pt defaulteps
 
+ps2Conc :: PPTree a -> Float -> PFTree a
+ps2Conc (NodeN Conc ptl w) eps = deadPFTree 
 
+pfshuffle :: (Eq a) => PFTree a -> PFTree a -> PFTree a
+pfshuffle pf1 pf2 = PFNode PFSilent (pflshuffle pf1 pf2) (w1+w2)
+    where w1 = pfweight pf1
+          w2 = pfweight pf2
+
+pflshuffle :: (Eq a) => PFTree a -> PFTree a -> [PFTree a]
+pflshuffle pf1 pf2 = [pfs pf1 pf2,pfs pf2 pf1] 
+    where w1 = pfweight pf1
+          w2 = pfweight pf2
+
+pfs :: (Eq a) => PFTree a -> PFTree a -> PFTree a
+pfs (PFNode t1 [] w1) (PFNode t2 ctl2 w12) = 
+    PFNode t1 [(PFNode t2 ctl2 w12)] w1
+pfs (PFNode t1 (c1:ctl1) w1) (PFNode t2 ctl2 w12) = 
+    PFNode t1 (concat (map (\p -> pflshuffle p pf2) (c1:ctl1))) w1
+    where pf2 = (PFNode t2 ctl2 w12)
 
 -- pre: pathsets && sorted order 
 shuffle :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a

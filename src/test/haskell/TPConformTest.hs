@@ -537,6 +537,7 @@ shuffleTests = shuffleSingleTests ++ shuffleSeqTests ++ shuffleChoiceTests
 --
 pfa = PFSymbol "a"
 pfb = PFSymbol "b"
+pfc = PFSymbol "c"
 
 
 
@@ -559,7 +560,53 @@ pfProbTests = [
                                            PFNode (pfb) [] 2] 5) 
     ]
 
-pfTests = pfProbTests ++ pathsetPFTests
+
+pfla   = PFNode pfa [] 1
+pfla2  = PFNode pfa [] 2
+pflb   = PFNode pfb [] 1
+pflb2  = PFNode pfb [] 2
+pflc   = PFNode pfc [] 1
+pflc2  = PFNode pfc [] 2
+pflc4  = PFNode pfc [] 4
+
+pfSingleShuffleTests =  [
+    "leaves" ~: PFNode PFSilent [PFNode pfa [pflb] 1,
+                                 PFNode pfb [pfla] 1] 2
+                ~=? pfshuffle pfla pflb,
+    "leavesUneven" ~: PFNode PFSilent [PFNode pfa [pflb2] 1,
+                                       PFNode pfb [pfla] 2] 3
+                ~=? pfshuffle pfla pflb2 ,
+    "leafSeq" ~: PFNode PFSilent [PFNode pfa [PFNode pfb [pflc] 1] 2,
+                                  PFNode pfb [PFNode pfc [pfla2] 1,
+                                              PFNode pfa [pflc] 2] 1] 
+                                 3
+                ~=? pfshuffle pfla2 (PFNode pfb [pflc] 1) ,
+
+    "silentSeq" ~: PFNode PFSilent [PFNode PFSilent [PFNode pfb [pflc] 1] 2,
+                                    PFNode pfb 
+                                           [PFNode pfc 
+                                                   [PFNode PFSilent [] 2] 1,
+                                            PFNode PFSilent [pflc] 2] 1] 
+                                 3
+                ~=? pfshuffle (PFNode PFSilent [] 2) 
+                              (PFNode pfb [pflc] 1) {-,
+    "choiceLeaf" ~: PFNode PFSilent 
+                           [PFNode pfa [pflc4] 2,
+                            PFNode pfb [pflc4] 2,
+                            PFNode pfc [pfla2,pflb2] 4] 
+                            8
+                ~=? pfshuffle (PFNode PFSilent [pfla2,pflb2] 4) pflc4
+    "twoTermChoices" ~: choiceP[ seqP [la,scale (choiceP [lc,ld] 2) 0.5] 1, 
+                                 seqP [lb,scale (choiceP [lc,ld] 2) 0.5] 1, 
+                                 seqP [lc,scale (choiceP [la,lb] 2) 0.5] 1, 
+                                 seqP [ld,scale (choiceP [la,lb] 2) 0.5] 1] 4 
+                ~=? shuffle cab ccd
+                -}
+                ]
+
+pfShuffleTests = pfSingleShuffleTests
+
+pfTests = pfProbTests ++ pathsetPFTests ++ pfShuffleTests
 
 
 --

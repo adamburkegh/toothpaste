@@ -296,6 +296,45 @@ pathsetConcTests = [
                ~=? pathsetConc (NodeN Conc [la2,Silent 2, lb2] 6) eps
                     ]
 
+
+pathsetPFBasicTests = [
+            "silent" ~: (PFNode PFSilent [] 3) 
+                            ~=? ps3 ((Silent 3)::(PPTree String)),
+            "leaf"   ~: (PFNode pfa [] 1) ~=? ps3 la,
+            "seq"    ~: (PFNode pfa [PFNode pfb [] 1] 1)
+                            ~=?  ps3 (NodeN Seq [la,lb] 1),
+            "choice" ~: (PFNode PFSilent [PFNode pfa [] 1,
+                                          PFNode pfb [] 2] 3)
+                            ~=? ps3 (NodeN Choice [la,lb2] 3), 
+            "floop" ~: (PFNode pfa [PFNode pfa [PFNode pfa [] 1] 1] 1) 
+                            ~=? ps3 (Node1 FLoop la 3 1),
+            "ploop" ~: (PFNode PFSilent [PFNode PFSilent [] (1/3),
+                                         PFNode pfa [] (2/(3*3)),
+                                         PFNode pfa 
+                                                [PFNode pfa [] 1] (2*2/3**3),
+                                         PFNode pfa 
+                                                [PFNode pfa 
+                                                        [PFNode pfa [] 1] 1] 
+                                                (2**3/3**4),
+                                         PFNode pfa 
+                                                [PFNode pfa 
+                                                        [PFNode pfa 
+                                                                [PFNode pfa 
+                                                                        [] 1] 
+                                                                1] 1] 
+                                                (2**4/3**5)
+                                                  ] 1)
+                            ~=? ps2 (Node1 PLoop la 3 1) 0.5 
+                            -- k == 4
+                            ]
+               
+
+pathsetPFTests = pathsetPFBasicTests 
+
+
+    
+
+
 --
 
 cab = choiceP [la,lb] 2
@@ -496,31 +535,31 @@ shuffleTests = shuffleSingleTests ++ shuffleSeqTests ++ shuffleChoiceTests
     ++ shuffleProbTests
 
 --
-pfa = PFSymbol 'a'
-pfb = PFSymbol 'b'
+pfa = PFSymbol "a"
+pfb = PFSymbol "b"
 
 
 
 pfProbTests = [ 
-    "leaf1"     ~: 1   ~=? pfprob "a" (PFNode (pfa) [] 1),
-    "leaf2"     ~: 0   ~=? pfprob "b" (PFNode (pfa) [] 1),
-    "silent1"   ~: 1   ~=? pfprob ""  (PFNode (PFSilent) [] 1),
-    "silent2"   ~: 0   ~=? pfprob "b" (PFNode (PFSilent) [] 1),
-    "choice1"   ~: 1/2 ~=? pfprob "a" 
+    "leaf1"     ~: 1   ~=? pfprob ["a"] (PFNode (pfa) [] 1),
+    "leaf2"     ~: 0   ~=? pfprob ["b"] (PFNode (pfa) [] 1),
+    "silent1"   ~: 1   ~=? pfprob ([]::[String])  (PFNode (PFSilent) [] 1),
+    "silent2"   ~: 0   ~=? pfprob ["b"] (PFNode (PFSilent) [] 1),
+    "choice1"   ~: 1/2 ~=? pfprob ["a"]
                                   (PFNode (pfa) 
                                           [PFNode PFSilent [] 1,
                                            PFNode (pfb) [] 1] 5),
-    "choice2"   ~: 1/3 ~=? pfprob "a" 
+    "choice2"   ~: 1/3 ~=? pfprob ["a"]
                                   (PFNode (PFSilent) 
                                           [PFNode (pfa) [] 1,
                                            PFNode (pfb) [] 2] 5),
-    "choice2"   ~: 2/3 ~=? pfprob "ab" 
+    "choice2"   ~: 2/3 ~=? pfprob ["a","b"]
                                   (PFNode (pfa) 
                                           [PFNode (PFSilent) [] 1,
                                            PFNode (pfb) [] 2] 5) 
     ]
 
-pfTests = pfProbTests 
+pfTests = pfProbTests ++ pathsetPFTests
 
 
 --

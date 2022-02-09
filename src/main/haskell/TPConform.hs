@@ -37,12 +37,36 @@ loud (Leaf x w) = True
 loud (Silent w) = False
 
 -- Prefix Tree
-data PFTree a = PFNode (PFToken a) [PFTree a] Weight 
+data PFTree a = PFNode (PFToken a) [PFTree a] Weight deriving (Show)
 
-data PFToken a = PFSymbol a | PFSilent
+instance (Eq a) => Eq (PFTree a) where
+    PFNode t1 pcl1 w1 == PFNode t2 pcl2 w2 = 
+        t1 == t2 && pcl1 == pcl2 && w1 == w2
+
+data PFToken a = PFSymbol a | PFSilent deriving (Show,Eq)
+
+pfleaf :: a -> Weight -> PFTree a
+pfleaf x w = PFNode (PFSymbol x) [] w
+
+pfsilent :: Weight -> PFTree a
+pfsilent w = PFNode PFSilent [] w
 
 pfweight :: PFTree a -> Weight
 pfweight (PFNode t ctl w) = w
+
+
+formatPFTree :: (Show a) => PFTree a -> String 
+formatPFTree pf = formatPFTreeIndent pf 0
+
+formatPFTreeIndent :: (Show a) => PFTree a -> Int -> String 
+formatPFTreeIndent (PFNode t ctl w) indent = 
+    duplicate indentStr indent ++ formatToken t 
+    ++ formatWeight w
+    ++ concatMap (\pf -> formatPFTreeIndent pf (indent+1) ) ctl
+
+formatToken :: (Show a) => PFToken a -> String
+formatToken (PFSymbol t) = show t
+formatToken (PFSilent) = "tau"
 
 -- default epsilon for approximations
 defaulteps = 0.001
@@ -189,13 +213,58 @@ psConcChildElem ((Silent w),ptl) = NodeN Seq [Silent w,psConcTail ptl w] w
 psConcChildElem (pt,ptl) = warn "Non conc operator passed to psConcChildElem" 
                                 emptyTree
 
--- TODO partial
+-- TODO partial (comment outdated?)
 psConcTail :: (Ord a) => [PPTree a] -> Weight -> PPTree a
 psConcTail [] w = warn "Empty seq passed to psConcTail" emptyTree
 psConcTail [pt] w = replaceWeight pt w
 psConcTail (pt:ptl) w =  psConcChild (map (`scale` (w/sw)) 
                                           (pt:ptl)  )
     where sw = sum (map weight (pt:ptl))
+
+--
+-- alt pathset impl using PFTrees
+ps2 :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
+ps2 (Leaf x w) eps        = PFNode (PFSymbol x) [] w
+ps2 (Silent w) eps        = PFNode PFSilent [] w
+ps2 (NodeN Seq (pt:ptl) w) eps =
+    pfappend (ps2 pt eps)
+             (map (`ps2` eps) ptl) 
+ps2 (NodeN Choice ptl w) eps = PFNode PFSilent (map (`ps2` eps) ptl) w
+ps2 (NodeN Conc ptl w) eps = deadPFTree -- pathsetConc (NodeN Conc ptl w) eps
+ps2 (NodeN op [] w) eps   = 
+    warn "empty NodeN children in ps2" PFNode PFSilent [] w
+ps2 (Node1 FLoop pt r w) eps = 
+    pfappend pf (duplicate [pf] ((round r)-1)) 
+    where pf = ps2 pt eps
+ps2 (Node1 PLoop pt r w) eps = 
+    PFNode PFSilent ((pfsilent (w/r)):npf:(ps2PLoop pf pf (k-1) nw r)) w
+    where k  = findLoopApproxK r eps
+          (PFNode t ctl w1) = ps2 pt eps
+          pf  = PFNode t ctl w1
+          nw  = ((w1*(r-1))/(r*r))
+          npf = PFNode t ctl nw
+
+deadPFTree = PFNode PFSilent [] 1
+
+pfappend :: PFTree a -> [PFTree a] -> PFTree a
+pfappend (PFNode x pcl w) []        = PFNode x pcl w
+pfappend (PFNode x [] w) (pf:pfl)   = PFNode x [pfappend pf pfl] w
+pfappend (PFNode x pcl w) (pf:pfl)  = PFNode x (map (\p -> pfappend p (pf:pfl))
+                                                    pcl) w
+
+ps2PLoop :: PFTree a -> PFTree a -> Int -> Weight -> Float -> [PFTree a]
+ps2PLoop pf cumpf 0 w r = []
+ps2PLoop (PFNode x pcl w) cumpf k cw r = 
+    npf:(ps2PLoop pf ncumpf (k-1) nw r) 
+    where pf      = PFNode x pcl w
+          npf     = pfappend (PFNode x pcl nw) [cumpf]
+          nw      = (cw*(r-1)/r)
+          ncumpf  = pfappend pf [cumpf]
+
+
+ps3 pt = ps2 pt defaulteps
+
+
 
 -- pre: pathsets && sorted order 
 shuffle :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a

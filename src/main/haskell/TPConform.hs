@@ -297,34 +297,18 @@ pfs (PFNode t1 [] w1) (PFNode PFNull ctl2 w12) =
     PFNode t1 ctl2 w1
 pfs (PFNode t1 [] w1) (PFNode t2 ctl2 w12) = 
     PFNode t1 [(PFNode t2 ctl2 w12)] w1
-pfs (PFNode PFNull (c1:ctl1) w1) (PFNode PFNull ctl2 wl2) =
-    PFNode PFNull
-           (concat (map (\p2 -> (map (\p1 -> pfs p1 p2)
-                             (c1:ctl1) )) 
-                       ctl2) )
-           w1
 pfs (PFNode PFNull (c1:ctl1) w1) (PFNode t2 ctl2 wl2) =
     PFNode PFNull
            (map (\p -> pfs p pf2)
                    (c1:ctl1))
            w1
     where pf2 = (PFNode t2 ctl2 wl2)
-pfs (PFNode t1 (c1:ctl1) w1) (PFNode PFNull ctl2 wl2) =
-    PFNode t1
-        (concat (map (\p2 -> (concat (map (\p1 -> pflshuffle p1 p2)
-                                     (c1:ctl1) )) )
-               (ctl2) ) )  
-           w1
 pfs (PFNode t1 (c1:ctl1) w1) (PFNode t2 ctl2 w12) = 
     PFNode t1 
            (concat (map (\p -> pflshuffle p pf2) 
                         (c1:ctl1))) 
            w1
     where pf2 = (PFNode t2 ctl2 w12)
-
--- TODO 
--- pfsl :: (Eq a) => PFTree a -> [PFTree a] -> PFTree a
--- pfsl pf1 pfl2 = map (\pf2 -> pflshuffle pf1 pf2) pfl2
 
 
 -- pre: pathsets && sorted order 

@@ -598,16 +598,14 @@ pfSingleShuffleTests =  [
                             PFNode pfb [pflc4] 2,
                             PFNode pfc [pfla2,pflb2] 4] 
                             8
-                ~=? pfshuffle (PFNode PFNull [pfla2,pflb2] 4) pflc4 
-                {- TODO FAIL  ,
+                ~=? pfshuffle (PFNode PFNull [pfla2,pflb2] 4) pflc4 ,
     "twoTermChoices" ~: PFNode PFNull
                                [PFNode pfa [pflc,pfld] 1,
                                 PFNode pfb [pflc,pfld] 1,
                                 PFNode pfc [pfla,pflb] 1,
-                                PFNode pfc [pfla,pflb] 1 ] 4
+                                PFNode pfd [pfla,pflb] 1 ] 4
                 ~=? pfshuffle (PFNode PFNull [pfla,pflb] 2) 
                               (PFNode PFNull [pflc,pfld] 2) 
-                              -}
                 ]
 
 pfCollapseTests = [
@@ -621,7 +619,35 @@ pfCollapseTests = [
         ~=? pfcollapse (PFNode PFNull [PFNode PFNull [pfla,pflb,pflc] 1] 1)
     ]
 
-pfShuffleTests = pfSingleShuffleTests ++ pfCollapseTests
+
+{-
+pfShuffleSeqTests = [
+    "seq1" ~: 
+    {-
+    choiceP [seqP [la4,
+                             choiceP [seqP [lb2,lc2,ld2] 2,
+                                      seqP [lc2,
+                                            choiceP[seqP [lb,ld] 1,
+                                                    seqP [ld,lb] 1] 2] 2] 4] 4,
+                       seqP [lc4,
+                             choiceP [seqP [ld2,la2,lb2] 2,
+                                      seqP [la2,
+                                            choiceP[seqP [lb,ld] 1,
+                                                    seqP [ld,lb] 1] 2] 2] 4] 4 
+                       ] 8
+            -}
+               PFNode PFNull 
+                      [PFNode pfa [PFNode pfb 
+                                          [PFNode pfc 
+                                                  [PFNode pfd [] 4] 4] 4] 4],
+                      8 
+                ~=? shuffle (PFNode pfa [PFNode pfb [] 4] 4)
+                            (PFNode pfc [PFNode pfd [] 4] 4)
+                ]
+-}
+
+pfShuffleTests = pfSingleShuffleTests ++ pfCollapseTests 
+              -- ++ pfShuffleSeqTests
 
 pfTests = pfProbTests ++ pathsetPFTests ++ pfShuffleTests
 

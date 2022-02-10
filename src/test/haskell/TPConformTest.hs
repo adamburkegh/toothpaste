@@ -303,8 +303,8 @@ pathsetPFBasicTests = [
             "leaf"   ~: (PFNode pfa [] 1) ~=? ps3 la,
             "seq"    ~: (PFNode pfa [PFNode pfb [] 1] 1)
                             ~=?  ps3 (NodeN Seq [la,lb] 1),
-            "choice" ~: (PFNode PFSilent [PFNode pfa [] 1,
-                                          PFNode pfb [] 2] 3)
+            "choice" ~: (PFNode PFNull [PFNode pfa [] 1,
+                                        PFNode pfb [] 2] 3)
                             ~=? ps3 (NodeN Choice [la,lb2] 3), 
             "floop" ~: (PFNode pfa [PFNode pfa [PFNode pfa [] 1] 1] 1) 
                             ~=? ps3 (Node1 FLoop la 3 1),
@@ -538,6 +538,7 @@ shuffleTests = shuffleSingleTests ++ shuffleSeqTests ++ shuffleChoiceTests
 pfa = PFSymbol "a"
 pfb = PFSymbol "b"
 pfc = PFSymbol "c"
+pfd = PFSymbol "d"
 
 
 
@@ -546,12 +547,13 @@ pfProbTests = [
     "leaf2"     ~: 0   ~=? pfprob ["b"] (PFNode (pfa) [] 1),
     "silent1"   ~: 1   ~=? pfprob ([]::[String])  (PFNode (PFSilent) [] 1),
     "silent2"   ~: 0   ~=? pfprob ["b"] (PFNode (PFSilent) [] 1),
+    "null1"   ~: 1   ~=? pfprob ([]::[String])  (PFNode (PFNull) [] 1),
     "choice1"   ~: 1/2 ~=? pfprob ["a"]
                                   (PFNode (pfa) 
                                           [PFNode PFSilent [] 1,
                                            PFNode (pfb) [] 1] 5),
     "choice2"   ~: 1/3 ~=? pfprob ["a"]
-                                  (PFNode (PFSilent) 
+                                  (PFNode (PFNull) 
                                           [PFNode (pfa) [] 1,
                                            PFNode (pfb) [] 2] 5),
     "choice2"   ~: 2/3 ~=? pfprob ["a","b"]
@@ -568,43 +570,58 @@ pflb2  = PFNode pfb [] 2
 pflc   = PFNode pfc [] 1
 pflc2  = PFNode pfc [] 2
 pflc4  = PFNode pfc [] 4
+pfld   = PFNode pfd [] 1
 
 pfSingleShuffleTests =  [
-    "leaves" ~: PFNode PFSilent [PFNode pfa [pflb] 1,
+    "leaves" ~: PFNode PFNull [PFNode pfa [pflb] 1,
                                  PFNode pfb [pfla] 1] 2
                 ~=? pfshuffle pfla pflb,
-    "leavesUneven" ~: PFNode PFSilent [PFNode pfa [pflb2] 1,
-                                       PFNode pfb [pfla] 2] 3
+    "leavesUneven" ~: PFNode PFNull [PFNode pfa [pflb2] 1,
+                                     PFNode pfb [pfla] 2] 3
                 ~=? pfshuffle pfla pflb2 ,
-    "leafSeq" ~: PFNode PFSilent [PFNode pfa [PFNode pfb [pflc] 1] 2,
+    "leafSeq" ~: PFNode PFNull [PFNode pfa [PFNode pfb [pflc] 1] 2,
                                   PFNode pfb [PFNode pfc [pfla2] 1,
                                               PFNode pfa [pflc] 2] 1] 
                                  3
                 ~=? pfshuffle pfla2 (PFNode pfb [pflc] 1) ,
 
-    "silentSeq" ~: PFNode PFSilent [PFNode PFSilent [PFNode pfb [pflc] 1] 2,
-                                    PFNode pfb 
-                                           [PFNode pfc 
-                                                   [PFNode PFSilent [] 2] 1,
-                                            PFNode PFSilent [pflc] 2] 1] 
-                                 3
+    "silentSeq" ~: PFNode PFNull [PFNode PFSilent [PFNode pfb [pflc] 1] 2,
+                                  PFNode pfb 
+                                         [PFNode pfc 
+                                                 [PFNode PFSilent [] 2] 1,
+                                          PFNode PFSilent [pflc] 2] 1] 
+                          3
                 ~=? pfshuffle (PFNode PFSilent [] 2) 
-                              (PFNode pfb [pflc] 1) {-,
-    "choiceLeaf" ~: PFNode PFSilent 
+                              (PFNode pfb [pflc] 1),
+    "choiceLeaf" ~: PFNode PFNull
                            [PFNode pfa [pflc4] 2,
                             PFNode pfb [pflc4] 2,
                             PFNode pfc [pfla2,pflb2] 4] 
                             8
-                ~=? pfshuffle (PFNode PFSilent [pfla2,pflb2] 4) pflc4
-    "twoTermChoices" ~: choiceP[ seqP [la,scale (choiceP [lc,ld] 2) 0.5] 1, 
-                                 seqP [lb,scale (choiceP [lc,ld] 2) 0.5] 1, 
-                                 seqP [lc,scale (choiceP [la,lb] 2) 0.5] 1, 
-                                 seqP [ld,scale (choiceP [la,lb] 2) 0.5] 1] 4 
-                ~=? shuffle cab ccd
-                -}
+                ~=? pfshuffle (PFNode PFNull [pfla2,pflb2] 4) pflc4 
+                {- TODO FAIL  ,
+    "twoTermChoices" ~: PFNode PFNull
+                               [PFNode pfa [pflc,pfld] 1,
+                                PFNode pfb [pflc,pfld] 1,
+                                PFNode pfc [pfla,pflb] 1,
+                                PFNode pfc [pfla,pflb] 1 ] 4
+                ~=? pfshuffle (PFNode PFNull [pfla,pflb] 2) 
+                              (PFNode PFNull [pflc,pfld] 2) 
+                              -}
                 ]
 
-pfShuffleTests = pfSingleShuffleTests
+pfCollapseTests = [
+    "leaf" ~: pfla ~=? pfcollapse pfla,
+    "oneNull" ~: (PFNode PFNull ([]::[PFTree String]) 1) 
+        ~=? pfcollapse (PFNode PFNull [] 1),
+    "nullParent" ~: pfla ~=? pfcollapse (PFNode PFNull [pfla] 1),
+    "nullChild1" ~: (PFNode pfa [pfla,pflb] 1)
+        ~=? pfcollapse (PFNode pfa [PFNode PFNull [pfla,pflb] 1] 1),
+    "nullChild2" ~: (PFNode PFNull [pfla,pflb,pflc] 1)
+        ~=? pfcollapse (PFNode PFNull [PFNode PFNull [pfla,pflb,pflc] 1] 1)
+    ]
+
+pfShuffleTests = pfSingleShuffleTests ++ pfCollapseTests
 
 pfTests = pfProbTests ++ pathsetPFTests ++ pfShuffleTests
 

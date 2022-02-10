@@ -43,7 +43,8 @@ instance (Eq a) => Eq (PFTree a) where
     PFNode t1 pcl1 w1 == PFNode t2 pcl2 w2 = 
         t1 == t2 && pcl1 == pcl2 && w1 == w2
 
-data PFToken a = PFSymbol a | PFSilent deriving (Show,Eq)
+data PFToken a = PFSymbol a | PFSilent | PFNull
+    deriving (Show,Eq)
 
 pfleaf :: a -> Weight -> PFTree a
 pfleaf x w = PFNode (PFSymbol x) [] w
@@ -66,7 +67,9 @@ formatPFTreeIndent (PFNode t ctl w) indent =
 
 formatToken :: (Show a) => PFToken a -> String
 formatToken (PFSymbol t) = show t
-formatToken (PFSilent) = "tau"
+formatToken PFSilent = "tau"
+formatToken PFNull = "=X="
+
 
 -- default epsilon for approximations
 defaulteps = 0.001
@@ -229,10 +232,10 @@ ps2 (Silent w) eps        = PFNode PFSilent [] w
 ps2 (NodeN Seq (pt:ptl) w) eps =
     pfappend (ps2 pt eps)
              (map (`ps2` eps) ptl) 
-ps2 (NodeN Choice ptl w) eps = PFNode PFSilent (map (`ps2` eps) ptl) w
-ps2 (NodeN Conc ptl w) eps = ps2Conc (NodeN Conc ptl w) eps -- pathsetConc (NodeN Conc ptl w) eps
+ps2 (NodeN Choice ptl w) eps = PFNode PFNull (map (`ps2` eps) ptl) w
+ps2 (NodeN Conc ptl w) eps = ps2Conc (NodeN Conc ptl w) eps 
 ps2 (NodeN op [] w) eps   = 
-    warn "empty NodeN children in ps2" PFNode PFSilent [] w
+    warn "empty NodeN children in ps2" PFNode PFNull [] w
 ps2 (Node1 FLoop pt r w) eps = 
     pfappend pf (duplicate [pf] ((round r)-1)) 
     where pf = ps2 pt eps
@@ -244,7 +247,7 @@ ps2 (Node1 PLoop pt r w) eps =
           nw  = ((w1*(r-1))/(r*r))
           npf = PFNode t ctl nw
 
-deadPFTree = PFNode PFSilent [] 1
+deadPFTree = PFNode PFNull [] 1
 
 pfappend :: PFTree a -> [PFTree a] -> PFTree a
 pfappend (PFNode x pcl w) []        = PFNode x pcl w
@@ -264,10 +267,22 @@ ps2PLoop (PFNode x pcl w) cumpf k cw r =
 ps3 pt = ps2 pt defaulteps
 
 ps2Conc :: PPTree a -> Float -> PFTree a
-ps2Conc (NodeN Conc ptl w) eps = deadPFTree 
+ps2Conc (NodeN Conc ptl w) eps = deadPFTree  -- TODO
+
+-- collapse nulls not in parent
+pfcollapse :: PFTree a -> PFTree a
+pfcollapse (PFNode PFNull [c] w) = pfcollapse c
+pfcollapse (PFNode t ctl w) = PFNode t (concat (map pfChildCollapse ctl)) w 
+
+pfChildCollapse :: PFTree a -> [PFTree a]
+pfChildCollapse (PFNode PFNull ctl w) = concat (map pfChildCollapse ctl)
+pfChildCollapse (PFNode t ctl w)      = 
+    [PFNode t (concat (map pfChildCollapse ctl)) w]
+
 
 pfshuffle :: (Eq a) => PFTree a -> PFTree a -> PFTree a
-pfshuffle pf1 pf2 = PFNode PFSilent (pflshuffle pf1 pf2) (w1+w2)
+pfshuffle pf1 pf2 = pfcollapse (PFNode PFNull 
+                                       (pflshuffle pf1 pf2) (w1+w2) )
     where w1 = pfweight pf1
           w2 = pfweight pf2
 
@@ -277,11 +292,40 @@ pflshuffle pf1 pf2 = [pfs pf1 pf2,pfs pf2 pf1]
           w2 = pfweight pf2
 
 pfs :: (Eq a) => PFTree a -> PFTree a -> PFTree a
+pfs (PFNode PFNull [] w1) pf2 = pf2
+pfs (PFNode t1 [] w1) (PFNode PFNull ctl2 w12) = 
+    PFNode t1 ctl2 w1
 pfs (PFNode t1 [] w1) (PFNode t2 ctl2 w12) = 
     PFNode t1 [(PFNode t2 ctl2 w12)] w1
+pfs (PFNode PFNull (c1:ctl1) w1) (PFNode PFNull ctl2 wl2) =
+    PFNode PFNull
+           (concat (map (\p2 -> (map (\p1 -> pfs p1 p2)
+                             (c1:ctl1) )) 
+                       ctl2) )
+           w1
+pfs (PFNode PFNull (c1:ctl1) w1) (PFNode t2 ctl2 wl2) =
+    PFNode PFNull
+           (map (\p -> pfs p pf2)
+                   (c1:ctl1))
+           w1
+    where pf2 = (PFNode t2 ctl2 wl2)
+pfs (PFNode t1 (c1:ctl1) w1) (PFNode PFNull ctl2 wl2) =
+    PFNode t1
+        (concat (map (\p2 -> (concat (map (\p1 -> pflshuffle p1 p2)
+                                     (c1:ctl1) )) )
+               (ctl2) ) )  
+           w1
 pfs (PFNode t1 (c1:ctl1) w1) (PFNode t2 ctl2 w12) = 
-    PFNode t1 (concat (map (\p -> pflshuffle p pf2) (c1:ctl1))) w1
+    PFNode t1 
+           (concat (map (\p -> pflshuffle p pf2) 
+                        (c1:ctl1))) 
+           w1
     where pf2 = (PFNode t2 ctl2 w12)
+
+-- TODO 
+-- pfsl :: (Eq a) => PFTree a -> [PFTree a] -> PFTree a
+-- pfsl pf1 pfl2 = map (\pf2 -> pflshuffle pf1 pf2) pfl2
+
 
 -- pre: pathsets && sorted order 
 shuffle :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a
@@ -325,7 +369,8 @@ pfprob (sh:st) (PFNode (PFSymbol x) (n:ns) w)
                                  (n:ns) ) )    
     where ph = pftokenprob [sh] (PFSymbol x)
           ct = sum (map pfweight (n:ns))
-pfprob (sh:st) (PFNode (PFSilent) (n:ns) w) 
+pfprob (sh:st) (PFNode (et) (n:ns) w) 
+    | et == PFSilent || et == PFNull
     = (sum (map (\c -> (pfprob (sh:st) c) * (pfweight c) / ct)  
                             (n:ns) ) )    
     where ct = sum (map pfweight (n:ns))
@@ -336,6 +381,7 @@ pftokenprob s (PFSymbol x) | s == [x]  = 1
                            | otherwise = 0
 pftokenprob s (PFSilent)   | s == []   = 1
                            | otherwise = 0
-
+pftokenprob s (PFNull)     | s == []   = 1
+                           | otherwise = 0
 
 

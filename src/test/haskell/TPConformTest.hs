@@ -539,6 +539,8 @@ pfa = PFSymbol "a"
 pfb = PFSymbol "b"
 pfc = PFSymbol "c"
 pfd = PFSymbol "d"
+pfe = PFSymbol "e"
+pff = PFSymbol "f"
 
 
 
@@ -572,7 +574,11 @@ pflc   = PFNode pfc [] 1
 pflc2  = PFNode pfc [] 2
 pflc4  = PFNode pfc [] 4
 pfld   = PFNode pfd [] 1
+pfld2  = PFNode pfd [] 2
 pfld4  = PFNode pfd [] 4
+pfle2  = PFNode pfe [] 2
+pfle4  = PFNode pfe [] 4
+pflf   = PFNode pff [] 1
 
 pfSingleShuffleTests =  [
     "leaves" ~: PFNode PFNull [PFNode pfa [pflb] 1,
@@ -648,8 +654,60 @@ pfShuffleSeqTests = [
                               (PFNode pfc [PFNode pfd [] 4] 4)
                 ]
 
+
+pfShuffleChoiceTests = [
+    "choiceSeq1" ~: PFNode PFNull [PFNode pfa [pfle4] 2,
+                                   PFNode pfb [PFNode pfc [pfle4] 1,
+                                               PFNode pfe [pflc] 4 ] 1,
+                                   PFNode pfd [pfle4] 1,
+                                   PFNode pfe [pfla2,
+                                               PFNode pfb [pflc] 1,
+                                               pfld ] 4 ]
+                                   8
+                ~=? pfshuffle (PFNode PFNull [pfla2, 
+                                             PFNode pfb [pflc] 1,
+                                             pfld ] 4)
+                              pfle4,
+    "choiceChoice1" ~: PFNode PFNull [PFNode pfa [pfld2,pfle2] 2,
+                                      PFNode pfb [PFNode pfc [pfld2,pfle2] 2,
+                                                  PFNode pfd [pflc2] 2,
+                                                  PFNode pfe [pflc2] 2] 1,
+                                      PFNode pfd [pfla2,
+                                                  PFNode pfb [pflc2] 1 ] 2,
+                                      PFNode pfe [pfla2,
+                                                  PFNode pfb [pflc2] 1] 2
+                                       ] 
+                              6
+               ~=? pfshuffle (PFNode PFNull [pfla2, 
+                                             PFNode pfb [pflc2] 1] 2)
+                             (PFNode PFNull [pfld2,pfle2] 4) ,
+     "choiceChoiceSeq1" ~: 
+            PFNode PFNull [PFNode pfa [pfld,
+                                       PFNode pfe [pflf] 1] 1.0,
+                           PFNode pfb [PFNode pfc [pfld,
+                                                   PFNode pfe [pflf] 1] 1,
+                                       PFNode pfd [pflc] 1,
+                                       PFNode pfe [PFNode pff [pflc] 1,
+                                                   PFNode pfc [pflf] 1] 1] 1,
+                           PFNode pfd [pfla,
+                                       PFNode pfb [pflc] 1] 1,
+                           PFNode pfe [PFNode pff [pfla,
+                                                   PFNode pfb [pflc] 1] 1,
+                                       PFNode pfa [pflf] 1,
+                                       PFNode pfb 
+                                              [PFNode pfc [pflf] 1,
+                                               PFNode pff [pflc] 1] 1] 1] 
+                            4
+               ~=? pfshuffle (PFNode PFNull [pfla, 
+                                             PFNode pfb [pflc] 1] 2)
+                             (PFNode PFNull [pfld, 
+                                             PFNode pfe [pflf] 1] 2)
+    ] 
+
+
 pfShuffleTests = pfSingleShuffleTests ++ pfCollapseTests 
-              ++ pfShuffleSeqTests
+              ++ pfShuffleSeqTests ++ pfShuffleChoiceTests
+              -- ++ shuffleProbTests
 
 pfTests = pfProbTests ++ pathsetPFTests ++ pfShuffleTests
 

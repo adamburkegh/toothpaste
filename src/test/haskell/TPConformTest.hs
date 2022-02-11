@@ -54,7 +54,9 @@ acmpl ptl1 ptl2 =  length ptl1  == length ptl2
 
 
 tokprob :: String -> PPTree String -> Float
-tokprob s pt = prob (map (\x -> [x]) s) pt
+-- tokprob s pt = prob (map (\x -> [x]) s) pt
+-- TODO
+tokprob s pt = pfprob (map (\x -> [x]) s) (ps3 pt)
 
 
 -- Tests
@@ -472,7 +474,7 @@ shuffleProbChoiceChoiceTests = [
     
 cl1 = shuffle (choiceP [la2,lb2] 4) lc4
 shuffleProbChoiceLeafTests1 = [
-    "cl1" ~: 0 ~=? tokprob "ab" cl1,
+    "cl1" ~: 0   ~=? tokprob "ab" cl1,
     "cl2" ~: 1/4 ~=? tokprob "ac" cl1,
     "cl3" ~: 1/4 ~=? tokprob "bc" cl1,
     "cl4" ~: 1/4 ~=? tokprob "ca" cl1,
@@ -482,7 +484,7 @@ shuffleProbChoiceLeafTests1 = [
     
 cl2 = shuffle (choiceP [la2,lb2] 4) lc2
 shuffleProbChoiceLeafTests2 = [
-    "cl1" ~: 0 ~=? tokprob "ab" cl2,
+    "cl1" ~: 0   ~=? tokprob "ab" cl2,
     "cl2" ~: 1/3 ~=? tokprob "ac" cl2,
     "cl3" ~: 1/3 ~=? tokprob "bc" cl2,
     "cl4" ~: 1/6 ~=? tokprob "ca" cl2,
@@ -705,9 +707,12 @@ pfShuffleChoiceTests = [
     ] 
 
 
+    
+
+
+
 pfShuffleTests = pfSingleShuffleTests ++ pfCollapseTests 
-              ++ pfShuffleSeqTests ++ pfShuffleChoiceTests
-              -- ++ shuffleProbTests
+              ++ pfShuffleSeqTests    ++ pfShuffleChoiceTests
 
 pfTests = pfProbTests ++ pathsetPFTests ++ pfShuffleTests
 

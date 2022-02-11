@@ -233,7 +233,7 @@ ps2 (NodeN Seq (pt:ptl) w) eps =
     pfappend (ps2 pt eps)
              (map (`ps2` eps) ptl) 
 ps2 (NodeN Choice ptl w) eps = PFNode PFNull (map (`ps2` eps) ptl) w
-ps2 (NodeN Conc ptl w) eps = ps2Conc (NodeN Conc ptl w) eps 
+ps2 (NodeN Conc ptl w) eps   = ps2Conc (NodeN Conc ptl w) eps 
 ps2 (NodeN op [] w) eps   = 
     warn "empty NodeN children in ps2" PFNode PFNull [] w
 ps2 (Node1 FLoop pt r w) eps = 
@@ -266,8 +266,10 @@ ps2PLoop (PFNode x pcl w) cumpf k cw r =
 
 ps3 pt = ps2 pt defaulteps
 
-ps2Conc :: PPTree a -> Float -> PFTree a
-ps2Conc (NodeN Conc ptl w) eps = deadPFTree  -- TODO
+ps2Conc :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
+ps2Conc (NodeN Conc ptl w) eps = PFNode PFSilent ctl w
+    where (PFNode t ctl sw) = pfshuffleList (map (\p -> ps2 p eps) ptl)
+-- TODO pfappend Silent ()
 
 -- collapse nulls not in parent
 pfcollapse :: PFTree a -> PFTree a
@@ -285,6 +287,12 @@ pfshuffle pf1 pf2 = pfcollapse (PFNode PFNull
                                        (pflshuffle pf1 pf2) (w1+w2) )
     where w1 = pfweight pf1
           w2 = pfweight pf2
+
+pfshuffleList :: (Eq a) => [PFTree a] -> PFTree a
+pfshuffleList (pf1:pf2:pfl) = pfshuffle pf1 (pfshuffleList (pf2:pfl))
+pfshuffleList [pf] = pf
+pfshuffleList []   = warn "empty list passed to shuffle" deadPFTree
+
 
 pflshuffle :: (Eq a) => PFTree a -> PFTree a -> [PFTree a]
 pflshuffle pf1 pf2 = [pfs pf1 pf2,pfs pf2 pf1] 

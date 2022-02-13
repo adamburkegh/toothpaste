@@ -115,10 +115,10 @@ cSeq2 = NodeN Conc [ NodeN Seq [la,lb,lc] 1,
                     ld ] 2
 
 concSeqCompound2 = [
-            "compSeq1" ~: 1/6 ~=? prob ["a","b","c","d"] cSeq2,
+            "compSeq1" ~: 1/8 ~=? prob ["a","b","c","d"] cSeq2,
             "compSeq2" ~: 1/2 ~=? prob ["d","a","b","c"] cSeq2,
-            "compSeqInter1" ~: 1/6 ~=? prob ["a","d","b","c"] cSeq2,
-            "compSeqInter2" ~: 1/6 ~=? prob ["a","b","d","c"] cSeq2,
+            "compSeqInter1" ~: 1/4 ~=? prob ["a","d","b","c"] cSeq2,
+            "compSeqInter2" ~: 1/8 ~=? prob ["a","b","d","c"] cSeq2,
             "compSeqInvalidOrder1" ~: 0 ~=? prob ["b","a","c","d"] cSeq2 ,
             "compSeqInvalidOrder2" ~: 0 ~=? prob ["b","c","a","d"] cSeq2 ,
             "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a","d"] cSeq2 ,
@@ -140,28 +140,38 @@ cChoice2 = NodeN Conc [ NodeN Choice [la2, Silent 1] 3,
 concChoiceCompound2 = let ?epsilon = eps in [
             "compChoice2-1" ~: 1/5  ~?~ prob ["a","c","d" ] cChoice2,
             "compChoice2-2" ~: 1/5  ~?~ prob ["a","d","c" ] cChoice2,
-            "compChoice2-3" ~: 7/30 ~?~ prob ["c","d" ] cChoice2,
-            "compChoice2-4" ~: 7/30 ~?~ prob ["d","c" ] cChoice2,
+            "compChoice2-3" ~: 5/30 ~?~ prob ["c","d" ] cChoice2,
+            "compChoice2-4" ~: 5/30 ~?~ prob ["d","c" ] cChoice2,
             "compChoice2-5" ~: 1/10 ~?~ prob ["c","a","d"] cChoice2,
             "compChoice2-6" ~: 1/30 ~?~ prob ["c","d","a"] cChoice2,
             "compChoice2-7" ~: 1/10 ~?~ prob ["d","a","c"] cChoice2,
             "compChoice2-8" ~: 1/30 ~?~ prob ["d","c","a"] cChoice2,
             "compChoice2-9" ~: 0.0  ~=? prob ["a","b"] cChoice2 ]
 
-cConc1 = NodeN Conc [la, NodeN Conc [lb4,lc] 5] 6
+{- TODO BUG ps2 creates dupe children for tau
+cConc1 = NodeN Conc [la, NodeN Conc [lb,lc4] 5] 6
 concConcCompound = let ?epsilon = eps in [
-        "concc1" ~: 0 ~?~ prob ["a","b","c"] cConc1 -- TODO wrong
+        "concc1" ~: 11/180 ~?~ prob ["a","b","c"] cConc1,
+        "concc2" ~: 44/180 ~?~ prob ["a","c","b"] cConc1,
+        "concc3" ~: 1/36   ~?~ prob ["b","a","c"] cConc1,
+        "concc4" ~: 1/9    ~?~ prob ["b","c","a"] cConc1,
+        "concc5" ~: 5/18   ~?~ prob ["c","a","b"] cConc1,
+        "concc6" ~: 5/18   ~?~ prob ["c","b","a"] cConc1,
+        "conccTotal" ~: 1  
+            ~?~ (44/180) + (11/180) +  (1/36) + (1/9) + (5/18) + (5/18)
     ]
+    -}
 
 concCompoundTests = concSeqCompound
-                    -- TODO ++ concChoiceCompound1 ++ concChoiceCompound2
+                    ++ concChoiceCompound1 ++ concChoiceCompound2
+                    -- ++ concConcCompound
 
 cSil = NodeN Conc [ NodeN Seq [la,Silent 1,lb] 1,
                     lc ] 2
 concCompoundSilentTests = [
-            "compSeq1" ~: 1/4 ~=? prob ["a","b","c"] cSil,
+            "compSeq1" ~: 1/8 ~=? prob ["a","b","c"] cSil,
             "compSeq2" ~: 1/2 ~=? prob ["c","a","b"] cSil,
-            "compSeqInter" ~: 1/4 ~=? prob ["a","c","b"] cSil,
+            "compSeqInter" ~: 3/8 ~=? prob ["a","c","b"] cSil,
             "compSeqInvalidOrder1" ~: 0 ~=? prob ["b","a","c"] cSil ,
             "compSeqInvalidOrder2" ~: 0 ~=? prob ["b","c","a"] cSil ,
             "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a"] cSil ,
@@ -721,8 +731,8 @@ pfTests = pfProbTests ++ pathsetPFTests ++ pfShuffleTests
 
 concTests = probBasicConcTests
            ++ concSimpleTests
-           -- ++ concCompoundTests
-           -- ++ concCompoundSilentTests
+           ++ concCompoundTests
+           ++ concCompoundSilentTests
 
 
 utilTests = elemTests ++ permuteTests ++ loudTests

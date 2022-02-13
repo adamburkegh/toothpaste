@@ -90,7 +90,8 @@ probEps s (Silent w) | null s    = 1
 probEps s (NodeN Seq  ptl w) = probSeq s ptl
 probEps s (Node1 FLoop pt r w) 
     = probEps s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
-probEps s (NodeN Conc ptl w) = probEps s (pathsetConc (NodeN Conc ptl w) ?eps) 
+probEps s (NodeN Conc ptl w) = 
+    pfprob s (ps2 (NodeN Conc ptl w) ?eps)
 probEps s (Node1 PLoop pt r w) = probPLoop s pt r ?eps
 
 
@@ -199,6 +200,7 @@ pathsetConc :: (Ord a) => PPTree a -> Float -> PPTree a
 pathsetConc (NodeN Conc ptl w) eps = 
     NodeN Seq [Silent w,psConcChild (map (\pt -> pathsetEps pt eps) ptl)] w
 pathsetConc s eps = warn "Non conc operator passed to pathsetConc" emptyTree
+-- TODO trailing silent
 
 -- pre: all isPathset ptl
 psConcChild :: (Ord a) => [PPTree a] -> PPTree a

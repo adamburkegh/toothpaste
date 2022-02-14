@@ -5,6 +5,8 @@ module TPConform where
 import ProbProcessTree
 import TraceUtil
 
+import Data.List (sort)
+
 
 -- convenience
 log2 :: Floating a => a -> a
@@ -37,14 +39,14 @@ loud (Leaf x w) = True
 loud (Silent w) = False
 
 -- Prefix Tree
-data PFTree a = PFNode (PFToken a) [PFTree a] Weight deriving (Show)
+data PFTree a = PFNode (PFToken a) [PFTree a] Weight deriving (Show,Ord)
 
 instance (Eq a) => Eq (PFTree a) where
     PFNode t1 pcl1 w1 == PFNode t2 pcl2 w2 = 
         t1 == t2 && pcl1 == pcl2 && w1 == w2
 
 data PFToken a = PFSymbol a | PFSilent | PFNull
-    deriving (Show,Eq)
+    deriving (Show,Eq,Ord)
 
 pfleaf :: a -> Weight -> PFTree a
 pfleaf x w = PFNode (PFSymbol x) [] w
@@ -54,6 +56,11 @@ pfsilent w = PFNode PFSilent [] w
 
 pfweight :: PFTree a -> Weight
 pfweight (PFNode t ctl w) = w
+
+pfnorm :: (Ord a) => PFTree a -> PFTree a
+pfnorm (PFNode t ctl w) = PFNode t 
+                                 (map pfnorm 
+                                      (sort ctl) ) w
 
 
 formatPFTree :: (Show a) => PFTree a -> String 
@@ -291,15 +298,14 @@ pfshuffle pf1 pf2 = pfcollapse (PFNode PFNull
           w2 = pfweight pf2
 
 pfshuffleList :: (Eq a) => [PFTree a] -> PFTree a
-pfshuffleList (pf1:pf2:pfl) = pfshuffle pf1 (pfshuffleList (pf2:pfl))
+-- pfshuffleList (pf1:pf2:pfl) = pfshuffle pf1 (pfshuffleList (pf2:pfl))
+pfshuffleList (pf1:pf2:pfl) = foldr pfshuffle pf1 (pf2:pfl)
 pfshuffleList [pf] = pf
 pfshuffleList []   = warn "empty list passed to shuffle" deadPFTree
 
 
 pflshuffle :: (Eq a) => PFTree a -> PFTree a -> [PFTree a]
 pflshuffle pf1 pf2 = [pfs pf1 pf2,pfs pf2 pf1] 
-    where w1 = pfweight pf1
-          w2 = pfweight pf2
 
 pfs :: (Eq a) => PFTree a -> PFTree a -> PFTree a
 pfs (PFNode PFNull [] w1) pf2 = pf2
@@ -315,8 +321,8 @@ pfs (PFNode PFNull (c1:ctl1) w1) (PFNode t2 ctl2 wl2) =
     where pf2 = (PFNode t2 ctl2 wl2)
 pfs (PFNode t1 (c1:ctl1) w1) (PFNode t2 ctl2 w12) = 
     PFNode t1 
-           (concat (map (\p -> pflshuffle p pf2) 
-                        (c1:ctl1))) 
+           ((pfs pf2 (PFNode PFNull (c1:ctl1) w1))
+           :(map (\p -> pfs p pf2) (c1:ctl1) ) )
            w1
     where pf2 = (PFNode t2 ctl2 w12)
 
@@ -368,7 +374,13 @@ pfprob (sh:st) (PFNode (et) (n:ns) w)
     = (sum (map (\c -> (pfprob (sh:st) c) * (pfweight c) / ct)  
                             (n:ns) ) )    
     where ct = sum (map pfweight (n:ns))
-pfprob s (PFNode x [] w) = pftokenprob s x
+pfprob s  (PFNode x [] w) = pftokenprob s x
+pfprob [] (PFNode x cfl w) 
+    | ph == 0   = 0
+    | otherwise = ph * (sum (map (\c -> (pfprob [] c) * (pfweight c) / ct)
+                                 cfl ) )
+    where ph = pftokenprob [] x 
+          ct = sum (map pfweight cfl)
 
 pftokenprob :: (Eq a) => [a] -> PFToken a -> Float
 pftokenprob s (PFSymbol x) | s == [x]  = 1

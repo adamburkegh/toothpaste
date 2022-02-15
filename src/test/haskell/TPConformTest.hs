@@ -54,9 +54,7 @@ acmpl ptl1 ptl2 =  length ptl1  == length ptl2
 
 
 tokprob :: String -> PPTree String -> Float
--- tokprob s pt = prob (map (\x -> [x]) s) pt
--- TODO cleanup redirects
-tokprob s pt = pfprob (map (\x -> [x]) s) (ps3 pt)
+tokprob s pt = prob (map (\x -> [x]) s) pt
 
 
 -- Tests
@@ -175,8 +173,13 @@ concCompoundSilentTests = [
             "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a"] cSil ,
             "compSeqInvalidDupe" ~: 0 ~=? prob ["a","b","c","c"] cSil ]
 
+-- TODO conc-with-loop
 
-probDuplicateTests = [ "incomplete" ~: 0 ~=? 1 ] -- TODO
+dpab = NodeN Choice [la,la2,lb] 4
+probDuplicateTests = [ 
+        "leafChoice1" ~: 3/4 ~=? tokprob "a" dpab,
+        "leafChoice2" ~: 1/4 ~=? tokprob "b" dpab
+                ] -- TODO more duplicate tests
 
 elemTests = ["elemCompl" ~: [(1,[2,3]),(2,[1,3]),(3,[1,2])] 
                                 ~=? elemCompl [1,2,3]    ]
@@ -710,6 +713,7 @@ utilTests = elemTests ++ permuteTests ++ loudTests
 probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
             ++ loopApproxKTests
             ++ concTests 
+            ++ probDuplicateTests
 
 huTests = probTests ++ utilTests ++ shuffleTests ++ pfTests
 

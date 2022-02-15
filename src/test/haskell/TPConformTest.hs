@@ -272,7 +272,7 @@ pathsetPFBasicTests = [
                                                                 1] 1] 
                                                 (2**4/3**5)
                                                   ] 1)
-                            ~=? ps2 (Node1 PLoop la 3 1) 0.5 
+                            ~=? pathset (Node1 PLoop la 3 1) 0.5 
                             -- k == 4
                             ]
                
@@ -280,11 +280,11 @@ pathsetPFConcTests = [
         "twoLeaves" ~: 
             (PFNode PFSilent [PFNode pfa [pflb] 1,
                          PFNode pfb [pfla] 1] 2)
-               ~=? pfnorm ( ps2 (NodeN Conc [la,lb] 2) eps ),
+               ~=? pfnorm ( pathset (NodeN Conc [la,lb] 2) eps ),
         "oneLeafOneSilent" ~: 
             (PFNode PFSilent [PFNode pfa [pfsilent 1] 1,
                               PFNode PFSilent [pfla] 1] 2)
-            ~=? pfnorm (ps2 (NodeN Conc [la,Silent 1] 2) eps),
+            ~=? pfnorm (pathset (NodeN Conc [la,Silent 1] 2) eps),
         "twoLeafOneSilent" ~:
             (PFNode PFSilent [PFNode pfa 
                                     [PFNode pfb [pfsilent 2] 2,
@@ -296,7 +296,7 @@ pathsetPFConcTests = [
                                     [PFNode pfa [pflb2] 2,
                                      PFNode pfb [pfla2] 2] 2 ] 
                     6)
-            ~=? pfnorm (ps2 (NodeN Conc [la2,Silent 2, lb2] 6) eps)
+            ~=? pfnorm (pathset (NodeN Conc [la2,Silent 2, lb2] 6) eps)
     ]
 
 pathsetPFTests = pathsetPFBasicTests ++ pathsetPFConcTests

@@ -98,7 +98,7 @@ probEps s (NodeN Seq  ptl w) = probSeq s ptl
 probEps s (Node1 FLoop pt r w) 
     = probEps s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
 probEps s (NodeN Conc ptl w) = 
-    pfprob s (ps2 (NodeN Conc ptl w) ?eps)
+    pfprob s (pathset (NodeN Conc ptl w) ?eps)
 probEps s (Node1 PLoop pt r w) = probPLoop s pt r ?eps
 
 
@@ -154,27 +154,32 @@ findLoopApproxKAccum r eps cum i
     where nc = cum*(r-1)/r 
 
 --
--- alt pathset impl using PFTrees
-ps2 :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
-ps2 (Leaf x w) eps        = PFNode (PFSymbol x) [] w
-ps2 (Silent w) eps        = PFNode PFSilent [] w
-ps2 (NodeN Seq (pt:ptl) w) eps =
-    pfappend (ps2 pt eps)
-             (map (`ps2` eps) ptl) 
-ps2 (NodeN Choice ptl w) eps = PFNode PFNull (map (`ps2` eps) ptl) w
-ps2 (NodeN Conc ptl w) eps   = ps2Conc (NodeN Conc ptl w) eps 
-ps2 (NodeN op [] w) eps   = 
-    warn "empty NodeN children in ps2" PFNode PFNull [] w
-ps2 (Node1 FLoop pt r w) eps = 
+-- pathset impl using PFTrees
+pathset :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
+pathset (Leaf x w) eps        = PFNode (PFSymbol x) [] w
+pathset (Silent w) eps        = PFNode PFSilent [] w
+pathset (NodeN Seq (pt:ptl) w) eps =
+    pfappend (pathset pt eps)
+             (map (`pathset` eps) ptl) 
+pathset (NodeN Choice ptl w) eps = PFNode PFNull (map (`pathset` eps) ptl) w
+pathset (NodeN Conc ptl w) eps   = ps2Conc (NodeN Conc ptl w) eps 
+pathset (NodeN op [] w) eps   = 
+    warn "empty NodeN children in pathset" PFNode PFNull [] w
+pathset (Node1 FLoop pt r w) eps = 
     pfappend pf (duplicate [pf] ((round r)-1)) 
-    where pf = ps2 pt eps
-ps2 (Node1 PLoop pt r w) eps = 
+    where pf = pathset pt eps
+pathset (Node1 PLoop pt r w) eps = 
     PFNode PFSilent ((pfsilent (w/r)):npf:(ps2PLoop pf pf (k-1) nw r)) w
     where k  = findLoopApproxK r eps
-          (PFNode t ctl w1) = ps2 pt eps
+          (PFNode t ctl w1) = pathset pt eps
           pf  = PFNode t ctl w1
           nw  = ((w1*(r-1))/(r*r))
           npf = PFNode t ctl nw
+
+ps2 :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
+ps2 = pathset 
+
+
 
 deadPFTree = PFNode PFNull [] 1
 
@@ -193,11 +198,12 @@ ps2PLoop (PFNode x pcl w) cumpf k cw r =
           nw      = (cw*(r-1)/r)
           ncumpf  = pfappend pf [cumpf]
 
-ps3 pt = ps2 pt defaulteps
+ps3 :: (Eq a, Ord a) => PPTree a -> PFTree a
+ps3 pt = pathset pt defaulteps
 
 ps2Conc :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
 ps2Conc (NodeN Conc ptl w) eps = PFNode PFSilent ctl w
-    where (PFNode t ctl sw) = pfshuffleList (map (\p -> ps2 p eps) ptl)
+    where (PFNode t ctl sw) = pfshuffleList (map (\p -> pathset p eps) ptl)
 -- TODO pfappend Silent ()
 
 -- collapse nulls not in parent

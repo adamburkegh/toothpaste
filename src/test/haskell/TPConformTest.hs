@@ -244,68 +244,6 @@ loudTests = [ "silent" ~: False ~=? loud (Silent 1),
               "ploop" ~:  False ~=? loud (Node1 PLoop la 3 1) ]
 
 
-isPathsetTests = [ "silent" ~: True ~=? isPathset (Silent 1),
-                   "leaf" ~:   True  ~=? isPathset la,
-                   "choice" ~: True  ~=? isPathset (NodeN Choice [la,lb] 2),
-                   "conc" ~: False  ~=? isPathset (NodeN Conc [la,lb] 2),
-                   "seq" ~: True  ~=? isPathset (NodeN Seq [la,lb] 2),
-                   "ploop" ~:  False ~=? isPathset (Node1 PLoop la 3 1) ]
-
-pathsetBasicTests = [ 
-            "silent" ~: (Silent 3) ~=? pathset ((Silent 3)::(PPTree String)),
-            "leaf"   ~: la ~=? pathset la,
-            "seq"    ~: NodeN Seq [la,lb] 1 ~=? pathset (NodeN Seq [la,lb] 1),
-            "choice" ~: NodeN Choice [la,lb] 2 
-                            ~=? pathset (NodeN Choice [la,lb] 2), 
-            "floop" ~: NodeN Seq [la,la,la] 1 
-                            ~=? pathset (Node1 FLoop la 3 1)  ]
-               
-pathsetPLoopTests = [ "leaf" ~: 
-         acmp (NodeN Seq [Silent 10,
-                    NodeN Choice 
-                          [scale (NodeN Seq [la10,la10,la10,la10,Silent 10] 10) 
-                                 ((2**4)/(3**5)),
-                           scale (NodeN Seq [la10,la10,la10,Silent 10] 10) 
-                                 ((2**3)/(3**4)),
-                           scale (NodeN Seq [la10,la10,Silent 10] 10) 
-                                 ((2*2)/(3**3)),
-                           scale (NodeN Seq [la10,Silent 10] 10) (2/(3*3)),
-                           Silent (10/3)] 
-                           10] 10)
-              (pathsetEps (Node1 PLoop la10 3 10) 0.4) 
-              @? "pathset mismatch" ]
-
-pathsetConcTests = [ 
-    "twoLeaves" ~: NodeN Seq 
-                         [Silent 2, 
-                          NodeN Choice 
-                                [NodeN Seq [la,lb] 1, 
-                                 NodeN Seq [lb,la] 1] 2] 2 
-               ~=? pathsetConc (NodeN Conc [la,lb] 2) eps,
-    "oneLeafOneSilent" ~: NodeN Seq 
-                                [Silent 2, 
-                                 NodeN Choice 
-                                       [NodeN Seq [la,Silent 1] 1, 
-                                        NodeN Seq [Silent 1,la] 1] 2] 2 
-               ~=? pathsetConc (NodeN Conc [la,Silent 1] 2) eps,
-    "twoLeafOneSilent" ~: 
-        NodeN Seq 
-              [Silent 6, 
-               NodeN Choice 
-                     [NodeN Seq [la2,
-                                 choiceP [seqP [lb,Silent 1] 1,
-                                          seqP [Silent 1,lb] 1 ] 2] 2,
-                      NodeN Seq [lb2,
-                                 choiceP [seqP [la,Silent 1] 1,
-                                          seqP [Silent 1,la] 1] 2] 2,
-                      NodeN Seq [Silent 2,
-                                 choiceP [seqP [la,lb] 1,
-                                          seqP [lb,la] 1] 2] 2
-                                 ] 6] 
-               6
-               ~=? pathsetConc (NodeN Conc [la2,Silent 2, lb2] 6) eps
-                    ]
-
 
 pathsetPFBasicTests = [
             "silent" ~: (PFNode PFSilent [] 3) 
@@ -338,8 +276,30 @@ pathsetPFBasicTests = [
                             -- k == 4
                             ]
                
+pathsetPFConcTests = [
+        "twoLeaves" ~: 
+            (PFNode PFSilent [PFNode pfa [pflb] 1,
+                         PFNode pfb [pfla] 1] 2)
+               ~=? pfnorm ( ps2 (NodeN Conc [la,lb] 2) eps ),
+        "oneLeafOneSilent" ~: 
+            (PFNode PFSilent [PFNode pfa [pfsilent 1] 1,
+                              PFNode PFSilent [pfla] 1] 2)
+            ~=? pfnorm (ps2 (NodeN Conc [la,Silent 1] 2) eps),
+        "twoLeafOneSilent" ~:
+            (PFNode PFSilent [PFNode pfa 
+                                    [PFNode pfb [pfsilent 2] 2,
+                                     PFNode PFSilent [pflb2] 2] 2,
+                              PFNode pfb 
+                                    [PFNode pfa [pfsilent 2] 2,
+                                     PFNode PFSilent [pfla2] 2] 2,
+                              PFNode PFSilent 
+                                    [PFNode pfa [pflb2] 2,
+                                     PFNode pfb [pfla2] 2] 2 ] 
+                    6)
+            ~=? pfnorm (ps2 (NodeN Conc [la2,Silent 2, lb2] 6) eps)
+    ]
 
-pathsetPFTests = pathsetPFBasicTests 
+pathsetPFTests = pathsetPFBasicTests ++ pathsetPFConcTests
 
 
     
@@ -747,12 +707,8 @@ concTests = probBasicConcTests
 
 utilTests = elemTests ++ permuteTests ++ loudTests
 
-pathsetTests = isPathsetTests ++ pathsetBasicTests ++ pathsetPLoopTests
-            ++ pathsetConcTests
-
 probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
             ++ loopApproxKTests
-            ++ pathsetTests
             ++ concTests 
 
 huTests = probTests ++ utilTests ++ shuffleTests ++ pfTests

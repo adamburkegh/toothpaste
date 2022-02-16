@@ -173,13 +173,27 @@ concCompoundSilentTests = [
             "compSeqInvalidOrder3" ~: 0 ~=? prob ["c","b","a"] cSil ,
             "compSeqInvalidDupe" ~: 0 ~=? prob ["a","b","c","c"] cSil ]
 
--- TODO conc-with-loop
+cLL1 = NodeN Conc [la, Node1 PLoop lb2 (3/2) 2] 3
+concLoopTests = let ?epsilon = 0.01
+                    ?eps     = 0.01
+   in [ "concLeafLoop1" ~: 2/3     ~?~ probEps ["a"] cLL1,
+        "concLeafLoop2" ~: 10/81   ~?~ probEps ["a","b"] cLL1,
+        "concLeafLoop3" ~: 24/243  ~?~ probEps ["b","a"] cLL1
+    ]
 
-dpab = NodeN Choice [la,la2,lb] 4
+
+dpab  = NodeN Choice [la,la2,lb] 4
+dpabc = NodeN Choice [la2, NodeN Seq [la3,
+                                      NodeN Choice [lb,Silent 2] 3] 3, 
+                      lc] 4 
+
 probDuplicateTests = [ 
-        "leafChoice1" ~: 3/4 ~=? tokprob "a" dpab,
-        "leafChoice2" ~: 1/4 ~=? tokprob "b" dpab
-                ] -- TODO more duplicate tests
+        "leafChoice1" ~: 3/4  ~=? tokprob "a"  dpab,
+        "leafChoice2" ~: 1/4  ~=? tokprob "b"  dpab,
+        "seqChoice1"  ~: 2/3  ~=? tokprob "a"  dpabc,
+        "seqChoice2"  ~: 1/6  ~=? tokprob "ab" dpabc,
+        "seqChoice3"  ~: 0    ~=? tokprob "b"  dpabc,
+        "seqChoice4"  ~: 1/6  ~=? tokprob "c"  dpabc  ] 
 
 elemTests = ["elemCompl" ~: [(1,[2,3]),(2,[1,3]),(3,[1,2])] 
                                 ~=? elemCompl [1,2,3]    ]
@@ -275,8 +289,11 @@ pathsetPFBasicTests = [
                                                                 1] 1] 
                                                 (2**4/3**5)
                                                   ] 1)
-                            ~=? pathset (Node1 PLoop la 3 1) 0.5 
-                            -- k == 4
+                            ~=? pathset (Node1 PLoop la 3 1) 0.5, -- k == 4
+            "ploop2" ~: (PFNode PFSilent [pfsilent (2*2/3),
+                                          PFNode pfb [] (2*2/3**2),
+                                          PFNode pfb [pflb2] (2*2/3**3)] 2)
+                            ~=? pathset (Node1 PLoop lb2 (3/2) 2) 0.1 -- k == 2 
                             ]
                
 pathsetPFConcTests = [
@@ -299,7 +316,25 @@ pathsetPFConcTests = [
                                     [PFNode pfa [pflb2] 2,
                                      PFNode pfb [pfla2] 2] 2 ] 
                     6)
-            ~=? pfnorm (pathset (NodeN Conc [la2,Silent 2, lb2] 6) eps)
+            ~=? pfnorm (pathset (NodeN Conc [la2,Silent 2, lb2] 6) eps),
+        "leafLoop" ~: 
+            pfnorm 
+                (PFNode PFSilent 
+                    [PFNode pfa  
+                            [PFNode PFSilent 
+                                    [pfsilent (4/3),
+                                     PFNode pfb [] (2*2/(3*3)),
+                                     PFNode pfb [pflb2] (2*2/3**3) ] 2] 1,
+                     PFNode PFSilent 
+                            [PFNode pfa [pfsilent (4/3),
+                                         PFNode pfb [] (2*2/(3*3)),
+                                         PFNode pfb [pflb2] (2*2/3**3) ] 1,
+                             PFNode PFSilent [pfla] (4/3),
+                             PFNode pfb [pfla] (2*2/(3*3)),
+                             PFNode pfb [PFNode pfa [pflb2] 1,
+                                         PFNode pfb [pfla] 2 ] (2*2/3**3) ] 
+                            2] 3) 
+            ~=? pfnorm (pathset (NodeN Conc [la,Node1 PLoop lb2 (3/2) 2] 3) 0.1)
     ]
 
 pathsetPFTests = pathsetPFBasicTests ++ pathsetPFConcTests
@@ -706,6 +741,7 @@ concTests = probBasicConcTests
            ++ concSimpleTests
            ++ concCompoundTests
            ++ concCompoundSilentTests
+           ++ concLoopTests
 
 
 utilTests = elemTests ++ permuteTests ++ loudTests

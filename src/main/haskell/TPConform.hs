@@ -176,10 +176,6 @@ pathset (Node1 PLoop pt r w) eps =
           nw  = ((w1*(r-1))/(r*r))
           npf = PFNode t ctl nw
 
-ps2 :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
-ps2 = pathset 
-
-
 
 deadPFTree = PFNode PFNull [] 1
 

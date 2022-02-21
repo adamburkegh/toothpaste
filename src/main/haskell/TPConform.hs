@@ -249,40 +249,6 @@ pfs (PFNode t1 (c1:ctl1) w1) (PFNode t2 ctl2 w12) =
     where pf2 = (PFNode t2 ctl2 w12)
 
 
--- pre: pathsets && sorted order 
-shuffle :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a
-shuffle pt1 pt2 = norm $ choiceP [sh pt1 pt2, sh pt2 pt1] (w1+w2)
-    where w1 = weight pt1
-          w2 = weight pt2
-
-sh :: (Eq a, Ord a) => PPTree a -> PPTree a -> PPTree a
-sh (Leaf x w1) pt2 = NodeN Seq [Leaf x w1, scale pt2 (w1/w2)] w1
-    where w2 = weight pt2
-sh (Silent w1) pt2 = NodeN Seq [Silent w1, scale pt2 (w1/w2)] w1
-    where w2 = weight pt2
-sh (NodeN Seq [pt1] w1) pt2 = sh pt1 pt2
-sh (NodeN Seq ((NodeN Seq ptl1 w1a):ptl) w1) pt2 =
-    sh (NodeN Seq (ptl1 ++ ptl) w1) pt2
-sh (NodeN Seq ((NodeN Choice ptlc w1a):ptl1) w1) pt2 =
-    NodeN Choice (map (\pt -> sh (shc pt ptl1) pt2 )
-                      ptlc ) w1  
-sh (NodeN Seq (pt:ptl) wx) pty | isLeafy pt 
-    = NodeN Seq [pt,
-                 scale (shuffle (NodeN Seq ptl wx) pty) 
-                       (wx/(wx+wy))] wx
-    where wy = weight pty
-sh (NodeN Seq _ w1) pt2 = warn "sh Seq [] / other fallthrough" emptyTree
-sh (NodeN Choice ptl w) pt2 = choiceP (map (\pt -> sh pt pt2) ptl) w
-sh pt1 pt2 = warn "sh fallthrough" emptyTree
-
-shc :: (Eq a, Ord a) => PPTree a -> [PPTree a] -> PPTree a
-shc pt ptl = NodeN Seq 
-                   (pt:(map (\pt2 -> scale pt2 (w1/w2) ) 
-                            ptl) ) 
-                   w1 
-    where w1 = weight pt 
-          w2 = weight (head ptl)
-
 -- prefix tree prob
 pfprob :: (Eq a) => [a] -> PFTree a -> Float
 pfprob (sh:st) (PFNode (PFSymbol x) (n:ns) w) 

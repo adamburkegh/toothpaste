@@ -176,6 +176,22 @@ concCompoundSilentTests = [
             "compSeqInvalidDupe" ~: 0 ~=? prob ["a","b","c","c"] cSil ]
 
 cLL1 = NodeN Conc [la, Node1 PLoop lb2 (3/2) 2] 3
+{-
+PPT for cLL1: 
+Conc:3.0
+  "a":1.0
+  PLoop[3/2]:2.0
+    "b":2.0
+
+ Petri net (SLPN) for cLL1 
+ [tau 3] +- p1 --- [a 1]---------------------------pae-----[tau 3]
+         |                                                /
+     +- p2 --- [tau 2]---pl----[tau 2*2/3]-----ple---/
+                             |  \
+                             |    \
+                            pl----[b 2*1/3]
+
+ -}
 concLoopTests = let ?epsilon = 0.01
                     ?eps     = 0.01
    in [ "concLeafLoop1" ~: 2/3     ~?~ probEps ["a"] cLL1,

@@ -638,6 +638,30 @@ pfShuffleTests = pfSingleShuffleTests ++ pfCollapseTests
 
 pfTests = pfProbTests ++ pathsetPFTests ++ pfShuffleTests
 
+--
+teleclaimsEg = seqP [Node1 PLoop (Leaf "initiate payment" 483) 2 483,
+                     concP [Node1 PLoop 
+                                    (Leaf "advise claimant" 235) 2 235, 
+                            Node1 PLoop 
+                                    (Leaf "close claim" 248)  2 248 ] 483 ]
+                    483
+
+dupeConcEg = concP [concP [la,lb] 2, 
+                    concP [la,lb] 2] 4
+
+dupeConcEg2 = concP [concP [la,la] 2, 
+                     concP [lb,lb] 2] 4
+
+dupeConcEgTests = [
+    "dupeConc"  ~: [0.18055555,0.18055555,0.1388889,
+                    0.18055555,0.18055555,0.1388889] 
+                        ~=? map (\x -> tokprob x dupeConcEg) 
+                                ["abab","abba","aabb","baba","baab","bbaa"],
+    "dupeConc2" ~: [0.1388889,0.1388889,0.22222224,
+                    0.1388889,0.1388889,0.22222224]
+                        ~=? map (\x -> tokprob x dupeConcEg2) 
+                                ["abab","abba","aabb","baba","baab","bbaa"]
+                ]
 
 --
 
@@ -655,7 +679,10 @@ probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests
             ++ concTests 
             ++ probDuplicateTests
 
-huTests = probTests ++ utilTests ++ shuffleProbTests ++ pfTests
+paperExampleTests = dupeConcEgTests
+
+huTests = probTests ++ utilTests ++ shuffleProbTests ++ pfTests 
+       ++ paperExampleTests
 
 
 

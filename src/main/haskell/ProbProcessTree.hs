@@ -65,10 +65,6 @@ children (Silent n) = []
 children (Node1 op u r n) = [u]
 children (NodeN op ptl n) = ptl
 
-isLeafy :: PPTree a -> Bool
-isLeafy (Leaf x w) = True
-isLeafy (Silent w) = True
-isLeafy pt = False
 
 
 -- Constructors for NodeN auto-consolidate

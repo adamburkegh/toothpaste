@@ -646,6 +646,12 @@ teleclaimsEg = seqP [Node1 PLoop (Leaf "initiate payment" 483) 2 483,
                                     (Leaf "close claim" 248)  2 248 ] 483 ]
                     483
 
+ddd = (Node1 PLoop (Leaf "ad" 235) 2 235)
+
+teleclaimsEgTests =  [ 
+    "adviseProb" ~: 1/4 ~=? prob ["ad"] ddd
+    ]
+
 dupeConcEg = concP [concP [la,lb] 2, 
                     concP [la,lb] 2] 4
 
@@ -679,7 +685,7 @@ probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests
             ++ concTests 
             ++ probDuplicateTests
 
-paperExampleTests = dupeConcEgTests
+paperExampleTests = dupeConcEgTests ++ teleclaimsEgTests
 
 huTests = probTests ++ utilTests ++ shuffleProbTests ++ pfTests 
        ++ paperExampleTests

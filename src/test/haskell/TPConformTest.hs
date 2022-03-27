@@ -316,23 +316,29 @@ pathsetPFBasicTests = [
                
 pathsetPFConcTests = [
         "twoLeaves" ~: 
-            (PFNode PFSilent [PFNode pfa [pflb] 1,
-                         PFNode pfb [pfla] 1] 2)
+            (PFNode PFSilent [PFNode pfa [PFNode pfb [pfsilent 2] 1] 1,
+                              PFNode pfb [PFNode pfa [pfsilent 2] 1] 1] 2)
                ~=? pfnorm ( pathset (NodeN Conc [la,lb] 2) eps ),
         "oneLeafOneSilent" ~: 
-            (PFNode PFSilent [PFNode pfa [pfsilent 1] 1,
-                              PFNode PFSilent [pfla] 1] 2)
+            (PFNode PFSilent [PFNode pfa [PFNode PFSilent [pfsilent 2] 1] 1,
+                              PFNode PFSilent [PFNode pfa [pfsilent 2] 1] 1] 2)
             ~=? pfnorm (pathset (NodeN Conc [la,Silent 1] 2) eps),
         "twoLeafOneSilent" ~:
             (PFNode PFSilent [PFNode pfa 
-                                    [PFNode pfb [pfsilent 2] 2,
-                                     PFNode PFSilent [pflb2] 2] 2,
+                                    [PFNode pfb 
+                                        [PFNode PFSilent [pfsilent 6] 2] 2,
+                                     PFNode PFSilent 
+                                        [PFNode pfb [pfsilent 6] 2 ] 2] 2,
                               PFNode pfb 
-                                    [PFNode pfa [pfsilent 2] 2,
-                                     PFNode PFSilent [pfla2] 2] 2,
+                                    [PFNode pfa 
+                                        [PFNode PFSilent [pfsilent 6] 2] 2,
+                                     PFNode PFSilent 
+                                        [PFNode pfa [pfsilent 6] 2] 2] 2,
                               PFNode PFSilent 
-                                    [PFNode pfa [pflb2] 2,
-                                     PFNode pfb [pfla2] 2] 2 ] 
+                                    [PFNode pfa 
+                                        [PFNode pfb [pfsilent 6] 2] 2,
+                                     PFNode pfb 
+                                        [PFNode pfa [pfsilent 6] 2] 2 ] 2 ]
                     6)
             ~=? pfnorm (pathset (NodeN Conc [la2,Silent 2, lb2] 6) eps),
         "leafLoop" ~: 
@@ -340,17 +346,24 @@ pathsetPFConcTests = [
                 (PFNode PFSilent 
                     [PFNode pfa  
                             [PFNode PFSilent 
-                                    [pfsilent (4/3),
-                                     PFNode pfb [] (2*2/(3*3)),
-                                     PFNode pfb [pflb2] (2*2/3**3) ] 2] 1,
+                                    [PFNode PFSilent [pfsilent 3] (4/3),
+                                     PFNode pfb [pfsilent 3] (2*2/(3*3)),
+                                     PFNode pfb 
+                                        [PFNode pfb 
+                                            [pfsilent 3] 2] (2*2/3**3) ] 2] 1,
                      PFNode PFSilent 
-                            [PFNode pfa [pfsilent (4/3),
-                                         PFNode pfb [] (2*2/(3*3)),
-                                         PFNode pfb [pflb2] (2*2/3**3) ] 1,
-                             PFNode PFSilent [pfla] (4/3),
-                             PFNode pfb [pfla] (2*2/(3*3)),
-                             PFNode pfb [PFNode pfa [pflb2] 1,
-                                         PFNode pfb [pfla] 2 ] (2*2/3**3) ] 
+                            [PFNode pfa [PFNode PFSilent [pfsilent 3] (4/3),
+                                         PFNode pfb [pfsilent 3] (2*2/(3*3)),
+                                         PFNode pfb 
+                                            [PFNode pfb 
+                                                [pfsilent 3] 2] (2*2/3**3) ] 1,
+                             PFNode PFSilent [PFNode pfa [pfsilent 3] 1] (4/3),
+                             PFNode pfb [PFNode pfa [pfsilent 3] 1] (2*2/(3*3)),
+                             PFNode pfb 
+                                [PFNode pfa [PFNode pfb [pfsilent 3] 2] 1,
+                                 PFNode pfb 
+                                    [PFNode pfa 
+                                        [pfsilent 3] 1] 2 ] (2*2/3**3) ] 
                             2] 3) 
             ~=? pfnorm (pathset (NodeN Conc [la,Node1 PLoop lb2 (3/2) 2] 3) 0.1)
     ]
@@ -646,10 +659,10 @@ teleclaimsEg = seqP [Node1 PLoop (Leaf "initiate payment" 483) 2 483,
                                     (Leaf "close claim" 248)  2 248 ] 483 ]
                     483
 
-ddd = (Node1 PLoop (Leaf "ad" 235) 2 235)
+adLoop = (Node1 PLoop (Leaf "ad" 235) 2 235)
 
 teleclaimsEgTests =  [ 
-    "adviseProb" ~: 1/4 ~=? prob ["ad"] ddd
+    "adviseProb" ~: 1/4 ~=? prob ["ad"] adLoop
     ]
 
 dupeConcEg = concP [concP [la,lb] 2, 

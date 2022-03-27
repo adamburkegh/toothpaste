@@ -198,9 +198,8 @@ ps3 :: (Eq a, Ord a) => PPTree a -> PFTree a
 ps3 pt = pathset pt defaulteps
 
 ps2Conc :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
-ps2Conc (NodeN Conc ptl w) eps = PFNode PFSilent ctl w
+ps2Conc (NodeN Conc ptl w) eps = pfappend (PFNode PFSilent ctl w) [pfsilent w]
     where (PFNode t ctl sw) = pfshuffleList (map (\p -> pathset p eps) ptl)
--- TODO pfappend Silent ()
 
 -- collapse nulls not in parent
 pfcollapse :: PFTree a -> PFTree a

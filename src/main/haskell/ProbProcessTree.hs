@@ -193,19 +193,22 @@ formatPPTreeIndent (NodeN op ptl n) indent =
 -- \def\loopn[#1]{\circlearrowright_n^{#1}}
 --
 latexPPTree :: PPTree String -> String
-latexPPTree x = latexForestBegin 
+latexPPTree x = latexFigBegin 
+             ++ latexForestBegin 
              ++ (latexPPTreeIndent x 4)
              ++ latexForestEnd
+             ++ latexFigEnd
 
-latexForestBegin = 
-    "\\begin{figure} \n\
-    \    \\begin{forest} \n\
-    \    for tree={edge = {->},math content,anchor=center,fit=tight},\n"
-latexForestEnd = 
-    "    \\end{forest} \n\
-    \    \\caption{\\LaTeX PPT formatter test} \n\
+latexFigBegin = "\\begin{figure} \n"
+latexFigEnd = 
+    "    \\caption{\\LaTeX PPT formatter test} \n\
     \    \\label{fig:formatTest} \n\
     \\\end{figure} \n"
+
+latexForestBegin = 
+    "    \\begin{forest} \n\
+    \    for tree={edge = {->},math content,anchor=center,fit=tight},\n"
+latexForestEnd = "    \\end{forest} \n"
 
 latexWeight :: Weight -> String
 latexWeight n = "\\colon " ++ show n
@@ -237,6 +240,30 @@ latexPPTreeIndent (NodeN op ptl n) indent =
         ++ latexWeight n ++ "\n" 
         ++ concatMap (\pt -> latexPPTreeIndent pt (indent+1) ) ptl  
         ++ duplicate indentStr indent ++ latexCloseNode 
+
+latexRuleBegin =  
+    " \\begin{subfigure}[b]{0.45\\linewidth} \n\
+    \    \\begin{forest} \n\
+    \    for tree={edge = {->},math content,anchor=center,fit=tight},\n"
+latexRuleEnd = 
+    "        \\end{forest} \n \
+    \    \\end{subfigure} \n"
+latexOpSubFig = 
+    "   \\hfill                                     \n \
+    \   \\begin{subfigure}[b]{0.1\\linewidth}       \n \
+    \       \\raisebox{20pt}{\\huge{$\\slossrule$} }\n \
+    \   \\end{subfigure} \\hfill \n"
+
+latexRuleEg :: PPTree String -> PPTree String -> String
+latexRuleEg pt1 pt2 = latexFigBegin 
+                   ++ latexRuleBegin 
+                   ++ (latexPPTreeIndent pt1 4)
+                   ++ latexRuleEnd 
+                   ++ latexOpSubFig
+                   ++ latexRuleBegin 
+                   ++ (latexPPTreeIndent pt2 4)
+                   ++ latexRuleEnd 
+                   ++ latexFigEnd
 
 
 -- not really duplicating if you do it n times is it

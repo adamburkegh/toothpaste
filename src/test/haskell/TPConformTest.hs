@@ -200,6 +200,12 @@ concLoopTests = let ?epsilon = 0.01
     ]
 
 
+-- shows Flatten is stochastically lossy for conc
+concSingleCollapse = [
+    "nestedSingleConc1" ~: 3/4 ~=? tokprob "ab" (concP [ la, concP [lb] 1 ] 2),
+    "nestedSingleConc2" ~: 1/4 ~=? tokprob "ba" (concP [ la, concP [lb] 1 ] 2)
+    ]
+
 dpab  = NodeN Choice [la,la2,lb] 4
 dpabc = NodeN Choice [la2, NodeN Seq [la3,
                                       NodeN Choice [lb,Silent 2] 3] 3, 
@@ -313,6 +319,13 @@ pathsetPFBasicTests = [
                                           PFNode pfb [pflb2] (2*2/3**3)] 2)
                             ~=? pathset (Node1 PLoop lb2 (3/2) 2) 0.1 -- k == 2 
                             ]
+
+pathsetSingletons = [
+        "conc" ~: (PFNode PFSilent 
+                          [(PFNode pfa 
+                                   [PFNode PFSilent [] 1] 1)] 1) 
+                    ~=? pathset (NodeN Conc [la] 1) eps
+        ]
                
 pathsetPFConcTests = [
         "twoLeaves" ~: 
@@ -689,11 +702,12 @@ concTests = probBasicConcTests
            ++ concCompoundTests
            ++ concCompoundSilentTests
            ++ concLoopTests
-
+           ++ concSingleCollapse
 
 utilTests = elemTests ++ permuteTests ++ loudTests
 
-probTests = probBasicTests ++ probLoopTests ++ fixedLoopTests 
+probTests = probBasicTests ++ pathsetSingletons 
+            ++ probLoopTests ++ fixedLoopTests 
             ++ loopApproxKTests
             ++ concTests 
             ++ probDuplicateTests

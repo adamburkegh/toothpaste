@@ -83,7 +83,8 @@ choiceP :: (Ord a) => [PPTree a] -> Weight -> PPTree a
 choiceP = pptreeSort Choice
 
 concP :: (Ord a) => [PPTree a] -> Weight -> PPTree a
-concP = pptreeSort Conc
+concP (pt:ptl) w = NodeN Conc (sort (pt:ptl)) w
+concP [] w     = emptyTree
 
 
 -- Careful using this one - it breaks consistency and can produce invalid trees

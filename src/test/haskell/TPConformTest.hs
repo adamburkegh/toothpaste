@@ -695,6 +695,18 @@ dupeConcEgTests = [
                                 ["abab","abba","aabb","baba","baab","bbaa"]
                 ]
 
+concSilentEg1 = concP [la, concP [lb,lc,Silent 1] 3]  4
+concSilentEg2 = concP [la, concP [Leaf "b" (3/2), Leaf "c" (3/2)] 3]  4
+
+cs1prob = map (\t -> tokprob t concSilentEg1) 
+              ["abc","acb","bac","bca","cab","cba"] 
+cs2prob = map (\t -> tokprob t concSilentEg2) 
+              ["abc","acb","bac","bca","cab","cba"] 
+
+concSilentEgTests = [
+    "concSilentEg" ~: (cs1prob /= cs2prob) @? "probabilities not changed"
+    ]
+
 --
 
 concTests = probBasicConcTests
@@ -712,7 +724,7 @@ probTests = probBasicTests ++ pathsetSingletons
             ++ concTests 
             ++ probDuplicateTests
 
-paperExampleTests = dupeConcEgTests ++ teleclaimsEgTests
+paperExampleTests = dupeConcEgTests ++ teleclaimsEgTests ++ concSilentEgTests
 
 huTests = probTests ++ utilTests ++ shuffleProbTests ++ pfTests 
        ++ paperExampleTests

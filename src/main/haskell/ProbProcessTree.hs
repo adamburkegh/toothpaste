@@ -255,10 +255,9 @@ latexRuleEnd =
     "        \\end{forest} \n \
     \    \\end{adjustbox} \n"
 latexOpSubFig = 
-    "   \\hfill                                     \n \
-    \   \\begin{adjustbox}{valign=t}       \n \
+    "   \\begin{adjustbox}{valign=t}       \n \
     \       \\raisebox{20pt}{\\huge{$\\slossrule$} }\n \
-    \   \\end{adjustbox} \\hfill \n"
+    \   \\end{adjustbox}  \n"
 
 latexRuleEg :: PPTree String -> PPTree String -> String
 latexRuleEg pt1 pt2 = latexFigBegin 

@@ -210,14 +210,20 @@ latexForestBegin =
     \    for tree={edge = {->},math content,anchor=center,fit=tight},\n"
 latexForestEnd = "    \\end{forest} \n"
 
+isInt x = x == fromInteger (round x)
+
+latexFloat :: Float -> String
+latexFloat n | isInt n   = show (round n)
+             | otherwise = show n
+
 latexWeight :: Weight -> String
-latexWeight n = "\\colon " ++ show n
+latexWeight n  = "\\colon " ++ (latexFloat n)
 
 latexCloseNode = "]\n"
 
 latexLoopOp :: POper1 -> Repeat -> String
-latexLoopOp FLoop r = "{\\loopn[" ++ show r ++ "]}"
-latexLoopOp PLoop r = "{\\loopp[" ++ show r ++ "]}"
+latexLoopOp FLoop r = "{\\loopn[" ++ (latexFloat r) ++ "]}"
+latexLoopOp PLoop r = "{\\loopp[" ++ (latexFloat r) ++ "]}"
 
 latexNOp :: POperN -> String
 latexNOp Choice = "\\choicep"
@@ -242,17 +248,17 @@ latexPPTreeIndent (NodeN op ptl n) indent =
         ++ duplicate indentStr indent ++ latexCloseNode 
 
 latexRuleBegin =  
-    " \\begin{subfigure}[b]{0.45\\linewidth} \n\
+    " \\begin{adjustbox}{valign=m} \n\
     \    \\begin{forest} \n\
     \    for tree={edge = {->},math content,anchor=center,fit=tight},\n"
 latexRuleEnd = 
     "        \\end{forest} \n \
-    \    \\end{subfigure} \n"
+    \    \\end{adjustbox} \n"
 latexOpSubFig = 
     "   \\hfill                                     \n \
-    \   \\begin{subfigure}[b]{0.1\\linewidth}       \n \
+    \   \\begin{adjustbox}{valign=t}       \n \
     \       \\raisebox{20pt}{\\huge{$\\slossrule$} }\n \
-    \   \\end{subfigure} \\hfill \n"
+    \   \\end{adjustbox} \\hfill \n"
 
 latexRuleEg :: PPTree String -> PPTree String -> String
 latexRuleEg pt1 pt2 = latexFigBegin 

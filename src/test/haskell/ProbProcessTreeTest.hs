@@ -18,30 +18,35 @@ forEnd =    "    \\end{forest} \n\
 latexFormatTests = [ 
     "leaf" ~: 
             forStart ++ 
-            "        [ a\\colon 1.0]\n"
+            "        [ a\\colon 1]\n"
             ++ forEnd
                     ~=? latexPPTree la,
+    "floatyLeaf" ~: 
+            forStart ++ 
+            "        [ a\\colon 1.4]\n"
+            ++ forEnd
+                    ~=? latexPPTree (Leaf "a" 1.4),
      "silent" ~: 
             forStart ++ 
-            "        [ \\tau\\colon 2.0]\n"
+            "        [ \\tau\\colon 2]\n"
             ++ forEnd
                     ~=? latexPPTree (Silent 2),
      "floop" ~: forStart ++
-            "        [ {\\loopn[3.0]}\\colon 1.0\n\
-            \          [ a\\colon 1.0]\n\
+            "        [ {\\loopn[3]}\\colon 1\n\
+            \          [ a\\colon 1]\n\
             \        ]\n"
             ++ forEnd
               ~=? latexPPTree (Node1 FLoop la 3 1),
      "ploop" ~: forStart ++
-            "        [ {\\loopp[2.0]}\\colon 1.0\n\
-            \          [ b\\colon 1.0]\n\
+            "        [ {\\loopp[2]}\\colon 1\n\
+            \          [ b\\colon 1]\n\
             \        ]\n"
             ++ forEnd
               ~=? latexPPTree (Node1 PLoop lb 2 1),
       "choice" ~: forStart ++ 
-            "        [ \\choicep\\colon 2.0\n\
-            \          [ a\\colon 1.0]\n\
-            \          [ b\\colon 1.0]\n\
+            "        [ \\choicep\\colon 2\n\
+            \          [ a\\colon 1]\n\
+            \          [ b\\colon 1]\n\
             \        ]\n"
             ++ forEnd
               ~=? latexPPTree (NodeN Choice [la,lb] 2)

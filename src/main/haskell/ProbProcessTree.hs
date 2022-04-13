@@ -260,7 +260,7 @@ latexOpSubFig =
     \   \\end{adjustbox}  \n"
 
 latexMinipageBegin = "\\begin{minipage}{0.7\\linewidth}"
-latexMinipageEnd = "\\end{minipage}"
+latexMinipageEnd = "\\end{minipage}\n"
 
 latexRuleEg :: PPTree String -> PPTree String -> String
 latexRuleEg pt1 pt2 = latexMinipageBegin 

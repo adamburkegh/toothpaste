@@ -217,7 +217,7 @@ latexFloat n | isInt n   = show (round n)
              | otherwise = show n
 
 latexWeight :: Weight -> String
-latexWeight n  = "\\colon " ++ (latexFloat n)
+latexWeight n  = "\\pcol " ++ (latexFloat n)
 
 latexCloseNode = "]\n"
 
@@ -259,8 +259,11 @@ latexOpSubFig =
     \       \\raisebox{20pt}{\\huge{$\\slossrule$} }\n \
     \   \\end{adjustbox}  \n"
 
+latexMinipageBegin = "\\begin{minipage}{0.7\\linewidth}"
+latexMinipageEnd = "\\end{minipage}"
+
 latexRuleEg :: PPTree String -> PPTree String -> String
-latexRuleEg pt1 pt2 = latexFigBegin 
+latexRuleEg pt1 pt2 = latexMinipageBegin 
                    ++ latexRuleBegin 
                    ++ (latexPPTreeIndent pt1 4)
                    ++ latexRuleEnd 
@@ -268,8 +271,13 @@ latexRuleEg pt1 pt2 = latexFigBegin
                    ++ latexRuleBegin 
                    ++ (latexPPTreeIndent pt2 4)
                    ++ latexRuleEnd 
-                   ++ latexFigEnd
+                   ++ latexMinipageEnd
+                   ++ (latexValidStatus pt1)
+                   ++ (latexValidStatus pt2)
 
+latexValidStatus :: PPTree String -> String
+latexValidStatus pt | validate pt = ""
+                    | otherwise  = "\nWARNING: Invalid tree\n"
 
 -- not really duplicating if you do it n times is it
 duplicate :: [a] -> Int -> [a]

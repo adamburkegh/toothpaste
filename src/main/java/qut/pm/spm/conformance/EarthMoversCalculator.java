@@ -26,7 +26,8 @@ public class EarthMoversCalculator implements SPNQualityCalculator {
 					classifier,
 					EMSCParametersDefault.defaultTerminationStrategy, 
 					EMSCParametersDefault.defaultDebug, 
-					false);
+					false,
+					EMSCParametersDefault.defaultNumberOfThreads);
 		}
 
 	}

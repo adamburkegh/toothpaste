@@ -27,9 +27,10 @@ public class EarthMoversTunedCalculator implements SPNQualityCalculator {
 		public EMSCParametersLogModelTuned(XEventClassifier classifier) {
 			super(EMSCParametersDefault.defaultDistanceMatrix, 
 					classifier,
-					new LanguageGenerationStrategyFromModelImpl(1000 * 60 * 20, MASS_COVERAGE), 
+					new LanguageGenerationStrategyFromModelImpl(1000 * 60 * 20, MASS_COVERAGE, Integer.MAX_VALUE), 
 					EMSCParametersDefault.defaultDebug, 
-					false);
+					false,
+					EMSCParametersDefault.defaultNumberOfThreads);
 		}
 
 	}

@@ -4,7 +4,7 @@ Double Comma Delimited Text (DCDT) separates each field with two commas, and eac
 
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.exporter.xes import exporter as xes_exporter
-from pm4py.objects.log.log import EventLog
+from pm4py.objects.log.obj import EventLog
 import argparse
 import sys
 import random

@@ -2,7 +2,7 @@
 
 This project shows a technique for discovering Stochastic Petri Nets from event logs using process mining.
 
-The paper describing the technique is "Burke, A, Leemans, SJJ and Wynn, M.T - Discovering Stochastic Process Models By Reduction and Abstraction" (forthcoming).
+The technique is explained formally in *Burke, A., Leemans, S. J. J., & Wynn, Moe Thandar. (2021). Discovering Stochastic Process Models By Reduction and Abstraction. International conference on applications and theory of Petri nets and concurrency*. [This blog post](https://adamburkeware.net/2021/08/02/toothpaste.html) gives a quick overview.
 
 
 # Development Setup and Installation

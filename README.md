@@ -7,6 +7,11 @@ The technique is explained formally in *Burke, A., Leemans, S. J. J., & Wynn, Mo
 
 # Development Setup and Installation
 
+## Build All
+`./build.sh` runs the complete build.
+
+Though it should not be necessary to run individual component builds, they are listed below to help troubleshoot if there are problems.
+
 ## Haskell Stack
 
 `stack test`

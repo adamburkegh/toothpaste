@@ -196,6 +196,29 @@ loopGeoList ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl)
     | otherwise = u1 : loopGeoList (u2:ptl)
 loopGeoList x = x
 
+choiceRoll :: (Eq a, Ord a) => PRule a
+choiceRoll = choiceChildMR choiceRollList
+
+choiceRollList :: (Eq a) => LRule a
+choiceRollList (u1:(Node1 PLoop u2 r2 w2):ptl) 
+    | u1 =~= u2 = choiceRollList  (
+                    Node1 PLoop (merge u1 u2) 
+                                 ((w1+(r2*w2))/(w1+w2)) 
+                                 (w1+w2) 
+                    :ptl)
+    | otherwise = u1 : choiceRollList (u2:ptl)
+                    where w1 = weight u1
+choiceRollList ((Node1 PLoop u1 r1 w1):u2:ptl) 
+    | u1 =~= u2 = choiceRollList  (
+                    Node1 PLoop (merge u1 u2) 
+                                 (((r1*w1)+(w2))/(w1+w2)) 
+                                 (w1+w2) 
+                    :ptl)
+    | otherwise = (Node1 PLoop u1 r1 w2) : choiceRollList (u2:ptl)
+                    where w2 = weight u2
+choiceRollList x = x
+
+
 
 flattenRule :: (Eq a) => PRule a
 flattenRule x = flatten x
@@ -307,6 +330,7 @@ baseRuleList = [
             TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
             TRule{rulename="loopNest",trule=loopNest},
             TRule{rulename="loopGeo",trule=loopGeo},
+            TRule{rulename="choiceRoll",trule=choiceRoll},
             TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="loopFixToProb", trule=loopFixToProb},
             TRule{rulename="probLoopRoll", trule=loopFixToProb}

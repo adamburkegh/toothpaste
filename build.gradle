@@ -40,7 +40,7 @@ dependencies {
     implementation 'prom:StochasticWeightEstimation:latest'
 
     // This dependency is used by the application.
-    implementation 'qut.pm:prom-helpers:0.8.2'
+    implementation 'qut.pm:prom-helpers:0.8.6'
     implementation 'org.simpleframework:simple-xml:2.7.1'
 
     // Use JUnit test framework

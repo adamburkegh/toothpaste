@@ -32,6 +32,7 @@ ccab1 = NodeN Conc [la,lb] 2
 la2 = Leaf "a" 2
 la3 = Leaf "a" 3
 la4 = Leaf "a" 4
+la5 = Leaf "a" 5
 la11 = Leaf "a" 11
 lb2 = Leaf "b" 2
 lb3 = Leaf "b" 3
@@ -194,14 +195,14 @@ probLoopRollTests = [
     ]
 
 loopNestTests = [
-    "loopNestFF1" ~: Node1 FLoop la 6 5
-        ~=? loopNest (Node1 FLoop (Node1 FLoop la 2 5) 3 5),
-    "loopNestFP1" ~: Node1 PLoop la 6 5
-        ~=? loopNest (Node1 FLoop (Node1 PLoop la 2 5) 4 5),
-    "loopNestPF1" ~: Node1 PLoop la 40 5
-        ~=? loopNest (Node1 PLoop (Node1 FLoop la 10 5) 4 5),
-    "loopNestPP1" ~: Node1 PLoop la 30 5
-        ~=? loopNest (Node1 PLoop (Node1 PLoop la 10 5) 3 5)   ]
+    "loopNestFF1" ~: Node1 FLoop la5 6 5
+        ~=? loopNest (Node1 FLoop (Node1 FLoop la5 2 5) 3 5),
+    "loopNestFP1" ~: Node1 PLoop la5 6 5
+        ~=? loopNest (Node1 FLoop (Node1 PLoop la5 2 5) 4 5),
+    "loopNestPF1" ~: Node1 PLoop la5 40 5
+        ~=? loopNest (Node1 PLoop (Node1 FLoop la5 10 5) 4 5),
+    "loopNestPP1" ~: Node1 PLoop la5 30 5
+        ~=? loopNest (Node1 PLoop (Node1 PLoop la5 10 5) 3 5)   ]
 
 loopGeoTests = [
     "loopGeoNull" ~: la ~=? loopGeo la,

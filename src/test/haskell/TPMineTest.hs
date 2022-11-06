@@ -1,3 +1,11 @@
+--
+-- Note in these tests that transition and place ids are included in 
+-- comparisons, but not in the default string representations for weighted nets.
+-- So tests can fail showing the compared nets as identical, because the 
+-- underlying ids are different. These tests are based on the exact order
+-- of the generated ids.
+-- 
+
 module TPMineTest where
 
 import PetriNet
@@ -67,9 +75,6 @@ tcc = WTransition "c" "t6" 1
 
 pmidLoop1 = Place "" "p2"
 pmidLoop2 = Place "" "p3"
-tlpa = WTransition "a" "t6" 4
-ttauin1 = WTransition "tauin" "t4" 1
-ttauout2 = WTransition "tauout" "t5" 1
 
 
 pmidConcain = Place "" "p4"
@@ -78,22 +83,22 @@ pmidConcbin = Place "" "p7"
 pmidConcbout = Place "" "p8"
 tcoa = WTransition "a" "t6" 1
 tcob = WTransition "b" "t9" 1
-ttauin2= WTransition "tau" "t2" 2
-ttauout3 = WTransition "tau" "t3" 1
+ttau2 = WTransition "tau" "t2" 2
+ttau3 = WTransition "tau" "t3" 1
 translateConcExpected =
     WeightedNet (fromList[pin,pout,pmidConcain,pmidConcaout,
                           pmidConcbin,pmidConcbout])
-                (fromList[tcoa,tcob,ttauin2,ttauout3])
-                (fromList[WToTransition pin ttauin2,
-                          WToPlace ttauin2 pmidConcain, 
-                          WToPlace ttauin2 pmidConcbin,
+                (fromList[tcoa,tcob,ttau2,ttau3])
+                (fromList[WToTransition pin ttau2,
+                          WToPlace ttau2 pmidConcain, 
+                          WToPlace ttau2 pmidConcbin,
                           WToTransition pmidConcain tcoa,
                           WToTransition pmidConcbin tcob,
                           WToPlace tcoa pmidConcaout, 
                           WToPlace tcob pmidConcbout,
-                          WToTransition pmidConcaout ttauout3,
-                          WToTransition pmidConcbout ttauout3,
-                          WToPlace ttauout3 pout])
+                          WToTransition pmidConcaout ttau3,
+                          WToTransition pmidConcbout ttau3,
+                          WToPlace ttau3 pout])
                 pin pout 9
 
 vs = " \n== vs == \n"
@@ -124,7 +129,7 @@ diffWN :: WeightedNet -> WeightedNet -> IO ()
 diffWN x y = putStrLn (cmpWN x y)
 
 
-translateTests = [
+translateRest = [
     "translateLeaf" ~: translate la ~=?
                     WeightedNet (fromList [pin,pout]) (fromList [tla])
                                 (fromList [WToTransition pin tla,
@@ -160,22 +165,88 @@ translateTests = [
                              WToTransition pin tcb1, WToPlace tcb1 pout,
                              WToTransition pin tcc, WToPlace tcc pout] )
                    pin pout 6,
-    "translateLoop" ~:
+    "translateConc" ~: translateConcExpected
+                   ~=?  translate (NodeN Conc [la,lb] 2)
+    ]
+
+
+la5  = Leaf "a" 5
+la8  = Leaf "a" 8
+la10 = Leaf "a" 10
+lb5  = Leaf "b" 5
+lb8  = Leaf "b" 8
+
+
+tlpa32_5 = WTransition "a" "t7" (32/5)
+tlpa4_id6    = WTransition "a" "t6" 4
+tlpa4_id7    = WTransition "a" "t7" 4
+tlpa8    = WTransition "a" "t6" 8
+
+tlpb4   = WTransition "b" "t8" 4
+tlpb8_5 = WTransition "b" "t8" (8/5)
+
+
+ttauin2  = WTransition "tauin" "t4" 2
+ttauin5  = WTransition "tauin" "t4" 5
+ttauin10 = WTransition "tauin" "t4" 10
+
+ttauout1 = WTransition "tauout" "t5" 1
+ttauout2 = WTransition "tauout" "t5" 2
+
+
+translateLoops = [
+    "translateLoopLeaf" ~:
         WeightedNet (fromList [pin,pout,pmidLoop1])
-                 (fromList [tlpa, ttauin1, ttauout2])
-                 (fromList [WToTransition pin ttauin1,
-                            WToPlace ttauin1 pmidLoop1,
-                            WToTransition pmidLoop1 tlpa,
-                            WToPlace tlpa pmidLoop1,
+                 (fromList [tlpa4_id6, ttauin5, ttauout1])
+                 (fromList [WToTransition pin ttauin5,
+                            WToPlace ttauin5 pmidLoop1,
+                            WToTransition pmidLoop1 tlpa4_id6,
+                            WToPlace tlpa4_id6 pmidLoop1,
+                            WToTransition pmidLoop1 ttauout1,
+                            WToPlace ttauout1 pout])
+                   pin pout 6
+                   ~=? translate (Node1 PLoop la5 5 5) ,
+    "translateLoopLeafNonUnityOutput" ~:
+        WeightedNet (fromList [pin,pout,pmidLoop1])
+                 (fromList [tlpa8, ttauin10, ttauout2])
+                 (fromList [WToTransition pin ttauin10,
+                            WToPlace ttauin10 pmidLoop1,
+                            WToTransition pmidLoop1 tlpa8,
+                            WToPlace tlpa8 pmidLoop1,
                             WToTransition pmidLoop1 ttauout2,
                             WToPlace ttauout2 pout])
                    pin pout 6
-                   ~=? translate (Node1 PLoop la 5 1) ,
-    "translateConc" ~: translateConcExpected
-                   ~=?  translate (NodeN Conc [la,lb] 2)
+                   ~=? translate (Node1 PLoop la10 5 10) ,
+    -- TODO failing, outputs match, tranids off by one
+    "translateLoopChoice" ~:
+       WeightedNet (fromList [pin,pout,pmidLoop1])
+                   (fromList [tlpa4_id7, tlpb4, ttauin10, ttauout2])
+                   (fromList [WToTransition pin ttauin10,
+                              WToPlace ttauin10 pmidLoop1,
+                              WToTransition pmidLoop1 tlpa4_id7,
+                              WToPlace tlpa4_id7 pmidLoop1,
+                              WToTransition pmidLoop1 tlpb4,
+                              WToPlace tlpb4 pmidLoop1,
+                              WToTransition pmidLoop1 ttauout2,
+                              WToPlace ttauout2 pout])
+                  pin pout 8
+                  ~=? translate (Node1 PLoop (NodeN Choice [la5,lb5] 10) 5 10),
+    "translateLoopChoiceUneven" ~:
+       WeightedNet (fromList [pin,pout,pmidLoop1])
+                   (fromList [tlpa32_5, tlpb8_5, ttauin10, ttauout2])
+                   (fromList [WToTransition pin ttauin10,
+                              WToPlace ttauin10 pmidLoop1,
+                              WToTransition pmidLoop1 tlpa32_5,
+                              WToPlace tlpa32_5 pmidLoop1,
+                              WToTransition pmidLoop1 tlpb8_5,
+                              WToPlace tlpb8_5 pmidLoop1,
+                              WToTransition pmidLoop1 ttauout2,
+                              WToPlace ttauout2 pout])
+                  pin pout 8
+                  ~=? translate (Node1 PLoop (NodeN Choice [la8,lb2] 10) 5 10)
+                ]
 
-    ]
-
+translateTests = translateLoops ++ translateRest
 
 
 --

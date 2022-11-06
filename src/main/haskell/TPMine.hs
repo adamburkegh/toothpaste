@@ -79,8 +79,8 @@ ptreeWeightedNet (Node1 FLoop x m w) pi po idp
 ptreeWeightedNet (Node1 PLoop x m w) pi po idp =
     let midp1 = midp (idp+1)
         trantauin  = WTransition "tauin"  (nextid (idp+2)) w
-        trantauout = WTransition "tauout" (nextid (idp+3)) 1
-        px      =   ptreeWeightedNet (replaceWeight x (m-1)) 
+        trantauout = WTransition "tauout" (nextid (idp+3)) (w/m)
+        px      =   ptreeWeightedNet (scale x ((m-1)/m) ) 
                                      midp1 midp1 ( idp+4 )
     in WeightedNet (wnplaces px `union` fromList [midp1,pi,po] )
                    (wntransitions px `union` fromList [trantauin,trantauout] )

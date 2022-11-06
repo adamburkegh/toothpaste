@@ -121,6 +121,8 @@ choiceFoldPrefixTests = [
                             choiceFoldPrefix (choiceSim cab2) @? "neq" ]
 
 {-
+ - TODO
+ -
     "choiceFoldLongSuffix" ~:
            Node2 Seq (NodeN Choice (Node2 Seq la
                                               (Node2 Seq lb lc 1) 1)

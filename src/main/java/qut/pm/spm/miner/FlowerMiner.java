@@ -14,6 +14,7 @@ import org.processmining.models.graphbased.directed.petrinet.impl.StochasticNetI
 import org.processmining.models.semantics.petrinet.Marking;
 
 import qut.pm.spm.AcceptingStochasticNet;
+import qut.pm.spm.AcceptingStochasticNetImpl;
 import qut.pm.spm.StochasticNetLogMiner;
 
 public class FlowerMiner implements StochasticNetLogMiner {
@@ -38,7 +39,7 @@ public class FlowerMiner implements StochasticNetLogMiner {
 	public AcceptingStochasticNet runMiner(PluginContext uipc, XLog log, 
 			XEventClassifier classifier) {
 		StochasticNet net = minePetrinet(log.getInfo(classifier),classifier);
-		return new AcceptingStochasticNet(net.getLabel(), net, new Marking());
+		return new AcceptingStochasticNetImpl(net.getLabel(), net, new Marking());
 	}
 
 	@Override

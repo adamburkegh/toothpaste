@@ -19,6 +19,7 @@ import qut.pm.prom.helpers.ConsoleUIPluginContext;
 import qut.pm.prom.helpers.HeadlessDefinitelyNotUIPluginContext;
 import qut.pm.prom.helpers.StochasticPetriNetUtils;
 import qut.pm.spm.AcceptingStochasticNet;
+import qut.pm.spm.AcceptingStochasticNetImpl;
 import qut.pm.spm.StochasticNetLogMiner;
 
 public class ToothpasteMinerHP implements StochasticNetLogMiner{
@@ -60,7 +61,7 @@ public class ToothpasteMinerHP implements StochasticNetLogMiner{
 		Marking initialMarking = (Marking)cResult[1];
 		Marking sInitMarking = 
 				StochasticPetriNetUtils.findEquivalentInitialMarking(initialMarking, net);
-		netDescriptor = new AcceptingStochasticNet(net.getLabel(), net, sInitMarking );
+		netDescriptor = new AcceptingStochasticNetImpl(net.getLabel(), net, sInitMarking );
 
 	}
 	

@@ -13,6 +13,7 @@ import org.processmining.models.semantics.petrinet.Marking;
 
 import qut.pm.spm.StochasticNetLogMiner;
 import qut.pm.spm.AcceptingStochasticNet;
+import qut.pm.spm.AcceptingStochasticNetImpl;
 
 /**
  * Very like <class>RoggeSoltiSMP</class>, but invoking a local copy which has additional tracing
@@ -43,7 +44,7 @@ public class RoggeSoltiSMPTracing implements StochasticNetLogMiner {
 		LOGGER.debug("Discovery complete");
 		StochasticNet net = (StochasticNet) objects[0];
 		Marking marking = (Marking) objects[1];
-		snDescriptor = new AcceptingStochasticNet(outputModelFile.getName(),net, marking);
+		snDescriptor = new AcceptingStochasticNetImpl(outputModelFile.getName(),net, marking);
 	}
 
 	@Override

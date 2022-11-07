@@ -15,6 +15,7 @@ import org.processmining.models.graphbased.directed.petrinet.impl.StochasticNetI
 import org.processmining.models.semantics.petrinet.Marking;
 
 import qut.pm.spm.AcceptingStochasticNet;
+import qut.pm.spm.AcceptingStochasticNetImpl;
 import qut.pm.spm.StochasticNetLogMiner;
 import qut.pm.xes.helpers.XESLogUtils;
 
@@ -73,7 +74,7 @@ public class TraceMiner implements StochasticNetLogMiner {
 		}
 		Marking initialMarking = new Marking();
 		initialMarking.add(source);
-		AcceptingStochasticNet result = new AcceptingStochasticNet(net.getLabel(), net, initialMarking);
+		AcceptingStochasticNet result = new AcceptingStochasticNetImpl(net.getLabel(), net, initialMarking);
 		return result;
 	}
 

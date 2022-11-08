@@ -7,12 +7,18 @@ import Data.Maybe
 import qualified Data.Map as Map
 
 -- debug and trace
+debugOn :: String -> a -> a
+debugOn = trace
+
+debugOff :: String -> a -> a
+debugOff s x = x
+
 debug :: String -> a -> a
 -- Debug ON
-debug = trace
+-- debug = debugOn
 
 -- Debug OFF
--- debug x y = y
+debug = debugOff
 
 
 -- Rule types
@@ -72,14 +78,32 @@ concSimList (u1:u2:ptl)
               w2 = weight u2
 concSimList x = x
 
-
-fixedLoopRoll :: (Eq a, Ord a) => PRule a
-fixedLoopRoll (NodeN Seq ptl w) 
+-- This version will identify repeated subsequences of length >1, but has
+-- issues. It does not have a formal equivalent in the corresponding papers, 
+-- has exponential time and memory complexity, and has a subtle loop bug on some
+-- input data.
+fixedLoopRollLengthN :: (Eq a, Ord a) => PRule a
+fixedLoopRollLengthN (NodeN Seq ptl w) 
     | nptl /= ptl  = seqP nptl w
     where (lss, _) = length ptl `divMod` 2
           rs       = sortOn ncountL (fixedLoopRollForN ptl lss)
           nptl     = head rs
-fixedLoopRoll x = x    
+fixedLoopRollLengthN x = x    
+
+-- This version will roll adjacent nodes up, but not recognize repeats of
+-- length > 1. It is in the paper
+fixedLoopRollSingle :: (Eq a, Ord a) => PRule a
+fixedLoopRollSingle (NodeN Seq ((Node1 FLoop u1 r1 w1):uptl) w) 
+    | nptl /= ((Node1 FLoop u1 r1 w1):uptl)  = seqP nptl w
+    where nptl                               = fixedLoopRollList uptl u1 r1
+fixedLoopRollSingle (NodeN Seq (u:uptl) w) 
+    | nptl /= (u:uptl)  = seqP nptl w
+    where nptl         = fixedLoopRollList uptl u 1
+fixedLoopRollSingle x = x    
+
+fixedLoopRoll :: (Eq a, Ord a) => PRule a
+fixedLoopRoll = fixedLoopRollSingle
+
 
 fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
 fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct 

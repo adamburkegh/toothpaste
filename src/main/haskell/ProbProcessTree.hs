@@ -232,7 +232,8 @@ latexNOp Seq = "\\seqop"
 
 latexPPTreeIndent :: PPTree String -> Int -> String
 latexPPTreeIndent (Leaf x n) indent =
-    duplicate indentStr indent ++ "[ " ++ x ++ latexWeight n ++ latexCloseNode
+    duplicate indentStr indent ++ "[ \\text{" ++ x ++ "}" ++ latexWeight n 
+                               ++ latexCloseNode
 latexPPTreeIndent (Silent n) indent =
     duplicate indentStr indent ++ "[ " ++ latexTau ++ latexWeight n 
                                ++ latexCloseNode

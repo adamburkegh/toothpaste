@@ -17,12 +17,16 @@ data ToothpasteArgs =
         ToothpasteArgs{logformat :: String, modeltype :: String,
                        eventlog :: String,
                        pnetfile :: String, ptreefile :: String,
-                       impl :: String } 
+                       ptreeformat :: String,
+                       impl :: String}
         deriving (Show,Data,Typeable)
 
 data Model = Stochastic | ControlFlow
         deriving (Show,Eq)
 
+
+data PTreeFormat = PTree | LaTeX
+        deriving (Show,Eq)
 
 data Impl = Incr | Batch | MNode
         deriving (Show,Eq)
@@ -35,6 +39,8 @@ toothpasteArgs = ToothpasteArgs{
     eventlog  = ""  &= help "Event log file name",
     pnetfile  = "" &= help "Output Petri Net PNML file",
     ptreefile = "" &= help "Output PPTree file",
+    ptreeformat = "ptree" 
+            &= help "Output PPT format. Valid values ptree or latex",
     impl      = "batch" &= help "Discovery algo. Valid values batch or incr" } 
         &=
     help "Discover stochastic models from event logs" 
@@ -58,6 +64,11 @@ implSelector istr | istr == "incr"  = Incr
                   | istr == "batch" = Batch
                   | istr == "mnode" = MNode
                   | otherwise       = Batch
+
+ptreeformatSelector :: String -> PTreeFormat
+ptreeformatSelector istr | istr == "ptree" = PTree
+                         | istr == "latex" = LaTeX
+
 
 -- Binpaste invocation
 pptreeIntToStrB :: Binpaste.PPTree Int -> Map Int String 
@@ -122,18 +133,21 @@ mine tpargs logtext
          (Binpaste.formatPPTree ppti, 
           weightedNetToString (Binpaste.translate ppti) "spn" )
     | model == Stochastic && algo == MNode = 
-         (ProbProcessTree.formatPPTree pptm, 
+         (pptformatter pptm, 
           weightedNetToString (TPMine.translate pptm) "spn" ) 
     | model == ControlFlow = 
         (formatPTree pt,  petriNetToString (Flowpaste.translate pt) "pnet" )
     where model  = modelSelector $ modeltype tpargs 
           parser = parseSelector $ logformat tpargs
           algo   = implSelector  $ impl tpargs
+          pptf   = ptreeformatSelector $ ptreeformat tpargs
           -- ppt    = Binpaste.discover parser logtext
           pptb   = ptreeOnIntBatchB tpargs logtext
           ppti   = ptreeOnIntInc   tpargs logtext
           pptm   = ptreeOnIntBatch tpargs logtext
           pt     = Flowpaste.discover  parser logtext
+          pptformatter | pptf == PTree = ProbProcessTree.formatPPTree
+                       | pptf == LaTeX = ProbProcessTree.latexPPTree
 
 
 main :: IO ()

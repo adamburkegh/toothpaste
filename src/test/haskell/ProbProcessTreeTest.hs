@@ -11,7 +11,7 @@ forStart = "\\begin{figure} \n\
             \    \\begin{forest} \n\
             \    for tree={edge = {->},math content,anchor=center,fit=tight},\n"
 forEnd =    "    \\end{forest} \n\
-            \    \\caption{\\LaTeX PPT formatter test} \n\
+            \    \\caption{\\LaTeX PPT formatter generated caption} \n\
             \    \\label{fig:formatTest} \n\
             \\\end{figure} \n"
 

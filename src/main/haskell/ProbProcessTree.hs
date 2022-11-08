@@ -201,7 +201,7 @@ latexPPTree x = latexFigBegin
 
 latexFigBegin = "\\begin{figure} \n"
 latexFigEnd = 
-    "    \\caption{\\LaTeX PPT formatter test} \n\
+    "    \\caption{\\LaTeX PPT formatter generated caption} \n\
     \    \\label{fig:formatTest} \n\
     \\\end{figure} \n"
 

@@ -121,6 +121,35 @@ choiceFoldPrefixTests = [
     "choiceFoldId1" ~: choiceSim (choiceFoldPrefix cab2) /= 
                             choiceFoldPrefix (choiceSim cab2) @? "neq" ]
 
+
+clbca = NodeN Choice [NodeN Seq [la,lc] 1, 
+                      NodeN Seq [Node1 PLoop la 1 1,
+                                 lb] 1]  2
+
+loopChoiceFoldTests = [
+    "loopChoiceFold1" ~: choiceFoldPrefix la ~=? la ,
+    "loopChoiceFold2" ~: choiceFoldPrefix cab  ~=? cab]
+
+{- TODO
+    "loopChoiceFold3" ~: NodeN Seq [Node1 PLoop  la2 1 2,
+                                    NodeN Choice [lb,lc] 2] 
+                                   2
+            ~=? choiceFoldPrefix clbca ]
+    "loopChoiceFoldId1" ~: 
+           choiceSim (choiceFold cab2) /= loopChoiceFold (choiceSim cab2) 
+                                @? "neq",
+    "loopChoiceFoldLongSuffix" ~:  
+           NodeN Seq [Node2 Choice [NodeN Seq [NodeN Seq [lb,lc] 1, 
+                                               la] 1, 
+                                    NodeN Seq [Node2 Seq [lf,lg] 1, 
+                                               le] 1] 
+                                   ] 2
+                      (Node1 PLoop ld 1 1) 2
+                            /= loopChoiceFold (NodeN Choice sabcd sefgd 2)
+                            @? "impl gap" ]
+-}
+
+
 {-
  - TODO
  -
@@ -356,6 +385,7 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ fixedLoopRollTestsNSingle ++ fixedLoopRollTestsNforN
            ++ probLoopRollTests ++ choiceRollTests
+           ++ loopChoiceFoldTests
            ++ flattenTests
 
 transformTests = transformInOrderSimpleTests

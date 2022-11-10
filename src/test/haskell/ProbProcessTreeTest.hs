@@ -9,6 +9,12 @@ lb   = Leaf "b" 1
 lc   = Leaf "c" 1
 ld   = Leaf "c" 1
 ld3  = Leaf "d" 3
+lfa  = Node1 FLoop la 3 1
+lfa3 = Node1 FLoop la 3 3
+lfb  = Node1 FLoop lb 3 1
+lpa  = Node1 PLoop la 3 1
+lpa3 = Node1 PLoop la 3 3
+lpb  = Node1 PLoop lb 3 1
 
 normTests = [
     "leaf" ~: la ~=? norm la,
@@ -26,6 +32,24 @@ normTests = [
                                        NodeN Choice [Silent 1,lc] 2] 
                                 3] 3 )
     ]
+
+simTests = [ 
+    "leaf"      ~: True  ~=? la =~= la ,
+    "leafNot"   ~: False ~=? la =~= lb 
+    ]
+
+
+lsimTests = [ 
+    "fixedIdentity"  ~: True  ~=? lfa =&= lfa ,
+    "leaf"           ~: True  ~=? lfa =&= la ,
+    "leafNot"        ~: False ~=? lfa =&= lb,
+    "fixedDiffActivities"      ~: False ~=? lfa =&= lfb,
+    "fixedDiffWeights"         ~: True  ~=? lfa =&= lfa3,
+    "probDiffActivities"       ~: False ~=? lpa =&= lpb,
+    "probDiffWeights"          ~: True  ~=? lpa =&= lpa3,
+    "probDiffLoop"             ~: True  ~=? lpa =&= lfa
+    ]
+
 
 
 forStart = "\\begin{figure} \n\
@@ -73,5 +97,10 @@ latexFormatTests = [
               ~=? latexPPTree (NodeN Choice [la,lb] 2)
                     ]
 
-huTests = normTests ++ latexFormatTests
+huTests =   normTests 
+         ++ simTests  ++ lsimTests
+         ++ latexFormatTests
+
+
+
 

@@ -52,6 +52,23 @@ ptl1 =$= ptl2 = length ptl1  == length ptl2
         && foldl (\c (pt1,pt2) -> (pt1 =~= pt2) && c) True z
     where z = zip ptl1 ptl2
 
+-- Loop similarity
+(=&=) :: (Eq a) => PPTree a -> PPTree a -> Bool
+(Leaf a w1) =&= (Node1 op (Leaf b w2) r w3)
+    = a == b
+(Node1 op (Leaf b w2) r w3) =&= (Leaf a w1)
+    = a == b
+(Silent w1) =&= (Node1 op (Silent w2) r w3) 
+    = True
+(Node1 op (Silent w2) r w3) =&= (Silent w1)
+    = True
+(Node1 op1 x r1 w1) =&= (Node1 op2 y r2 w2) 
+    = x =~= y
+(NodeN op1 ptl1 w1) =&= (Node1 op2 y r2 w2) 
+    = (NodeN op1 ptl1 w1) =~= y
+(Node1 op2 y r2 w2) =&= (NodeN op1 ptl1 w1) 
+    = (NodeN op1 ptl1 w1) =~= y
+x =&= y = False
 
 weight :: PPTree a -> Weight
 weight (Leaf x n) = n

@@ -122,6 +122,41 @@ choiceFoldPrefixTests = [
                             choiceFoldPrefix (choiceSim cab2) @? "neq" ]
 
 
+
+choiceSkipPrefixTests = [
+    "choiceSkipNone" ~: la ~=? choiceSkipPrefix la,
+    "choiceSkip1"    ~: NodeN Seq [la2,
+                                   NodeN Choice [lb,Silent 1] 2] 
+                              2 
+                    ~=? choiceSkipPrefix (choiceP [la,seqP [la,lb] 1] 2),
+    "choiceSkip2"    ~: NodeN Choice [ NodeN Seq [la,lc] 1,
+                                      NodeN Seq [la2,
+                                                 NodeN Choice [lb,Silent 1] 
+                                                               2] 2]
+                              3 
+                    ~=? choiceSkipPrefix (choiceP [la,
+                                                   seqP [la,lb] 1,
+                                                   seqP [la,lc] 1] 
+                                                   3)
+                    ]
+
+choiceSkipPrefixCompressTests = [
+    "choiceSkipNone" ~: la ~=? choiceSkipPrefixCompress la,
+    "choiceSkip1"    ~: NodeN Seq [la2,
+                                   NodeN Choice [lb,Silent 1] 2] 
+                              2 
+                    ~=? choiceSkipPrefixCompress 
+                            (choiceP [la,seqP [la,lb] 1] 2),
+    "choiceSkip2"    ~: NodeN Seq [la3,
+                                   NodeN Choice [lb,lc,Silent 1] 3
+                                   ] 
+                              3 
+                    ~=? choiceSkipPrefixCompress (choiceP [la,
+                                                   seqP [la,lb] 1,
+                                                   seqP [la,lc] 1] 
+                                                   3)
+                    ]
+
 clbca = NodeN Choice [NodeN Seq [la,lc] 1, 
                       NodeN Seq [Node1 PLoop la 1 1,
                                  lb] 1]  2
@@ -381,6 +416,9 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ singleNodeOpTests 
            ++ choiceSimTests ++ concSimTests
            ++ choiceFoldPrefixTests
+           -- ++ choiceFoldSuffixTests TODO
+           ++ choiceSkipPrefixTests ++ choiceSkipPrefixCompressTests
+           -- ++ choiceSkipSuffixTests TODO
            ++ concFromChoiceTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ fixedLoopRollTestsNSingle ++ fixedLoopRollTestsNforN

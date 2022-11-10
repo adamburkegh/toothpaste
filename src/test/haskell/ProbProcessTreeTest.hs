@@ -4,8 +4,29 @@ import ProbProcessTree
 
 import Test.HUnit
 
-la  = Leaf "a" 1
-lb  = Leaf "b" 1
+la   = Leaf "a" 1
+lb   = Leaf "b" 1
+lc   = Leaf "c" 1
+ld   = Leaf "c" 1
+ld3  = Leaf "d" 3
+
+normTests = [
+    "leaf" ~: la ~=? norm la,
+    "choice1" ~: choiceP [la,lb,lc] 3 ~=? 
+                    norm (NodeN Choice [la,
+                                       NodeN Choice [lb,lc] 2] 
+                                3),
+    "choice2" ~: choiceP [la,Silent 1,lc] 3 ~=? 
+                    norm (NodeN Choice [la,
+                                       NodeN Choice [Silent 1,lc] 2] 
+                                3),
+    "seqChoice1" ~: seqP [ld3,choiceP [la,Silent 1,lc] 3] 3 ~=? 
+        norm (NodeN Seq [ld3,
+                         NodeN Choice [la,
+                                       NodeN Choice [Silent 1,lc] 2] 
+                                3] 3 )
+    ]
+
 
 forStart = "\\begin{figure} \n\
             \    \\begin{forest} \n\
@@ -52,5 +73,5 @@ latexFormatTests = [
               ~=? latexPPTree (NodeN Choice [la,lb] 2)
                     ]
 
-huTests = latexFormatTests
+huTests = normTests ++ latexFormatTests
 

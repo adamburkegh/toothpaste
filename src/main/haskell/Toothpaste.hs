@@ -248,7 +248,6 @@ flattenRule :: (Eq a) => PRule a
 flattenRule x = flatten x
 
 -- choice folds
-
 seqPrefixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
 seqPrefixMerge ((NodeN Seq (pt1:ptl1) w1):(NodeN Seq (pt2:ptl2) w2):ptl)
     | pt1 =~= pt2 && (ptl1 /= [] || ptl2 /= [])
@@ -285,6 +284,30 @@ seqSuffixMerge ptl = ptl
 -- duplication across prefix suffix folds and maybe other choice
 choiceFoldSuffix :: (Eq a, Ord a) => PRule a
 choiceFoldSuffix = choiceChildMR seqSuffixMerge
+
+-- choice skips
+choiceSkipPrefixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
+choiceSkipPrefixMerge (pt1:(NodeN Seq (pt2:ptl2) w2):ptl) 
+    | pt1 =~= pt2  
+        = seqP [merge pt1 pt2, choiceP (silentpt1:ptl2)
+                                       (w1+w2) ] 
+               (w1+w2):
+          choiceSkipPrefixMerge ptl
+    | pt1 =~= pt2 && (null ptl2) 
+        = merge pt1 pt2:choiceSkipPrefixMerge ptl
+    | otherwise 
+        = pt1: choiceSkipPrefixMerge (NodeN Seq (pt2:ptl2) w2:ptl)
+      where w1      = weight pt1
+            silentpt1 = Silent (weight pt1)
+-- missing seq head case
+choiceSkipPrefixMerge ptl = ptl
+
+choiceSkipPrefix :: (Eq a, Ord a) => PRule a
+choiceSkipPrefix = choiceChildMR choiceSkipPrefixMerge
+
+choiceSkipPrefixCompress :: (Eq a, Ord a) => PRule a
+choiceSkipPrefixCompress pt = norm $ choiceFoldPrefix $ choiceSkipPrefix pt
+
 
 
 -- conc creation
@@ -352,6 +375,7 @@ baseRuleList = [
             TRule{rulename="concSim",trule=concSim},
             TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix},
             TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
+            TRule{rulename="choiceSkipPrefix",trule=choiceSkipPrefixCompress},
             TRule{rulename="loopNest",trule=loopNest},
             TRule{rulename="loopGeo",trule=loopGeo},
             TRule{rulename="choiceRoll",trule=choiceRoll},

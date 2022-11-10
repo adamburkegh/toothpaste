@@ -128,7 +128,7 @@ seqMerge :: PPTree a -> PPTree a -> PPTree a
 seqMerge x y = scale (merge x y) 0.5
 
 -- Normal form rules promoted to functions
--- Partial - not all preserving compressions
+-- Lossy version - includes concurrency flattening 
 norm ::  (Ord a, Eq a) => PPTree a -> PPTree a
 norm pt | pt == ptn = pt
         | otherwise = norm ptn

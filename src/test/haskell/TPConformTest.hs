@@ -665,17 +665,37 @@ pfShuffleTests = pfSingleShuffleTests ++ pfCollapseTests
 pfTests = pfProbTests ++ pathsetPFTests ++ pfShuffleTests
 
 --
-teleclaimsEg = seqP [Node1 PLoop (Leaf "initiate payment" 483) 2 483,
+teleclaimsEg = seqP [choiceP [Leaf "initiate payment" 431,
+                              Leaf "initiate credit" 52] 483,
                      concP [Node1 PLoop 
                                     (Leaf "advise claimant" 235) 2 235, 
-                            Node1 PLoop 
-                                    (Leaf "close claim" 248)  2 248 ] 483 ]
+                            Leaf "close claim" 248] 483 ]
                     483
 
 adLoop = (Node1 PLoop (Leaf "ad" 235) 2 235)
 
-teleclaimsEgTests =  [ 
-    "adviseProb" ~: 1/4 ~=? prob ["ad"] adLoop
+teleclaimsEgTests =  let ?epsilon = eps in [ 
+    "adviseProb" ~: 1/4 ~=? prob ["ad"] adLoop,
+    "creditCloseBeforeAdvise1" ~: 0.020555 ~?~ 
+        prob ["initiate credit", "close claim", "advise claimant" ] 
+             teleclaimsEg,
+    "creditCloseBeforeAdvise2" ~: 0.010278 ~?~ 
+        prob ["initiate credit", "close claim", "advise claimant",
+               "advise claimant"] 
+             teleclaimsEg,
+    "creditCloseBeforeAdvise3" ~: 0.005139 ~?~ 
+        prob ["initiate credit", "close claim", "advise claimant",
+              "advise claimant", "advise claimant" ] 
+             teleclaimsEg,
+    "creditCloseBeforeAdvise4" ~: 0.002569 ~?~ 
+        prob ["initiate credit", "close claim", "advise claimant",
+              "advise claimant", "advise claimant", "advise claimant" ] 
+             teleclaimsEg,
+    "creditCloseBeforeAdvise5" ~: 0.001285 ~?~ 
+        prob ["initiate credit", "close claim", "advise claimant",
+              "advise claimant", "advise claimant", "advise claimant",
+              "advise claimant" ] 
+             teleclaimsEg
     ]
 
 dupeConcEg = concP [concP [la,lb] 2, 

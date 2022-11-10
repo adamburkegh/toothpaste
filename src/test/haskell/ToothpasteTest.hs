@@ -125,11 +125,17 @@ choiceFoldPrefixTests = [
 
 choiceSkipPrefixTests = [
     "choiceSkipNone" ~: la ~=? choiceSkipPrefix la,
-    "choiceSkip1"    ~: NodeN Seq [la2,
-                                   NodeN Choice [lb,Silent 1] 2] 
-                              2 
+    "choiceSkipLeafFirst" ~: 
+        NodeN Seq [la2,
+                   NodeN Choice [lb,Silent 1] 2] 
+              2 
                     ~=? choiceSkipPrefix (choiceP [la,seqP [la,lb] 1] 2),
-    "choiceSkip2"    ~: NodeN Choice [ NodeN Seq [la,lc] 1,
+    "choiceSkipSeqFirst"  ~: 
+        NodeN Seq [la2,
+                   NodeN Choice [lb,Silent 1] 2] 
+              2 
+                    ~=? choiceSkipPrefix (NodeN Choice [seqP [la,lb] 1,la] 2),
+    "choiceSkip3"    ~: NodeN Choice [ NodeN Seq [la,lc] 1,
                                       NodeN Seq [la2,
                                                  NodeN Choice [lb,Silent 1] 
                                                                2] 2]

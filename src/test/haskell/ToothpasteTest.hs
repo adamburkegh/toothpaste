@@ -122,6 +122,46 @@ choiceFoldPrefixTests = [
                             choiceFoldPrefix (choiceSim cab2) @? "neq" ]
 
 
+clbca = NodeN Choice [NodeN Seq [la,lc] 1, 
+                      NodeN Seq [Node1 PLoop la 1 1,
+                                 lb] 1]  2
+
+loopChoiceFoldTests = [
+    "loopChoiceFold1" ~: choiceFoldPrefix la ~=? la ,
+    "loopChoiceFold2" ~: choiceFoldPrefix cab  ~=? cab]
+
+{- TODO
+    "loopChoiceFold3" ~: NodeN Seq [Node1 PLoop  la2 1 2,
+                                    NodeN Choice [lb,lc] 2] 
+                                   2
+            ~=? choiceFoldPrefix clbca ]
+    "loopChoiceFoldId1" ~: 
+           choiceSim (choiceFold cab2) /= loopChoiceFold (choiceSim cab2) 
+                                @? "neq",
+    "loopChoiceFoldLongSuffix" ~:  
+           NodeN Seq [Node2 Choice [NodeN Seq [NodeN Seq [lb,lc] 1, 
+                                               la] 1, 
+                                    NodeN Seq [Node2 Seq [lf,lg] 1, 
+                                               le] 1] 
+                                   ] 2
+                      (Node1 PLoop ld 1 1) 2
+                            /= loopChoiceFold (NodeN Choice sabcd sefgd 2)
+                            @? "impl gap" ]
+-}
+
+
+{-
+ - TODO
+ -
+    "choiceFoldLongSuffix" ~:
+           Node2 Seq (NodeN Choice (Node2 Seq la
+                                              (Node2 Seq lb lc 1) 1)
+                                   (Node2 Seq le
+                                              (Node2 Seq lf lg 1) 1)
+                                   2)
+                      ld2 2
+                            ~=? choiceFold (Node2 Choice sabcd sefgd 2)  -}
+
 
 choiceSkipPrefixTests = [
     "choiceSkipNone" ~: la ~=? choiceSkipPrefix la,
@@ -163,45 +203,28 @@ choiceSkipPrefixCompressTests = [
                                                    3)
                     ]
 
-clbca = NodeN Choice [NodeN Seq [la,lc] 1, 
-                      NodeN Seq [Node1 PLoop la 1 1,
-                                 lb] 1]  2
 
-loopChoiceFoldTests = [
-    "loopChoiceFold1" ~: choiceFoldPrefix la ~=? la ,
-    "loopChoiceFold2" ~: choiceFoldPrefix cab  ~=? cab]
-
-{- TODO
-    "loopChoiceFold3" ~: NodeN Seq [Node1 PLoop  la2 1 2,
-                                    NodeN Choice [lb,lc] 2] 
-                                   2
-            ~=? choiceFoldPrefix clbca ]
-    "loopChoiceFoldId1" ~: 
-           choiceSim (choiceFold cab2) /= loopChoiceFold (choiceSim cab2) 
-                                @? "neq",
-    "loopChoiceFoldLongSuffix" ~:  
-           NodeN Seq [Node2 Choice [NodeN Seq [NodeN Seq [lb,lc] 1, 
-                                               la] 1, 
-                                    NodeN Seq [Node2 Seq [lf,lg] 1, 
-                                               le] 1] 
-                                   ] 2
-                      (Node1 PLoop ld 1 1) 2
-                            /= loopChoiceFold (NodeN Choice sabcd sefgd 2)
-                            @? "impl gap" ]
--}
-
-
-{-
- - TODO
- -
-    "choiceFoldLongSuffix" ~:
-           Node2 Seq (NodeN Choice (Node2 Seq la
-                                              (Node2 Seq lb lc 1) 1)
-                                   (Node2 Seq le
-                                              (Node2 Seq lf lg 1) 1)
-                                   2)
-                      ld2 2
-                            ~=? choiceFold (Node2 Choice sabcd sefgd 2)  -}
+choiceSkipSuffixTests = [
+    "choiceSkipNone" ~: la ~=? choiceSkipSuffix la,
+    "choiceSkipLeafLast" ~: 
+        NodeN Seq [ NodeN Choice [lb,Silent 1] 2,
+                    la2] 
+              2 
+                    ~=? choiceSkipSuffix (NodeN Choice [la,seqP [lb,la] 1] 2),
+    "choiceSkipSeqLast"  ~: 
+        NodeN Seq [ NodeN Choice [lb,Silent 1] 2,
+                    la2] 
+              2 
+                    ~=? choiceSkipSuffix (NodeN Choice [seqP [lb,la] 1,la] 2),
+    "choiceSkip3"    ~: NodeN Choice [NodeN Seq [lc,la] 1,
+                                      NodeN Seq [NodeN Choice [lb,Silent 1] 2,
+                                                 la2] 2] 
+                              3
+                    ~=? choiceSkipSuffix (choiceP [la,
+                                                   seqP [lb,la] 1,
+                                                   seqP [lc,la] 1] 
+                                                   3)
+                    ]
 
 fixedLoopRollTests = [
     "floopRoll1" ~: fixedLoopRoll la ~=? la,
@@ -424,7 +447,7 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ choiceFoldPrefixTests
            -- ++ choiceFoldSuffixTests TODO
            ++ choiceSkipPrefixTests ++ choiceSkipPrefixCompressTests
-           -- ++ choiceSkipSuffixTests TODO
+           ++ choiceSkipSuffixTests 
            ++ concFromChoiceTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ fixedLoopRollTestsNSingle ++ fixedLoopRollTestsNforN

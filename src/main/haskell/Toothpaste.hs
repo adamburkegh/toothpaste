@@ -321,19 +321,34 @@ choiceSkipPrefixCompress pt = norm $ choiceFoldPrefix $ choiceSkipPrefix pt
 
 -- Warning last is O(N) on lists
 choiceSkipSuffixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
-choiceSkipSuffixMerge (pt1:(NodeN Seq (pt2:ptl2) w2):ptl) 
+choiceSkipSuffixMerge (pt1:(NodeN Seq (ptl2) w2):ptl) 
     | pt1 =~= pt2  
-        = seqP [merge pt1 pt2, choiceP (silentpt1:ptl2)
-                                       (w1+w2) ] 
-               (w1+w2):
-          choiceSkipPrefixMerge ptl
-    | pt1 =~= pt2 && (null ptl2) 
-        = merge pt1 pt2:choiceSkipPrefixMerge ptl
+        = seqP [choiceP (silentpt1:nptl2)
+                         nw,
+                merge pt1 pt2] 
+                nw:
+          choiceSkipSuffixMerge ptl
     | otherwise 
-        = pt1: choiceSkipPrefixMerge (NodeN Seq (pt2:ptl2) w2:ptl)
-      where w1      = weight pt1
-            silentpt1 = Silent (weight pt1)
--- missing seq head case
+        = pt1: choiceSkipSuffixMerge (NodeN Seq (ptl2) w2:ptl)
+     where silentpt1 = Silent w1
+           pt2 = last ptl2
+           nptl2 = take (length ptl2-1) ptl2
+           w1 = weight pt1
+           nw = w1+w2
+choiceSkipSuffixMerge ((NodeN Seq (ptl2) w2):pt1:ptl) 
+    | pt1 =~= pt2  
+        = seqP [choiceP (silentpt1:nptl2)
+                         nw,
+                merge pt1 pt2] 
+                nw:
+          choiceSkipSuffixMerge ptl
+    | otherwise 
+        =  NodeN Seq (ptl2) w2:choiceSkipSuffixMerge (pt1:ptl)
+     where silentpt1 = Silent w1
+           pt2 = last ptl2
+           nptl2 = take (length ptl2-1) ptl2
+           w1 = weight pt1
+           nw = w1+w2
 choiceSkipSuffixMerge ptl = ptl
 
 choiceSkipSuffix :: (Eq a, Ord a) => PRule a

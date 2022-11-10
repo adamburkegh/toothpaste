@@ -424,6 +424,7 @@ baseRuleList = [
             TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix},
             TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
             TRule{rulename="choiceSkipPrefix",trule=choiceSkipPrefixCompress},
+            TRule{rulename="choiceSkipSuffix",trule=choiceSkipSuffixCompress},
             TRule{rulename="loopNest",trule=loopNest},
             TRule{rulename="loopGeo",trule=loopGeo},
             TRule{rulename="choiceRoll",trule=choiceRoll},

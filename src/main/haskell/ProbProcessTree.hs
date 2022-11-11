@@ -54,19 +54,20 @@ ptl1 =$= ptl2 = length ptl1  == length ptl2
 
 -- Loop similarity
 (=&=) :: (Eq a) => PPTree a -> PPTree a -> Bool
-(Leaf a w1) =&= (Node1 op (Leaf b w2) r w3)
+(Leaf a w1) =&= (Node1 PLoop (Leaf b w2) r w3)
     = a == b
-(Node1 op (Leaf b w2) r w3) =&= (Leaf a w1)
+(Node1 PLoop (Leaf b w2) r w3) =&= (Leaf a w1)
     = a == b
-(Silent w1) =&= (Node1 op (Silent w2) r w3) 
+(Silent w1) =&= (Node1 PLoop (Silent w2) r w3) 
     = True
-(Node1 op (Silent w2) r w3) =&= (Silent w1)
+(Node1 PLoop (Silent w2) r w3) =&= (Silent w1)
     = True
-(Node1 op1 x r1 w1) =&= (Node1 op2 y r2 w2) 
-    = x =~= y
-(NodeN op1 ptl1 w1) =&= (Node1 op2 y r2 w2) 
+(Node1 PLoop x r1 w1) =&= (Node1 PLoop y r2 w2) 
+    = (x =~=  (Node1 PLoop y r2 w2) )
+   || (y =~=  (Node1 PLoop x r1 w1) )
+(NodeN op1 ptl1 w1) =&= (Node1 PLoop y r2 w2) 
     = (NodeN op1 ptl1 w1) =~= y
-(Node1 op2 y r2 w2) =&= (NodeN op1 ptl1 w1) 
+(Node1 PLoop y r2 w2) =&= (NodeN op1 ptl1 w1) 
     = (NodeN op1 ptl1 w1) =~= y
 x =&= y = False
 
@@ -134,6 +135,14 @@ merge (Node1 PLoop x r1 w1) (Node1 op2 y r2 w2)
 merge (NodeN op1 ptl1 w1) (NodeN op2 ptl2 w2)
     = NodeN op1 (foldr (\(x,y) c -> merge x y:c) [] (zip ptl1 ptl2))  
                 (w1+w2)
+
+-- pre: input trees are loop similar
+lmerge :: PPTree a -> PPTree a -> PPTree a
+lmerge (Node1 PLoop pt2 r w2) pt1
+    = merge (Node1 PLoop pt1 1 w1) (Node1 PLoop pt2 r w2)
+    where w1 = weight pt1
+lmerge pt1 (Node1 PLoop pt2 r w2) 
+    = lmerge (Node1 PLoop pt2 r w2) pt1
 
 scale :: PPTree a -> Float -> PPTree a
 scale (Leaf x w) g = Leaf x (w*g)

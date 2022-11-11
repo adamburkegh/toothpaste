@@ -15,6 +15,7 @@ lfb  = Node1 FLoop lb 3 1
 lpa  = Node1 PLoop la 3 1
 lpa3 = Node1 PLoop la 3 3
 lpb  = Node1 PLoop lb 3 1
+sab  = NodeN Seq [la,lb] 1
 
 normTests = [
     "leaf" ~: la ~=? norm la,
@@ -40,14 +41,17 @@ simTests = [
 
 
 lsimTests = [ 
-    "fixedIdentity"  ~: True  ~=? lfa =&= lfa ,
-    "leaf"           ~: True  ~=? lfa =&= la ,
-    "leafNot"        ~: False ~=? lfa =&= lb,
+    "fixedIdentity"  ~: False ~=? lfa =&= lfa ,
+    "probIdentity"   ~: False ~=? lpa =&= lpa ,
+    "leaf"           ~: True  ~=? lpa =&= la ,
+    "leafNot"        ~: False ~=? lpa =&= lb,
+    "probSeq"        ~: True ~=? Node1 PLoop sab 5 1 =&= sab,
     "fixedDiffActivities"      ~: False ~=? lfa =&= lfb,
-    "fixedDiffWeights"         ~: True  ~=? lfa =&= lfa3,
+    "fixedDiffWeights"         ~: False ~=? lfa =&= lfa3,
     "probDiffActivities"       ~: False ~=? lpa =&= lpb,
-    "probDiffWeights"          ~: True  ~=? lpa =&= lpa3,
-    "probDiffLoop"             ~: True  ~=? lpa =&= lfa
+    "probDiffWeights"          ~: False  ~=? lpa =&= lpa3,
+    "probDiffLoop"             ~: False ~=? lpa =&= lfa,
+    "probLoopNest"             ~: True  ~=? lpa =&= Node1 PLoop lpa3 5 3
     ]
 
 

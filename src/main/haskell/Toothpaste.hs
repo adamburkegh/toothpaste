@@ -15,10 +15,12 @@ debugOff s x = x
 
 debug :: String -> a -> a
 -- Debug ON
--- debug = debugOn
+debug = debugOn
 
 -- Debug OFF
-debug = debugOff
+-- debug = debugOff
+warn :: String -> a -> a
+warn = trace 
 
 
 -- Rule types
@@ -63,6 +65,16 @@ choiceSimList :: (Eq a, Ord a) => LRule a
 choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList (merge u1 u2:ptl)
                           | otherwise = u1 : choiceSimList (u2:ptl)
 choiceSimList x = x
+
+loopSim :: (Eq a, Ord a) => PRule a
+loopSim = choiceChildMR loopSimList
+
+loopSimList :: (Eq a, Ord a) => LRule a
+loopSimList (u1:u2:ptl) | u1 =&= u2 = loopSimList (lmerge u1 u2:ptl)
+                          | otherwise = u1 : loopSimList (u2:ptl)
+loopSimList x = x
+
+
 
 concSim :: Eq a => PRule a
 concSim (NodeN Conc ptl w)
@@ -223,6 +235,9 @@ loopGeoList x = x
 choiceRoll :: (Eq a, Ord a) => PRule a
 choiceRoll = choiceChildMR choiceRollList
 
+-- choice roll is a handcrafted loop sim version of choiceSim it seems
+-- so redundant with new loopSim rule
+-- also buggy sometimes!
 choiceRollList :: (Eq a) => LRule a
 choiceRollList (u1:(Node1 PLoop u2 r2 w2):ptl) 
     | u1 =~= u2 = choiceRollList  (
@@ -238,7 +253,7 @@ choiceRollList ((Node1 PLoop u1 r1 w1):u2:ptl)
                                  (((r1*w1)+(w2))/(w1+w2)) 
                                  (w1+w2) 
                     :ptl)
-    | otherwise = (Node1 PLoop u1 r1 w2) : choiceRollList (u2:ptl)
+    | otherwise = (Node1 PLoop u1 r1 w1) : choiceRollList (u2:ptl)
                     where w2 = weight u2
 choiceRollList x = x
 
@@ -475,9 +490,9 @@ validateDebug :: (Eq a, Show a) => PPTree a -> PPTree a -> TRule r -> b -> b
 validateDebug x y r val
     | x /= y && validate y       = debug msg val
     | x /= y && not (validate y) =
-        debug ("*** invalid tree *** "
-                ++ valMsg (verboseValidate y)
-                ++ " :: " ++ msg) val
+        warn ("*** invalid tree *** "
+               ++ valMsg (verboseValidate y)
+               ++ " :: " ++ msg) val
     | x == y = val
     -- | x == y = debug (rulename r ++ " 000 " ++ show x) val
     -- super-verbose option

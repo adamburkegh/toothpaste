@@ -39,7 +39,8 @@ lb3 = Leaf "b" 3
 lc2 = Leaf "c" 2
 lc3 = Leaf "c" 3
 ld2 = Leaf "d" 2
-loopa1 = Node1 FLoop la 1 1
+looppa1 = Node1 PLoop la 2 1
+looppa2 = Node1 PLoop la2 2 2
 
 silentSingleRuleList :: (Eq a, Ord a) => [TRule a]
 silentSingleRuleList = [
@@ -89,6 +90,38 @@ choiceSimTests = ["choiceSim1" ~: la2
                  "choiceSimLoop" ~: Node1 PLoop la2 6 2
                     ~=? choiceSim (NodeN Choice [Node1 PLoop la 7 1,
                                                  Node1 PLoop la 5 1] 2) ]
+
+loopSimTests = [ 
+    "loooSimLeaf" ~: la2 ~=? loopSim la2,
+    "loopSim2Loops" ~: (NodeN Choice [looppa1,looppa1] 2)
+                        ~=? loopSim (NodeN Choice [looppa1,looppa1] 2),
+    "loopSimLoopAndLeaf" ~: Node1 PLoop la2 1.5 2
+                        ~=? loopSim (NodeN Choice [looppa1,la] 2),
+    "loopSimLoopAndLeaf2" ~: Node1 PLoop la2 1.5 2
+                        ~=? loopSim (NodeN Choice [la,looppa1] 2),
+    "loopSimLoopAndLeaf3" ~: choiceP [Node1 PLoop la2 1.5 2,lb] 3
+                        ~=? loopSim (NodeN Choice [la,looppa1,lb] 3),
+    "loopSim2" ~: cab ~=? loopSim cab ,
+    "loopSim3" ~: Node1 PLoop (NodeN Seq [lb2,la2] 2) 2 2
+        ~=? loopSim (choiceP [seqP [lb,la] 1,
+                              Node1 PLoop (seqP [lb,la] 1) 3 1] 
+                              2),
+                 "loopSim4" ~: cab3 ~=? choiceSim cab3 ,
+    "choiceRoll2" ~: Node1 PLoop la4 4 4 ~=?
+                loopSim (NodeN Choice [la,
+                                       (Node1 PLoop la3 5 3)] 4),
+    "choiceRoll3" ~: Node1 PLoop la3 1.3333334 3.0 ~=?
+                loopSim (NodeN Choice [Node1 PLoop la 2.0 1.0,
+                                       la2]
+                               3.0), 
+    "choiceRoll4" ~: 
+        choiceP [Node1 PLoop la3 1.3333334 3.0,
+                 lb] 4.0 
+            ~=? loopSim (NodeN Choice [(Node1 PLoop la 2.0 1.0),
+                                          la2,
+                                          lb]
+                                         4.0) 
+               ]
 
 concSimTests = [
     "concSim1" ~: la ~=? concSim la,
@@ -351,7 +384,15 @@ choiceRollTests = [
     "choiceRoll3" ~: Node1 PLoop la3 1.3333334 3.0 ~=?
                 choiceRoll (NodeN Choice [(Node1 PLoop la 2.0 1.0),
                                           la2]
-                                         3.0) ]
+                                         3.0), 
+    "choiceRoll4" ~: 
+        choiceP [Node1 PLoop la3 1.3333334 3.0,
+                 lb] 4.0 
+            ~=? choiceRoll (NodeN Choice [(Node1 PLoop la 2.0 1.0),
+                                          la2,
+                                          lb]
+                                         4.0) 
+                 ]
 
 
 
@@ -443,7 +484,8 @@ validateTests = [
 
 ruleTests   = silentSeqTests  ++ silentConcTests
            ++ singleNodeOpTests 
-           ++ choiceSimTests ++ concSimTests
+           ++ choiceSimTests ++ loopSimTests
+           ++ concSimTests
            ++ choiceFoldPrefixTests
            -- ++ choiceFoldSuffixTests TODO
            ++ choiceSkipPrefixTests ++ choiceSkipPrefixCompressTests

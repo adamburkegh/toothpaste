@@ -376,25 +376,6 @@ loopGeoTests = [
                                    lb] 3)
     ]
 
-choiceRollTests = [
-    "choiceRoll1" ~: choiceRoll la ~=? la,
-    "choiceRoll2" ~: Node1 PLoop la4 4 4 ~=?
-                choiceRoll (NodeN Choice [la,
-                                          (Node1 PLoop la3 5 3)] 4),
-    "choiceRoll3" ~: Node1 PLoop la3 1.3333334 3.0 ~=?
-                choiceRoll (NodeN Choice [(Node1 PLoop la 2.0 1.0),
-                                          la2]
-                                         3.0), 
-    "choiceRoll4" ~: 
-        choiceP [Node1 PLoop la3 1.3333334 3.0,
-                 lb] 4.0 
-            ~=? choiceRoll (NodeN Choice [(Node1 PLoop la 2.0 1.0),
-                                          la2,
-                                          lb]
-                                         4.0) 
-                 ]
-
-
 
 -- conc
 
@@ -493,7 +474,7 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ concFromChoiceTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ fixedLoopRollTestsNSingle ++ fixedLoopRollTestsNforN
-           ++ probLoopRollTests ++ choiceRollTests
+           ++ probLoopRollTests 
            ++ loopChoiceFoldTests
            ++ flattenTests
 

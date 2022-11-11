@@ -155,6 +155,31 @@ choiceFoldPrefixTests = [
                             choiceFoldPrefix (choiceSim cab2) @? "neq" ]
 
 
+choiceFoldSuffixTests = [
+    "choiceFold1" ~: choiceFoldSuffix la ~=? la,
+    "choiceFold2" ~: choiceFoldSuffix cab  ~=? cab,
+    "choiceFoldEmptyHeadSeq" ~: 
+        NodeN Seq [NodeN Choice [lb,lb] 2, la2] 2
+                            ~=? choiceFoldSuffix cab2 ,
+    "choiceFoldLeftoverSeq" ~: 
+            NodeN Seq [NodeN Choice [NodeN Seq [la,lb] 1,
+                                     NodeN Seq [lb,la] 1] 2,
+                       lc2] 2
+            ~=? choiceFoldSuffix (choiceP [seqP [la,lb,lc] 1,
+                                           seqP [lb,la,lc] 1] 2),
+    "choiceFoldSuffixMore4Choices" ~:
+             choiceP [NodeN Seq [la,lb] 1,
+                      NodeN Seq [NodeN Choice [la,lb] 2,
+                                 lc2] 2,
+                      NodeN Seq [la,lb] 1] 4
+            ~=? choiceFoldSuffix (NodeN Choice [NodeN Seq [la,lb] 1,
+                                                NodeN Seq [lb,lc] 1,
+                                                NodeN Seq [la,lc] 1,
+                                                NodeN Seq [la,lb] 1] 4),
+    "choiceFoldId1" ~: choiceSim (choiceFoldSuffix cab2) /= 
+                            choiceFoldPrefix (choiceSim cab2) @? "neq" ]
+
+
 clbca = NodeN Choice [NodeN Seq [la,lc] 1, 
                       NodeN Seq [Node1 PLoop la 1 1,
                                  lb] 1]  2
@@ -468,7 +493,7 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ choiceSimTests ++ loopSimTests
            ++ concSimTests
            ++ choiceFoldPrefixTests
-           -- ++ choiceFoldSuffixTests TODO
+           ++ choiceFoldSuffixTests 
            ++ choiceSkipPrefixTests ++ choiceSkipPrefixCompressTests
            ++ choiceSkipSuffixTests 
            ++ concFromChoiceTests

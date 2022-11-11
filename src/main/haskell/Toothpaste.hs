@@ -66,6 +66,7 @@ choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList (merge u1 u2:ptl)
                           | otherwise = u1 : choiceSimList (u2:ptl)
 choiceSimList x = x
 
+
 loopSim :: (Eq a, Ord a) => PRule a
 loopSim = choiceChildMR loopSimList
 
@@ -73,7 +74,6 @@ loopSimList :: (Eq a, Ord a) => LRule a
 loopSimList (u1:u2:ptl) | u1 =&= u2 = loopSimList (lmerge u1 u2:ptl)
                           | otherwise = u1 : loopSimList (u2:ptl)
 loopSimList x = x
-
 
 
 concSim :: Eq a => PRule a
@@ -257,8 +257,8 @@ choiceFoldPrefix = choiceChildMR seqPrefixMerge
 -- Warning last is O(N) on lists
 seqSuffixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
 seqSuffixMerge ((NodeN Seq ptl1 w1):(NodeN Seq ptl2 w2):ptl)
-    | pt1 =~= pt2 = NodeN Seq [ choiceP [NodeN Seq nptl1 w1,
-                                         NodeN Seq nptl2 w2] nw,
+    | pt1 =~= pt2 = seqP [ choiceP [seqP nptl1 w1,
+                                    seqP nptl2 w2] nw,
                                  merge pt1 pt2] nw:
                      seqSuffixMerge ptl
     | otherwise = NodeN Seq ptl1 w1:

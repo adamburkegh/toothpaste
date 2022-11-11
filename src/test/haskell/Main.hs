@@ -5,6 +5,7 @@ import ToothpasteTest (huTests)
 import EventLogTest (huTests)
 import TPMineTest (huTests)
 import TPConformTest (huTests)
+import OtherRulesTest (huTests)
 
 import System.Exit
 import Test.HUnit
@@ -18,7 +19,8 @@ main = do
                        ++ ToothpasteTest.huTests
                        ++ TPMineTest.huTests
                        ++ EventLogTest.huTests
-                       ++ TPConformTest.huTests)
+                       ++ TPConformTest.huTests
+                       ++ OtherRulesTest.huTests)
     if errors results + failures results == 0 then
         putStrLn "Tests passed."
     else

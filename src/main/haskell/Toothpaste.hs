@@ -66,7 +66,6 @@ choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList (merge u1 u2:ptl)
                           | otherwise = u1 : choiceSimList (u2:ptl)
 choiceSimList x = x
 
-
 loopSim :: (Eq a, Ord a) => PRule a
 loopSim = choiceChildMR loopSimList
 
@@ -89,6 +88,22 @@ concSimList (u1:u2:ptl)
         where w1 = weight u1 
               w2 = weight u2
 concSimList x = x
+
+
+loopConcSimList :: (Eq a) => LRule a
+loopConcSimList (u1:u2:ptl) 
+    | u1 =&= u2 = loopConcSimList (Node1 FLoop (lmerge u1 u2) 2 (w1+w2):ptl)
+    | otherwise = u1:loopConcSimList (u2:ptl)
+        where w1 = weight u1 
+              w2 = weight u2
+loopConcSimList x = x
+
+loopConcSim :: Eq a => PRule a
+loopConcSim (NodeN Conc ptl w)
+    | ptl /= cr = NodeN Conc cr w
+    where cr = loopConcSimList ptl
+loopConcSim x = x
+
 
 -- This version will identify repeated subsequences of length >1, but has
 -- issues. It does not have a formal equivalent in the corresponding papers, 
@@ -308,43 +323,6 @@ choiceSkipPrefix = choiceChildMR choiceSkipPrefixMerge
 choiceSkipPrefixCompress :: (Eq a, Ord a) => PRule a
 choiceSkipPrefixCompress pt = norm $ choiceFoldPrefix $ choiceSkipPrefix pt
 
--- Warning last is O(N) on lists
-choiceSkipSuffixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
-choiceSkipSuffixMerge (pt1:(NodeN Seq (ptl2) w2):ptl) 
-    | pt1 =~= pt2  
-        = seqP [choiceP (silentpt1:nptl2)
-                         nw,
-                merge pt1 pt2] 
-                nw:
-          choiceSkipSuffixMerge ptl
-    | otherwise 
-        = pt1: choiceSkipSuffixMerge (NodeN Seq (ptl2) w2:ptl)
-     where silentpt1 = Silent w1
-           pt2 = last ptl2
-           nptl2 = take (length ptl2-1) ptl2
-           w1 = weight pt1
-           nw = w1+w2
-choiceSkipSuffixMerge ((NodeN Seq (ptl2) w2):pt1:ptl) 
-    | pt1 =~= pt2  
-        = seqP [choiceP (silentpt1:nptl2)
-                         nw,
-                merge pt1 pt2] 
-                nw:
-          choiceSkipSuffixMerge ptl
-    | otherwise 
-        =  NodeN Seq (ptl2) w2:choiceSkipSuffixMerge (pt1:ptl)
-     where silentpt1 = Silent w1
-           pt2 = last ptl2
-           nptl2 = take (length ptl2-1) ptl2
-           w1 = weight pt1
-           nw = w1+w2
-choiceSkipSuffixMerge ptl = ptl
-
-choiceSkipSuffix :: (Eq a, Ord a) => PRule a
-choiceSkipSuffix = choiceChildMR choiceSkipSuffixMerge
-
-choiceSkipSuffixCompress :: (Eq a, Ord a) => PRule a
-choiceSkipSuffixCompress pt = norm $ choiceFoldSuffix $ choiceSkipSuffix pt
 
 
 -- conc creation
@@ -371,7 +349,7 @@ concFromSeqList ptl
         = map (uncurry convertConcMapEntryToNode) (Map.toList rs)
     | otherwise               = ptl
     where (hds,tls) = unzip $ map (splitAt 2 . children) ptl
-          rs   = concMapFromSeqChildren hds tls
+          rs        = concMapFromSeqChildren hds tls
 
 convertConcMapEntryToNode :: (Ord a) => [PPTree a] -> [[PPTree a]] -> PPTree a
 convertConcMapEntryToNode ptl tptl
@@ -392,7 +370,7 @@ concMapFromSeqChildren :: (Ord a) => [[PPTree a]] -> [[PPTree a]]
 concMapFromSeqChildren (ptl:ptls) (tptl:tptls)
     | ptl `Map.member` sm = Map.update (\x -> Just (tptl:x) ) ptl sm
     | pml `Map.member` sm = Map.update (\x -> Just (tptl:x) ) pml sm
-    | otherwise            = Map.insert ptl [tptl] sm
+    | otherwise           = Map.insert ptl [tptl] sm
     where sm  = concMapFromSeqChildren ptls tptls
           pml = reverse ptl
 concMapFromSeqChildren [] _ = Map.empty
@@ -413,10 +391,10 @@ baseRuleList = [
             TRule{rulename="choiceFoldPrefix",trule=choiceFoldPrefix},
             TRule{rulename="choiceFoldSuffix",trule=choiceFoldSuffix},
             TRule{rulename="choiceSkipPrefix",trule=choiceSkipPrefixCompress},
-            TRule{rulename="choiceSkipSuffix",trule=choiceSkipSuffixCompress},
             TRule{rulename="loopNest",trule=loopNest},
             TRule{rulename="loopGeo",trule=loopGeo},
             TRule{rulename="loopSim",trule=loopSim},
+            -- TODO TRule{rulename="loopConcSim",trule=loopConcSim},
             TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="loopFixToProb", trule=loopFixToProb},
             TRule{rulename="probLoopRoll", trule=loopFixToProb}

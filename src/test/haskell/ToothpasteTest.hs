@@ -24,8 +24,9 @@ saa = NodeN Seq [la,la] 1
 saaa = NodeN Seq [la,la,la] 1
 saaat = NodeN Seq [la,NodeN Seq [la,la] 1] 1
 
-sab = NodeN Seq [la,lb] 1
-sba = NodeN Seq [lb,la] 1
+sab  = NodeN Seq [la,lb] 1
+sba  = NodeN Seq [lb,la] 1
+sba2 = NodeN Seq [lb2,la2] 2
 
 ccab1 = NodeN Conc [la,lb] 2
 
@@ -128,6 +129,14 @@ concSimTests = [
     "concSim2" ~: NodeN Conc [Node1 FLoop la2 2 2] 2 
                         ~=? concSim(NodeN Conc [la,la] 2) ,
     "concSim3" ~: NodeN Conc [la,lb] 2 ~=? concSim(NodeN Conc [la,lb] 2)  
+                ]
+
+
+loopConcSimTests = [
+    "concSim1" ~: la ~=? loopConcSim la,
+    "concSim2" ~: NodeN Conc [Node1 FLoop (Node1 PLoop la2 1.5 2) 2 2] 2 
+                        ~=? loopConcSim(NodeN Conc [la,looppa1] 2) ,
+    "concSim3" ~: NodeN Conc [la,lb] 2 ~=? loopConcSim(NodeN Conc [la,lb] 2)  
                 ]
 
 choiceFoldPrefixTests = [
@@ -262,28 +271,6 @@ choiceSkipPrefixCompressTests = [
                     ]
 
 
-choiceSkipSuffixTests = [
-    "choiceSkipNone" ~: la ~=? choiceSkipSuffix la,
-    "choiceSkipLeafLast" ~: 
-        NodeN Seq [ NodeN Choice [lb,Silent 1] 2,
-                    la2] 
-              2 
-                    ~=? choiceSkipSuffix (NodeN Choice [la,seqP [lb,la] 1] 2),
-    "choiceSkipSeqLast"  ~: 
-        NodeN Seq [ NodeN Choice [lb,Silent 1] 2,
-                    la2] 
-              2 
-                    ~=? choiceSkipSuffix (NodeN Choice [seqP [lb,la] 1,la] 2),
-    "choiceSkip3"    ~: NodeN Choice [NodeN Seq [lc,la] 1,
-                                      NodeN Seq [NodeN Choice [lb,Silent 1] 2,
-                                                 la2] 2] 
-                              3
-                    ~=? choiceSkipSuffix (choiceP [la,
-                                                   seqP [lb,la] 1,
-                                                   seqP [lc,la] 1] 
-                                                   3)
-                    ]
-
 fixedLoopRollTests = [
     "floopRoll1" ~: fixedLoopRoll la ~=? la,
     "floopRoll2" ~: Node1 FLoop la 2 1 ~=? fixedLoopRoll saa , 
@@ -408,7 +395,11 @@ concFromChoiceTests = [
     "concFromChoice1" ~: concFromChoice ccab1 ~=? ccab1,
     "concFromChoice2" ~: concFromChoice la  ~=? la,
     "concFromChoice3" ~: concP [la,lb] 2 
-                            ~=? concFromChoice( NodeN Choice [sab,sba] 2) ]
+                            ~=? concFromChoice( NodeN Choice [sab,sba] 2)
+    -- Fails due to using equality instead of similarity
+    -- "concFromChoice4" ~: concP [la,lb2] 3 
+    --                         ~=? concFromChoice( NodeN Choice [sab,sba2] 3) 
+                            ]
 
 -- TODO many more len > 2 cases at different levels
 
@@ -491,11 +482,10 @@ validateTests = [
 ruleTests   = silentSeqTests  ++ silentConcTests
            ++ singleNodeOpTests 
            ++ choiceSimTests ++ loopSimTests
-           ++ concSimTests
+           ++ concSimTests ++ loopConcSimTests
            ++ choiceFoldPrefixTests
            ++ choiceFoldSuffixTests 
            ++ choiceSkipPrefixTests ++ choiceSkipPrefixCompressTests
-           ++ choiceSkipSuffixTests 
            ++ concFromChoiceTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ fixedLoopRollTestsNSingle ++ fixedLoopRollTestsNforN

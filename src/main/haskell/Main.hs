@@ -2,14 +2,17 @@
 
 module Main where
 
-import Data.Map (Map,lookup)
-import Data.Maybe (fromJust)
 import Binpaste 
 import Flowpaste hiding (main)
 import ProbProcessTree
+import TPConform
 import TPMine
 import EventLog
 import ProcessFormats
+
+import Data.List (intercalate,nub)
+import Data.Map (Map,lookup)
+import Data.Maybe (fromJust)
 import System.Console.CmdArgs
 import System.IO
 
@@ -18,7 +21,8 @@ data ToothpasteArgs =
                        eventlog :: String,
                        pnetfile :: String, ptreefile :: String,
                        ptreeformat :: String,
-                       impl :: String}
+                       impl :: String,
+                       logtraceprob :: Bool }
         deriving (Show,Data,Typeable)
 
 data Model = Stochastic | ControlFlow
@@ -41,7 +45,9 @@ toothpasteArgs = ToothpasteArgs{
     ptreefile = "" &= help "Output PPTree file",
     ptreeformat = "ptree" 
             &= help "Output PPT format. Valid values ptree or latex",
-    impl      = "batch" &= help "Discovery algo. Valid values batch or incr" } 
+    impl      = "batch" &= help "Discovery algo. Valid values batch or incr",
+    logtraceprob = False 
+            &= help "Calculate trace probabilities for log traces"  } 
         &=
     help "Discover stochastic models from event logs" 
         &= summary "Toothpaste Miner 0.9.0, 2021 (GPL)" 
@@ -110,7 +116,7 @@ pptreeIntToStrList :: [ProbProcessTree.PPTree Int] -> Map Int String
     -> [ProbProcessTree.PPTree String]
 pptreeIntToStrList ptl m = map (`pptreeIntToStr` m) ptl
 
-ptreeOnIntBatch :: ToothpasteArgs -> String -> ProbProcessTree.PPTree String
+ptreeOnIntBatch :: ToothpasteArgs -> String -> ProbProcessTree.PPTree String 
 ptreeOnIntBatch tpargs rawlog = 
                     pptreeIntToStr (TPMine.discoverGen intlog) m
         where   strlog     = (parseSelector $ logformat tpargs) rawlog
@@ -123,6 +129,21 @@ ptreeOnIntBatch tpargs rawlog =
 ptree ::  ToothpasteArgs -> String -> PTree String
 ptree tpargs = Flowpaste.discover (parseSelector $ logformat tpargs)
 
+
+-- Trace probability
+traceProbForTraces :: Ord a => Log a -> ProbProcessTree.PPTree a 
+                                     -> [([a],Float)]
+traceProbForTraces alog pptm = map (\trace -> (trace,prob trace pptm) ) 
+                                   alog 
+
+traceProbForLog :: Log String -> ProbProcessTree.PPTree String -> String
+traceProbForLog strlog pptm  
+    = intercalate "\n"  
+        (map (\(trace,prob) -> show trace ++ " :: " ++ show prob)  probs)
+      ++ "\n" 
+      ++ "Sum of trace probabilities:" ++ show totalprob
+    where   probs      = traceProbForTraces (nub strlog) pptm
+            totalprob  = sum $ map snd probs
 
 mine :: ToothpasteArgs -> String -> (String, String)
 mine tpargs logtext
@@ -141,11 +162,22 @@ mine tpargs logtext
           parser = parseSelector $ logformat tpargs
           algo   = implSelector  $ impl tpargs
           pptf   = ptreeformatSelector $ ptreeformat tpargs
-          -- ppt    = Binpaste.discover parser logtext
           pptb   = ptreeOnIntBatchB tpargs logtext
           ppti   = ptreeOnIntInc   tpargs logtext
           pptm   = ptreeOnIntBatch tpargs logtext
           pt     = Flowpaste.discover  parser logtext
+          pptformatter | pptf == PTree = ProbProcessTree.formatPPTree
+                       | pptf == LaTeX = ProbProcessTree.latexPPTree
+
+mineWithProb :: ToothpasteArgs -> String -> (String, String, String)
+mineWithProb tpargs logtext =
+         (pptformatter pptm, 
+          weightedNetToString (TPMine.translate pptm) "spn",
+          traceProbForLog strlog pptm) 
+    where strlog        = (parseSelector $ logformat tpargs) logtext
+          (intlog,intm) = logIndex strlog
+          pptf          = ptreeformatSelector $ ptreeformat tpargs
+          pptm          = pptreeIntToStr (TPMine.discoverGen intlog) intm
           pptformatter | pptf == PTree = ProbProcessTree.formatPPTree
                        | pptf == LaTeX = ProbProcessTree.latexPPTree
 
@@ -155,8 +187,16 @@ main = do
     tpargs <- cmdArgs toothpasteArgs
     inhandle <- openFile (eventlog tpargs) ReadMode
     contents <- hGetContents inhandle
-    let (ptContents,pnetContents) = mine tpargs contents
-    writeFile (ptreefile tpargs) ptContents
-    writeFile (pnetfile tpargs)  pnetContents
+    if (logtraceprob tpargs)  
+        then do 
+            let (ptContents,pnetContents,probContents) 
+                   = mineWithProb tpargs contents 
+            writeFile (ptreefile tpargs) ptContents
+            writeFile (pnetfile tpargs)  pnetContents
+            putStrLn probContents -- TODO
+        else do
+            let (ptContents,pnetContents) = mine tpargs contents
+            writeFile (ptreefile tpargs) ptContents
+            writeFile (pnetfile tpargs)  pnetContents
 
 

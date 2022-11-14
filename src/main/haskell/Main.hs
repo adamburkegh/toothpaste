@@ -141,7 +141,8 @@ traceProbForLog strlog pptm
     = intercalate "\n"  
         (map (\(trace,prob) -> show trace ++ " :: " ++ show prob)  probs)
       ++ "\n" 
-      ++ "Sum of trace probabilities:" ++ show totalprob
+      ++ "Sum of trace probabilities: " ++ show totalprob ++ "\n"
+      ++ "Probability of empty trace: " ++ show (prob [] pptm ) ++ "\n"
     where   probs      = traceProbForTraces (nub strlog) pptm
             totalprob  = sum $ map snd probs
 

@@ -279,6 +279,26 @@ loopApproxKTests = [ "t0" ~: 1  ~=? findLoopApproxK 2 0.6,
                      "t7" ~: 6  ~=? findLoopApproxK 3 0.2,
                      "t7" ~: 14 ~=? findLoopApproxK 3 0.01 ]
 
+
+choiceLS2 = choiceP [Node1 PLoop la3 2.6 3,
+                     seqP [lb,la,ld,le] 1,
+                     seqP [lb,lc,ld,le] 1 ] 5
+
+compoundLoopTests1 = let ?epsilon = eps in 
+    [
+    "c1" ~: tokprob "a"     choiceLS2 ~?~ 0.142,
+    "c2" ~: tokprob "aa"    choiceLS2 ~?~ 0.08739,
+    "c3" ~: tokprob "aaa"   choiceLS2 ~?~ 0.05378,
+    "c4" ~: tokprob "aaaa"  choiceLS2 ~?~ 0.03310,
+    "c5" ~: tokprob "bade"  choiceLS2 ~?~ 0.2,
+    "c6" ~: tokprob "bcde"  choiceLS2 ~?~ 0.2
+    ]
+
+
+
+compoundLoopTests = compoundLoopTests1 
+
+
 loudTests = [ "silent" ~: False ~=? loud (Silent 1),
               "leaf" ~:   True  ~=? loud la,
               "choice" ~: True  ~=? loud (NodeN Choice [la,lb] 2),
@@ -727,6 +747,8 @@ concSilentEgTests = [
     "concSilentEg" ~: (cs1prob /= cs2prob) @? "probabilities not changed"
     ]
 
+
+
 --
 
 concTests = probBasicConcTests
@@ -740,6 +762,7 @@ utilTests = elemTests ++ permuteTests ++ loudTests
 
 probTests = probBasicTests ++ pathsetSingletons 
             ++ probLoopTests ++ fixedLoopTests 
+            ++ compoundLoopTests
             ++ loopApproxKTests
             ++ concTests 
             ++ probDuplicateTests

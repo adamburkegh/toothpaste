@@ -3,7 +3,7 @@ module Binpaste where
 import PetriNet
 import EventLog
 import Data.List (sort)
-import Data.Set (Set,toList,fromList,union)
+import Data.Set (Set,fromList,union)
 import Debug.Trace
 
 -- Some data structures and manipulations for process trees and 

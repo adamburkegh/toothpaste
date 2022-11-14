@@ -22,7 +22,7 @@ data ToothpasteArgs =
                        pnetfile :: String, ptreefile :: String,
                        ptreeformat :: String,
                        impl :: String,
-                       logtraceprob :: Bool }
+                       traceprobfile :: String }
         deriving (Show,Data,Typeable)
 
 data Model = Stochastic | ControlFlow
@@ -46,8 +46,8 @@ toothpasteArgs = ToothpasteArgs{
     ptreeformat = "ptree" 
             &= help "Output PPT format. Valid values ptree or latex",
     impl      = "batch" &= help "Discovery algo. Valid values batch or incr",
-    logtraceprob = False 
-            &= help "Calculate trace probabilities for log traces"  } 
+    traceprobfile = ""
+            &= help "Output trace probabilities to this file"  } 
         &=
     help "Discover stochastic models from event logs" 
         &= summary "Toothpaste Miner 0.9.0, 2021 (GPL)" 
@@ -187,16 +187,16 @@ main = do
     tpargs <- cmdArgs toothpasteArgs
     inhandle <- openFile (eventlog tpargs) ReadMode
     contents <- hGetContents inhandle
-    if (logtraceprob tpargs)  
+    if (null $ traceprobfile tpargs)  
         then do 
+            let (ptContents,pnetContents) = mine tpargs contents
+            writeFile (ptreefile tpargs) ptContents
+            writeFile (pnetfile tpargs)  pnetContents
+        else do
             let (ptContents,pnetContents,probContents) 
                    = mineWithProb tpargs contents 
             writeFile (ptreefile tpargs) ptContents
             writeFile (pnetfile tpargs)  pnetContents
-            putStrLn probContents -- TODO
-        else do
-            let (ptContents,pnetContents) = mine tpargs contents
-            writeFile (ptreefile tpargs) ptContents
-            writeFile (pnetfile tpargs)  pnetContents
+            writeFile (traceprobfile tpargs) probContents 
 
 

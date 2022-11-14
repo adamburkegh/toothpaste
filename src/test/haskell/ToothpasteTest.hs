@@ -400,10 +400,10 @@ concFromChoiceTests = [
     "concFromChoice1" ~: concFromChoice ccab1 ~=? ccab1,
     "concFromChoice2" ~: concFromChoice la  ~=? la,
     "concFromChoice3" ~: concP [la,lb] 2 
-                            ~=? concFromChoice( NodeN Choice [sab,sba] 2)
+                            ~=? concFromChoice( NodeN Choice [sab,sba] 2),
     -- Fails due to using equality instead of similarity
-    -- "concFromChoice4" ~: concP [la,lb2] 3 
-    --                         ~=? concFromChoice( NodeN Choice [sab,sba2] 3) 
+    "concFromChoice4" ~: concP [la,lb2] 3 
+                            ~=? concFromChoice( NodeN Choice [sab,sba2] 3) 
                             ]
 
 -- TODO many more len > 2 cases at different levels

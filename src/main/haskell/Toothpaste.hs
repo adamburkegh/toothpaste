@@ -5,6 +5,7 @@ import Debug.Trace
 import Data.List (sortOn)
 import Data.Maybe
 import qualified Data.Map as Map
+import Data.Map (elems,fromList)
 
 -- debug and trace
 debugOn :: String -> a -> a
@@ -364,16 +365,69 @@ convertConcTailEntry [pt] = Just pt
 convertConcTailEntry []   = Nothing
 convertConcTailEntry ptl  = Just (NodeN Seq ptl (weight $ head ptl))
 
--- pre: sublists of len 2
+
 concMapFromSeqChildren :: (Ord a) => [[PPTree a]] -> [[PPTree a]]
-                                        -> Map.Map [PPTree a] [[PPTree a]]
-concMapFromSeqChildren (ptl:ptls) (tptl:tptls)
-    | ptl `Map.member` sm = Map.update (\x -> Just (tptl:x) ) ptl sm
-    | pml `Map.member` sm = Map.update (\x -> Just (tptl:x) ) pml sm
-    | otherwise           = Map.insert ptl [tptl] sm
-    where sm  = concMapFromSeqChildren ptls tptls
-          pml = reverse ptl
-concMapFromSeqChildren [] _ = Map.empty
+                              -> Map.Map [PPTree a] [[PPTree a]]
+concMapFromSeqChildren ptls tptls = remapFromPT
+    where remapFromPT = fromList $ elems $ concMapFromSeqChildren1 ptls tptls
+
+
+-- concMapFromSeqChildren1 headPtls tailPtls
+-- 
+-- pre: sublists of len 2
+--
+-- Constructs a map where the keys are unity-weighted versions of the 
+-- PPTs in headPtls, and the values are a tuple (mptl,tails)
+-- mptl is a merged PPT list of similar or reverse-similar ptls from headPtls
+-- tails are the corresponding tails
+-- Unity weighting allows structurally similar trees to be compared with 
+-- equality, as in Data.Map
+--
+-- This implementation is not a paragon of efficiency.
+concMapFromSeqChildren1 :: (Ord a) => [[PPTree a]] -> [[PPTree a]]
+                              -> Map.Map [PPTree a] ([PPTree a],[[PPTree a]])
+concMapFromSeqChildren1 (ptl:ptls) (tptl:tptls)
+    | ptlw0 `Map.member` sm 
+        = Map.adjust 
+            (\(exptl,extptl) -> (mergeConcPair ptl exptl,tptl:extptl) ) 
+            ptlw0 sm
+    | pmlw0 `Map.member` sm && ptlw0 /= pmlw0 
+        = Map.adjust 
+            (\(exptl,extptl) -> (mergeConcPair exptl pml,tptl:extptl) ) 
+            pmlw0 sm
+    | otherwise           = Map.insert ptlw0 (ptl,[tptl]) sm
+    where sm  = concMapFromSeqChildren1 ptls tptls
+          ptlw0   = map unityWeights ptl
+          pml     = reverse ptl
+          pmlw0   = reverse ptlw0
+concMapFromSeqChildren1 [] _ = Map.empty
+
+-- set all weights to 1 to allow similarity comparison in maps
+unityWeights :: PPTree a -> PPTree a
+unityWeights (Leaf x n) = Leaf x 1
+unityWeights (Silent n) = Silent 1
+unityWeights (Node1 op x r n) = Node1 op (unityWeights x) r 1
+unityWeights (NodeN op ptl n) = NodeN op (map unityWeights ptl) 1
+
+listTo2Tuple :: [PPTree a] -> (PPTree a,PPTree a)
+listTo2Tuple [x,y] = (x,y)
+listTo2Tuple ptl   = warn "Bad list length passed to list2Tuple" 
+                          (Silent 0,Silent 0)
+
+
+-- pre: input lists of length 2
+mergeConcPair :: [PPTree a] -> [PPTree a] -> [PPTree a]
+mergeConcPair ptl1 ptl2 = 
+    mergeConcPairT (listTo2Tuple ptl1) (listTo2Tuple ptl2)
+
+-- first pt parameter will be taken as observed sequence, so weighted 
+-- accordingly using the conc from choice rule
+mergeConcPairT :: (PPTree a,PPTree a) -> (PPTree a,PPTree a) -> [PPTree a]
+mergeConcPairT (ptx1,pty1) (ptx2,pty2)
+    = [scale (merge ptx1 ptx2) (w1/(w1+w2)),
+       scale (merge pty1 pty2) (w2/(w1+w2))] 
+    where w1 = weight ptx1
+          w2 = weight ptx2
 
 
 

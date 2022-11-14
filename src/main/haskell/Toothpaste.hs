@@ -293,7 +293,7 @@ choiceFoldSuffix = choiceChildMR seqSuffixMerge
 choiceSkipPrefixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
 choiceSkipPrefixMerge (pt1:(NodeN Seq (pt2:ptl2) w2):ptl) 
     | pt1 =~= pt2  
-        = seqP [merge pt1 pt2, choiceP (silentpt1:ptl2)
+        = seqP [merge pt1 pt2, choiceP [silentpt1,seqP ptl2 w2] 
                                        (w1+w2) ] 
                (w1+w2):
           choiceSkipPrefixMerge ptl
@@ -305,7 +305,7 @@ choiceSkipPrefixMerge (pt1:(NodeN Seq (pt2:ptl2) w2):ptl)
             silentpt1 = Silent (weight pt1)
 choiceSkipPrefixMerge ((NodeN Seq (pt2:ptl2) w2):pt1:ptl)
     | pt1 =~= pt2  
-        = seqP [merge pt1 pt2, choiceP (silentpt1:ptl2)
+        = seqP [merge pt1 pt2, choiceP [silentpt1,seqP ptl2 w2] 
                                        (w1+w2) ] 
                (w1+w2):
           choiceSkipPrefixMerge ptl

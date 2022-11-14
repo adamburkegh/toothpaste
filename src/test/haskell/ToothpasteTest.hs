@@ -250,7 +250,12 @@ choiceSkipPrefixTests = [
                     ~=? choiceSkipPrefix (choiceP [la,
                                                    seqP [la,lb] 1,
                                                    seqP [la,lc] 1] 
-                                                   3)
+                                                   3),
+    "choiceSkipWithTail" ~: seqP [la4,
+                                 choiceP [Silent 2,
+                                          seqP[lb2,la2] 2 ] 4] 4
+        ~=? choiceSkipPrefix (NodeN Choice [la2,
+                                            seqP [la2,lb2,la2] 2.0] 4.0)
                     ]
 
 choiceSkipPrefixCompressTests = [

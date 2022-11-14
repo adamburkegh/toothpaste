@@ -374,6 +374,7 @@ verboseValidateList (pt:ptl)
     | not (validate pt) = Validation{
                               valResult=False, 
                               valMsg=valMsg (verboseValidate pt)
+                                  ++ " ... "
                                   ++ valMsg (verboseValidateList ptl) }
 verboseValidateList []  = valOk
 

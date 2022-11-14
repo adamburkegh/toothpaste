@@ -2,6 +2,7 @@
 
 module EventLog where
 
+import Data.List (isPrefixOf)
 import Data.List.Split
 import Data.Map 
     (Map,empty,member,insert,union,size,difference,fromList,toList,lookup)
@@ -17,8 +18,12 @@ parseDelimitedTrace :: String -> Log String
 parseDelimitedTrace = filter (/= []) . map words . lines
 
 -- Double comma delimited
+dcdtComment = "#"
+doubleComma = ",,"
 parseDCDT :: String -> Log String
-parseDCDT = map (splitOn ",,") . lines
+parseDCDT rawtext = 
+    map (splitOn doubleComma) $ filter (\x -> not (isPrefixOf dcdtComment x) ) 
+        $ lines rawtext
 
 -- Activity indexing decorator
 -- actIndex :: Log String -> (String -> Int, Log Int) 

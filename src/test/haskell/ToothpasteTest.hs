@@ -427,23 +427,23 @@ tail2Tests = [ "empty" ~: ([]::[Int],[]::[Int]) ~=? tail2 ([]::[Int] ),
                "l4" ~: ([4,5],[7,8]) ~=? tail2 [4,5,7,8] 
                ]
 
-concFromChoiceSuffTests = [ 
-    "cfcLeaf"   ~: concFromChoiceSuff la ~=? la,
-    "concNoop"  ~: concFromChoiceSuff ccab1 ~=? ccab1,
+concFromChoiceSuffixTests = [ 
+    "cfcLeaf"   ~: concFromChoiceSuffix la ~=? la,
+    "concNoop"  ~: concFromChoiceSuffix ccab1 ~=? ccab1,
     "cfcs1" ~: concP [la,lb] 2 
-                        ~=? concFromChoiceSuff( NodeN Choice [sab,sba] 2),
+                        ~=? concFromChoiceSuffix (NodeN Choice [sab,sba] 2),
     "cfcs2" ~: concP [la,lb2] 3 
-                        ~=? concFromChoiceSuff( NodeN Choice [sab,sba2] 3),
+                        ~=? concFromChoiceSuffix (NodeN Choice [sab,sba2] 3),
     "cfcs3" ~: seqP [ choiceP [la, Silent 2] 3, 
                       concP [lb,lc2] 3] 3 
-                        ~=? concFromChoiceSuff( NodeN Choice [sabc,scb2] 3),
+                        ~=? concFromChoiceSuffix (NodeN Choice [sabc,scb2] 3),
     "cfcs4" ~: seqP [ choiceP [lc,ld2] 3,  concP [la,lb2 ] 3 ] 3
-                        ~=? concFromChoiceSuff( NodeN Choice [scab,sdba2] 3) 
+                        ~=? concFromChoiceSuffix (NodeN Choice [scab,sdba2] 3) 
     ]
 
 concFromChoiceTests = concFromChoicePrefTests
                    ++ tail2Tests
-                   ++ concFromChoiceSuffTests
+                   ++ concFromChoiceSuffixTests
 
 --
 

@@ -463,8 +463,8 @@ mergeConcPairT (ptx1,pty1) (ptx2,pty2)
 
 
 
-concFromChoiceSuff :: (Eq a, Ord a) => PRule a
-concFromChoiceSuff = choiceChildMR concFromChoiceListSuff 
+concFromChoiceSuffix :: (Eq a, Ord a) => PRule a
+concFromChoiceSuffix = choiceChildMR concFromChoiceListSuff 
 
 concFromChoiceListSuff :: (Eq a, Ord a) => LRule a
 concFromChoiceListSuff ptl
@@ -510,6 +510,7 @@ baseRuleList = [
             TRule{rulename="loopSim",trule=loopSim},
             -- TODO TRule{rulename="loopConcSim",trule=loopConcSim},
             TRule{rulename="concFromChoice",trule=concFromChoice},
+            TRule{rulename="concFromChoiceSuffix",trule=concFromChoiceSuffix},
             TRule{rulename="loopFixToProb", trule=loopFixToProb},
             TRule{rulename="probLoopRoll", trule=loopFixToProb}
             ]

@@ -63,12 +63,12 @@ ptl1 =$= ptl2 = length ptl1  == length ptl2
 (Node1 PLoop (Silent w2) r w3) =&= (Silent w1)
     = True
 (Node1 PLoop x r1 w1) =&= (Node1 PLoop y r2 w2) 
-    = x =~=  (Node1 PLoop y r2 w2) 
-   || y =~=  (Node1 PLoop x r1 w1) 
+    = x =~=  Node1 PLoop y r2 w2
+   || y =~=  Node1 PLoop x r1 w1 
 (NodeN op1 ptl1 w1) =&= (Node1 PLoop y r2 w2) 
-    = (NodeN op1 ptl1 w1) =~= y
+    = NodeN op1 ptl1 w1 =~= y
 (Node1 PLoop y r2 w2) =&= (NodeN op1 ptl1 w1) 
-    = (NodeN op1 ptl1 w1) =~= y
+    = NodeN op1 ptl1 w1 =~= y
 x =&= y = False
 
 weight :: PPTree a -> Weight
@@ -225,7 +225,7 @@ formatPPTreeIndent (NodeN op ptl n) indent =
 latexPPTree :: PPTree String -> String
 latexPPTree x = latexFigBegin 
              ++ latexForestBegin 
-             ++ (latexPPTreeIndent x 4)
+             ++ latexPPTreeIndent x 4
              ++ latexForestEnd
              ++ latexFigEnd
 
@@ -247,13 +247,13 @@ latexFloat n | isInt n   = show (round n)
              | otherwise = show n
 
 latexWeight :: Weight -> String
-latexWeight n  = "\\pcol " ++ (latexFloat n)
+latexWeight n  = "\\pcol " ++ latexFloat n
 
 latexCloseNode = "]\n"
 
 latexLoopOp :: POper1 -> Repeat -> String
-latexLoopOp FLoop r = "{\\loopn[" ++ (latexFloat r) ++ "]}"
-latexLoopOp PLoop r = "{\\loopp[" ++ (latexFloat r) ++ "]}"
+latexLoopOp FLoop r = "{\\loopn[" ++ latexFloat r ++ "]}"
+latexLoopOp PLoop r = "{\\loopp[" ++ latexFloat r ++ "]}"
 
 latexNOp :: POperN -> String
 latexNOp Choice = "\\choicep"
@@ -268,7 +268,7 @@ latexPPTreeIndent (Silent n) indent =
     duplicate indentStr indent ++ "[ " ++ latexTau ++ latexWeight n 
                                ++ latexCloseNode
 latexPPTreeIndent (Node1 op x r n) indent =
-    duplicate indentStr indent ++ "[ " ++ (latexLoopOp op r) 
+    duplicate indentStr indent ++ "[ " ++ latexLoopOp op r 
         ++ latexWeight n ++ "\n"
         ++ latexPPTreeIndent x (indent+1)
         ++ duplicate indentStr indent ++ latexCloseNode 
@@ -296,15 +296,15 @@ latexMinipageEnd = "\\end{minipage}\n"
 latexRuleEg :: PPTree String -> PPTree String -> String
 latexRuleEg pt1 pt2 = latexMinipageBegin 
                    ++ latexRuleBegin 
-                   ++ (latexPPTreeIndent pt1 4)
+                   ++ latexPPTreeIndent pt1 4
                    ++ latexRuleEnd 
                    ++ latexOpSubFig
                    ++ latexRuleBegin 
-                   ++ (latexPPTreeIndent pt2 4)
+                   ++ latexPPTreeIndent pt2 4
                    ++ latexRuleEnd 
                    ++ latexMinipageEnd
-                   ++ (latexValidStatus pt1)
-                   ++ (latexValidStatus pt2)
+                   ++ latexValidStatus pt1
+                   ++ latexValidStatus pt2
 
 latexValidStatus :: PPTree String -> String
 latexValidStatus pt | validate pt = ""

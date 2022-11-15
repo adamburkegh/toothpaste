@@ -188,7 +188,7 @@ main = do
     tpargs <- cmdArgs toothpasteArgs
     inhandle <- openFile (eventlog tpargs) ReadMode
     contents <- hGetContents inhandle
-    if (null $ traceprobfile tpargs)  
+    if null $ traceprobfile tpargs  
         then do 
             let (ptContents,pnetContents) = mine tpargs contents
             writeFile (ptreefile tpargs) ptContents

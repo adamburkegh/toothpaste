@@ -124,7 +124,7 @@ fixedLoopRollLengthN x = x
 -- length > 1. It is in the paper
 fixedLoopRollSingle :: (Eq a, Ord a) => PRule a
 fixedLoopRollSingle (NodeN Seq ((Node1 FLoop u1 r1 w1):uptl) w) 
-    | nptl /= ((Node1 FLoop u1 r1 w1):uptl)  = seqP nptl w
+    | nptl /= (Node1 FLoop u1 r1 w1:uptl)  = seqP nptl w
     where nptl                               = fixedLoopRollList uptl u1 r1
 fixedLoopRollSingle (NodeN Seq (u:uptl) w) 
     | nptl /= (u:uptl)  = seqP nptl w
@@ -252,7 +252,7 @@ loopGeoList x = x
 
 
 flattenRule :: (Eq a) => PRule a
-flattenRule x = flatten x
+flattenRule = flatten 
 
 -- choice folds
 seqPrefixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
@@ -300,7 +300,7 @@ choiceSkipPrefixMerge (pt1:(NodeN Seq (pt2:ptl2) w2):ptl)
                                        (w1+w2) ] 
                (w1+w2):
           choiceSkipPrefixMerge ptl
-    | pt1 =~= pt2 && (null ptl2) 
+    | pt1 =~= pt2 && null ptl2 
         = merge pt1 pt2:choiceSkipPrefixMerge ptl
     | otherwise 
         = pt1: choiceSkipPrefixMerge (NodeN Seq (pt2:ptl2) w2:ptl)
@@ -312,10 +312,10 @@ choiceSkipPrefixMerge ((NodeN Seq (pt2:ptl2) w2):pt1:ptl)
                                        (w1+w2) ] 
                (w1+w2):
           choiceSkipPrefixMerge ptl
-    | pt1 =~= pt2 && (null ptl2) 
+    | pt1 =~= pt2 && null ptl2 
         = merge pt1 pt2:choiceSkipPrefixMerge ptl
     | otherwise 
-        = (NodeN Seq (pt2:ptl2) w2): choiceSkipPrefixMerge (pt1:ptl)
+        = NodeN Seq (pt2:ptl2) w2: choiceSkipPrefixMerge (pt1:ptl)
       where w1      = weight pt1
             silentpt1 = Silent (weight pt1)
 choiceSkipPrefixMerge ptl = ptl
@@ -397,7 +397,10 @@ concMapFromSeqChildren1 :: (Ord a) => [[PPTree a]] -> [[PPTree a]]
 concMapFromSeqChildren1 (ptl:ptls) (tptl:tptls)
     | ptlw0 `Map.member` sm 
         = Map.adjust 
-            (\(exptl,extptl) -> (mergeConcPair ptl exptl,tslptl:extptl) ) 
+            (\(exptl,extptl) -> (mergeConcPair ptl exptl,tslptl:extptl) )
+            -- hlint will suggest 
+            -- Data.Bifunctor.bimap (mergeConcPair ptl) (tslptl :)
+            -- which doesn't actually compile
             ptlw0 sm
     | pmlw0 `Map.member` sm && ptlw0 /= pmlw0 
         = Map.adjust 

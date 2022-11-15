@@ -32,7 +32,7 @@ permute (x:xs) = concatMap (\(y,yl) -> headify y (permute yl)  )
 permute []     = [[]]
 
 loud :: PPTree a -> Bool
-loud (NodeN op ptl w) = all (loud) ptl
+loud (NodeN op ptl w) = all loud ptl
 loud (Node1 FLoop pt r w) = loud pt
 loud (Node1 PLoop pt r w) = False
 loud (Leaf x w) = True
@@ -49,10 +49,10 @@ data PFToken a = PFSymbol a | PFSilent | PFNull
     deriving (Show,Eq,Ord)
 
 pfleaf :: a -> Weight -> PFTree a
-pfleaf x w = PFNode (PFSymbol x) [] w
+pfleaf x = PFNode (PFSymbol x) [] 
 
 pfsilent :: Weight -> PFTree a
-pfsilent w = PFNode PFSilent [] w
+pfsilent = PFNode PFSilent [] 
 
 pfweight :: PFTree a -> Weight
 pfweight (PFNode t ctl w) = w
@@ -123,10 +123,10 @@ probSeqS s n ptl      = 0
 -- probPLoop is an approximation for silent subtrees
 -- sigma subtree reps epsilon
 probPLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float -> Float
-probPLoop [] pt r eps = (1/r) + (prob [] pt) / r**2
+probPLoop [] pt r eps = (1/r) + prob [] pt / r**2
 probPLoop s pt r eps | length s == 1 = prob s pt *((r-1)/r^2) 
-                                     + prob s pt * (prob [] pt) / r**2  
-                     | loud (pt) = (probLoudLoop s pt r) /r 
+                                     + prob s pt * prob [] pt / r**2  
+                     | loud pt   = probLoudLoop s pt r /r 
                      | otherwise = probPLoopApprox s pt r eps
 
 
@@ -134,15 +134,15 @@ probLoudLoop :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float
 probLoudLoop s pt r = probPLoopNth s pt r 1 (length s)
                         
 probPLoopApprox :: (Eq a, Ord a) => [a] -> PPTree a -> Float -> Float -> Float
-probPLoopApprox s pt r eps = (probPLoopNth s pt r 1 k)/r
+probPLoopApprox s pt r eps = probPLoopNth s pt r 1 k/r
             where k = findLoopApproxK r eps
 
 probPLoopNth ::  (Eq a, Ord a) => [a] -> PPTree a -> Float -> Int -> Int 
                                       -> Float 
 probPLoopNth s pt r i n | i < n  = pli + probPLoopNth s pt r (i+1) n
                         | i >= n = pli 
-            where pli = ((r-1)/r)^i * (prob s (Node1 FLoop pt (fromIntegral i) 
-                                                               (weight pt)) )
+            where pli = ((r-1)/r)^i * prob s (Node1 FLoop pt (fromIntegral i) 
+                                                              (weight pt)) 
  
 findLoopApproxK :: Float -> Float -> Int
 findLoopApproxK r eps = findLoopApproxKAccum r eps (r-1) 1
@@ -166,14 +166,14 @@ pathset (NodeN Conc ptl w) eps   = ps2Conc (NodeN Conc ptl w) eps
 pathset (NodeN op [] w) eps   = 
     warn "empty NodeN children in pathset" PFNode PFNull [] w
 pathset (Node1 FLoop pt r w) eps = 
-    pfappend pf (duplicate [pf] ((round r)-1)) 
+    pfappend pf (duplicate [pf] (round r-1)) 
     where pf = pathset pt eps
 pathset (Node1 PLoop pt r w) eps = 
-    PFNode PFSilent ((pfsilent (w/r)):npf:(ps2PLoop pf pf (k-1) nw r)) w
+    PFNode PFSilent (pfsilent (w/r):npf:ps2PLoop pf pf (k-1) nw r) w
     where k  = findLoopApproxK r eps
           (PFNode t ctl w1) = pathset pt eps
           pf  = PFNode t ctl w1
-          nw  = ((w1*(r-1))/(r*r))
+          nw  = (w1*(r-1))/(r*r)
           npf = PFNode t ctl nw
 
 
@@ -188,10 +188,10 @@ pfappend (PFNode x pcl w) (pf:pfl)  = PFNode x (map (\p -> pfappend p (pf:pfl))
 ps2PLoop :: PFTree a -> PFTree a -> Int -> Weight -> Float -> [PFTree a]
 ps2PLoop pf cumpf 0 w r = []
 ps2PLoop (PFNode x pcl w) cumpf k cw r = 
-    npf:(ps2PLoop pf ncumpf (k-1) nw r) 
+    npf:ps2PLoop pf ncumpf (k-1) nw r
     where pf      = PFNode x pcl w
           npf     = pfappend (PFNode x pcl nw) [cumpf]
-          nw      = (cw*(r-1)/r)
+          nw      = cw*(r-1)/r
           ncumpf  = pfappend pf [cumpf]
 
 ps3 :: (Eq a, Ord a) => PPTree a -> PFTree a
@@ -200,7 +200,7 @@ ps3 pt = pathset pt defaulteps
 ps2Conc :: (Eq a, Ord a) => PPTree a -> Float -> PFTree a
 ps2Conc (NodeN Conc (pt1:pt2:ptl) w) eps = 
     pfappend (PFNode PFSilent ctl w) [pfsilent w]
-    where (PFNode t ctl sw) = pfshuffleList (map (\p -> pathset p eps) 
+    where (PFNode t ctl sw) = pfshuffleList (map (`pathset` eps) 
                                                  (pt1:pt2:ptl))
 ps2Conc (NodeN Conc [pt] w) eps = 
     pfappend (PFNode PFSilent [] w) 
@@ -210,12 +210,12 @@ ps2Conc (NodeN Conc [pt] w) eps =
 -- collapse nulls not in parent
 pfcollapse :: PFTree a -> PFTree a
 pfcollapse (PFNode PFNull [c] w) = pfcollapse c
-pfcollapse (PFNode t ctl w) = PFNode t (concat (map pfChildCollapse ctl)) w 
+pfcollapse (PFNode t ctl w) = PFNode t (concatMap pfChildCollapse ctl) w 
 
 pfChildCollapse :: PFTree a -> [PFTree a]
-pfChildCollapse (PFNode PFNull ctl w) = concat (map pfChildCollapse ctl)
+pfChildCollapse (PFNode PFNull ctl w) = concatMap pfChildCollapse ctl
 pfChildCollapse (PFNode t ctl w)      = 
-    [PFNode t (concat (map pfChildCollapse ctl)) w]
+    [PFNode t (concatMap pfChildCollapse ctl) w]
 
 
 pfshuffle :: (Eq a) => PFTree a -> PFTree a -> PFTree a
@@ -239,48 +239,48 @@ pfs (PFNode PFNull [] w1) pf2 = pf2
 pfs (PFNode t1 [] w1) (PFNode PFNull ctl2 w12) = 
     PFNode t1 ctl2 w1
 pfs (PFNode t1 [] w1) (PFNode t2 ctl2 w12) = 
-    PFNode t1 [(PFNode t2 ctl2 w12)] w1
+    PFNode t1 [PFNode t2 ctl2 w12] w1
 pfs (PFNode PFNull (c1:ctl1) w1) (PFNode t2 ctl2 wl2) =
     PFNode PFNull
-           (map (\p -> pfs p pf2)
+           (map (`pfs` pf2)
                    (c1:ctl1))
            w1
-    where pf2 = (PFNode t2 ctl2 wl2)
+    where pf2 = PFNode t2 ctl2 wl2
 pfs (PFNode t1 (c1:ctl1) w1) (PFNode t2 ctl2 w12) = 
     PFNode t1 
-           ((pfs pf2 (PFNode PFNull (c1:ctl1) w1))
-           :(map (\p -> pfs p pf2) (c1:ctl1) ) )
+           (pfs pf2 (PFNode PFNull (c1:ctl1) w1)
+           :map (`pfs` pf2) (c1:ctl1) ) 
            w1
-    where pf2 = (PFNode t2 ctl2 w12)
+    where pf2 = PFNode t2 ctl2 w12
 
 
 -- prefix tree prob
 pfprob :: (Eq a) => [a] -> PFTree a -> Float
 pfprob (sh:st) (PFNode (PFSymbol x) (n:ns) w) 
     | ph == 0   = 0
-    | otherwise = ph * (sum (map (\c -> (pfprob st c) * (pfweight c) / ct)  
-                                 (n:ns) ) )    
+    | otherwise = ph * sum (map (\c -> pfprob st c * pfweight c / ct)  
+                                 (n:ns) )     
     where ph = pftokenprob [sh] (PFSymbol x)
           ct = sum (map pfweight (n:ns))
-pfprob (sh:st) (PFNode (et) (n:ns) w) 
+pfprob (sh:st) (PFNode et (n:ns) w) 
     | et == PFSilent || et == PFNull
-    = (sum (map (\c -> (pfprob (sh:st) c) * (pfweight c) / ct)  
-                            (n:ns) ) )    
+    = sum (map (\c -> pfprob (sh:st) c * pfweight c / ct)  
+                            (n:ns) )     
     where ct = sum (map pfweight (n:ns))
 pfprob s  (PFNode x [] w) = pftokenprob s x
 pfprob [] (PFNode x cfl w) 
     | ph == 0   = 0
-    | otherwise = ph * (sum (map (\c -> (pfprob [] c) * (pfweight c) / ct)
-                                 cfl ) )
+    | otherwise = ph * sum (map (\c -> pfprob [] c * pfweight c / ct)
+                                 cfl ) 
     where ph = pftokenprob [] x 
           ct = sum (map pfweight cfl)
 
 pftokenprob :: (Eq a) => [a] -> PFToken a -> Float
 pftokenprob s (PFSymbol x) | s == [x]  = 1
                            | otherwise = 0
-pftokenprob s (PFSilent)   | s == []   = 1
+pftokenprob s PFSilent     | null s    = 1
                            | otherwise = 0
-pftokenprob s (PFNull)     | s == []   = 1
+pftokenprob s PFNull       | null s    = 1
                            | otherwise = 0
 
 

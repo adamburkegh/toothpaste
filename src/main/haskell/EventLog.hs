@@ -22,7 +22,7 @@ dcdtComment = "#"
 doubleComma = ",,"
 parseDCDT :: String -> Log String
 parseDCDT rawtext = 
-    map (splitOn doubleComma) $ filter (\x -> not (isPrefixOf dcdtComment x) ) 
+    map (splitOn doubleComma) $ filter (not . isPrefixOf dcdtComment)
         $ lines rawtext
 
 -- Activity indexing decorator

@@ -174,6 +174,7 @@ norm1 (NodeN Conc ptl w) =
 norm1 (NodeN Seq ptl w) = flatten $ NodeN Seq (map norm ptl) w
 
 
+-- Note included conc flattening
 flatten :: (Eq a) => PPTree a -> PPTree a
 flatten (NodeN op1 ptl w) = NodeN op1 (flattenList op1 ptl) w
 flatten x = x

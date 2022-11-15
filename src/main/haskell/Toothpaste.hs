@@ -48,6 +48,8 @@ silentConc (NodeN Conc (pt:pts) w)         = NodeN Conc (pt:ptsr) w
             where NodeN Conc ptsr w2 = silentConc (NodeN Conc pts w)
 silentConc x = x
 
+-- Includes single node collapse and conc single node collapse in single rule 
+-- in this impl
 singleNodeOp :: PRule a
 singleNodeOp (NodeN op [u] w)  = u
 singleNodeOp x = x
@@ -329,6 +331,7 @@ choiceSkipPrefixCompress pt = norm $ choiceFoldPrefix $ choiceSkipPrefix pt
 -- conc creation
 -- len == 2 only
 -- includes concSubsume rule as considers all sequence prefixes
+-- (but only for the case where candidates don't emerge later)
 concFromChoice :: (Eq a, Ord a) => PRule a
 concFromChoice = choiceChildMR concFromChoiceList 
 
@@ -353,12 +356,17 @@ concFromSeqList ptl
           rs        = concMapFromSeqChildren hds tls
 
 convertConcMapEntryToNode :: (Ord a) => [PPTree a] -> [[PPTree a]] -> PPTree a
-convertConcMapEntryToNode ptl tptl
-    | length tptl > 1  && not (null cc) = seqP [concP ptl w, choiceP cc w] w
-    | length tptl > 1  && null cc       = concP ptl w
-    | otherwise        = seqP (ptl ++ head tptl ) w
-    where w  = sum $ map weight ptl
-          cc = mapMaybe convertConcTailEntry tptl
+convertConcMapEntryToNode ptl tptl 
+    | onlySilent cr = concP ptl w
+    | otherwise     = seqP [concP ptl w, cr] w
+    where w    = sum $ map weight ptl
+          cc   = mapMaybe convertConcTailEntry tptl 
+          cr   = singleNodeOp $ choiceSim $ choiceP cc w 
+
+onlySilent :: PPTree a -> Bool
+onlySilent (Silent w) = True
+onlySilent pt         = False
+
 
 convertConcTailEntry :: [PPTree a] -> Maybe (PPTree a)
 convertConcTailEntry [pt] = Just pt
@@ -389,18 +397,20 @@ concMapFromSeqChildren1 :: (Ord a) => [[PPTree a]] -> [[PPTree a]]
 concMapFromSeqChildren1 (ptl:ptls) (tptl:tptls)
     | ptlw0 `Map.member` sm 
         = Map.adjust 
-            (\(exptl,extptl) -> (mergeConcPair ptl exptl,tptl:extptl) ) 
+            (\(exptl,extptl) -> (mergeConcPair ptl exptl,tslptl:extptl) ) 
             ptlw0 sm
     | pmlw0 `Map.member` sm && ptlw0 /= pmlw0 
         = Map.adjust 
-            (\(exptl,extptl) -> (mergeConcPair exptl pml,tptl:extptl) ) 
+            (\(exptl,extptl) -> (mergeConcPair exptl pml,tslptl:extptl) ) 
             pmlw0 sm
-    | otherwise           = Map.insert ptlw0 (ptl,[tptl]) sm
+    | otherwise           = Map.insert ptlw0 (ptl,[tslptl]) sm
     where sm  = concMapFromSeqChildren1 ptls tptls
           ptlw0   = map unityWeights ptl
           pml     = reverse ptl
           pmlw0   = reverse ptlw0
+          tslptl  = emptyListToSilentChild tptl (weight $ head ptl)
 concMapFromSeqChildren1 [] _ = Map.empty
+
 
 -- set all weights to 1 to allow similarity comparison in maps
 unityWeights :: PPTree a -> PPTree a
@@ -408,6 +418,13 @@ unityWeights (Leaf x n) = Leaf x 1
 unityWeights (Silent n) = Silent 1
 unityWeights (Node1 op x r n) = Node1 op (unityWeights x) r 1
 unityWeights (NodeN op ptl n) = NodeN op (map unityWeights ptl) 1
+
+
+
+emptyListToSilentChild :: [PPTree a] -> Weight -> [PPTree a] 
+emptyListToSilentChild ptl w | null ptl     = [Silent w]
+                             | otherwise    = ptl
+
 
 listTo2Tuple :: [PPTree a] -> (PPTree a,PPTree a)
 listTo2Tuple [x,y] = (x,y)
@@ -428,6 +445,33 @@ mergeConcPairT (ptx1,pty1) (ptx2,pty2)
        scale (merge pty1 pty2) (w2/(w1+w2))] 
     where w1 = weight ptx1
           w2 = weight ptx2
+
+
+
+concFromChoiceSuff :: (Eq a, Ord a) => PRule a
+concFromChoiceSuff = choiceChildMR concFromChoiceList 
+
+concFromChoiceListSuff :: (Eq a, Ord a) => LRule a
+concFromChoiceListSuff ptl
+    | length rs /= length sq  = rs ++ fl
+    | otherwise               = ptl
+    where sq = filter isNontrivSeq ptl
+          fl = filter (not . isNontrivSeq) ptl
+          rs = concFromSeqListSuff sq
+
+tail2 :: [a] -> [a]
+tail2 (x:y:xs)  | null xs    = [x,y]
+                | otherwise  = tail2 (y:xs)
+tail2 [x] = []
+tail2 [] = []
+
+concFromSeqListSuff :: (Ord a) => [PPTree a] -> [PPTree a]
+concFromSeqListSuff ptl 
+    | length rs /= length hds 
+        = map (uncurry convertConcMapEntryToNode) (Map.toList rs)
+    | otherwise               = ptl
+    where (hds,tls) = unzip $ map (splitAt 2 . children) ptl
+          rs        = concMapFromSeqChildren tls hds
 
 
 

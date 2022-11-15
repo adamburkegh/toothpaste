@@ -25,8 +25,13 @@ saaa = NodeN Seq [la,la,la] 1
 saaat = NodeN Seq [la,NodeN Seq [la,la] 1] 1
 
 sab  = NodeN Seq [la,lb] 1
+sabc  = NodeN Seq [la,lb,lc] 1
 sba  = NodeN Seq [lb,la] 1
 sba2 = NodeN Seq [lb2,la2] 2
+sbc2 = seqP [lb2,lc2] 2
+sbad2  = NodeN Seq [lb2,la2,ld2] 2
+sca = seqP [lc,la] 1
+sdb2 = seqP [ld2,lb2] 1
 
 ccab1 = NodeN Conc [la,lb] 2
 
@@ -396,17 +401,49 @@ loopGeoTests = [
 
 -- conc
 
-concFromChoiceTests = [ 
+concFromChoicePrefTests = [ 
     "concFromChoice1" ~: concFromChoice ccab1 ~=? ccab1,
     "concFromChoice2" ~: concFromChoice la  ~=? la,
     "concFromChoice3" ~: concP [la,lb] 2 
                             ~=? concFromChoice( NodeN Choice [sab,sba] 2),
-    -- Fails due to using equality instead of similarity
     "concFromChoice4" ~: concP [la,lb2] 3 
-                            ~=? concFromChoice( NodeN Choice [sab,sba2] 3) 
+                            ~=? concFromChoice( NodeN Choice [sab,sba2] 3) ,
+    "concFromChoice5" ~: seqP [ concP [la,lb2] 3, choiceP [lc,Silent 2] 3 ] 3
+                            ~=? concFromChoice( NodeN Choice [sabc,sba2] 3),
+    "concFromChoice6" ~: seqP [ concP [la,lb2] 3, choiceP [lc,ld2] 3 ] 3
+                            ~=? concFromChoice( NodeN Choice [sabc,sbad2] 3) 
                             ]
 
 -- TODO many more len > 2 cases at different levels
+
+emptyPPTL :: [PPTree Int] 
+emptyPPTL = []
+
+tail2Tests = [ "empty" ~: emptyPPTL ~=? tail2 [],
+               "l1" ~: [] ~=? tail2 [1],
+               "l2" ~: [1,2] ~=? tail2 [1,2],
+               "l3" ~: [2,3] ~=? tail2 [1,2,3]
+               ]
+
+concFromChoiceSuffTests = [ 
+    "cfcLeaf"   ~: concFromChoiceSuff la ~=? la,
+    "concNoop"  ~: concFromChoiceSuff ccab1 ~=? ccab1,
+    "cfcs1" ~: concP [la,lb] 2 
+                        ~=? concFromChoiceSuff( NodeN Choice [sab,sba] 2),
+    "cfcs2" ~: concP [la,lb2] 3 
+                        ~=? concFromChoiceSuff( NodeN Choice [sab,sba2] 3) 
+    -- fail due to suff bug TODO
+    -- "cfcs5" ~: seqP [ choiceP [la, Silent 2] 3, 
+    --                   concP [lb,lc2] 3] 3 
+    --                     ~=? concFromChoiceSuff( NodeN Choice [sabc,sbc2] 3),
+    -- fail due to suff bug TODO
+    -- "cfcs6" ~: seqP [ choiceP [lc,ld2] 3,  concP [la,lb2 ] 3 ] 3
+    --                     ~=? concFromChoiceSuff( NodeN Choice [sca,sdb2] 3) 
+    ]
+
+concFromChoiceTests = concFromChoicePrefTests
+                   ++ tail2Tests
+                   ++ concFromChoiceSuffTests
 
 --
 

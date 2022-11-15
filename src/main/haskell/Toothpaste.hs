@@ -350,18 +350,30 @@ concFromChoiceList ptl
 concFromSeqList :: (Ord a) => [PPTree a] -> [PPTree a]
 concFromSeqList ptl 
     | length rs /= length hds 
-        = map (uncurry convertConcMapEntryToNode) (Map.toList rs)
+        = map (uncurry convertConcMapEntryToNodePrefix) (Map.toList rs)
     | otherwise               = ptl
     where (hds,tls) = unzip $ map (splitAt 2 . children) ptl
           rs        = concMapFromSeqChildren hds tls
 
-convertConcMapEntryToNode :: (Ord a) => [PPTree a] -> [[PPTree a]] -> PPTree a
-convertConcMapEntryToNode ptl tptl 
+
+
+convertConcMapEntryToNode :: (Ord a) => 
+    ([PPTree a] -> [PPTree a]) -> [PPTree a] -> [[PPTree a]] 
+        -> PPTree a
+convertConcMapEntryToNode frc ptl tptl 
     | onlySilent cr = concP ptl w
-    | otherwise     = seqP [concP ptl w, cr] w
+    | otherwise     = seqP (frc [concP ptl w, cr]) w
     where w    = sum $ map weight ptl
           cc   = mapMaybe convertConcTailEntry tptl 
           cr   = singleNodeOp $ choiceSim $ choiceP cc w 
+
+convertConcMapEntryToNodePrefix :: (Ord a) => 
+    [PPTree a] -> [[PPTree a]] -> PPTree a
+convertConcMapEntryToNodePrefix = convertConcMapEntryToNode id
+
+convertConcMapEntryToNodeSuffix :: (Ord a) => 
+    [PPTree a] -> [[PPTree a]] -> PPTree a
+convertConcMapEntryToNodeSuffix = convertConcMapEntryToNode reverse
 
 onlySilent :: PPTree a -> Bool
 onlySilent (Silent w) = True
@@ -452,7 +464,7 @@ mergeConcPairT (ptx1,pty1) (ptx2,pty2)
 
 
 concFromChoiceSuff :: (Eq a, Ord a) => PRule a
-concFromChoiceSuff = choiceChildMR concFromChoiceList 
+concFromChoiceSuff = choiceChildMR concFromChoiceListSuff 
 
 concFromChoiceListSuff :: (Eq a, Ord a) => LRule a
 concFromChoiceListSuff ptl
@@ -462,18 +474,19 @@ concFromChoiceListSuff ptl
           fl = filter (not . isNontrivSeq) ptl
           rs = concFromSeqListSuff sq
 
-tail2 :: [a] -> [a]
-tail2 (x:y:xs)  | null xs    = [x,y]
-                | otherwise  = tail2 (y:xs)
-tail2 [x] = []
-tail2 [] = []
+tail2 :: [a] -> ([a],[a])
+tail2 (x:y:xs)  | null xs    = ([],[x,y])
+                | otherwise  = (x:nh,nt) 
+    where (nh,nt) = tail2 (y:xs)
+tail2 [x]   = ([],[])
+tail2 []    = ([],[])
 
 concFromSeqListSuff :: (Ord a) => [PPTree a] -> [PPTree a]
 concFromSeqListSuff ptl 
     | length rs /= length hds 
-        = map (uncurry convertConcMapEntryToNode) (Map.toList rs)
+        = map (uncurry convertConcMapEntryToNodeSuffix) (Map.toList rs)
     | otherwise               = ptl
-    where (hds,tls) = unzip $ map (splitAt 2 . children) ptl
+    where (hds,tls) = unzip $ map (tail2 . children) ptl
           rs        = concMapFromSeqChildren tls hds
 
 

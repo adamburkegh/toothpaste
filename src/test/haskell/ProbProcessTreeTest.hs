@@ -31,7 +31,10 @@ normTests = [
         norm (NodeN Seq [ld3,
                          NodeN Choice [la,
                                        NodeN Choice [Silent 1,lc] 2] 
-                                3] 3 )
+                                3] 3 ),
+    "floop1"  ~: la   ~=? norm (Node1 FLoop la 1 1),
+    "floop2"  ~: lfb  ~=? norm lfb,
+    "loop"    ~: lpa3 ~=? norm lpa3
     ]
 
 simTests = [ 

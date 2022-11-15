@@ -63,8 +63,8 @@ ptl1 =$= ptl2 = length ptl1  == length ptl2
 (Node1 PLoop (Silent w2) r w3) =&= (Silent w1)
     = True
 (Node1 PLoop x r1 w1) =&= (Node1 PLoop y r2 w2) 
-    = (x =~=  (Node1 PLoop y r2 w2) )
-   || (y =~=  (Node1 PLoop x r1 w1) )
+    = x =~=  (Node1 PLoop y r2 w2) 
+   || y =~=  (Node1 PLoop x r1 w1) 
 (NodeN op1 ptl1 w1) =&= (Node1 PLoop y r2 w2) 
     = (NodeN op1 ptl1 w1) =~= y
 (Node1 PLoop y r2 w2) =&= (NodeN op1 ptl1 w1) 
@@ -157,13 +157,16 @@ seqMerge x y = scale (merge x y) 0.5
 -- Lossy version - includes concurrency flattening 
 norm ::  (Ord a, Eq a) => PPTree a -> PPTree a
 norm pt | pt == ptn = pt
-        | otherwise = norm ptn
+        | otherwise = ptn
     where ptn = norm1 pt
 
 norm1 :: (Ord a, Eq a) => PPTree a -> PPTree a
 norm1 (Leaf x w) = Leaf x w
 norm1 (Silent w) = Silent w
-norm1 (Node1 op pt r w) = Node1 op (norm pt) r w
+norm1 (Node1 FLoop pt r w) 
+    | r == 1    = norm pt     -- Fixed Loop id rule
+    | otherwise = Node1 FLoop (norm pt) r w
+norm1 (Node1 PLoop pt r w) = Node1 PLoop (norm pt) r w
 norm1 (NodeN Choice ptl w) = 
         choiceP (flattenList Choice (map norm ptl) ) w
 norm1 (NodeN Conc ptl w) = 

@@ -70,6 +70,21 @@ eqTests = ["eqLeaf1" ~: Leaf "a" 1 ~=? Leaf "a" 1,
            "eqNode1" ~: cab ~=? cab,
            "eqNode2" ~: cab /= cab2 @? "neq"]
 
+
+-- Meta rule tests
+adjMergeTests = [ 
+        "empty"     ~: ([]::[Int])  ~=? adjMerge (==) (+) ([]::[Int]),
+        "single"    ~: [1]       ~=? adjMerge (==) (+) [1],
+        "double"    ~: [2]       ~=? adjMerge (==) (+) [1,1],
+        "double2"   ~: [6]       ~=? adjMerge (==) (+) [3,3],
+        "doubleNo"  ~: [1,2]       ~=? adjMerge (==) (+) [1,2],
+        "tripleNo"  ~: [1,2,3]       ~=? adjMerge (==) (+) [1,2,3],
+        "tripleSame"  ~: [6,3]       ~=? adjMerge (==) (+) [3,3,3],
+        "tripleAll"   ~: [9]       ~=? adjMerge (>=) (+) [3,3,3],
+        "tripleHead"  ~: [10,2]       ~=? adjMerge (==) (+) [5,5,2],
+        "tripleMid"   ~: [1,10]       ~=? adjMerge (==) (+) [1,5,5]
+    ]
+
 -- Rule tests
 
 silentSeqTests = [
@@ -285,8 +300,14 @@ choiceSkipPrefixCompressTests = [
 
 
 fixedLoopRollTests = [
+    "floopEq"    ~: la `floopContEq` Node1 FLoop la 2 1 ~=? True,
+    "floopEq2"   ~: la == la ~=? True,
     "floopRoll1" ~: fixedLoopRoll la ~=? la,
-    "floopRoll2" ~: Node1 FLoop la 2 1 ~=? fixedLoopRoll saa , 
+    "floopRollSingle1" ~: Node1 FLoop la 2 1 ~=? fixedLoopRollSingle saa , 
+    "floopRollSingle2" ~: Node1 FLoop la 2 1 ~=? fixedLoopRoll saa , 
+    "floopRollExists3" ~: saa ~=? fixedLoopRollExisting saa,
+    "floopRollExists4" ~: Node1 FLoop la 6 1 ~=?
+            fixedLoopRollExisting (NodeN Seq [Node1 FLoop la 5 1,la] 1),
     "floopRoll3" ~: Node1 FLoop la 3 1 ~=? fixedLoopRoll saaa ,
     "floopRoll4" ~: Node1 FLoop la 4 1 
                         ~=? fixedLoopRoll (NodeN Seq [la,la,la,la] 1),
@@ -409,6 +430,9 @@ concFromChoicePrefTests = [
     "concFromChoice2" ~: concFromChoice la  ~=? la,
     "concFromChoice3" ~: concP [la,lb] 2 
                             ~=? concFromChoice( NodeN Choice [sab,sba] 2),
+    -- FAILS due to BUG 
+    -- "concFromChoiceSeqNoop" ~: choiceP [sab,sab] 2
+    --                        ~=? concFromChoice( NodeN Choice [sab,sab] 2),
     "concFromChoice4" ~: concP [la,lb2] 3 
                             ~=? concFromChoice( NodeN Choice [sab,sba2] 3) ,
     "concFromChoice5" ~: seqP [ concP [la,lb2] 3, choiceP [lc,Silent 2] 3 ] 3
@@ -521,6 +545,8 @@ validateTests = [
 
 --
 
+metaRuleTests = adjMergeTests
+
 ruleTests   = silentSeqTests  ++ silentConcTests
            ++ singleNodeOpTests 
            ++ choiceSimTests ++ loopSimTests
@@ -541,5 +567,6 @@ huTests     = eqTests
             ++ transformTests
             ++ ruleTests
             ++ validateTests
+            ++ metaRuleTests
 
 

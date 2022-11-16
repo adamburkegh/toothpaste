@@ -36,6 +36,20 @@ type PPTRuleTransform a = PPTree a -> [TRule a] -> PPTree a
 
 -- Rules
 
+-- Meta rule functions
+
+-- consMerge simFunction mergeFunction childList
+-- if simFunction on adjacent children, merge them
+adjMerge :: (a->a->Bool) -> (a->a->a) -> [a] -> [a]
+adjMerge simF mergeF (x:y:xs)
+    | x `simF` y = adjMerge simF mergeF (x `mergeF` y:xs)
+    | otherwise         = x: adjMerge simF mergeF (y:xs)
+adjMerge sf mf [x] = [x]
+adjMerge sf mf []  = []
+
+
+-- Rules proper
+
 silentSeq :: PRule a
 silentSeq (NodeN Seq ((Silent _):pts) w) = silentSeq (NodeN Seq pts w)
 silentSeq (NodeN Seq (pt:pts) w)         = NodeN Seq (pt:ptsr) w
@@ -62,51 +76,57 @@ choiceChildMR crule (NodeN Choice ptl w)
 choiceChildMR crule x = x
 
 choiceSim :: (Eq a, Ord a) => PRule a
-choiceSim = choiceChildMR choiceSimList
-
-choiceSimList :: (Eq a, Ord a) => LRule a
-choiceSimList (u1:u2:ptl) | u1 =~= u2 = choiceSimList (merge u1 u2:ptl)
-                          | otherwise = u1 : choiceSimList (u2:ptl)
-choiceSimList x = x
+choiceSim = choiceChildMR (adjMerge (=~=) merge)
 
 loopSim :: (Eq a, Ord a) => PRule a
-loopSim = choiceChildMR loopSimList
-
-loopSimList :: (Eq a, Ord a) => LRule a
-loopSimList (u1:u2:ptl) | u1 =&= u2 = loopSimList (lmerge u1 u2:ptl)
-                          | otherwise = u1 : loopSimList (u2:ptl)
-loopSimList x = x
-
+loopSim = choiceChildMR  (adjMerge (=&=) lmerge)
 
 concSim :: Eq a => PRule a
 concSim (NodeN Conc ptl w)
     | ptl /= cr = NodeN Conc cr w
-    where cr = concSimList ptl
+    where cr = (adjMerge (=~=) concMerge) ptl
 concSim x = x
 
-concSimList :: (Eq a) => LRule a
-concSimList (u1:u2:ptl) 
-    | u1 =~= u2 = concSimList (Node1 FLoop (merge u1 u2) 2 (w1+w2):ptl)
-    | otherwise = u1:concSimList (u2:ptl)
-        where w1 = weight u1 
-              w2 = weight u2
-concSimList x = x
+concMerge :: PPTree a -> PPTree a -> PPTree a
+concMerge u1 u2 = Node1 FLoop (merge u1 u2) 2 (w1+w2)
+    where w1 = weight u1 
+          w2 = weight u2
 
-
-loopConcSimList :: (Eq a) => LRule a
-loopConcSimList (u1:u2:ptl) 
-    | u1 =&= u2 = loopConcSimList (Node1 FLoop (lmerge u1 u2) 2 (w1+w2):ptl)
-    | otherwise = u1:loopConcSimList (u2:ptl)
-        where w1 = weight u1 
-              w2 = weight u2
-loopConcSimList x = x
+lconcMerge :: PPTree a -> PPTree a -> PPTree a
+lconcMerge u1 u2 = Node1 FLoop (lmerge u1 u2) 2 (w1+w2)
+    where w1 = weight u1 
+          w2 = weight u2
 
 loopConcSim :: Eq a => PRule a
 loopConcSim (NodeN Conc ptl w)
     | ptl /= cr = NodeN Conc cr w
-    where cr = loopConcSimList ptl
+    where cr = (adjMerge (=&=) lconcMerge) ptl
 loopConcSim x = x
 
+fixedLoopRollSingle :: Eq a => PRule a
+fixedLoopRollSingle (NodeN Seq ptl w)
+    | ptl /= cr = seqP cr w
+    where cr = (adjMerge (==) (\u1 u2 -> Node1 FLoop u1 2 (weight u1) )) 
+               ptl
+fixedLoopRollSingle x = x
+
+floopContEq :: Eq a => PPTree a -> PPTree a -> Bool
+floopContEq (Node1 FLoop u1 r1 w1) (Node1 FLoop u2 r2 w2) = u1 == u2
+floopContEq (Node1 FLoop u1 r w) u2 = u1 == u2
+floopContEq u1 (Node1 FLoop u2 r w) = u1 == u2
+floopContEq u1 u2                   = False
+
+floopContMerge :: PPTree a -> PPTree a -> PPTree a
+floopContMerge (Node1 FLoop u1 r1 w1) (Node1 FLoop u2 r2 w2) 
+    = Node1 FLoop u1 (r1+r2) w1
+floopContMerge (Node1 FLoop u1 r w) u2 = Node1 FLoop u1 (r+1) w
+floopContMerge u1 (Node1 FLoop u2 r w) = Node1 FLoop u2 (r+1) w
+
+fixedLoopRollExisting :: Eq a => PRule a
+fixedLoopRollExisting (NodeN Seq ptl w)
+    | ptl /= cr = seqP cr w
+    where cr = (adjMerge floopContEq floopContMerge) ptl
+fixedLoopRollExisting x = x
 
 -- This version will identify repeated subsequences of length >1, but has
 -- issues. It does not have a formal equivalent in the corresponding papers, 
@@ -120,19 +140,8 @@ fixedLoopRollLengthN (NodeN Seq ptl w)
           nptl     = head rs
 fixedLoopRollLengthN x = x    
 
--- This version will roll adjacent nodes up, but not recognize repeats of
--- length > 1. It is in the paper
-fixedLoopRollSingle :: (Eq a, Ord a) => PRule a
-fixedLoopRollSingle (NodeN Seq ((Node1 FLoop u1 r1 w1):uptl) w) 
-    | nptl /= (Node1 FLoop u1 r1 w1:uptl)  = seqP nptl w
-    where nptl                               = fixedLoopRollList uptl u1 r1
-fixedLoopRollSingle (NodeN Seq (u:uptl) w) 
-    | nptl /= (u:uptl)  = seqP nptl w
-    where nptl         = fixedLoopRollList uptl u 1
-fixedLoopRollSingle x = x    
-
 fixedLoopRoll :: (Eq a, Ord a) => PRule a
-fixedLoopRoll = fixedLoopRollSingle
+fixedLoopRoll pt = fixedLoopRollExisting $ fixedLoopRollSingle pt
 
 
 fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
@@ -490,6 +499,27 @@ concFromSeqListSuff ptl
           rs        = concMapFromSeqChildren tls hds
 
 
+isConc :: PPTree a -> Bool
+isConc (NodeN Conc ptl w) = True
+isConc pt                 = False
+
+{-
+concSubsume :: (Eq a, Ord a) => PRule a
+concSubsume = choiceChildMR concSubsumeList
+
+concSubsumeList :: (Eq a, Ord a) => LRule a
+concSubsumeList ptl
+    | (not $ null cq) && length rs /= length sq  
+                              = rs ++ fl
+    | otherwise               = ptl
+    where sq = filter isNontrivSeq ptl
+          fl = filter (not . isNontrivSeq) ptl
+          cq = filter isConc ptl
+          rs = concSubsumeFromSeqListPref sq
+
+concSubsumeFromSeqListPref :: (Ord a) => [PPTree a] -> [PPTree a] [PPTree a]
+concSubsumeFromSeqListPref sptl cptl = something
+-}
 
 -- Rule lists
 

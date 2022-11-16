@@ -68,7 +68,7 @@ singleNodeOp (NodeN op [u] w)  = u
 singleNodeOp x = x
 
 choiceChildMR :: (Eq a, Ord a) => 
-    ([PPTree a] -> [PPTree a]) -> PPTree a -> PPTree a
+    LRule a -> PPTree a -> PPTree a
 choiceChildMR crule (NodeN Choice ptl w) 
     | ptl /= cr  = choiceP cr w
     where cr = crule ptl
@@ -135,59 +135,6 @@ loopRollEndPattern prev ct poper
     | ct > 1  = Node1 poper prev ct (weight prev)
     | ct <= 1 = prev
 
-{-
-fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
-fixedLoopRollEndPattern prev ct = loopRollEndPattern prev ct FLoop 
-
-ncountL :: [PPTree a] -> Int
-ncountL ptl = sum $ map ncount ptl
-
-fixedLoopRollForN :: (Eq a) => [PPTree a] -> Int -> [[PPTree a]]
-fixedLoopRollForN iptl ls 
-    | ls >= 1 && length ptl >= ls 
-            = [fixedLoopRollListN ptl ss 1]
-                ++ map ([pth] ++) (fixedLoopRollForN (tail iptl) ls) 
-                ++ fixedLoopRollForN iptl (ls-1) 
-                ++ [existingLoopRoll iptl]
-    | ls >= 1 && length ptl < ls = [iptl]
-    | ls == 0 = []
-    where (ss, ptl) = splitAt ls iptl
-          pth = head iptl
-
--- length == 1
-existingLoopRoll :: (Eq a) => [PPTree a] -> [PPTree a]
-existingLoopRoll ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl)
-    | u1 == u2 = existingLoopRoll (Node1 FLoop u1 (r1+r2) w1:ptl)
-existingLoopRoll ((Node1 FLoop u1 r1 w1):u2:ptl)
-    | u1 == u2 = existingLoopRoll (Node1 FLoop u1 (r1+1) w1 :ptl)
-existingLoopRoll (u1:(Node1 FLoop u2 r2 w2):ptl)
-    | u1 == u2 = existingLoopRoll (Node1 FLoop u1 (r2+1) w2: ptl)
-existingLoopRoll (u1:ptl) = u1:existingLoopRoll ptl
-existingLoopRoll []       = []
-
-fixedLoopRollListN :: (Eq a) => [PPTree a] -> [PPTree a] -> Float -> [PPTree a]
-fixedLoopRollListN iptl prev ct 
-    | length iptl < length prev 
-        = fixedLoopRollEndPatternL prev ct ++ iptl
-    | length iptl >= length prev && next == prev 
-        = fixedLoopRollListN ptl prev (ct+1)
-    | length iptl >= length prev && next /= prev 
-        = fixedLoopRollEndPatternL prev ct ++
-                            fixedLoopRollListN ptl next 1
-    where (next, ptl) = splitAt (length prev) iptl
-
-
-
-loopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> POper1 -> [PPTree a]
-loopRollEndPatternL prev ct poper
-    | ct > 1  = [Node1 poper (seqP prev w) ct w]
-    | ct <= 1 = prev
-    where w = weight $ head prev
-
-fixedLoopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> [PPTree a]
-fixedLoopRollEndPatternL prev ct = loopRollEndPatternL prev ct FLoop 
-
--}
 
 -- no loops of subseq >= 2
 probLoopRoll :: Eq a => PRule a

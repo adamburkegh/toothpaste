@@ -128,22 +128,10 @@ fixedLoopRollExisting (NodeN Seq ptl w)
     where cr = (adjMerge floopContEq floopContMerge) ptl
 fixedLoopRollExisting x = x
 
--- This version will identify repeated subsequences of length >1, but has
--- issues. It does not have a formal equivalent in the corresponding papers, 
--- has exponential time and memory complexity, and has a subtle loop bug on some
--- input data.
-fixedLoopRollLengthN :: (Eq a, Ord a) => PRule a
-fixedLoopRollLengthN (NodeN Seq ptl w) 
-    | nptl /= ptl  = seqP nptl w
-    where (lss, _) = length ptl `divMod` 2
-          rs       = sortOn ncountL (fixedLoopRollForN ptl lss)
-          nptl     = head rs
-fixedLoopRollLengthN x = x    
-
 fixedLoopRoll :: (Eq a, Ord a) => PRule a
 fixedLoopRoll pt = fixedLoopRollExisting $ fixedLoopRollSingle pt
 
-
+{-
 fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
 fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct 
     | u1 == prev = fixedLoopRollList ptl prev (ct+r1-1)
@@ -154,12 +142,14 @@ fixedLoopRollList (u1:ptl) prev ct
     | u1 /= prev = fixedLoopRollEndPattern prev ct:
                             fixedLoopRollList ptl u1 1
 fixedLoopRollList [] prev ct = [fixedLoopRollEndPattern prev ct]
+-}
 
 loopRollEndPattern :: (Eq a) => PPTree a -> Float -> POper1 -> PPTree a
 loopRollEndPattern prev ct poper
     | ct > 1  = Node1 poper prev ct (weight prev)
     | ct <= 1 = prev
 
+{-
 fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
 fixedLoopRollEndPattern prev ct = loopRollEndPattern prev ct FLoop 
 
@@ -210,6 +200,8 @@ loopRollEndPatternL prev ct poper
 
 fixedLoopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> [PPTree a]
 fixedLoopRollEndPatternL prev ct = loopRollEndPatternL prev ct FLoop 
+
+-}
 
 -- no loops of subseq >= 2
 probLoopRoll :: Eq a => PRule a

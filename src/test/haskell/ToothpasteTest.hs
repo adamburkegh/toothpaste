@@ -318,10 +318,15 @@ fixedLoopRollTests = [
                 ~=? fixedLoopRoll (NodeN Seq [Node1 FLoop la 3 1,la,la,la] 1),
     "floopRollPartial2" ~: NodeN Seq [lb,Node1 FLoop la 5 1] 1 
                 ~=? fixedLoopRoll (NodeN Seq [lb,Node1 FLoop la 3 1,la,la] 1),
-    "existingLoopRoll1" ~: [Node1 FLoop la 10 1]
-                ~=? existingLoopRoll [Node1 FLoop la 8 1, la, la]
+    "floopRoll2" ~: NodeN Seq [la,lb,la,lb] 1
+        ~=? fixedLoopRoll (NodeN Seq [la,lb,la,lb] 1),
+    "floopRoll3a" ~: NodeN Seq [la,lb,lc,la,lb,lc] 1
+         ~=? fixedLoopRoll (NodeN Seq [la,lb,lc,la,lb,lc] 1),
+    "floopRoll3b" ~: NodeN Seq [la,lb,lc,la,lb,lc,la,lb,lc] 1
+         ~=? fixedLoopRoll (NodeN Seq [la,lb,lc,la,lb,lc,la,lb,lc] 1)
         ]
 
+{-
 fixedLoopRollTestsNSingle = [
     "floopRoll1" ~: fixedLoopRoll la ~=? la,
     "floopRoll2" ~: NodeN Seq [la,lb,la,lb] 1
@@ -368,7 +373,7 @@ fixedLoopRollTestsNforN = [
     "fixedLoopRollListN3Yes" ~: [Node1 FLoop (NodeN Seq [la,lb,lc] 1) 7 1]
             ~=? fixedLoopRollListN [la,lb,lc] [la,lb,lc] 6
         ]
-
+-}
 
 probLoopRollTests = [
     "ploopRoll1" ~: la ~=? probLoopRoll la ,
@@ -556,7 +561,6 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ choiceSkipPrefixTests ++ choiceSkipPrefixCompressTests
            ++ concFromChoiceTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
-           ++ fixedLoopRollTestsNSingle ++ fixedLoopRollTestsNforN
            ++ probLoopRollTests 
            ++ loopChoiceFoldTests
            ++ flattenTests

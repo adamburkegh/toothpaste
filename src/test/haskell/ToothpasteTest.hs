@@ -16,10 +16,10 @@ le = Leaf "e" 1
 lf = Leaf "f" 1
 lg = Leaf "g" 1
 cab = NodeN Choice [la,lb] 2
-cab2 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,la] 1] 2
 cab3 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,lb] 1] 2
 cab4 = NodeN Choice [NodeN Seq [lb,la,lc] 1,NodeN Seq [lb,lb,lb] 1] 2
 cabc1 = NodeN Choice [la,lb,lc] 1
+cba2 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,la] 1] 2
 saa = NodeN Seq [la,la] 1
 saaa = NodeN Seq [la,la,la] 1
 saaat = NodeN Seq [la,NodeN Seq [la,la] 1] 1
@@ -68,7 +68,7 @@ eqTests = ["eqLeaf1" ~: Leaf "a" 1 ~=? Leaf "a" 1,
            "neqSilent1"  ~: silent 1 /= silent 2 @? "neq",
            "eqSilent"    ~: silent 0 ~=? emptyTree,
            "eqNode1" ~: cab ~=? cab,
-           "eqNode2" ~: cab /= cab2 @? "neq"]
+           "eqNode2" ~: cab /= cba2 @? "neq"]
 
 
 -- Meta rule tests
@@ -102,14 +102,14 @@ silentConcTests = [
                         ~=? silentConc (NodeN Conc [la,Silent 1,lb] 1)  ]
 
 singleNodeOpTests = [ 
-    "singleNodeNoop"  ~: cab2 ~=? singleNodeOp cab2 ,
+    "singleNodeNoop"  ~: cba2 ~=? singleNodeOp cba2 ,
     "singleNodeOpSeq" ~: la ~=? singleNodeOp (NodeN Seq [la] 1)  ]
 
 choiceSimTests = ["choiceSim1" ~: la2 
                         ~=? choiceSim(  NodeN Choice [la,la] 2),
                  "choiceSim2" ~: cab ~=? choiceSim cab ,
                  "choiceSim3" ~: NodeN Seq [lb2,la2] 2
-                        ~=? choiceSim cab2,
+                        ~=? choiceSim cba2,
                  "choiceSim4" ~: cab3 ~=? choiceSim cab3 ,
                  "choiceSimLoop" ~: Node1 PLoop la2 6 2
                     ~=? choiceSim (NodeN Choice [Node1 PLoop la 7 1,
@@ -167,7 +167,7 @@ choiceFoldPrefixTests = [
     "choiceFold2" ~: choiceFoldPrefix cab  ~=? cab,
     "choiceFoldEmptyTailSeq" ~: 
         NodeN Seq [lb2, NodeN Choice [la,la] 2] 2
-                            ~=? choiceFoldPrefix cab2 ,
+                            ~=? choiceFoldPrefix cba2 ,
     "choiceFoldLeftoverSeq" ~: 
             NodeN Seq [lb2,
                       NodeN Choice [NodeN Seq [la,lc] 1,
@@ -183,8 +183,8 @@ choiceFoldPrefixTests = [
                                                NodeN Seq [lb,lc] 1,
                                                NodeN Seq [lb,ld] 1,
                                                NodeN Seq [la,lb] 1] 4),
-    "choiceFoldId1" ~: choiceSim (choiceFoldPrefix cab2) /= 
-                            choiceFoldPrefix (choiceSim cab2) @? "neq" ]
+    "choiceFoldId1" ~: choiceSim (choiceFoldPrefix cba2) /= 
+                            choiceFoldPrefix (choiceSim cba2) @? "neq" ]
 
 
 choiceFoldSuffixTests = [
@@ -192,7 +192,7 @@ choiceFoldSuffixTests = [
     "choiceFold2" ~: choiceFoldSuffix cab  ~=? cab,
     "choiceFoldEmptyHeadSeq" ~: 
         NodeN Seq [NodeN Choice [lb,lb] 2, la2] 2
-                            ~=? choiceFoldSuffix cab2 ,
+                            ~=? choiceFoldSuffix cba2 ,
     "choiceFoldLeftoverSeq" ~: 
             NodeN Seq [NodeN Choice [NodeN Seq [la,lb] 1,
                                      NodeN Seq [lb,la] 1] 2,
@@ -208,8 +208,8 @@ choiceFoldSuffixTests = [
                                                 NodeN Seq [lb,lc] 1,
                                                 NodeN Seq [la,lc] 1,
                                                 NodeN Seq [la,lb] 1] 4),
-    "choiceFoldId1" ~: choiceSim (choiceFoldSuffix cab2) /= 
-                            choiceFoldPrefix (choiceSim cab2) @? "neq" ]
+    "choiceFoldId1" ~: choiceSim (choiceFoldSuffix cba2) /= 
+                            choiceFoldPrefix (choiceSim cba2) @? "neq" ]
 
 
 clbca = NodeN Choice [NodeN Seq [la,lc] 1, 
@@ -226,7 +226,7 @@ loopChoiceFoldTests = [
                                    2
             ~=? choiceFoldPrefix clbca ]
     "loopChoiceFoldId1" ~: 
-           choiceSim (choiceFold cab2) /= loopChoiceFold (choiceSim cab2) 
+           choiceSim (choiceFold cba2) /= loopChoiceFold (choiceSim cba2) 
                                 @? "neq",
     "loopChoiceFoldLongSuffix" ~:  
            NodeN Seq [Node2 Choice [NodeN Seq [NodeN Seq [lb,lc] 1, 

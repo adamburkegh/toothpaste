@@ -4,6 +4,7 @@ import ProbProcessTree
 import Debug.Trace
 import Data.Maybe
 import qualified Data.Map as Map
+import Data.List(partition)
 import Data.Map (elems,fromList)
 
 -- debug and trace
@@ -27,10 +28,11 @@ warn = trace
 
 type PRule a = PPTree a -> PPTree a
 type LRule a = [PPTree a] -> [PPTree a]
-
 data TRule a = TRule{ rulename :: String, trule :: PRule a }
-
 type PPTRuleTransform a = PPTree a -> [TRule a] -> PPTree a
+
+type PSim a   = PPTree a -> PPTree a -> Bool
+type PMerge a = PPTree a -> PPTree a -> PPTree a
 
 
 -- Rules
@@ -45,6 +47,7 @@ adjMerge simF mergeF (x:y:xs)
     | otherwise         = x: adjMerge simF mergeF (y:xs)
 adjMerge sf mf [x] = [x]
 adjMerge sf mf []  = []
+
 
 
 -- Rules proper
@@ -130,12 +133,14 @@ fixedLoopRollExisting x = x
 fixedLoopRoll :: (Eq a, Ord a) => PRule a
 fixedLoopRoll pt = fixedLoopRollExisting $ fixedLoopRollSingle pt
 
+-- TODO remove 
 loopRollEndPattern :: (Eq a) => PPTree a -> Float -> POper1 -> PPTree a
 loopRollEndPattern prev ct poper
     | ct > 1  = Node1 poper prev ct (weight prev)
     | ct <= 1 = prev
 
 
+-- Not in the paper and not currently used
 -- no loops of subseq >= 2
 probLoopRoll :: Eq a => PRule a
 probLoopRoll (NodeN Seq (u1:ptl) w) 
@@ -189,22 +194,31 @@ flattenRule :: (Eq a) => PRule a
 flattenRule = flatten 
 
 -- choice folds
-seqPrefixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
-seqPrefixMerge ((NodeN Seq (pt1:ptl1) w1):(NodeN Seq (pt2:ptl2) w2):ptl)
-    | pt1 =~= pt2 && (ptl1 /= [] || ptl2 /= [])
-          = seqP [merge pt1 pt2,
-                  choiceP [seqP ptl1 w1,
-                           seqP ptl2 w2] nw] nw:
-                     seqPrefixMerge ptl
-    | pt1 =~= pt2 && (null ptl1 && null ptl2) 
-         = merge pt1 pt2:seqPrefixMerge ptl
-    | otherwise = NodeN Seq (pt1:ptl1) w1:
-                    seqPrefixMerge (NodeN Seq (pt2:ptl2) w2:ptl)
-    where nw = w1+w2
-seqPrefixMerge ptl = ptl
+isSeq :: PPTree a -> Bool
+isSeq (NodeN Seq ptl w) = True
+isSeq pt                = False
+
+headSim :: (Eq a, Ord a) => PSim a
+headSim (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2) 
+    = pt1 =~= pt2
+headSim pt1 pt2 = False
+
+headMerge :: (Ord a) => PMerge a
+headMerge (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2) 
+    | null ptl1 && null ptl2 = merge pt1 pt2 -- when though?
+    -- | null ptl1 = Silent case
+    | otherwise = seqP [merge pt1 pt2,
+            choiceP [ seqP ptl1 w1, seqP ptl2 w2 ] (w1+w2) ] (w1+w2)
+
 
 choiceFoldPrefix :: (Eq a, Ord a) => PRule a
-choiceFoldPrefix = choiceChildMR seqPrefixMerge 
+choiceFoldPrefix (NodeN Choice ptl w)
+    | ptl /= cr  = choiceP cr w
+    where cr           = ptlg ++ ptlnf
+          (ptlf,ptlnf) = partition isSeq ptl
+          ptlg         = (adjMerge headSim headMerge) ptlf
+choiceFoldPrefix x = x
+
 
 -- Warning last is O(N) on lists
 seqSuffixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
@@ -466,8 +480,7 @@ baseRuleList = [
             -- TODO TRule{rulename="loopConcSim",trule=loopConcSim},
             TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="concFromChoiceSuffix",trule=concFromChoiceSuffix},
-            TRule{rulename="loopFixToProb", trule=loopFixToProb},
-            TRule{rulename="probLoopRoll", trule=loopFixToProb}
+            TRule{rulename="loopFixToProb", trule=loopFixToProb} 
             ]
 
 ruleList :: (Show a, Eq a, Ord a) => [TRule a]

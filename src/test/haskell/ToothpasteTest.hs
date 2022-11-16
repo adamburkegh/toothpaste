@@ -386,9 +386,8 @@ concFromChoicePrefTests = [
     "concFromChoice2" ~: concFromChoice la  ~=? la,
     "concFromChoice3" ~: concP [la,lb] 2 
                             ~=? concFromChoice( NodeN Choice [sab,sba] 2),
-    -- FAILS due to BUG 
-    -- "concFromChoiceSeqNoop" ~: choiceP [sab,sab] 2
-    --                        ~=? concFromChoice( NodeN Choice [sab,sab] 2),
+    "concFromChoiceSeqNoop" ~: choiceP [sab,sab] 2
+                            ~=? concFromChoice( NodeN Choice [sab,sab] 2),
     "concFromChoice4" ~: concP [la,lb2] 3 
                             ~=? concFromChoice( NodeN Choice [sab,sba2] 3) ,
     "concFromChoice5" ~: seqP [ concP [la,lb2] 3, choiceP [lc,Silent 2] 3 ] 3
@@ -412,6 +411,8 @@ concFromChoiceSuffixTests = [
     "concNoop"  ~: concFromChoiceSuffix ccab1 ~=? ccab1,
     "cfcs1" ~: concP [la,lb] 2 
                         ~=? concFromChoiceSuffix (NodeN Choice [sab,sba] 2),
+    "concFromChoiceSeqNoop" ~: choiceP [sab,sab] 2
+                            ~=? concFromChoice( NodeN Choice [sab,sab] 2),
     "cfcs2" ~: concP [la,lb2] 3 
                         ~=? concFromChoiceSuffix (NodeN Choice [sab,sba2] 3),
     "cfcs3" ~: seqP [ choiceP [la, Silent 2] 3, 

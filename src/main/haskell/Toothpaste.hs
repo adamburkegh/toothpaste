@@ -276,151 +276,81 @@ choiceSkipPrefixCompress pt = norm $ choiceFoldPrefix $ choiceSkipPrefix pt
 
 
 
--- conc creation
+
+-- concFromChoice (Prefix) 
 -- len == 2 only
--- includes concSubsume rule as considers all sequence prefixes
--- (but only for the case where candidates don't emerge later)
 concFromChoice :: (Eq a, Ord a) => PRule a
-concFromChoice = choiceChildMR concFromChoiceList 
+concFromChoice (NodeN Choice ptl w)
+    | ptl /= cr  = choiceP cr w
+    where cr           = ptlg ++ ptlnf
+          (ptlf,ptlnf) = partition isNontrivSeq ptl
+          ptlg         = adjMerge conc2Sim conc2Merge ptlf
+concFromChoice x = x
+
+
+conc2Sim :: (Eq a, Ord a) => PSim a
+conc2Sim (NodeN Seq (ptx1:pty1:ptl1) w1) (NodeN Seq (pty2:ptx2:ptl2) w2) 
+    = ptx1 =~= ptx2 && pty1 =~= pty2 
+conc2Sim pt1 pt2 = False
+
+conc2Merge :: (Ord a) => PMerge a
+conc2Merge (NodeN Seq (ptx1:pty1:ptl1) w1) 
+           (NodeN Seq (pty2:ptx2:ptl2) w2) 
+    | null ptl1 && null ptl2     = hc
+    | null ptl1 && not (null ptl2)
+        = seqP  [hc, choiceP [Silent w1,seqP ptl2 w2] nw ] nw
+    | (not (null ptl1)) && null ptl2 
+        = seqP  [hc, choiceP [seqP ptl1 w1,Silent w2] nw]  nw
+    | otherwise 
+        = seqP [hc, choiceP [ seqP ptl1 w1, seqP ptl2 w2 ] nw ] nw
+    where nw = w1+w2
+          hc = concP [scale (merge ptx1 ptx2) (w1/(nw)),
+                      scale (merge pty1 pty2) (w2/(nw))] nw
+
 
 isNontrivSeq :: PPTree a -> Bool
 isNontrivSeq (NodeN Seq pt w) = length pt > 1
 isNontrivSeq x                = False
 
-concFromChoiceList :: (Eq a, Ord a) => LRule a
-concFromChoiceList ptl
-    | length rs /= length sq  = rs ++ fl
-    | otherwise               = ptl
-    where sq = filter isNontrivSeq ptl
-          fl = filter (not . isNontrivSeq) ptl
-          rs = concFromSeqList sq
-
-concFromSeqList :: (Ord a) => [PPTree a] -> [PPTree a]
-concFromSeqList ptl 
-    | length rs /= length hds 
-        = map (uncurry convertConcMapEntryToNodePrefix) (Map.toList rs)
-    | otherwise               = ptl
-    where (hds,tls) = unzip $ map (splitAt 2 . children) ptl
-          rs        = concMapFromSeqChildren hds tls
 
 
-
-convertConcMapEntryToNode :: (Ord a) => 
-    ([PPTree a] -> [PPTree a]) -> [PPTree a] -> [[PPTree a]] 
-        -> PPTree a
-convertConcMapEntryToNode frc ptl tptl 
-    | onlySilent cr = concP ptl w
-    | otherwise     = seqP (frc [concP ptl w, cr]) w
-    where w    = sum $ map weight ptl
-          cc   = mapMaybe convertConcTailEntry tptl 
-          cr   = singleNodeOp $ choiceSim $ choiceP cc w 
-
-convertConcMapEntryToNodePrefix :: (Ord a) => 
-    [PPTree a] -> [[PPTree a]] -> PPTree a
-convertConcMapEntryToNodePrefix = convertConcMapEntryToNode id
-
-convertConcMapEntryToNodeSuffix :: (Ord a) => 
-    [PPTree a] -> [[PPTree a]] -> PPTree a
-convertConcMapEntryToNodeSuffix = convertConcMapEntryToNode reverse
-
-onlySilent :: PPTree a -> Bool
-onlySilent (Silent w) = True
-onlySilent pt         = False
-
-
-convertConcTailEntry :: [PPTree a] -> Maybe (PPTree a)
-convertConcTailEntry [pt] = Just pt
-convertConcTailEntry []   = Nothing
-convertConcTailEntry ptl  = Just (NodeN Seq ptl (weight $ head ptl))
-
-
-concMapFromSeqChildren :: (Ord a) => [[PPTree a]] -> [[PPTree a]]
-                              -> Map.Map [PPTree a] [[PPTree a]]
-concMapFromSeqChildren ptls tptls = remapFromPT
-    where remapFromPT = fromList $ elems $ concMapFromSeqChildren1 ptls tptls
-
-
--- concMapFromSeqChildren1 headPtls tailPtls
--- 
--- pre: sublists of len 2
---
--- Constructs a map where the keys are unity-weighted versions of the 
--- PPTs in headPtls, and the values are a tuple (mptl,tails)
--- mptl is a merged PPT list of similar or reverse-similar ptls from headPtls
--- tails are the corresponding tails
--- Unity weighting allows structurally similar trees to be compared with 
--- equality, as in Data.Map
---
--- This implementation is not a paragon of efficiency.
-concMapFromSeqChildren1 :: (Ord a) => [[PPTree a]] -> [[PPTree a]]
-                              -> Map.Map [PPTree a] ([PPTree a],[[PPTree a]])
-concMapFromSeqChildren1 (ptl:ptls) (tptl:tptls)
-    | ptlw0 `Map.member` sm 
-        = Map.adjust 
-            (\(exptl,extptl) -> (mergeConcPair ptl exptl,tslptl:extptl) )
-            -- hlint will suggest 
-            -- Data.Bifunctor.bimap (mergeConcPair ptl) (tslptl :)
-            -- which doesn't actually compile
-            ptlw0 sm
-    | pmlw0 `Map.member` sm && ptlw0 /= pmlw0 
-        = Map.adjust 
-            (\(exptl,extptl) -> (mergeConcPair exptl pml,tslptl:extptl) ) 
-            pmlw0 sm
-    | otherwise           = Map.insert ptlw0 (ptl,[tslptl]) sm
-    where sm  = concMapFromSeqChildren1 ptls tptls
-          ptlw0   = map unityWeights ptl
-          pml     = reverse ptl
-          pmlw0   = reverse ptlw0
-          tslptl  = emptyListToSilentChild tptl (weight $ head ptl)
-concMapFromSeqChildren1 [] _ = Map.empty
-
-
--- set all weights to 1 to allow similarity comparison in maps
-unityWeights :: PPTree a -> PPTree a
-unityWeights (Leaf x n) = Leaf x 1
-unityWeights (Silent n) = Silent 1
-unityWeights (Node1 op x r n) = Node1 op (unityWeights x) r 1
-unityWeights (NodeN op ptl n) = NodeN op (map unityWeights ptl) 1
-
-
-
-emptyListToSilentChild :: [PPTree a] -> Weight -> [PPTree a] 
-emptyListToSilentChild ptl w | null ptl     = [Silent w]
-                             | otherwise    = ptl
-
-
-listTo2Tuple :: [PPTree a] -> (PPTree a,PPTree a)
-listTo2Tuple [x,y] = (x,y)
-listTo2Tuple ptl   = warn "Bad list length passed to list2Tuple" 
-                          (Silent 0,Silent 0)
-
-
--- pre: input lists of length 2
-mergeConcPair :: [PPTree a] -> [PPTree a] -> [PPTree a]
-mergeConcPair ptl1 ptl2 = 
-    mergeConcPairT (listTo2Tuple ptl1) (listTo2Tuple ptl2)
-
--- first pt parameter will be taken as observed sequence, so weighted 
--- accordingly using the conc from choice rule
-mergeConcPairT :: (PPTree a,PPTree a) -> (PPTree a,PPTree a) -> [PPTree a]
-mergeConcPairT (ptx1,pty1) (ptx2,pty2)
-    = [scale (merge ptx1 ptx2) (w1/(w1+w2)),
-       scale (merge pty1 pty2) (w2/(w1+w2))] 
-    where w1 = weight ptx1
-          w2 = weight ptx2
-
-
-
+-- concFromChoiceSuffix
+-- len == 2 only
 concFromChoiceSuffix :: (Eq a, Ord a) => PRule a
-concFromChoiceSuffix = choiceChildMR concFromChoiceListSuff 
+concFromChoiceSuffix (NodeN Choice ptl w)
+    | ptl /= cr  = choiceP cr w
+    where cr           = ptlg ++ ptlnf
+          (ptlf,ptlnf) = partition isNontrivSeq ptl
+          ptlg         = adjMerge conc2TailSim conc2TailMerge ptlf
+          -- TODO allMerge not adjMerge - ie not just adjacent
+concFromChoiceSuffix x = x
 
-concFromChoiceListSuff :: (Eq a, Ord a) => LRule a
-concFromChoiceListSuff ptl
-    | length rs /= length sq  = rs ++ fl
-    | otherwise               = ptl
-    where sq = filter isNontrivSeq ptl
-          fl = filter (not . isNontrivSeq) ptl
-          rs = concFromSeqListSuff sq
+-- O(n)
+conc2TailSim :: (Eq a, Ord a) => PSim a
+conc2TailSim (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2) 
+    = length ptl1 > 1 && length ptl2 > 1 
+        &&  ptx1 =~= ptx2 && pty1 =~= pty2 
+    where (_,[ptx1,pty1]) = tail2 ptl1
+          (_,[pty2,ptx2]) = tail2 ptl2
+conc2TailSim pt1 pt2 = False
+
+conc2TailMerge :: (Ord a) => PMerge a
+conc2TailMerge (NodeN Seq ptl1 w1) 
+               (NodeN Seq ptl2 w2) 
+    | null hds1 && null hds2     = tc
+    | null hds1 && not (null hds2)
+        = seqP  [choiceP [Silent w1, seqP hds2 w2] nw, tc] nw
+    | (not (null hds1)) && null hds2 
+        = seqP  [choiceP [seqP hds1 w1, Silent w2] nw, tc] nw
+    | otherwise 
+        = seqP  [choiceP [ seqP hds1 w1, seqP hds2 w2 ] nw, tc] nw
+    where nw = w1+w2
+          (hds1,[ptx1,pty1]) = tail2 ptl1
+          (hds2,[pty2,ptx2]) = tail2 ptl2
+          tc = concP [scale (merge ptx1 ptx2) (w1/(nw)),
+                      scale (merge pty1 pty2) (w2/(nw))] nw
+
+
 
 tail2 :: [a] -> ([a],[a])
 tail2 (x:y:xs)  | null xs    = ([],[x,y])
@@ -428,14 +358,6 @@ tail2 (x:y:xs)  | null xs    = ([],[x,y])
     where (nh,nt) = tail2 (y:xs)
 tail2 [x]   = ([],[])
 tail2 []    = ([],[])
-
-concFromSeqListSuff :: (Ord a) => [PPTree a] -> [PPTree a]
-concFromSeqListSuff ptl 
-    | length rs /= length hds 
-        = map (uncurry convertConcMapEntryToNodeSuffix) (Map.toList rs)
-    | otherwise               = ptl
-    where (hds,tls) = unzip $ map (tail2 . children) ptl
-          rs        = concMapFromSeqChildren tls hds
 
 
 isConc :: PPTree a -> Bool

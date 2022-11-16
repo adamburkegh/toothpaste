@@ -2,10 +2,7 @@ module Toothpaste where
 
 import ProbProcessTree
 import Debug.Trace
-import Data.Maybe
-import qualified Data.Map as Map
 import Data.List(partition)
-import Data.Map (elems,fromList)
 
 -- debug and trace
 debugOn :: String -> a -> a

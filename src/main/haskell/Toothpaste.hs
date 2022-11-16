@@ -2,7 +2,6 @@ module Toothpaste where
 
 import ProbProcessTree
 import Debug.Trace
-import Data.List (sortOn)
 import Data.Maybe
 import qualified Data.Map as Map
 import Data.Map (elems,fromList)
@@ -130,19 +129,6 @@ fixedLoopRollExisting x = x
 
 fixedLoopRoll :: (Eq a, Ord a) => PRule a
 fixedLoopRoll pt = fixedLoopRollExisting $ fixedLoopRollSingle pt
-
-{-
-fixedLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
-fixedLoopRollList ((Node1 FLoop u1 r1 w1):ptl) prev ct 
-    | u1 == prev = fixedLoopRollList ptl prev (ct+r1-1)
-    | u1 /= prev = fixedLoopRollEndPattern prev ct:
-                        fixedLoopRollList ptl u1 r1
-fixedLoopRollList (u1:ptl) prev ct 
-    | u1 == prev = fixedLoopRollList ptl prev (ct+1)
-    | u1 /= prev = fixedLoopRollEndPattern prev ct:
-                            fixedLoopRollList ptl u1 1
-fixedLoopRollList [] prev ct = [fixedLoopRollEndPattern prev ct]
--}
 
 loopRollEndPattern :: (Eq a) => PPTree a -> Float -> POper1 -> PPTree a
 loopRollEndPattern prev ct poper

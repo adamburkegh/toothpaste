@@ -42,22 +42,22 @@ acmp :: (Eq a) => PPTree a -> PPTree a -> Bool
 acmp (Leaf a n) (Leaf b m) = a == b && n ~~~ m
 acmp (Silent n) (Silent m) = n ~~~ m
 acmp (Node1 p1 a r1 n) (Node1 p2 b r2 m)
-        = (p1 == p2) && (acmp a b) && (r1 ~~~ r2) && (n ~~~ m)
+        = (p1 == p2) && acmp a b && (r1 ~~~ r2) && (n ~~~ m)
 acmp (NodeN po1 ptl1 n) (NodeN po2 ptl2 m)
-        = (po1 == po2) && (acmpl ptl1 ptl2) && (n ~~~ m)
+        = (po1 == po2) && acmpl ptl1 ptl2 && (n ~~~ m)
 acmp x y = False
 
 acmpl :: (Eq a) => [PPTree a] -> [PPTree a] -> Bool
 acmpl ptl1 ptl2 =  length ptl1  == length ptl2
-        && foldl (\c (pt1,pt2) -> (acmp pt1 pt2) && c) True z
+        && foldl (\c (pt1,pt2) -> acmp pt1 pt2 && c) True z
     where z = zip ptl1 ptl2
 
 
 tokprob :: String -> PPTree String -> Float
-tokprob s pt = prob (map (\x -> [x]) s) pt
+tokprob s = prob (map (: []) s) 
 
 pftokprob :: String -> PFTree String -> Float
-pftokprob s pf = pfprob (map (\x -> [x]) s) pf
+pftokprob s = pfprob (map (: [])  s) 
 
 -- Tests
 
@@ -307,57 +307,57 @@ loudTests = [ "silent" ~: False ~=? loud (Silent 1),
 
 
 pathsetPFBasicTests = [
-            "silent" ~: (PFNode PFSilent [] 3) 
-                            ~=? ps3 ((Silent 3)::(PPTree String)),
-            "leaf"   ~: (PFNode pfa [] 1) ~=? ps3 la,
-            "seq"    ~: (PFNode pfa [PFNode pfb [] 1] 1)
+            "silent" ~: PFNode PFSilent [] 3 
+                            ~=? ps3 (Silent 3::(PPTree String)),
+            "leaf"   ~: PFNode pfa [] 1 ~=? ps3 la,
+            "seq"    ~: PFNode pfa [PFNode pfb [] 1] 1
                             ~=?  ps3 (NodeN Seq [la,lb] 1),
-            "choice" ~: (PFNode PFNull [PFNode pfa [] 1,
-                                        PFNode pfb [] 2] 3)
+            "choice" ~: PFNode PFNull [PFNode pfa [] 1,
+                                        PFNode pfb [] 2] 3
                             ~=? ps3 (NodeN Choice [la,lb2] 3), 
-            "floop" ~: (PFNode pfa [PFNode pfa [PFNode pfa [] 1] 1] 1) 
+            "floop" ~: PFNode pfa [PFNode pfa [PFNode pfa [] 1] 1] 1 
                             ~=? ps3 (Node1 FLoop la 3 1),
-            "ploop" ~: (PFNode PFSilent [PFNode PFSilent [] (1/3),
-                                         PFNode pfa [] (2/(3*3)),
-                                         PFNode pfa 
+            "ploop" ~: PFNode PFSilent [PFNode PFSilent [] (1/3),
+                                        PFNode pfa [] (2/(3*3)),
+                                        PFNode pfa 
                                                 [PFNode pfa [] 1] (2*2/3**3),
-                                         PFNode pfa 
+                                        PFNode pfa 
                                                 [PFNode pfa 
                                                         [PFNode pfa [] 1] 1] 
                                                 (2**3/3**4),
-                                         PFNode pfa 
+                                        PFNode pfa 
                                                 [PFNode pfa 
                                                         [PFNode pfa 
                                                                 [PFNode pfa 
                                                                         [] 1] 
                                                                 1] 1] 
                                                 (2**4/3**5)
-                                                  ] 1)
+                                                  ] 1
                             ~=? pathset (Node1 PLoop la 3 1) 0.5, -- k == 4
-            "ploop2" ~: (PFNode PFSilent [pfsilent (2*2/3),
-                                          PFNode pfb [] (2*2/3**2),
-                                          PFNode pfb [pflb2] (2*2/3**3)] 2)
+            "ploop2" ~: PFNode PFSilent [pfsilent (2*2/3),
+                                         PFNode pfb [] (2*2/3**2),
+                                         PFNode pfb [pflb2] (2*2/3**3)] 2
                             ~=? pathset (Node1 PLoop lb2 (3/2) 2) 0.1 -- k == 2 
                             ]
 
 pathsetSingletons = [
-        "conc" ~: (PFNode PFSilent 
-                          [(PFNode pfa 
-                                   [PFNode PFSilent [] 1] 1)] 1) 
+        "conc" ~: PFNode PFSilent 
+                          [PFNode pfa 
+                                  [PFNode PFSilent [] 1] 1] 1 
                     ~=? pathset (NodeN Conc [la] 1) eps
         ]
                
 pathsetPFConcTests = [
         "twoLeaves" ~: 
-            (PFNode PFSilent [PFNode pfa [PFNode pfb [pfsilent 2] 1] 1,
-                              PFNode pfb [PFNode pfa [pfsilent 2] 1] 1] 2)
+            PFNode PFSilent [PFNode pfa [PFNode pfb [pfsilent 2] 1] 1,
+                             PFNode pfb [PFNode pfa [pfsilent 2] 1] 1] 2
                ~=? pfnorm ( pathset (NodeN Conc [la,lb] 2) eps ),
         "oneLeafOneSilent" ~: 
-            (PFNode PFSilent [PFNode pfa [PFNode PFSilent [pfsilent 2] 1] 1,
-                              PFNode PFSilent [PFNode pfa [pfsilent 2] 1] 1] 2)
+            PFNode PFSilent [PFNode pfa [PFNode PFSilent [pfsilent 2] 1] 1,
+                             PFNode PFSilent [PFNode pfa [pfsilent 2] 1] 1] 2
             ~=? pfnorm (pathset (NodeN Conc [la,Silent 1] 2) eps),
         "twoLeafOneSilent" ~:
-            (PFNode PFSilent [PFNode pfa 
+            PFNode PFSilent [PFNode pfa 
                                     [PFNode pfb 
                                         [PFNode PFSilent [pfsilent 6] 2] 2,
                                      PFNode PFSilent 
@@ -372,7 +372,7 @@ pathsetPFConcTests = [
                                         [PFNode pfb [pfsilent 6] 2] 2,
                                      PFNode pfb 
                                         [PFNode pfa [pfsilent 6] 2] 2 ] 2 ]
-                    6)
+                    6
             ~=? pfnorm (pathset (NodeN Conc [la2,Silent 2, lb2] 6) eps),
         "leafLoop" ~: 
             pfnorm 
@@ -450,9 +450,9 @@ shuffleProbChoiceLeafTests2 = [
     ]
 
 shuffleProbChoiceTermTests = [
-        "ct1" ~:  all (\p -> p == 1/8)
-                (map (\s -> pftokprob s (shuffle cab ccd) ) 
-                    ["ac","ad","bc","bd","ca","cb","da","db"] ) 
+        "ct1" ~:  all
+                ((\ p -> p == 1 / 8) . (\ s -> pftokprob s (shuffle cab ccd)))
+                ["ac", "ad", "bc", "bd", "ca", "cb", "da", "db"]
                     @? "1/8 expected"
     ]
 
@@ -503,28 +503,28 @@ pff = PFSymbol "f"
 
 
 pfProbTests = [ 
-    "leaf1"     ~: 1   ~=? pfprob ["a"] (PFNode (pfa) [] 1),
-    "leaf2"     ~: 0   ~=? pfprob ["b"] (PFNode (pfa) [] 1),
-    "silent1"   ~: 1   ~=? pfprob ([]::[String])  (PFNode (PFSilent) [] 1),
-    "silent2"   ~: 0   ~=? pfprob ["b"] (PFNode (PFSilent) [] 1),
-    "null1"   ~: 1   ~=? pfprob ([]::[String])  (PFNode (PFNull) [] 1),
+    "leaf1"     ~: 1   ~=? pfprob ["a"] (PFNode pfa [] 1),
+    "leaf2"     ~: 0   ~=? pfprob ["b"] (PFNode pfa [] 1),
+    "silent1"   ~: 1   ~=? pfprob ([]::[String])  (PFNode PFSilent [] 1),
+    "silent2"   ~: 0   ~=? pfprob ["b"] (PFNode PFSilent [] 1),
+    "null1"   ~: 1   ~=? pfprob ([]::[String])  (PFNode PFNull [] 1),
     "choice1"   ~: 1/2 ~=? pfprob ["a"]
-                                  (PFNode (pfa) 
+                                  (PFNode pfa 
                                           [PFNode PFSilent [] 1,
-                                           PFNode (pfb) [] 1] 5),
+                                           PFNode pfb [] 1] 5),
     "choice2"   ~: 1/3 ~=? pfprob ["a"]
-                                  (PFNode (PFNull) 
-                                          [PFNode (pfa) [] 1,
-                                           PFNode (pfb) [] 2] 5),
+                                  (PFNode PFNull 
+                                          [PFNode pfa [] 1,
+                                           PFNode pfb [] 2] 5),
     "choice2"   ~: 2/3 ~=? pfprob ["a","b"]
-                                  (PFNode (pfa) 
-                                          [PFNode (PFSilent) [] 1,
-                                           PFNode (pfb) [] 2] 5),
+                                  (PFNode pfa 
+                                          [PFNode PFSilent [] 1,
+                                           PFNode pfb [] 2] 5),
     "emptyLeaf" ~: 0   ~=? pfprob ([]::[String]) pfla,
     "emptyChoice" ~: 0   ~=? pfprob ([]::[String]) 
-                                    (PFNode (pfa)
+                                    (PFNode pfa
                                           [PFNode PFSilent [] 1,
-                                           PFNode (pfb) [] 1] 5)
+                                           PFNode pfb [] 1] 5)
     ]
 
 
@@ -581,12 +581,12 @@ pfSingleShuffleTests =  [
 
 pfCollapseTests = [
     "leaf" ~: pfla ~=? pfcollapse pfla,
-    "oneNull" ~: (PFNode PFNull ([]::[PFTree String]) 1) 
+    "oneNull" ~: PFNode PFNull ([]::[PFTree String]) 1 
         ~=? pfcollapse (PFNode PFNull [] 1),
     "nullParent" ~: pfla ~=? pfcollapse (PFNode PFNull [pfla] 1),
-    "nullChild1" ~: (PFNode pfa [pfla,pflb] 1)
+    "nullChild1" ~: PFNode pfa [pfla,pflb] 1
         ~=? pfcollapse (PFNode pfa [PFNode PFNull [pfla,pflb] 1] 1),
-    "nullChild2" ~: (PFNode PFNull [pfla,pflb,pflc] 1)
+    "nullChild2" ~: PFNode PFNull [pfla,pflb,pflc] 1
         ~=? pfcollapse (PFNode PFNull [PFNode PFNull [pfla,pflb,pflc] 1] 1)
     ]
 
@@ -692,7 +692,7 @@ teleclaimsEg = seqP [choiceP [Leaf "initiate payment" 431,
                             Leaf "close claim" 248] 483 ]
                     483
 
-adLoop = (Node1 PLoop (Leaf "ad" 235) 2 235)
+adLoop = Node1 PLoop (Leaf "ad" 235) 2 235
 
 teleclaimsEgTests =  let ?epsilon = eps in [ 
     "adviseProb" ~: 1/4 ~=? prob ["ad"] adLoop,
@@ -727,20 +727,20 @@ dupeConcEg2 = concP [concP [la,la] 2,
 dupeConcEgTests = [
     "dupeConc"  ~: [0.18055555,0.18055555,0.1388889,
                     0.18055555,0.18055555,0.1388889] 
-                        ~=? map (\x -> tokprob x dupeConcEg) 
+                        ~=? map (`tokprob` dupeConcEg) 
                                 ["abab","abba","aabb","baba","baab","bbaa"],
     "dupeConc2" ~: [0.1388889,0.1388889,0.22222224,
                     0.1388889,0.1388889,0.22222224]
-                        ~=? map (\x -> tokprob x dupeConcEg2) 
+                        ~=? map (`tokprob` dupeConcEg2) 
                                 ["abab","abba","aabb","baba","baab","bbaa"]
                 ]
 
 concSilentEg1 = concP [la, concP [lb,lc,Silent 1] 3]  4
 concSilentEg2 = concP [la, concP [Leaf "b" (3/2), Leaf "c" (3/2)] 3]  4
 
-cs1prob = map (\t -> tokprob t concSilentEg1) 
+cs1prob = map (`tokprob` concSilentEg1) 
               ["abc","acb","bac","bca","cab","cba"] 
-cs2prob = map (\t -> tokprob t concSilentEg2) 
+cs2prob = map (`tokprob` concSilentEg2) 
               ["abc","acb","bac","bca","cab","cba"] 
 
 concSilentEgTests = [

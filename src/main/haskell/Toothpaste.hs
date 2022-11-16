@@ -86,7 +86,7 @@ loopSim = choiceChildMR  (adjMerge (=&=) lmerge)
 concSim :: Eq a => PRule a
 concSim (NodeN Conc ptl w)
     | ptl /= cr = NodeN Conc cr w
-    where cr = (adjMerge (=~=) concMerge) ptl
+    where cr = adjMerge (=~=) concMerge ptl
 concSim x = x
 
 concMerge :: PPTree a -> PPTree a -> PPTree a
@@ -102,13 +102,13 @@ lconcMerge u1 u2 = Node1 FLoop (lmerge u1 u2) 2 (w1+w2)
 loopConcSim :: Eq a => PRule a
 loopConcSim (NodeN Conc ptl w)
     | ptl /= cr = NodeN Conc cr w
-    where cr = (adjMerge (=&=) lconcMerge) ptl
+    where cr = adjMerge (=&=) lconcMerge ptl
 loopConcSim x = x
 
 fixedLoopRollSingle :: Eq a => PRule a
 fixedLoopRollSingle (NodeN Seq ptl w)
     | ptl /= cr = seqP cr w
-    where cr = (adjMerge (==) (\u1 u2 -> Node1 FLoop u1 2 (weight u1) )) 
+    where cr = adjMerge (==) (\u1 u2 -> Node1 FLoop u1 2 (weight u1) ) 
                ptl
 fixedLoopRollSingle x = x
 
@@ -127,7 +127,7 @@ floopContMerge u1 (Node1 FLoop u2 r w) = Node1 FLoop u2 (r+1) w
 fixedLoopRollExisting :: Eq a => PRule a
 fixedLoopRollExisting (NodeN Seq ptl w)
     | ptl /= cr = seqP cr w
-    where cr = (adjMerge floopContEq floopContMerge) ptl
+    where cr = adjMerge floopContEq floopContMerge ptl
 fixedLoopRollExisting x = x
 
 fixedLoopRoll :: (Eq a, Ord a) => PRule a
@@ -216,7 +216,7 @@ choiceFoldPrefix (NodeN Choice ptl w)
     | ptl /= cr  = choiceP cr w
     where cr           = ptlg ++ ptlnf
           (ptlf,ptlnf) = partition isSeq ptl
-          ptlg         = (adjMerge headSim headMerge) ptlf
+          ptlg         = adjMerge headSim headMerge ptlf
 choiceFoldPrefix x = x
 
 

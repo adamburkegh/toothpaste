@@ -117,7 +117,7 @@ choiceSimTests = ["choiceSim1" ~: la2
 
 loopSimTests = [ 
     "loooSimLeaf" ~: la2 ~=? loopSim la2,
-    "loopSim2Loops" ~: (NodeN Choice [looppa1,looppa1] 2)
+    "loopSim2Loops" ~: NodeN Choice [looppa1,looppa1] 2
                         ~=? loopSim (NodeN Choice [looppa1,looppa1] 2),
     "loopSimLoopAndLeaf" ~: Node1 PLoop la2 1.5 2
                         ~=? loopSim (NodeN Choice [looppa1,la] 2),
@@ -133,7 +133,7 @@ loopSimTests = [
                  "loopSim4" ~: cab3 ~=? choiceSim cab3 ,
     "choiceRoll2" ~: Node1 PLoop la4 4 4 ~=?
                 loopSim (NodeN Choice [la,
-                                       (Node1 PLoop la3 5 3)] 4),
+                                       Node1 PLoop la3 5 3] 4),
     "choiceRoll3" ~: Node1 PLoop la3 1.3333334 3.0 ~=?
                 loopSim (NodeN Choice [Node1 PLoop la 2.0 1.0,
                                        la2]
@@ -141,7 +141,7 @@ loopSimTests = [
     "choiceRoll4" ~: 
         choiceP [Node1 PLoop la3 1.3333334 3.0,
                  lb] 4.0 
-            ~=? loopSim (NodeN Choice [(Node1 PLoop la 2.0 1.0),
+            ~=? loopSim (NodeN Choice [Node1 PLoop la 2.0 1.0,
                                           la2,
                                           lb]
                                          4.0) 

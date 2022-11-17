@@ -216,7 +216,7 @@ choiceFoldMR simF mergeF (NodeN Choice ptl w)
     | ptl /= cr  = choiceP cr w
     where cr           = ptlg ++ ptlnf
           (ptlf,ptlnf) = partition isSeq ptl
-          ptlg         = adjMerge simF mergeF ptlf
+          ptlg         = anyMerge simF mergeF ptlf
 choiceFoldMR sf mf x = x
 
 choiceFoldPrefix  :: (Eq a, Ord a) => PRule a
@@ -244,10 +244,24 @@ tailMerge (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2)
           (pt2, pttl2) = lastSplit ptl2
 
 
--- duplication across prefix suffix folds and maybe other choice
 choiceFoldSuffix :: (Eq a, Ord a) => PRule a
 choiceFoldSuffix =  choiceFoldMR tailSim tailMerge
 
+
+lheadSim :: (Eq a, Ord a) => PSim a
+lheadSim (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2) 
+    = pt1 =&= pt2
+lheadSim pt1 pt2 = False
+
+lheadMerge :: (Ord a) => PMerge a
+lheadMerge (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2) 
+    | otherwise = seqP [lmerge pt1 pt2,
+            choiceP [ seqP ptl1 w1, seqP ptl2 w2 ] (w1+w2) ] (w1+w2)
+
+
+
+loopChoiceFoldPrefix :: (Eq a, Ord a) => PRule a
+loopChoiceFoldPrefix = choiceFoldMR lheadSim lheadMerge
 
 
 

@@ -20,12 +20,14 @@ cab3 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,lb] 1] 2
 cab4 = NodeN Choice [NodeN Seq [lb,la,lc] 1,NodeN Seq [lb,lb,lb] 1] 2
 cabc1 = NodeN Choice [la,lb,lc] 1
 cba2 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,la] 1] 2
+
 saa = NodeN Seq [la,la] 1
 saaa = NodeN Seq [la,la,la] 1
 saaat = NodeN Seq [la,NodeN Seq [la,la] 1] 1
-
 sab  = NodeN Seq [la,lb] 1
 sabc  = NodeN Seq [la,lb,lc] 1
+sabcd  = NodeN Seq [la,lb,lc,ld] 1
+sade = NodeN Seq [la,ld,le] 1
 sba  = NodeN Seq [lb,la] 1
 sba2 = NodeN Seq [lb2,la2] 2
 sbc2 = seqP [lb2,lc2] 2
@@ -35,6 +37,7 @@ scab = seqP [lc,la,lb] 1
 scb2 = seqP [lc2,lb2] 2
 sdba2 = seqP [ld2,lb2,la2] 2
 sdb2  = seqP [ld2,lb2] 2
+sefgd = seqP [le,lf,lg,ld] 1
 
 ccab1 = NodeN Conc [la,lb] 2
 
@@ -50,6 +53,9 @@ lc3 = Leaf "c" 3
 ld2 = Leaf "d" 2
 looppa1 = Node1 PLoop la 2 1
 looppa2 = Node1 PLoop la2 2 2
+l4pa1   = Node1 PLoop la 4 1
+sabcld = NodeN Seq [la,lb,lc, Node1 PLoop ld 3 1] 1
+slab   = NodeN Seq [l4pa1,lb] 1
 
 silentSingleRuleList :: (Eq a, Ord a) => [TRule a]
 silentSingleRuleList = [
@@ -176,10 +182,12 @@ concSimTests = [
 
 
 loopConcSimTests = [
-    "concSim1" ~: la ~=? loopConcSim la,
-    "concSim2" ~: NodeN Conc [Node1 FLoop (Node1 PLoop la2 1.5 2) 2 2] 2 
+    "lconcSim1" ~: la ~=? loopConcSim la,
+    "lconcSim2" ~: NodeN Conc [Node1 FLoop (Node1 PLoop la2 1.5 2) 2 2] 2 
                         ~=? loopConcSim(NodeN Conc [la,looppa1] 2) ,
-    "concSim3" ~: NodeN Conc [la,lb] 2 ~=? loopConcSim(NodeN Conc [la,lb] 2)  
+    "lconcSim3" ~: NodeN Conc [la,lb] 2 ~=? loopConcSim(NodeN Conc [la,lb] 2),  
+    "lconcSim4" ~: NodeN Conc [Node1 FLoop (Node1 PLoop la2 1.5 2) 2 2] 2 
+                        ~=? loopConcSim(NodeN Conc [la,looppa1] 2) 
                 ]
 
 choiceFoldPrefixTests = [
@@ -195,14 +203,14 @@ choiceFoldPrefixTests = [
               2
                             ~=? choiceFoldPrefix cab4 ,
     "choiceFoldPrefixMore4Choices" ~:
-             choiceP [NodeN Seq [la,lb] 1,
+             choiceP [NodeN Seq [la2, 
+                                 choiceP [lb,lb] 2] 2,
                       NodeN Seq [lb2, 
-                                 NodeN Choice [lc,ld] 2] 2,
-                      NodeN Seq [la,lb] 1] 4
+                                 NodeN Choice [lc,ld] 2] 2] 4
             ~=? choiceFoldPrefix (NodeN Choice [NodeN Seq [la,lb] 1,
-                                               NodeN Seq [lb,lc] 1,
-                                               NodeN Seq [lb,ld] 1,
-                                               NodeN Seq [la,lb] 1] 4),
+                                                NodeN Seq [lb,lc] 1,
+                                                NodeN Seq [lb,ld] 1,
+                                                NodeN Seq [la,lb] 1] 4),
     "choiceFoldId1" ~: choiceSim (choiceFoldPrefix cba2) /= 
                             choiceFoldPrefix (choiceSim cba2) @? "neq" ]
 
@@ -220,57 +228,61 @@ choiceFoldSuffixTests = [
             ~=? choiceFoldSuffix (choiceP [seqP [la,lb,lc] 1,
                                            seqP [lb,la,lc] 1] 2),
     "choiceFoldSuffixMore4Choices" ~:
-             choiceP [NodeN Seq [la,lb] 1,
+             choiceP [NodeN Seq [choiceP [la,la] 2,
+                                 lb2] 2,
                       NodeN Seq [NodeN Choice [la,lb] 2,
-                                 lc2] 2,
-                      NodeN Seq [la,lb] 1] 4
+                                 lc2] 2 ] 4
             ~=? choiceFoldSuffix (NodeN Choice [NodeN Seq [la,lb] 1,
                                                 NodeN Seq [lb,lc] 1,
                                                 NodeN Seq [la,lc] 1,
                                                 NodeN Seq [la,lb] 1] 4),
     "choiceFoldId1" ~: choiceSim (choiceFoldSuffix cba2) /= 
-                            choiceFoldPrefix (choiceSim cba2) @? "neq" ]
+                            choiceFoldPrefix (choiceSim cba2) @? "neq",
+    "choiceFoldLongSuffix" ~:
+           NodeN Seq [NodeN Choice [seqP [la,lb,lc] 1,
+                                    seqP [le,lf,lg] 1 ] 2,
+                      ld2] 2
+            ~=? choiceFoldSuffix (NodeN Choice [sabcd,sefgd] 2) 
+                            ]
 
 
 clbca = NodeN Choice [NodeN Seq [la,lc] 1, 
                       NodeN Seq [Node1 PLoop la 1 1,
                                  lb] 1]  2
 
-loopChoiceFoldTests = [
-    "loopChoiceFold1" ~: choiceFoldPrefix la ~=? la ,
-    "loopChoiceFold2" ~: choiceFoldPrefix cab  ~=? cab]
-
-{- TODO
+loopChoiceFoldPrefixTests = [
+    "loopChoiceFold1" ~: loopChoiceFoldPrefix la ~=? la ,
+    "loopChoiceFold2" ~: loopChoiceFoldPrefix cab  ~=? cab,
     "loopChoiceFold3" ~: NodeN Seq [Node1 PLoop  la2 1 2,
                                     NodeN Choice [lb,lc] 2] 
                                    2
-            ~=? choiceFoldPrefix clbca ]
+            ~=? loopChoiceFoldPrefix clbca ,
     "loopChoiceFoldId1" ~: 
-           choiceSim (choiceFold cba2) /= loopChoiceFold (choiceSim cba2) 
-                                @? "neq",
+           choiceSim (choiceFoldPrefix cba2) 
+           /= loopChoiceFoldPrefix (choiceSim cba2) @? "neq",
+    "loopChoiceFoldLongPrefix" ~:  
+           NodeN Seq [Node1 PLoop la3 2 3,
+                      choiceP [NodeN Seq [lb,lc] 1, 
+                               choiceP [seqP [ld,le] 1, 
+                                        lb] 2] 3 ] 3
+            ~=? loopChoiceFoldPrefix (NodeN Choice [sabc,sade,slab] 3)
+            ]
+
+loopChoiceFoldSuffixTests = []
+
+            {-,
     "loopChoiceFoldLongSuffix" ~:  
-           NodeN Seq [Node2 Choice [NodeN Seq [NodeN Seq [lb,lc] 1, 
+           NodeN Seq [NodeN Choice [NodeN Seq [NodeN Seq [lb,lc] 1, 
                                                la] 1, 
-                                    NodeN Seq [Node2 Seq [lf,lg] 1, 
-                                               le] 1] 
-                                   ] 2
-                      (Node1 PLoop ld 1 1) 2
-                            /= loopChoiceFold (NodeN Choice sabcd sefgd 2)
-                            @? "impl gap" ]
--}
+                                    NodeN Seq [NodeN Seq [lf,lg] 1, 
+                                               le] 1] 2,
+                      Node1 PLoop ld 3 1] 2
+            ~=? loopChoiceFoldSuffix (NodeN Choice [sabcld,sefgd] 2)
+                            ]  -}
 
 
-{-
- - TODO
- -
-    "choiceFoldLongSuffix" ~:
-           Node2 Seq (NodeN Choice (Node2 Seq la
-                                              (Node2 Seq lb lc 1) 1)
-                                   (Node2 Seq le
-                                              (Node2 Seq lf lg 1) 1)
-                                   2)
-                      ld2 2
-                            ~=? choiceFold (Node2 Choice sabcd sefgd 2)  -}
+
+loopChoiceFoldTests = loopChoiceFoldPrefixTests ++ loopChoiceFoldSuffixTests
 
 
 choiceSkipPrefixTests = [

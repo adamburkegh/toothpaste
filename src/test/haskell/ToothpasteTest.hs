@@ -82,8 +82,28 @@ adjMergeTests = [
         "tripleSame"  ~: [6,3]       ~=? adjMerge (==) (+) [3,3,3],
         "tripleAll"   ~: [9]       ~=? adjMerge (>=) (+) [3,3,3],
         "tripleHead"  ~: [10,2]       ~=? adjMerge (==) (+) [5,5,2],
-        "tripleMid"   ~: [1,10]       ~=? adjMerge (==) (+) [1,5,5]
+        "tripleMid"   ~: [1,10]       ~=? adjMerge (==) (+) [1,5,5],
+        "tripleSplit" ~: [1,5,1]    ~=? adjMerge (==) (+) [1,5,1]
     ]
+
+
+-- Meta rule tests
+anyMergeTests = [ 
+        "empty"     ~: ([]::[Int])  ~=? anyMerge (==) (+) ([]::[Int]),
+        "single"    ~: [1]       ~=? anyMerge (==) (+) [1],
+        "double"    ~: [2]       ~=? anyMerge (==) (+) [1,1],
+        "double2"   ~: [6]       ~=? anyMerge (==) (+) [3,3],
+        "doubleNo"  ~: [1,2]       ~=? anyMerge (==) (+) [1,2],
+        "tripleNo"  ~: [1,2,3]       ~=? anyMerge (==) (+) [1,2,3],
+        "tripleSame"  ~: [3,6]       ~=? anyMerge (==) (+) [3,3,3],
+        "tripleAll"   ~: [9]       ~=? anyMerge (<=) (+) [3,3,3],
+        "tripleHead"  ~: [10,2]       ~=? anyMerge (==) (+) [5,5,2],
+        "tripleMid"   ~: [1,10]       ~=? anyMerge (==) (+) [1,5,5],
+        "tripleSplit" ~: [2,5]    ~=? anyMerge (==) (+) [1,5,1],
+        "quadSplit1"  ~: [2,10]   ~=? anyMerge (==) (+) [1,5,1,5], 
+        "quad2"       ~: [2,10]   ~=? anyMerge (==) (+) [1,5,5,1] 
+    ]
+
 
 -- Rule tests
 
@@ -502,7 +522,7 @@ validateTests = [
 
 --
 
-metaRuleTests = adjMergeTests
+metaRuleTests = adjMergeTests ++ anyMergeTests
 
 ruleTests   = silentSeqTests  ++ silentConcTests
            ++ singleNodeOpTests 

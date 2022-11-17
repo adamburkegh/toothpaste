@@ -45,6 +45,14 @@ adjMerge simF mergeF (x:y:xs)
 adjMerge sf mf [x] = [x]
 adjMerge sf mf []  = []
 
+-- if simFunction among any children, merge them
+anyMerge :: (a->a->Bool) -> (a->a->a) -> [a] -> [a]
+anyMerge simF mergeF (x:xs) 
+    | null fl   = (x:nfl)
+    | otherwise = ( map (\y -> x `mergeF` y) fl  ) 
+                              ++ nfl
+    where (fl,nfl) = partition (\y -> x `simF` y) (anyMerge simF mergeF xs)
+anyMerge sf mf []  = []
 
 
 -- Rules proper
@@ -78,7 +86,7 @@ choiceSim :: (Eq a, Ord a) => PRule a
 choiceSim = choiceChildMR (adjMerge (=~=) merge)
 
 loopSim :: (Eq a, Ord a) => PRule a
-loopSim = choiceChildMR  (adjMerge (=&=) lmerge)
+loopSim = choiceChildMR  (anyMerge (=&=) lmerge)
 
 concSim :: Eq a => PRule a
 concSim (NodeN Conc ptl w)
@@ -99,7 +107,7 @@ lconcMerge u1 u2 = Node1 FLoop (lmerge u1 u2) 2 (w1+w2)
 loopConcSim :: Eq a => PRule a
 loopConcSim (NodeN Conc ptl w)
     | ptl /= cr = NodeN Conc cr w
-    where cr = adjMerge (=&=) lconcMerge ptl
+    where cr = anyMerge (=&=) lconcMerge ptl
 loopConcSim x = x
 
 fixedLoopRollSingle :: Eq a => PRule a
@@ -130,7 +138,7 @@ fixedLoopRollExisting x = x
 fixedLoopRoll :: (Eq a, Ord a) => PRule a
 fixedLoopRoll pt = fixedLoopRollExisting $ fixedLoopRollSingle pt
 
--- TODO remove 
+-- remove when probLoopRoll converted to sim-merge style
 loopRollEndPattern :: (Eq a) => PPTree a -> Float -> POper1 -> PPTree a
 loopRollEndPattern prev ct poper
     | ct > 1  = Node1 poper prev ct (weight prev)
@@ -191,10 +199,6 @@ flattenRule :: (Eq a) => PRule a
 flattenRule = flatten 
 
 -- choice folds
-isSeq :: PPTree a -> Bool
-isSeq (NodeN Seq ptl w) = True
-isSeq pt                = False
-
 headSim :: (Eq a, Ord a) => PSim a
 headSim (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2) 
     = pt1 =~= pt2
@@ -281,7 +285,7 @@ concFromChoice (NodeN Choice ptl w)
     | ptl /= cr  = choiceP cr w
     where cr           = ptlg ++ ptlnf
           (ptlf,ptlnf) = partition isNontrivSeq ptl
-          ptlg         = adjMerge conc2Sim conc2Merge ptlf
+          ptlg         = anyMerge conc2Sim conc2Merge ptlf
 concFromChoice x = x
 
 
@@ -305,11 +309,6 @@ conc2Merge (NodeN Seq (ptx1:pty1:ptl1) w1)
                       scale (merge pty1 pty2) (w2/(nw))] nw
 
 
-isNontrivSeq :: PPTree a -> Bool
-isNontrivSeq (NodeN Seq pt w) = length pt > 1
-isNontrivSeq x                = False
-
-
 
 -- concFromChoiceSuffix
 -- len == 2 only
@@ -318,8 +317,7 @@ concFromChoiceSuffix (NodeN Choice ptl w)
     | ptl /= cr  = choiceP cr w
     where cr           = ptlg ++ ptlnf
           (ptlf,ptlnf) = partition isNontrivSeq ptl
-          ptlg         = adjMerge conc2TailSim conc2TailMerge ptlf
-          -- TODO allMerge not adjMerge - ie not just adjacent
+          ptlg         = anyMerge conc2TailSim conc2TailMerge ptlf
 concFromChoiceSuffix x = x
 
 -- O(n)
@@ -396,7 +394,7 @@ baseRuleList = [
             TRule{rulename="loopNest",trule=loopNest},
             TRule{rulename="loopGeo",trule=loopGeo},
             TRule{rulename="loopSim",trule=loopSim},
-            -- TODO TRule{rulename="loopConcSim",trule=loopConcSim},
+            TRule{rulename="loopConcSim",trule=loopConcSim},
             TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="concFromChoiceSuffix",trule=concFromChoiceSuffix},
             TRule{rulename="loopFixToProb", trule=loopFixToProb} 

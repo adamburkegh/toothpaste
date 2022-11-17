@@ -104,6 +104,16 @@ concP :: (Ord a) => [PPTree a] -> Weight -> PPTree a
 concP (pt:ptl) w = NodeN Conc (sort (pt:ptl)) w
 concP [] w     = emptyTree
 
+-- Simple id functions
+isNontrivSeq :: PPTree a -> Bool
+isNontrivSeq (NodeN Seq pt w) = length pt > 1
+isNontrivSeq x                = False
+
+isSeq :: PPTree a -> Bool
+isSeq (NodeN Seq ptl w) = True
+isSeq pt                = False
+
+
 
 -- Careful using this one - it breaks consistency and can produce invalid trees
 -- Currently only used in converting a loop to a PetriNet - not from rules

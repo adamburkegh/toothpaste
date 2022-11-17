@@ -211,35 +211,45 @@ headMerge (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2)
     | otherwise = seqP [merge pt1 pt2,
             choiceP [ seqP ptl1 w1, seqP ptl2 w2 ] (w1+w2) ] (w1+w2)
 
-
-choiceFoldPrefix :: (Eq a, Ord a) => PRule a
-choiceFoldPrefix (NodeN Choice ptl w)
+choiceFoldMR :: (Eq a, Ord a) => PSim a -> PMerge a -> PRule a
+choiceFoldMR simF mergeF (NodeN Choice ptl w)
     | ptl /= cr  = choiceP cr w
     where cr           = ptlg ++ ptlnf
           (ptlf,ptlnf) = partition isSeq ptl
-          ptlg         = adjMerge headSim headMerge ptlf
-choiceFoldPrefix x = x
+          ptlg         = adjMerge simF mergeF ptlf
+choiceFoldMR sf mf x = x
+
+choiceFoldPrefix  :: (Eq a, Ord a) => PRule a
+choiceFoldPrefix = choiceFoldMR headSim headMerge
+
+-- O(n)
+tailSim :: (Eq a, Ord a) => PSim a
+tailSim (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2)
+    = last (pt1:ptl1) =~= last (pt2:ptl2)
+tailSim pt1 pt2 = False
+
+-- pre: non-empty
+lastSplit :: [a] -> (a,[a])
+lastSplit (x:y:xs)  = (lt,x:hs)
+    where (lt,hs)   = lastSplit(y:xs)
+lastSplit [x]       = (x,[])
 
 
--- Warning last is O(N) on lists
-seqSuffixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
-seqSuffixMerge ((NodeN Seq ptl1 w1):(NodeN Seq ptl2 w2):ptl)
-    | pt1 =~= pt2 = seqP [ choiceP [seqP nptl1 w1,
-                                    seqP nptl2 w2] nw,
-                                 merge pt1 pt2] nw:
-                     seqSuffixMerge ptl
-    | otherwise = NodeN Seq ptl1 w1:
-                  seqSuffixMerge (NodeN Seq ptl2 w2:ptl)
-     where pt1 = last ptl1
-           pt2 = last ptl2
-           nptl1 = take (length ptl1-1) ptl1
-           nptl2 = take (length ptl2-1) ptl2
-           nw = w1+w2
-seqSuffixMerge ptl = ptl
+-- pre: non-empty sequences
+tailMerge :: (Ord a) => PMerge a
+tailMerge (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2) 
+    = seqP [ choiceP [ seqP pttl1 w1, seqP pttl2 w2 ] (w1+w2), 
+                       merge pt1 pt2 ] (w1+w2)
+    where (pt1, pttl1) = lastSplit ptl1
+          (pt2, pttl2) = lastSplit ptl2
+
 
 -- duplication across prefix suffix folds and maybe other choice
 choiceFoldSuffix :: (Eq a, Ord a) => PRule a
-choiceFoldSuffix = choiceChildMR seqSuffixMerge
+choiceFoldSuffix =  choiceFoldMR tailSim tailMerge
+
+
+
 
 -- choice skips
 choiceSkipPrefixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
@@ -280,13 +290,17 @@ choiceSkipPrefixCompress pt = norm $ choiceFoldPrefix $ choiceSkipPrefix pt
 
 -- concFromChoice (Prefix) 
 -- len == 2 only
-concFromChoice :: (Eq a, Ord a) => PRule a
-concFromChoice (NodeN Choice ptl w)
+concFromChoiceMR :: (Eq a, Ord a) => 
+    PSim a -> PMerge a -> PRule a
+concFromChoiceMR simF mergeF (NodeN Choice ptl w)
     | ptl /= cr  = choiceP cr w
     where cr           = ptlg ++ ptlnf
           (ptlf,ptlnf) = partition isNontrivSeq ptl
-          ptlg         = anyMerge conc2Sim conc2Merge ptlf
-concFromChoice x = x
+          ptlg         = anyMerge simF mergeF ptlf
+concFromChoiceMR simF mergeF x = x
+
+concFromChoice :: (Eq a, Ord a) => PRule a
+concFromChoice = concFromChoiceMR conc2Sim conc2Merge 
 
 
 conc2Sim :: (Eq a, Ord a) => PSim a
@@ -313,12 +327,7 @@ conc2Merge (NodeN Seq (ptx1:pty1:ptl1) w1)
 -- concFromChoiceSuffix
 -- len == 2 only
 concFromChoiceSuffix :: (Eq a, Ord a) => PRule a
-concFromChoiceSuffix (NodeN Choice ptl w)
-    | ptl /= cr  = choiceP cr w
-    where cr           = ptlg ++ ptlnf
-          (ptlf,ptlnf) = partition isNontrivSeq ptl
-          ptlg         = anyMerge conc2TailSim conc2TailMerge ptlf
-concFromChoiceSuffix x = x
+concFromChoiceSuffix = concFromChoiceMR conc2TailSim conc2TailMerge 
 
 -- O(n)
 conc2TailSim :: (Eq a, Ord a) => PSim a
@@ -358,6 +367,8 @@ tail2 []    = ([],[])
 isConc :: PPTree a -> Bool
 isConc (NodeN Conc ptl w) = True
 isConc pt                 = False
+
+
 
 {-
 concSubsume :: (Eq a, Ord a) => PRule a

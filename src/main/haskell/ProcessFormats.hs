@@ -1,6 +1,5 @@
 module ProcessFormats where
 
-import Binpaste
 import PetriNet
 import ToString
 import Text.XML.Light

@@ -205,8 +205,8 @@ headSimMS simf (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2)
     = pt1 `simf` pt2
 headSimMS sf pt1 pt2 = False
 
-headMergeMS :: (Ord a) => PMerge a -> PMerge a
-headMergeMS mergef (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2) 
+headMergeMM :: (Ord a) => PMerge a -> PMerge a
+headMergeMM mergef (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2) 
     | null ptl1 && null ptl2 = mergef pt1 pt2 -- when though?
     -- | null ptl1 = Silent case
     | otherwise = seqP [mergef pt1 pt2,
@@ -221,13 +221,13 @@ choiceFoldMR simF mergeF (NodeN Choice ptl w)
 choiceFoldMR sf mf x = x
 
 choiceFoldPrefix  :: (Eq a, Ord a) => PRule a
-choiceFoldPrefix = choiceFoldMR (headSimMS (=~=)) (headMergeMS merge)
+choiceFoldPrefix = choiceFoldMR (headSimMS (=~=)) (headMergeMM merge)
 
 -- O(n)
-tailSim :: (Eq a, Ord a) => PSim a
-tailSim (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2)
-    = last (pt1:ptl1) =~= last (pt2:ptl2)
-tailSim pt1 pt2 = False
+tailSimMS :: (Eq a, Ord a) => PSim a -> PSim a
+tailSimMS simF (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2)
+    = last (pt1:ptl1) `simF` last (pt2:ptl2)
+tailSimMS simF pt1 pt2 = False
 
 -- pre: non-empty
 lastSplit :: [a] -> (a,[a])
@@ -236,24 +236,24 @@ lastSplit (x:y:xs)  = (lt,x:hs)
 lastSplit [x]       = (x,[])
 
 -- pre: non-empty sequences
-tailMerge :: (Ord a) => PMerge a
-tailMerge (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2) 
+tailMergeMM :: (Ord a) => PMerge a -> PMerge a
+tailMergeMM mergeF (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2) 
     = seqP [ choiceP [ seqP pttl1 w1, seqP pttl2 w2 ] (w1+w2), 
-                       merge pt1 pt2 ] (w1+w2)
+                       mergeF pt1 pt2 ] (w1+w2)
     where (pt1, pttl1) = lastSplit ptl1
           (pt2, pttl2) = lastSplit ptl2
 
 
 choiceFoldSuffix :: (Eq a, Ord a) => PRule a
-choiceFoldSuffix =  choiceFoldMR tailSim tailMerge
+choiceFoldSuffix =  choiceFoldMR (tailSimMS (=~=)) (tailMergeMM merge)
 
 loopChoiceFoldPrefix :: (Eq a, Ord a) => PRule a
-loopChoiceFoldPrefix = choiceFoldMR (headSimMS (=&=)) (headMergeMS lmerge)
+loopChoiceFoldPrefix = choiceFoldMR (headSimMS (=&=)) (headMergeMM lmerge)
 
 
 -- O(n)
--- loopChoiceFoldSuffix :: (Eq a, Ord a) => PRule a
--- loopChoiceFoldSuffix = choiceFoldMR ltailSim ltailMerge
+loopChoiceFoldSuffix :: (Eq a, Ord a) => PRule a
+loopChoiceFoldSuffix = choiceFoldMR (tailSimMS (=&=)) (tailMergeMM lmerge)
 
 
 -- choice skips

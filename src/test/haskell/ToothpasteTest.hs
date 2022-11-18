@@ -58,6 +58,7 @@ looppa2 = Node1 PLoop la2 2 2
 l4pa1   = Node1 PLoop la 4 1
 sabcld = NodeN Seq [la,lb,lc, Node1 PLoop ld 3 1] 1
 slab   = NodeN Seq [l4pa1,lb] 1
+slabc  = NodeN Seq [l4pa1,lb,lc] 1
 
 silentSingleRuleList :: (Eq a, Ord a) => [TRule a]
 silentSingleRuleList = [
@@ -462,9 +463,29 @@ concFromChoiceSuffixTests = [
                         ~=? concFromChoiceSuffix (NodeN Choice [scab,sdba2] 3) 
     ]
 
+
+loopConcFromChoicePrefTests = [ 
+    "lconcFromChoice1" ~: ccab1 ~=? loopConcFromChoice ccab1, 
+    "lconcFromChoice2" ~: la ~=? loopConcFromChoice la ,
+    "lconcFromChoice3" ~: concP [ploop la 2.5 1,lb] 2 
+                        ~=? loopConcFromChoice( NodeN Choice [slab,sba] 2),
+    "lconcFromChoiceSeqNoop" ~: choiceP [sab,sab] 2
+                        ~=? loopConcFromChoice( NodeN Choice [sab,sab] 2),
+    "lconcFromChoice4" ~: concP [ploop la 2 1,lb2] 3 
+                        ~=? loopConcFromChoice( NodeN Choice [slab,sba2] 3) ,
+    "lconcFromChoice5" ~: seqP [concP [ploop la 2 1,lb2] 3, 
+                                choiceP [lc,Silent 2] 3 ] 3
+                        ~=? loopConcFromChoice( NodeN Choice [slabc,sba2] 3),
+    "lconcFromChoice6" ~: seqP [concP [ploop la 2 1,lb2] 3, 
+                                choiceP [lc,ld2] 3 ] 3
+                        ~=? loopConcFromChoice( NodeN Choice [slabc,sbad2] 3) 
+                            ]
+
+
 concFromChoiceTests = concFromChoicePrefTests
                    ++ tail2Tests
                    ++ concFromChoiceSuffixTests
+                   ++ loopConcFromChoicePrefTests
 
 --
 

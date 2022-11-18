@@ -48,8 +48,8 @@ adjMerge sf mf []  = []
 -- if simFunction among any children, merge them
 anyMerge :: (a->a->Bool) -> (a->a->a) -> [a] -> [a]
 anyMerge simF mergeF (x:xs) 
-    | null fl   = (x:nfl)
-    | otherwise = ( map (\y -> x `mergeF` y) fl  ) 
+    | null fl   = x:nfl
+    | otherwise = map (\y -> x `mergeF` y) fl   
                               ++ nfl
     where (fl,nfl) = partition (\y -> x `simF` y) (anyMerge simF mergeF xs)
 anyMerge sf mf []  = []
@@ -319,13 +319,13 @@ conc2Merge (NodeN Seq (ptx1:pty1:ptl1) w1)
     | null ptl1 && null ptl2     = hc
     | null ptl1 && not (null ptl2)
         = seqP  [hc, choiceP [Silent w1,seqP ptl2 w2] nw ] nw
-    | (not (null ptl1)) && null ptl2 
+    | not (null ptl1) && null ptl2 
         = seqP  [hc, choiceP [seqP ptl1 w1,Silent w2] nw]  nw
     | otherwise 
         = seqP [hc, choiceP [ seqP ptl1 w1, seqP ptl2 w2 ] nw ] nw
     where nw = w1+w2
-          hc = concP [scale (merge ptx1 ptx2) (w1/(nw)),
-                      scale (merge pty1 pty2) (w2/(nw))] nw
+          hc = concP [scale (merge ptx1 ptx2) (w1/nw),
+                      scale (merge pty1 pty2) (w2/nw)] nw
 
 
 
@@ -349,15 +349,15 @@ conc2TailMerge (NodeN Seq ptl1 w1)
     | null hds1 && null hds2     = tc
     | null hds1 && not (null hds2)
         = seqP  [choiceP [Silent w1, seqP hds2 w2] nw, tc] nw
-    | (not (null hds1)) && null hds2 
+    | not (null hds1) && null hds2 
         = seqP  [choiceP [seqP hds1 w1, Silent w2] nw, tc] nw
     | otherwise 
         = seqP  [choiceP [ seqP hds1 w1, seqP hds2 w2 ] nw, tc] nw
     where nw = w1+w2
           (hds1,[ptx1,pty1]) = tail2 ptl1
           (hds2,[pty2,ptx2]) = tail2 ptl2
-          tc = concP [scale (merge ptx1 ptx2) (w1/(nw)),
-                      scale (merge pty1 pty2) (w2/(nw))] nw
+          tc = concP [scale (merge ptx1 ptx2) (w1/nw),
+                      scale (merge pty1 pty2) (w2/nw)] nw
 
 
 

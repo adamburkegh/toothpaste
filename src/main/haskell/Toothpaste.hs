@@ -403,6 +403,36 @@ concPairLoopMerge ptx1 ptx2 = merge ptx1 ptx2
 loopConcFromChoice :: (Eq a, Ord a) => PRule a
 loopConcFromChoice = concFromChoiceMR lconc2Sim lconc2Merge 
 
+-- O(n)
+lconc2TailSim :: (Eq a, Ord a) => PSim a
+lconc2TailSim (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2) 
+    = length ptl1 > 1 && length ptl2 > 1 
+        && ( (ptx1 =~= ptx2 && pty1 =&= pty2) 
+             ||  (ptx1 =&= ptx2 && pty1 =~= pty2 ) )
+    where (_,[ptx1,pty1]) = tail2 ptl1
+          (_,[pty2,ptx2]) = tail2 ptl2
+lconc2TailSim pt1 pt2 = False
+
+lconc2TailMerge :: (Ord a) => PMerge a
+lconc2TailMerge (NodeN Seq ptl1 w1) 
+               (NodeN Seq ptl2 w2) 
+    | null hds1 && null hds2     = tc
+    | null hds1 && not (null hds2)
+        = seqP  [choiceP [Silent w1, seqP hds2 w2] nw, tc] nw
+    | not (null hds1) && null hds2 
+        = seqP  [choiceP [seqP hds1 w1, Silent w2] nw, tc] nw
+    | otherwise 
+        = seqP  [choiceP [ seqP hds1 w1, seqP hds2 w2 ] nw, tc] nw
+    where nw = w1+w2
+          (hds1,[ptx1,pty1]) = tail2 ptl1
+          (hds2,[pty2,ptx2]) = tail2 ptl2
+          tc = concP [scale (concPairLoopMerge ptx1 ptx2) (w1/nw),
+                      scale (concPairLoopMerge pty1 pty2) (w2/nw)] nw
+
+
+
+loopConcFromChoiceSuffix :: (Eq a, Ord a) => PRule a
+loopConcFromChoiceSuffix = concFromChoiceMR lconc2TailSim lconc2TailMerge 
 
 
 isConc :: PPTree a -> Bool
@@ -452,6 +482,7 @@ baseRuleList = [
             TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="concFromChoiceSuffix",trule=concFromChoiceSuffix},
             TRule{rulename="loopConcFromChoice",trule=loopConcFromChoice},
+            TRule{rulename="loopConcFromChoice",trule=loopConcFromChoiceSuffix},
             TRule{rulename="loopFixToProb", trule=loopFixToProb} 
             ]
 

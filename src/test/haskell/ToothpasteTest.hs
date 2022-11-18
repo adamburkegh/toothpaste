@@ -28,6 +28,7 @@ sab  = NodeN Seq [la,lb] 1
 sabc  = NodeN Seq [la,lb,lc] 1
 sabcd  = NodeN Seq [la,lb,lc,ld] 1
 sade = NodeN Seq [la,ld,le] 1
+sablc = seqP [la, lb, ploop lc 4 1] 1
 sba  = NodeN Seq [lb,la] 1
 sba2 = NodeN Seq [lb2,la2] 2
 sbc2 = seqP [lb2,lc2] 2
@@ -36,6 +37,7 @@ sca = seqP [lc,la] 1
 scab = seqP [lc,la,lb] 1
 scb2 = seqP [lc2,lb2] 2
 sdba2 = seqP [ld2,lb2,la2] 2
+sdlba2 = seqP [ld2,ploop lb2 4 2,la2] 2
 sdb2  = seqP [ld2,lb2] 2
 sefgd = seqP [le,lf,lg,ld] 1
 
@@ -482,10 +484,27 @@ loopConcFromChoicePrefTests = [
                             ]
 
 
+loopConcFromChoiceSuffixTests = [ 
+    "lcfcLeaf"   ~: loopConcFromChoiceSuffix la ~=? la,
+    "lconcNoop"  ~: loopConcFromChoiceSuffix ccab1 ~=? ccab1,
+    "lcfcs1" ~: concP [ploop la 2.5 1,lb] 2 
+                    ~=? loopConcFromChoiceSuffix (NodeN Choice [slab,sba] 2),
+    "lconcFromChoiceSeqNoop" ~: choiceP [slab,sab] 2
+                            ~=? loopConcFromChoice( choiceP [slab,sab] 2),
+    "lcfcs2" ~: concP [ploop la 2 1,lb2] 3 
+                    ~=? loopConcFromChoiceSuffix (NodeN Choice [slab,sba2] 3),
+    "lcfcs3" ~: seqP [choiceP [la, Silent 2] 3, 
+                      concP [lb,ploop lc2 2 2] 3] 3 
+                    ~=? loopConcFromChoiceSuffix (NodeN Choice [sablc,scb2] 3),
+    "lcfcs4" ~: seqP [ choiceP [lc,ld2] 3,  concP [la,ploop lb2 3 2] 3 ] 3
+                    ~=? loopConcFromChoiceSuffix (NodeN Choice [scab,sdlba2] 3) 
+    ]
+
 concFromChoiceTests = concFromChoicePrefTests
                    ++ tail2Tests
                    ++ concFromChoiceSuffixTests
                    ++ loopConcFromChoicePrefTests
+                   ++ loopConcFromChoiceSuffixTests
 
 --
 

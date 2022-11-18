@@ -410,6 +410,8 @@ baseRuleList = [
             TRule{rulename="loopNest",trule=loopNest},
             TRule{rulename="loopGeo",trule=loopGeo},
             TRule{rulename="loopSim",trule=loopSim},
+            TRule{rulename="loopChoiceFoldPrefix",trule=loopChoiceFoldPrefix},
+            TRule{rulename="loopChoiceFoldSuffix",trule=loopChoiceFoldSuffix},
             TRule{rulename="loopConcSim",trule=loopConcSim},
             TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="concFromChoiceSuffix",trule=concFromChoiceSuffix},

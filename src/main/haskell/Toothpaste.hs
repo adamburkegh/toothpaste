@@ -17,6 +17,7 @@ debug = debugOn
 
 -- Debug OFF
 -- debug = debugOff
+
 warn :: String -> a -> a
 warn = trace 
 
@@ -471,29 +472,108 @@ concSeqSim  (NodeN Conc ptl2 w2) (NodeN Seq ptl1 w1)
           sptl2 = sort ptl2
 concSeqSim pt1 pt2 = False
 
+-- seq element comes first
+cscaleMerge :: PMerge a -> PMerge a
+cscaleMerge mergeF pt1 pt2 
+    = scale (mergeF pt1 pt2) ((weight pt2)/(weight pt1 + weight pt2)) 
+
 -- pre: order is consistent with similarity
 concSeqMerge :: (Ord a, Eq a) => PMerge a
 concSeqMerge (NodeN Seq (pt1:ptl1) w1) (NodeN Conc ptl2 w2) 
     = concP ((merge pt1 pt2):sctl) (w1+w2)
     where  (nml,ml)   = break (\pt2 -> pt1 =~= pt2) ptl2
            (pt2:mltl) = ml
-           sctl       = 
-                map (\(x,y) -> scale (merge x y) 
-                                     ((weight y)/(weight x + weight y))) 
-                    (zip ptl1 (nml ++ mltl))
+           sctl       = map (\(x,y) -> cscaleMerge merge x y)  
+                            (zip ptl1 (nml ++ mltl))
 concSeqMerge (NodeN Conc ptl2 w2) (NodeN Seq (pt1:ptl1) w1)  
     = concP ((merge pt1 pt2):sctl) (w1+w2)
     where  (nml,ml)   = break (\pt2 -> pt1 =~= pt2) ptl2
            (pt2:mltl) = ml
-           sctl       = 
-                map (\(x,y) -> scale (merge x y) 
-                               ((weight y)/(weight x + weight y))) 
-                    (zip ptl1 (nml ++ mltl))
+           sctl       = map (\(x,y) -> cscaleMerge merge x y) 
+                            (zip ptl1 (nml ++ mltl))
 
-
+-- full match no child limit
 concSubsume :: (Eq a, Ord a) => PRule a
 concSubsume = concSubsumeMR (anyMerge concSeqSim concSeqMerge )
 
+lconcSeq2FwdSim :: (Ord a, Eq a) => PSim a 
+lconcSeq2FwdSim (NodeN Seq  (ptx1:pty1:ptl1) w1) 
+                (NodeN Conc [ptx2,pty2] w2) 
+    =  (ptx1 =&= ptx2 && pty1 =~= pty2)
+     ||(ptx1 =~= ptx2 && pty1 =&= pty2)
+     ||(ptx1 =&= ptx2 && pty1 =&= pty2)
+lconcSeq2FwdSim (NodeN Conc  [ptx1,pty1] w1) 
+                  (NodeN Seq   (ptx2:pty2:ptl2) w2) 
+    = (ptx1 =&= ptx2 && pty1 =~= pty2)
+    ||(ptx1 =~= ptx2 && pty1 =&= pty2)
+    ||(ptx1 =&= ptx2 && pty1 =&= pty2)
+lconcSeq2FwdSim pt1 pt2 = False
+
+lconcSeq2FwdMerge :: (Ord a, Eq a) => PMerge a
+lconcSeq2FwdMerge (NodeN Seq  (ptx1:pty1:ptl1) w1) 
+                  (NodeN Conc [ptx2,pty2] w2) 
+    | null ptl1 = concRes
+    | otherwise = seqP [concRes,
+                        choiceP [Silent w2, seqP ptl1 w1] nw ] nw
+    where nw      = w1+w2
+          concRes = concP [concPairLoopMerge ptx1 ptx2, 
+                           cscaleMerge concPairLoopMerge pty1 pty2] nw
+lconcSeq2FwdMerge  (NodeN Conc [ptx2,pty2] w2) 
+                   (NodeN Seq   (ptx1:pty1:ptl1) w1) 
+    | null ptl1 = concRes
+    | otherwise = seqP [concRes,
+                        choiceP [Silent w2, seqP ptl1 w1] nw ] nw
+    where nw      = w1+w2
+          concRes = concP [concPairLoopMerge ptx1 ptx2, 
+                           cscaleMerge concPairLoopMerge pty1 pty2] nw
+
+
+
+lconcSeq2RevSim :: (Ord a, Eq a) => PSim a 
+lconcSeq2RevSim (NodeN Seq  (ptx1:pty1:ptl1) w1) 
+                (NodeN Conc [pty2,ptx2] w2) 
+    =  (ptx1 =&= ptx2 && pty1 =~= pty2)
+     ||(ptx1 =~= ptx2 && pty1 =&= pty2)
+     ||(ptx1 =&= ptx2 && pty1 =&= pty2)
+lconcSeq2RevSim (NodeN Conc  [pty1,ptx1] w1) 
+                (NodeN Seq   (ptx2:pty2:ptl2) w2) 
+    = (ptx1 =&= ptx2 && pty1 =~= pty2)
+    ||(ptx1 =~= ptx2 && pty1 =&= pty2)
+    ||(ptx1 =&= ptx2 && pty1 =&= pty2)
+lconcSeq2RevSim pt1 pt2 = False
+
+
+lconcSeq2RevMerge :: (Ord a, Eq a) => PMerge a
+lconcSeq2RevMerge (NodeN Seq  (ptx1:pty1:ptl1) w1) 
+                  (NodeN Conc [pty2,ptx2] w2) 
+    | null ptl1 = concRes
+    | otherwise = seqP [concRes,
+                        choiceP [Silent w2, seqP ptl1 w1] nw ] nw
+    where nw      = w1+w2
+          concRes = concP [concPairLoopMerge ptx1 ptx2, 
+                           cscaleMerge concPairLoopMerge pty1 pty2] nw
+lconcSeq2RevMerge  (NodeN Conc [pty2,ptx2] w2) 
+                   (NodeN Seq  (ptx1:pty1:ptl1) w1) 
+    | null ptl1 = concRes
+    | otherwise = seqP [concRes,
+                        choiceP [Silent w2, seqP ptl1 w1] nw ] nw
+    where nw      = w1+w2
+          concRes = concP [concPairLoopMerge ptx1 ptx2, 
+                           cscaleMerge concPairLoopMerge pty1 pty2] nw
+
+
+
+-- pairs only
+loopConcSubsumeFwd :: (Eq a, Ord a) => PRule a
+loopConcSubsumeFwd = concSubsumeMR (anyMerge (lconcSeq2FwdSim) 
+                                             (lconcSeq2FwdMerge) ) 
+
+loopConcSubsumeRev  :: (Eq a, Ord a) => PRule a
+loopConcSubsumeRev =  concSubsumeMR (anyMerge (lconcSeq2RevSim) 
+                                              (lconcSeq2RevMerge) ) 
+
+loopConcSubsume  :: (Eq a, Ord a) => PRule a
+loopConcSubsume = loopConcSubsumeRev . loopConcSubsumeFwd 
 
 -- Rule lists
 
@@ -522,6 +602,7 @@ baseRuleList = [
             TRule{rulename="loopConcFromChoice",trule=loopConcFromChoice},
             TRule{rulename="loopConcFromChoiceSuffix",
                   trule=loopConcFromChoiceSuffix},
+            TRule{rulename="loopConcSubsume",trule=loopConcSubsume},
             TRule{rulename="loopFixToProb", trule=loopFixToProb} 
             ]
 

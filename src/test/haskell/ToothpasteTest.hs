@@ -8,13 +8,13 @@ import Test.HUnit
 
 
 
-la = Leaf "a" 1
-lb = Leaf "b" 1
-lc = Leaf "c" 1
-ld = Leaf "d" 1
-le = Leaf "e" 1
-lf = Leaf "f" 1
-lg = Leaf "g" 1
+la  = Leaf "a" 1
+lb  = Leaf "b" 1
+lc  = Leaf "c" 1
+ld  = Leaf "d" 1
+le  = Leaf "e" 1
+lf  = Leaf "f" 1
+lg  = Leaf "g" 1
 cab = NodeN Choice [la,lb] 2
 cab3 = NodeN Choice [NodeN Seq [lb,la] 1,NodeN Seq [lb,lb] 1] 2
 cab4 = NodeN Choice [NodeN Seq [lb,la,lc] 1,NodeN Seq [lb,lb,lb] 1] 2
@@ -52,6 +52,7 @@ la5 = Leaf "a" 5
 la11 = Leaf "a" 11
 lb2 = Leaf "b" 2
 lb3 = Leaf "b" 3
+lb4 = Leaf "b" 4
 lc2 = Leaf "c" 2
 lc3 = Leaf "c" 3
 ld2 = Leaf "d" 2
@@ -562,7 +563,7 @@ concFromChoiceTests = concFromChoicePrefTests
                    ++ loopConcFromChoicePrefTests
                    ++ loopConcFromChoiceSuffixTests
 
-concSubsumeTests = [
+concSubsumeTests1 = [
     "concSubsume1" ~: concSubsume la ~=? la,
     "concSubsume2" ~: cab ~=? concSubsume cab,
     "concSubsume3" ~: choiceP [seqP [la,lb] 1,
@@ -587,6 +588,78 @@ concSubsumeTests = [
                                                NodeN Seq  [la,lb,lc] 1] 4)
                                               ]
 
+
+loopConcSubsumeFwdTests = [
+    "lconcSubsume1" ~: loopConcSubsumeFwd la ~=? la,
+    "lconcSubsume2" ~: cab ~=? loopConcSubsumeFwd cab,
+    "lconcSubsume3" ~: choiceP [seqP [ploop la 4 1,lb] 1,
+                                seqP [la,lb] 1] 2
+        ~=? loopConcSubsumeFwd (choiceP [seqP [ploop la 4 1,lb] 1,
+                                   seqP [la,lb] 1] 2),
+    "lconcSubsumePair1" ~: concP [ploop la2 2.5 2,lb] 3
+        ~=? loopConcSubsumeFwd (NodeN Choice [NodeN Seq  [ploop la 4 1,lb] 1,
+                                           NodeN Conc [la,lb] 2] 3),
+    "lconcSubsumePair2" ~: concP [ploop la3 3 3,lb] 4
+        ~=? loopConcSubsumeFwd (NodeN Choice [concP [la,lb] 2,
+                                           seqP  [ploop la2 4 2,lb2] 2] 4),
+    "lconcSubsumePair3" ~: concP [ploop la4 2 4,lb] 5
+        ~=? loopConcSubsumeFwd (NodeN Choice [NodeN Conc [ploop la2 3 2,lb] 3,
+                                           NodeN Seq  [la2,lb2] 2] 5),
+    "lconcSubsumeTail1" ~: seqP[concP [ploop la4 2.5 4,lb] 5,
+                                choiceP [Silent 3,lc2] 5 ] 5  
+        ~=? loopConcSubsumeFwd (choiceP [concP [la2,lb] 3,
+                                      seqP [ploop la2 4 2,lb2,lc2] 2] 5),
+    "lconcSubsumePairRevNoop" ~: 
+        choiceP [concP [la2,lb] 3,
+                 seqP  [lb2,ploop la2 7 2] 2] 5
+        ~=? loopConcSubsumeFwd (choiceP [concP [la2,lb] 3,
+                                      seqP  [lb2,ploop la2 7 2] 2] 5),
+    "lconcSubsumeTripleNoop" ~: 
+            NodeN Choice [NodeN Conc [ploop la 4 1,lc,lb] 2,
+                          NodeN Seq  [la,lb,lc] 1] 4
+        ~=? loopConcSubsumeFwd 
+                (NodeN Choice [NodeN Conc [ploop la 4 1,lc,lb] 2,
+                               NodeN Seq  [la,lb,lc] 1] 4)
+         ]
+
+
+loopConcSubsumeRevTests = [
+    "lconcSubsume1" ~: loopConcSubsumeRev la ~=? la,
+    "lconcSubsume2" ~: cab ~=? loopConcSubsumeRev cab,
+    "lconcSubsume3" ~: choiceP [seqP [ploop la 4 1,lb] 1,
+                                seqP [la,lb] 1] 2
+        ~=? loopConcSubsumeRev (choiceP [seqP [ploop la 4 1,lb] 1,
+                                   seqP [la,lb] 1] 2),
+    "lconcSubsumePair1" ~: concP [ploop la2 2.5 2,lb] 3
+        ~=? loopConcSubsumeRev (NodeN Choice [NodeN Seq  [ploop la 4 1,lb] 1,
+                                              NodeN Conc [lb,la] 2] 3),
+    "lconcSubsumePair2" ~: concP [ploop la 3 1,lb3] 4
+        ~=? loopConcSubsumeRev (NodeN Choice [concP [la,lb] 2,
+                                              seqP  [lb2, ploop la2 4 2] 2] 4),
+    "lconcSubsumePair3" ~: concP [ploop la2 2 2,lb3] 5
+        ~=? loopConcSubsumeRev (NodeN Choice [NodeN Conc [ploop la2 3 2,lb] 3,
+                                              NodeN Seq  [lb2,la2] 2] 5),
+    "lconcSubsumeTail1" ~: seqP[concP   [ploop la2 2.5 2,lb3] 5,
+                                choiceP [Silent 3,lc2] 5 ] 5  
+        ~=? loopConcSubsumeRev (choiceP [concP [la2,lb] 3,
+                                         seqP  [lb2,ploop la2 4 2,lc2] 2] 5),
+    "lconcSubsumePairFwdNoop" ~: 
+        choiceP [concP [la2,lb] 3,
+                 seqP  [ploop la2 7 2,lb2] 2] 5
+        ~=? loopConcSubsumeRev (choiceP [concP [la2,lb] 3,
+                                         seqP  [ploop la2 7 2,lb2] 2] 5),
+    "lconcSubsumeTripleNoop" ~: 
+            NodeN Choice [NodeN Conc [ploop la 4 1,lc,lb] 2,
+                          NodeN Seq  [la,lb,lc] 1] 4
+        ~=? loopConcSubsumeRev 
+                (NodeN Choice [NodeN Conc [ploop la 4 1,lc,lb] 2,
+                               NodeN Seq  [la,lb,lc] 1] 4)
+         ]
+
+
+concSubsumeTests = concSubsumeTests1 
+                ++ loopConcSubsumeFwdTests
+                ++ loopConcSubsumeRevTests
 
 --
 

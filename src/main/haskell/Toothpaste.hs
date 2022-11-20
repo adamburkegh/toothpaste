@@ -494,19 +494,6 @@ concSeqMerge (NodeN Conc ptl2 w2) (NodeN Seq (pt1:ptl1) w1)
 concSubsume :: (Eq a, Ord a) => PRule a
 concSubsume = concSubsumeMR (anyMerge concSeqSim concSeqMerge )
 
-{-
-TODO remove
-
-concSubsumeList :: (Eq a, Ord a) => LRule a
-concSubsumeList ptl
-    | (not $ null cq) && length rs /= length sq  
-                              = rs ++ fl
-    | otherwise               = ptl
-    where sq = filter isNontrivSeq ptl
-          fl = filter (not . isNontrivSeq) ptl
-          cq = filter isConc ptl
-          rs = concSubsumeFromSeqListPref sq
--}
 
 -- Rule lists
 

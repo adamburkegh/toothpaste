@@ -562,6 +562,32 @@ concFromChoiceTests = concFromChoicePrefTests
                    ++ loopConcFromChoicePrefTests
                    ++ loopConcFromChoiceSuffixTests
 
+concSubsumeTests = [
+    "concSubsume1" ~: concSubsume la ~=? la,
+    "concSubsume2" ~: cab ~=? concSubsume cab,
+    "concSubsume3" ~: choiceP [seqP [la,lb] 1,
+                               seqP [la,lb] 1] 2
+        ~=?  concSubsume (choiceP [seqP [la,lb] 1,
+                                   seqP [la,lb] 1] 2),
+    "concSeqSim1"  ~: False ~=? concSeqSim la lb,
+    "concSubsumePair1" ~: NodeN Conc [la2,lb] 3
+                ~=? concSubsume (NodeN Choice [NodeN Seq  [la,lb] 1,
+                                               NodeN Conc [la,lb] 2] 3),
+    "concSubsumePair2" ~: NodeN Conc [la3,lb] 4
+                ~=? concSubsume (NodeN Choice [NodeN Conc [la,lb] 2,
+                                               NodeN Seq  [la2,lb2] 2] 4),
+    "concSubsumePair3" ~: NodeN Conc [la4,lb] 5
+                ~=? concSubsume (NodeN Choice [NodeN Conc [la2,lb] 3,
+                                               NodeN Seq  [la2,lb2] 2] 5),
+    "concSubsumePair4" ~: NodeN Conc [la2,lb3] 5
+                ~=? concSubsume (NodeN Choice [NodeN Conc [la2,lb] 3,
+                                               NodeN Seq  [lb2,la2] 2] 5),
+    "concSubsumeTriple1" ~: NodeN Conc [la2,lb,lc] 3
+                ~=? concSubsume (NodeN Choice [NodeN Conc [la,lc,lb] 2,
+                                               NodeN Seq  [la,lb,lc] 1] 4)
+                                              ]
+
+
 --
 
 flattenTests = [
@@ -648,6 +674,7 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ choiceFoldSuffixTests 
            ++ choiceSkipTests 
            ++ concFromChoiceTests
+           ++ concSubsumeTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ probLoopRollTests 
            ++ loopChoiceFoldTests

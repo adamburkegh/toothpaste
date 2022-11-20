@@ -2,7 +2,7 @@ module Toothpaste where
 
 import ProbProcessTree
 import Debug.Trace
-import Data.List(partition)
+import Data.List(partition,sort)
 
 -- debug and trace
 debugOn :: String -> a -> a
@@ -322,7 +322,7 @@ conc2SimMS simF pt1 pt2 = False
 
 conc2MergeMM :: (Ord a) => PMerge a -> PMerge a
 conc2MergeMM mergeF (NodeN Seq (ptx1:pty1:ptl1) w1) 
-           (NodeN Seq (pty2:ptx2:ptl2) w2) 
+                    (NodeN Seq (pty2:ptx2:ptl2) w2) 
     | null ptl1 && null ptl2     = hc
     | null ptl1 && not (null ptl2)
         = seqP  [hc, choiceP [Silent w1,seqP ptl2 w2] nw ] nw
@@ -446,11 +446,56 @@ isConc :: PPTree a -> Bool
 isConc (NodeN Conc ptl w) = True
 isConc pt                 = False
 
+cmpListBy :: (a->a->Bool) -> [a] -> [a] -> Bool
+cmpListBy cf (h1:l1) (h2:l2) = h1 `cf` h2 && cmpListBy cf l1 l2
+cmpListBy cf l1 l2 = null l1 && null l2 
 
+concSubsumeMR :: (Eq a, Ord a) => LRule a -> PRule a
+concSubsumeMR lrule (NodeN Choice ptl w)
+    | ptl /= cr     = choiceP cr w
+    where cr        = ptlg ++ ptlnf
+          (ptlf,ptlnf) = partition (\pt -> isSeq pt || isConc pt) 
+                                   ptl
+          ptlg         = lrule ptlf
+concSubsumeMR lrule x = x
+
+-- pre: order is consistent with similarity
+concSeqSim :: (Ord a, Eq a) => PSim a
+concSeqSim (NodeN Seq ptl1 w1) (NodeN Conc ptl2 w2) 
+    = cmpListBy (=~=) sptl1 sptl2
+    where sptl1 = sort ptl1
+          sptl2 = sort ptl2
+concSeqSim  (NodeN Conc ptl2 w2) (NodeN Seq ptl1 w1)
+    = cmpListBy (=~=) sptl1 sptl2
+    where sptl1 = sort ptl1
+          sptl2 = sort ptl2
+concSeqSim pt1 pt2 = False
+
+-- pre: order is consistent with similarity
+concSeqMerge :: (Ord a, Eq a) => PMerge a
+concSeqMerge (NodeN Seq (pt1:ptl1) w1) (NodeN Conc ptl2 w2) 
+    = concP ((merge pt1 pt2):sctl) (w1+w2)
+    where  (nml,ml)   = break (\pt2 -> pt1 =~= pt2) ptl2
+           (pt2:mltl) = ml
+           sctl       = 
+                map (\(x,y) -> scale (merge x y) 
+                                     ((weight y)/(weight x + weight y))) 
+                    (zip ptl1 (nml ++ mltl))
+concSeqMerge (NodeN Conc ptl2 w2) (NodeN Seq (pt1:ptl1) w1)  
+    = concP ((merge pt1 pt2):sctl) (w1+w2)
+    where  (nml,ml)   = break (\pt2 -> pt1 =~= pt2) ptl2
+           (pt2:mltl) = ml
+           sctl       = 
+                map (\(x,y) -> scale (merge x y) 
+                               ((weight y)/(weight x + weight y))) 
+                    (zip ptl1 (nml ++ mltl))
+
+
+concSubsume :: (Eq a, Ord a) => PRule a
+concSubsume = concSubsumeMR (anyMerge concSeqSim concSeqMerge )
 
 {-
-concSubsume :: (Eq a, Ord a) => PRule a
-concSubsume = choiceChildMR concSubsumeList
+TODO remove
 
 concSubsumeList :: (Eq a, Ord a) => LRule a
 concSubsumeList ptl
@@ -461,9 +506,6 @@ concSubsumeList ptl
           fl = filter (not . isNontrivSeq) ptl
           cq = filter isConc ptl
           rs = concSubsumeFromSeqListPref sq
-
-concSubsumeFromSeqListPref :: (Ord a) => [PPTree a] -> [PPTree a] [PPTree a]
-concSubsumeFromSeqListPref sptl cptl = something
 -}
 
 -- Rule lists
@@ -489,6 +531,7 @@ baseRuleList = [
             TRule{rulename="loopConcSim",trule=loopConcSim},
             TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="concFromChoiceSuffix",trule=concFromChoiceSuffix},
+            TRule{rulename="concSubsume",trule=concSubsume},
             TRule{rulename="loopConcFromChoice",trule=loopConcFromChoice},
             TRule{rulename="loopConcFromChoiceSuffix",
                 trule=loopConcFromChoiceSuffix},

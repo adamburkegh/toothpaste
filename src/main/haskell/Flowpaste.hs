@@ -13,10 +13,14 @@ import Debug.Trace
 
 debug :: String -> a -> a
 -- Debug ON
--- debug = trace
+debugOn :: String -> a -> a
+debugOn = trace
 
 -- Debug OFF
-debug x y = y 
+debugOff :: String -> a -> a
+debugOff x y = y 
+
+debug = debugOff
 
 changeDebug :: Bool -> String -> a -> a
 changeDebug cond msg x = if cond then debug ("=> " ++ msg) x else x

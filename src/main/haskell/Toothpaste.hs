@@ -521,7 +521,7 @@ baseRuleList = [
             TRule{rulename="concSubsume",trule=concSubsume},
             TRule{rulename="loopConcFromChoice",trule=loopConcFromChoice},
             TRule{rulename="loopConcFromChoiceSuffix",
-                trule=loopConcFromChoiceSuffix},
+                  trule=loopConcFromChoiceSuffix},
             TRule{rulename="loopFixToProb", trule=loopFixToProb} 
             ]
 

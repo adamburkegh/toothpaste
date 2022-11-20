@@ -364,6 +364,40 @@ choiceSkipPrefixCompressTests = [
                     ]
 
 
+loopChoiceSkipTests = [
+    "lchoiceSkipNone" ~: la ~=? loopChoiceSkip la,
+    "lchoiceSkipLeafFirst" ~: 
+        NodeN Seq [ploop la2 2.5 2,
+                   NodeN Choice [lb,Silent 1] 2] 
+              2 
+                    ~=? loopChoiceSkip (choiceP [l4pa1,seqP [la,lb] 1] 2),
+    "lchoiceSkipSeqFirst"  ~: 
+        NodeN Seq [ploop la2 2.5 2,
+                   NodeN Choice [lb,Silent 1] 2] 
+              2 
+                    ~=? loopChoiceSkip (NodeN Choice [seqP [l4pa1,lb] 1,la] 2),
+    "lchoiceSkip3"    ~: NodeN Choice [ NodeN Seq [la,lc] 1,
+                                      NodeN Seq [ploop la2 2.5 2,
+                                                 NodeN Choice [lb,Silent 1] 
+                                                               2] 2]
+                              3 
+                    ~=? loopChoiceSkip (choiceP [l4pa1,
+                                                   seqP [la,lb] 1,
+                                                   seqP [la,lc] 1] 
+                                                   3),
+    "lchoiceSkipWithTail" ~: seqP [ploop la4 2.5 4,
+                                    choiceP [Silent 2,
+                                             seqP[lb2,la2] 2 ] 4] 4
+        ~=? loopChoiceSkip (NodeN Choice [ploop la2 4 2,
+                                          seqP [la2,lb2,la2] 2.0] 4.0)
+                    ]
+
+
+choiceSkipTests = choiceSkipPrefixTests 
+               ++ choiceSkipPrefixCompressTests 
+               ++ loopChoiceSkipTests
+
+
 fixedLoopRollTests = [
     "floopEq"    ~: la `floopContEq` Node1 FLoop la 2 1 ~=? True,
     "floopEq2"   ~: la == la ~=? True,
@@ -612,7 +646,7 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ concSimTests ++ loopConcSimTests
            ++ choiceFoldPrefixTests
            ++ choiceFoldSuffixTests 
-           ++ choiceSkipPrefixTests ++ choiceSkipPrefixCompressTests
+           ++ choiceSkipTests 
            ++ concFromChoiceTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
            ++ probLoopRollTests 

@@ -265,41 +265,40 @@ loopChoiceFoldSuffix = choiceFoldMR
 
 
 -- choice skips
-choiceSkipPrefixMerge :: (Eq a, Ord a) => [PPTree a] -> [PPTree a]
-choiceSkipPrefixMerge (pt1:(NodeN Seq (pt2:ptl2) w2):ptl) 
-    | pt1 =~= pt2  
-        = seqP [merge pt1 pt2, choiceP [silentpt1,seqP ptl2 w2] 
-                                       (w1+w2) ] 
-               (w1+w2):
-          choiceSkipPrefixMerge ptl
-    | pt1 =~= pt2 && null ptl2 
-        = merge pt1 pt2:choiceSkipPrefixMerge ptl
-    | otherwise 
-        = pt1: choiceSkipPrefixMerge (NodeN Seq (pt2:ptl2) w2:ptl)
-      where w1      = weight pt1
-            silentpt1 = Silent (weight pt1)
-choiceSkipPrefixMerge ((NodeN Seq (pt2:ptl2) w2):pt1:ptl)
-    | pt1 =~= pt2  
-        = seqP [merge pt1 pt2, choiceP [silentpt1,seqP ptl2 w2] 
-                                       (w1+w2) ] 
-               (w1+w2):
-          choiceSkipPrefixMerge ptl
-    | pt1 =~= pt2 && null ptl2 
-        = merge pt1 pt2:choiceSkipPrefixMerge ptl
-    | otherwise 
-        = NodeN Seq (pt2:ptl2) w2: choiceSkipPrefixMerge (pt1:ptl)
-      where w1      = weight pt1
-            silentpt1 = Silent (weight pt1)
-choiceSkipPrefixMerge ptl = ptl
+
+
+headLeafSimMS :: (Eq a, Ord a) => PSim a -> PSim a
+headLeafSimMS simf pt1 (NodeN Seq (pt2:ptl2) w2) 
+    = pt1 `simf` pt2
+headLeafSimMS simf (NodeN Seq (pt2:ptl2) w2) pt1
+    = pt1 `simf` pt2
+headLeafSimMS sf pt1 pt2 = False
+
+headSilentMergeMM :: (Eq a, Ord a) => PMerge a -> PMerge a
+headSilentMergeMM mergeF pt1 (NodeN Seq (pt2:ptl2) w2) 
+    = seqP [mergeF pt1 pt2, choiceP [Silent w1, seqP ptl2 w2] nw] nw
+    where w1 = weight pt1
+          nw = w1+w2
+headSilentMergeMM mergeF (NodeN Seq (pt2:ptl2) w2) pt1
+    = seqP [mergeF pt1 pt2, choiceP [Silent w1, seqP ptl2 w2] nw] nw
+    where w1 = weight pt1
+          nw = w1+w2
+
 
 choiceSkipPrefix :: (Eq a, Ord a) => PRule a
-choiceSkipPrefix = choiceChildMR choiceSkipPrefixMerge
+choiceSkipPrefix = 
+    choiceChildMR (anyMerge (headLeafSimMS (=~=)) (headSilentMergeMM merge))
 
 choiceSkipPrefixCompress :: (Eq a, Ord a) => PRule a
 choiceSkipPrefixCompress pt = norm $ choiceFoldPrefix $ choiceSkipPrefix pt
 
 
+loopChoiceSkip :: (Eq a, Ord a) => PRule a
+loopChoiceSkip = 
+    choiceChildMR (anyMerge (headLeafSimMS (=&=)) (headSilentMergeMM lmerge))
 
+loopChoiceSkipCompress :: (Eq a, Ord a) => PRule a
+loopChoiceSkipCompress pt = norm $ choiceFoldPrefix $ loopChoiceSkip pt
 
 -- concFromChoice (Prefix) 
 -- len == 2 only
@@ -486,6 +485,7 @@ baseRuleList = [
             TRule{rulename="loopSim",trule=loopSim},
             TRule{rulename="loopChoiceFoldPrefix",trule=loopChoiceFoldPrefix},
             TRule{rulename="loopChoiceFoldSuffix",trule=loopChoiceFoldSuffix},
+            TRule{rulename="loopChoiceSkip",trule=loopChoiceSkipCompress},
             TRule{rulename="loopConcSim",trule=loopConcSim},
             TRule{rulename="concFromChoice",trule=concFromChoice},
             TRule{rulename="concFromChoiceSuffix",trule=concFromChoiceSuffix},

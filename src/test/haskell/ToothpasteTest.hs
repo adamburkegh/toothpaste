@@ -94,7 +94,11 @@ adjMergeTests = [
         "tripleAll"   ~: [9]       ~=? adjMerge (>=) (+) [3,3,3],
         "tripleHead"  ~: [10,2]       ~=? adjMerge (==) (+) [5,5,2],
         "tripleMid"   ~: [1,10]       ~=? adjMerge (==) (+) [1,5,5],
-        "tripleSplit" ~: [1,5,1]    ~=? adjMerge (==) (+) [1,5,1]
+        "tripleSplit" ~: [1,5,1]    ~=? adjMerge (==) (+) [1,5,1],
+        "fullReduce"  ~: ["abc"]    
+            ~=? adjMerge (\x y -> True) (++) ["a","b","c"],
+        "mergeCausesDissim"  ~: ["aa","aa"]    
+            ~=? adjMerge (==) (++) ["a","a","a","a"]
     ]
 
 
@@ -106,13 +110,23 @@ anyMergeTests = [
         "double2"   ~: [6]       ~=? anyMerge (==) (+) [3,3],
         "doubleNo"  ~: [1,2]       ~=? anyMerge (==) (+) [1,2],
         "tripleNo"  ~: [1,2,3]       ~=? anyMerge (==) (+) [1,2,3],
-        "tripleSame"  ~: [3,6]       ~=? anyMerge (==) (+) [3,3,3],
-        "tripleAll"   ~: [9]       ~=? anyMerge (<=) (+) [3,3,3],
+        "tripleSame"  ~: [6,3]       ~=? anyMerge (==) (+) [3,3,3],
+        "tripleAll"   ~: [6,3]       ~=? anyMerge (<=) (+) [3,3,3],
         "tripleHead"  ~: [10,2]       ~=? anyMerge (==) (+) [5,5,2],
         "tripleMid"   ~: [1,10]       ~=? anyMerge (==) (+) [1,5,5],
-        "tripleSplit" ~: [2,5]    ~=? anyMerge (==) (+) [1,5,1],
-        "quadSplit1"  ~: [2,10]   ~=? anyMerge (==) (+) [1,5,1,5], 
-        "quad2"       ~: [2,10]   ~=? anyMerge (==) (+) [1,5,5,1] 
+        "tripleSplit" ~: [5,2]    ~=? anyMerge (==) (+) [1,5,1],
+        "quadSplit1"  ~: [5,2,5]   ~=? anyMerge (==) (+) [1,5,1,5], 
+        "quad2"       ~: [5,5,2]   ~=? anyMerge (==) (+) [1,5,5,1],
+        "fullReduce"  ~: ["ab","c"]    
+            ~=? anyMerge (\x y -> True) (++) ["a","b","c"],
+        "mergeCausesDissim"  ~: ["aa", "a","a","a"]    
+            ~=? anyMerge (==) (++) ["a","a","a","a","a"],
+        "mergeCausesDissim2"  ~: ["aa","a","b"]    
+            ~=? anyMerge (==) (++) ["a","a","a","b"],
+        "mergeCausesDissim3"  ~: ["aza","za","b"]    
+            ~=? anyMerge (\x y -> x == "a" && y == "za") 
+                         (++) 
+                         ["a","za","za","b"]
     ]
 
 
@@ -175,7 +189,15 @@ loopSimTests = [
             ~=? loopSim (NodeN Choice [Node1 PLoop la 2.0 1.0,
                                           la2,
                                           lb]
-                                         4.0) 
+                                         4.0) ,
+    "loopSimMergeDissim" ~: 
+        NodeN Choice [ploop la 4 1,
+                      ploop la2 2 2, 
+                      seqP [ploop la 3 1, lb, la] 1] 4 
+            ~=? loopSim (NodeN Choice [la, 
+                                       ploop la 3 1, 
+                                       ploop la 4 1, 
+                                       seqP [ploop la 3 1, lb, la] 1] 4 )
                ]
 
 concSimTests = [
@@ -208,10 +230,10 @@ choiceFoldPrefixTests = [
               2
                             ~=? choiceFoldPrefix cab4 ,
     "choiceFoldPrefixMore4Choices" ~:
-             choiceP [NodeN Seq [la2, 
-                                 choiceP [lb,lb] 2] 2,
+             choiceP [NodeN Seq [la,lb] 1,
                       NodeN Seq [lb2, 
-                                 NodeN Choice [lc,ld] 2] 2] 4
+                                 NodeN Choice [lc,ld] 2] 2,
+                      NodeN Seq [la,lb] 1 ] 4
             ~=? choiceFoldPrefix (NodeN Choice [NodeN Seq [la,lb] 1,
                                                 NodeN Seq [lb,lc] 1,
                                                 NodeN Seq [lb,ld] 1,
@@ -233,10 +255,10 @@ choiceFoldSuffixTests = [
             ~=? choiceFoldSuffix (choiceP [seqP [la,lb,lc] 1,
                                            seqP [lb,la,lc] 1] 2),
     "choiceFoldSuffixMore4Choices" ~:
-             choiceP [NodeN Seq [choiceP [la,la] 2,
-                                 lb2] 2,
-                      NodeN Seq [NodeN Choice [la,lb] 2,
-                                 lc2] 2 ] 4
+             choiceP [NodeN Seq [lb,lc] 1,
+                      NodeN Seq [la,lc] 1,
+                      NodeN Seq [choiceP [la,la] 2,
+                                 lb2] 2 ] 4
             ~=? choiceFoldSuffix (NodeN Choice [NodeN Seq [la,lb] 1,
                                                 NodeN Seq [lb,lc] 1,
                                                 NodeN Seq [la,lc] 1,
@@ -267,10 +289,10 @@ loopChoiceFoldPrefixTests = [
            /= loopChoiceFoldPrefix (choiceSim cba2) @? "neq",
 
     "loopChoiceFoldLongPrefix" ~:  
-           NodeN Seq [Node1 PLoop la3 2 3,
-                      choiceP [NodeN Seq [lb,lc] 1, 
-                               choiceP [seqP [ld,le] 1, 
-                                        lb] 2] 3 ] 3
+           NodeN Choice [ sade,
+                          seqP[ ploop la2 2.5 2,
+                                choiceP [NodeN Seq [lb,lc] 1, 
+                                         lb] 2] 2 ] 3
             ~=? loopChoiceFoldPrefix (NodeN Choice [sabc,sade,slab] 3)
             ]
 

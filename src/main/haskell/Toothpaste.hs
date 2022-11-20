@@ -45,13 +45,17 @@ adjMerge simF mergeF (x:y:xs)
 adjMerge sf mf [x] = [x]
 adjMerge sf mf []  = []
 
--- if simFunction among any children, merge them
+-- if simFunction among any children, merge the first one
+-- there is no guarantee that list members are still similar after merging
+-- so we don't assume that (loopSim is an example where they may not be)
+-- we merge only the first for conceptual simplicity
 anyMerge :: (a->a->Bool) -> (a->a->a) -> [a] -> [a]
 anyMerge simF mergeF (x:xs) 
-    | null fl   = x:nfl
-    | otherwise = map (\y -> x `mergeF` y) fl   
-                              ++ nfl
-    where (fl,nfl) = partition (\y -> x `simF` y) (anyMerge simF mergeF xs)
+    | null ml   = x:(anyMerge simF mergeF xs)
+    | otherwise = nml ++ [mergeF x (head ml) ]
+                      ++ (tail ml)
+                      -- ++ anyMerge simF mergeF (tail ml)
+    where (nml,ml) = break (\y -> x `simF` y) xs
 anyMerge sf mf []  = []
 
 
@@ -212,16 +216,17 @@ headMergeMM mergef (NodeN Seq (pt1:ptl1) w1) (NodeN Seq (pt2:ptl2) w2)
     | otherwise = seqP [mergef pt1 pt2,
             choiceP [ seqP ptl1 w1, seqP ptl2 w2 ] (w1+w2) ] (w1+w2)
 
-choiceFoldMR :: (Eq a, Ord a) => PSim a -> PMerge a -> PRule a
-choiceFoldMR simF mergeF (NodeN Choice ptl w)
+choiceFoldMR :: (Eq a, Ord a) => LRule a -> PRule a
+choiceFoldMR lrule (NodeN Choice ptl w)
     | ptl /= cr  = choiceP cr w
     where cr           = ptlg ++ ptlnf
           (ptlf,ptlnf) = partition isSeq ptl
-          ptlg         = anyMerge simF mergeF ptlf
-choiceFoldMR sf mf x = x
+          ptlg         = lrule ptlf
+choiceFoldMR lrule x = x
 
 choiceFoldPrefix  :: (Eq a, Ord a) => PRule a
-choiceFoldPrefix = choiceFoldMR (headSimMS (=~=)) (headMergeMM merge)
+choiceFoldPrefix = choiceFoldMR 
+                    (adjMerge (headSimMS (=~=)) (headMergeMM merge))
 
 -- O(n)
 tailSimMS :: (Eq a, Ord a) => PSim a -> PSim a
@@ -245,15 +250,18 @@ tailMergeMM mergeF (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2)
 
 
 choiceFoldSuffix :: (Eq a, Ord a) => PRule a
-choiceFoldSuffix =  choiceFoldMR (tailSimMS (=~=)) (tailMergeMM merge)
+choiceFoldSuffix =  choiceFoldMR 
+                        (anyMerge (tailSimMS (=~=)) (tailMergeMM merge))
 
 loopChoiceFoldPrefix :: (Eq a, Ord a) => PRule a
-loopChoiceFoldPrefix = choiceFoldMR (headSimMS (=&=)) (headMergeMM lmerge)
+loopChoiceFoldPrefix = choiceFoldMR
+                        (anyMerge (headSimMS (=&=)) (headMergeMM lmerge))
 
 
 -- O(n)
 loopChoiceFoldSuffix :: (Eq a, Ord a) => PRule a
-loopChoiceFoldSuffix = choiceFoldMR (tailSimMS (=&=)) (tailMergeMM lmerge)
+loopChoiceFoldSuffix = choiceFoldMR 
+                        (anyMerge (tailSimMS (=&=)) (tailMergeMM lmerge))
 
 
 -- choice skips
@@ -513,8 +521,9 @@ maxTransformRuleOrder x rules | x == y      = x
 
 
 vrule :: (Show a, Eq a) => PPTree a -> TRule a -> PPTree a
+-- validation disabled:
 -- vrule x r = trule r x
--- validation disabled
+-- validation enabled:
 vrule x r = validateDebug x y r y
      where y = trule r x
 

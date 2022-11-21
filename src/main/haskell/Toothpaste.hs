@@ -400,6 +400,8 @@ lconc2Merge (NodeN Seq (ptx1:pty1:ptl1) w1)
 
 
 concPairLoopMerge :: (Eq a, Ord a) => PMerge a
+concPairLoopMerge (Node1 PLoop ptx1 r1 w1) (Node1 PLoop ptx2 r2 w2)
+    = merge (Node1 PLoop ptx1 r1 w1) (Node1 PLoop ptx2 r2 w2)
 concPairLoopMerge (Node1 PLoop ptx1 r1 w1) ptx2 
     = lmerge (Node1 PLoop ptx1 r1 w1) ptx2 
 concPairLoopMerge ptx2 (Node1 PLoop ptx1 r1 w1) 

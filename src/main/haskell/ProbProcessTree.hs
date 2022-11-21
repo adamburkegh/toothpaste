@@ -105,7 +105,7 @@ concP (pt:ptl) w = NodeN Conc (sort (pt:ptl)) w
 concP [] w     = emptyTree
 
 ploop :: PPTree a -> Repeat -> Weight -> PPTree a
-ploop child r w = Node1 PLoop child r w
+ploop = Node1 PLoop 
 
 -- Simple id functions
 isNontrivSeq :: PPTree a -> Bool

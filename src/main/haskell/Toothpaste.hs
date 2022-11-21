@@ -52,9 +52,9 @@ adjMerge sf mf []  = []
 -- we merge only the first for conceptual simplicity
 anyMerge :: (a->a->Bool) -> (a->a->a) -> [a] -> [a]
 anyMerge simF mergeF (x:xs) 
-    | null ml   = x:(anyMerge simF mergeF xs)
+    | null ml   = x:anyMerge simF mergeF xs
     | otherwise = nml ++ [mergeF x (head ml) ]
-                      ++ (tail ml)
+                      ++ tail ml
                       -- ++ anyMerge simF mergeF (tail ml)
     where (nml,ml) = break (\y -> x `simF` y) xs
 anyMerge sf mf []  = []
@@ -477,22 +477,21 @@ concSeqSim pt1 pt2 = False
 -- seq element comes first
 cscaleMerge :: PMerge a -> PMerge a
 cscaleMerge mergeF pt1 pt2 
-    = scale (mergeF pt1 pt2) ((weight pt2)/(weight pt1 + weight pt2)) 
+    = scale (mergeF pt1 pt2) (weight pt2/(weight pt1 + weight pt2)) 
 
 -- pre: order is consistent with similarity
 concSeqMerge :: (Ord a, Eq a) => PMerge a
 concSeqMerge (NodeN Seq (pt1:ptl1) w1) (NodeN Conc ptl2 w2) 
-    = concP ((merge pt1 pt2):sctl) (w1+w2)
-    where  (nml,ml)   = break (\pt2 -> pt1 =~= pt2) ptl2
+    = concP (merge pt1 pt2:sctl) (w1+w2)
+    where  (nml,ml)   = break (pt1 =~=) ptl2
            (pt2:mltl) = ml
-           sctl       = map (\(x,y) -> cscaleMerge merge x y)  
-                            (zip ptl1 (nml ++ mltl))
+           sctl       = zipWith (cscaleMerge merge) ptl1 (nml ++ mltl)
 concSeqMerge (NodeN Conc ptl2 w2) (NodeN Seq (pt1:ptl1) w1)  
-    = concP ((merge pt1 pt2):sctl) (w1+w2)
-    where  (nml,ml)   = break (\pt2 -> pt1 =~= pt2) ptl2
+    = concP (merge pt1 pt2:sctl) (w1+w2)
+    where  (nml,ml)   = break (pt1 =~=) ptl2
            (pt2:mltl) = ml
-           sctl       = map (\(x,y) -> cscaleMerge merge x y) 
-                            (zip ptl1 (nml ++ mltl))
+           sctl       = zipWith (cscaleMerge merge) ptl1 (nml ++ mltl)
+                            
 
 -- full match no child limit
 concSubsume :: (Eq a, Ord a) => PRule a
@@ -567,12 +566,12 @@ lconcSeq2RevMerge  (NodeN Conc [pty2,ptx2] w2)
 
 -- pairs only
 loopConcSubsumeFwd :: (Eq a, Ord a) => PRule a
-loopConcSubsumeFwd = concSubsumeMR (anyMerge (lconcSeq2FwdSim) 
-                                             (lconcSeq2FwdMerge) ) 
+loopConcSubsumeFwd = concSubsumeMR (anyMerge lconcSeq2FwdSim 
+                                             lconcSeq2FwdMerge ) 
 
 loopConcSubsumeRev  :: (Eq a, Ord a) => PRule a
-loopConcSubsumeRev =  concSubsumeMR (anyMerge (lconcSeq2RevSim) 
-                                              (lconcSeq2RevMerge) ) 
+loopConcSubsumeRev =  concSubsumeMR (anyMerge lconcSeq2RevSim
+                                              lconcSeq2RevMerge ) 
 
 loopConcSubsume  :: (Eq a, Ord a) => PRule a
 loopConcSubsume = loopConcSubsumeRev . loopConcSubsumeFwd 

@@ -3,7 +3,7 @@ module OtherRules where
 import ProbProcessTree
 import Toothpaste
 
-import Data.List (sortOn)
+import Data.List (partition,sortOn)
 
 -- This rule is not a beta trap, ie it may introduce non-determinisim, 
 -- so is not included in Toothpaste.
@@ -120,7 +120,18 @@ loopRollEndPatternL prev ct poper
 fixedLoopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> [PPTree a]
 fixedLoopRollEndPatternL prev ct = loopRollEndPatternL prev ct FLoop
 
-
+-- choicePrune by a threshold
+-- threshold [0,1]
+choicePrune :: (Ord a, Eq a) => PPTree a -> Float -> PPTree a
+choicePrune (NodeN Choice ptl w) thr 
+    | null prune  = NodeN Choice ptl w 
+    | null retain = Silent w
+    | otherwise   = choiceP rsretain w
+    where (prune,retain) 
+              = partition (\pt -> (weight pt) < w*thr) ptl
+          wr       = sum $ map weight retain
+          rsretain = map (\pt -> scale pt (w/wr)) retain
+choicePrune pt thr = pt
 
 
 

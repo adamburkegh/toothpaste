@@ -578,6 +578,21 @@ loopConcSubsumeRev =  concSubsumeMR (anyMerge lconcSeq2RevSim
 loopConcSubsume  :: (Eq a, Ord a) => PRule a
 loopConcSubsume = loopConcSubsumeRev . loopConcSubsumeFwd 
 
+-- choicePrune by a threshold
+-- threshold [0,1]
+choicePrune :: (Ord a, Eq a) => PPTree a -> Float -> PPTree a
+choicePrune (NodeN Choice ptl w) thr
+    | null prune  = NodeN Choice ptl w
+    | null retain = Silent w
+    | otherwise   = choiceP rsretain w
+    where (prune,retain)
+              = partition (\pt -> weight pt < w*thr) ptl
+          wr       = sum $ map weight retain
+          rsretain = map (\pt -> scale pt (w/wr)) retain
+choicePrune pt thr = pt
+
+
+
 -- Rule lists
 
 baseRuleList :: (Eq a, Ord a) => [TRule a]

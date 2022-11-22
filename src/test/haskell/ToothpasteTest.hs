@@ -3,6 +3,8 @@ module ToothpasteTest where
 import ProbProcessTree
 import Toothpaste hiding (main)
 
+import PPTTestUtil
+
 import Data.Set (Set,toList,fromList)
 import Test.HUnit
 
@@ -12,6 +14,7 @@ la  = Leaf "a" 1
 lb  = Leaf "b" 1
 lc  = Leaf "c" 1
 ld  = Leaf "d" 1
+ld4 = Leaf "d" 4
 le  = Leaf "e" 1
 lf  = Leaf "f" 1
 lg  = Leaf "g" 1
@@ -691,6 +694,26 @@ flattenTests = [
                                            NodeN Seq [lb,ld] 1] 2, 
                                     NodeN Seq [ld,lb] 1] 3) ]
                
+--
+choicePruneTests = [
+    "cpNoop" ~: la ~=? choicePrune la 0.1,
+    "cpNoop2" ~:  choiceP [la,lb2] 3 ~=? choicePrune (choiceP [la,lb2 ] 3 ) 0.1,
+    "cpPruneAll" ~: Silent 3 ~=? choicePrune (choiceP [la,lb,lc ] 3 ) 0.5,
+    "cpPruneToLeaf"   ~: la3 ~=? choicePrune (choiceP [la2,lb] 3) 0.5,
+    "cpPrune1"   ~: True ~=?
+        choiceP [Leaf "b" (12/5),Leaf "c" (18/5) ] 6
+        `acmp` choicePrune (choiceP [la,lb2,lc3] 6) (1/4),
+    "cpPrune2"   ~: True ~=?
+        choiceP [Leaf "b" (20/9), Leaf "c" (30/9),
+                             Leaf "d" (40/9)] 10
+        `acmp` choicePrune (choiceP [la,lb2,lc3,ld4] 10) 0.2,
+    "cpPrune2"   ~: True ~=?
+        choiceP [Leaf "c" (30/7), Leaf "d" (40/7)] 10
+        `acmp` choicePrune (choiceP [la,lb2,lc3,ld4] 10) 0.3
+    ]
+
+
+
 
 --
 
@@ -761,6 +784,7 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ probLoopRollTests 
            ++ loopChoiceFoldTests
            ++ flattenTests
+           ++ choicePruneTests
 
 transformTests = transformInOrderSimpleTests
 

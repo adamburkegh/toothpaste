@@ -588,6 +588,10 @@ concSubsumeTests1 = [
     "concSubsumePair4" ~: NodeN Conc [la2,lb3] 5
                 ~=? concSubsume (NodeN Choice [NodeN Conc [la2,lb] 3,
                                                NodeN Seq  [lb2,la2] 2] 5),
+    "concSubsumePairVarLengths" ~: 
+            seqP [ NodeN Conc [la2,lb3] 5, choiceP [Silent 3, lc2] 5 ] 5
+                ~=? concSubsume (NodeN Choice [NodeN Conc [la2,lb] 3,
+                                               NodeN Seq  [lb2,la2,lc2] 2] 5),
     "concSubsumeTriple1" ~: NodeN Conc [la2,lb,lc] 3
                 ~=? concSubsume (NodeN Choice [NodeN Conc [la,lc,lb] 2,
                                                NodeN Seq  [la,lb,lc] 1] 4)

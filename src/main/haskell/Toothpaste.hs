@@ -466,11 +466,11 @@ concSubsumeMR lrule x = x
 concSeqSim :: (Ord a, Eq a) => PSim a
 concSeqSim (NodeN Seq ptl1 w1) (NodeN Conc ptl2 w2) 
     = cmpListBy (=~=) sptl1 sptl2
-    where sptl1 = sort ptl1
+    where sptl1 = sort (take (length ptl2) ptl1)
           sptl2 = sort ptl2
 concSeqSim  (NodeN Conc ptl2 w2) (NodeN Seq ptl1 w1)
     = cmpListBy (=~=) sptl1 sptl2
-    where sptl1 = sort ptl1
+    where sptl1 = sort (take (length ptl2) ptl1)
           sptl2 = sort ptl2
 concSeqSim pt1 pt2 = False
 
@@ -482,15 +482,17 @@ cscaleMerge mergeF pt1 pt2
 -- pre: order is consistent with similarity
 concSeqMerge :: (Ord a, Eq a) => PMerge a
 concSeqMerge (NodeN Seq (pt1:ptl1) w1) (NodeN Conc ptl2 w2) 
-    = concP (merge pt1 pt2:sctl) (w1+w2)
-    where  (nml,ml)   = break (pt1 =~=) ptl2
-           (pt2:mltl) = ml
-           sctl       = zipWith (cscaleMerge merge) ptl1 (nml ++ mltl)
+    | null tlptl1 = concres
+    | otherwise   = seqP [concres, 
+                          choiceP [Silent w2, seqP tlptl1 w1] nw ] nw
+    where  (cptl1,tlptl1) = splitAt (length ptl2-1) ptl1
+           (nml,ml)       = break (pt1 =~=) ptl2
+           (pt2:mltl)     = ml
+           sctl           = zipWith (cscaleMerge merge) cptl1 (nml ++ mltl)
+           nw             = w1+w2
+           concres        = concP (merge pt1 pt2:sctl) nw
 concSeqMerge (NodeN Conc ptl2 w2) (NodeN Seq (pt1:ptl1) w1)  
-    = concP (merge pt1 pt2:sctl) (w1+w2)
-    where  (nml,ml)   = break (pt1 =~=) ptl2
-           (pt2:mltl) = ml
-           sctl       = zipWith (cscaleMerge merge) ptl1 (nml ++ mltl)
+    = concSeqMerge (NodeN Seq (pt1:ptl1) w1) (NodeN Conc ptl2 w2) 
                             
 
 -- full match no child limit

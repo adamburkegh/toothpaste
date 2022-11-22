@@ -22,7 +22,8 @@ data ToothpasteArgs =
                        pnetfile :: String, ptreefile :: String,
                        ptreeformat :: String,
                        impl :: String,
-                       traceprobfile :: String }
+                       traceprobfile :: String,
+                       noise :: Float }
         deriving (Show,Data,Typeable)
 
 data Model = Stochastic | ControlFlow
@@ -47,10 +48,12 @@ toothpasteArgs = ToothpasteArgs{
             &= help "Output PPT format. Valid values ptree or latex",
     impl      = "batch" &= help "Discovery algo. Valid values batch or incr",
     traceprobfile = ""
-            &= help "Output trace probabilities to this file"  } 
-        &=
+            &= help "Output trace probabilities to this file",
+    noise = def
+            &= help "Prune subtrees below this threshold [0..1], Default 0." } 
+            &=
     help "Discover stochastic models from event logs" 
-        &= summary "Toothpaste Miner 0.9.0, 2021 (GPL)" 
+        &= summary "Toothpaste Miner 0.9.0, 2021-22 (GPL)" 
 
 ptreeOutMain = Binpaste.inputMain
 
@@ -122,6 +125,12 @@ ptreeOnIntBatch tpargs rawlog =
         where   strlog     = (parseSelector $ logformat tpargs) rawlog
                 (intlog,m) = logIndex strlog
 
+ptreeOnIntNoise :: ToothpasteArgs -> String -> ProbProcessTree.PPTree String 
+ptreeOnIntNoise tpargs rawlog = 
+                    pptreeIntToStr (TPMine.discoverNoise intlog nse) m
+        where   strlog     = (parseSelector $ logformat tpargs) rawlog
+                (intlog,m) = logIndex strlog
+                nse        = noise tpargs
 
 
 
@@ -154,21 +163,27 @@ mine tpargs logtext
     | model == Stochastic && algo == Incr = 
          (Binpaste.formatPPTree ppti, 
           weightedNetToString (Binpaste.translate ppti) "spn" )
-    | model == Stochastic && algo == MNode = 
+    | model == Stochastic && algo == MNode && nse <= 0.0 = 
          (pptformatter pptm, 
           weightedNetToString (TPMine.translate pptm) "spn" ) 
+    | model == Stochastic && algo == MNode && nse > 0.0 = 
+         (pptformatter pptn, 
+          weightedNetToString (TPMine.translate pptn) "spn" ) 
     | model == ControlFlow = 
         (formatPTree pt,  petriNetToString (Flowpaste.translate pt) "pnet" )
     where model  = modelSelector $ modeltype tpargs 
           parser = parseSelector $ logformat tpargs
           algo   = implSelector  $ impl tpargs
           pptf   = ptreeformatSelector $ ptreeformat tpargs
+          nse    = noise tpargs
           pptb   = ptreeOnIntBatchB tpargs logtext
-          ppti   = ptreeOnIntInc   tpargs logtext
-          pptm   = ptreeOnIntBatch tpargs logtext
+          ppti   = ptreeOnIntInc    tpargs logtext
+          pptm   = ptreeOnIntBatch  tpargs logtext
+          pptn   = ptreeOnIntNoise  tpargs logtext
           pt     = Flowpaste.discover  parser logtext
           pptformatter | pptf == PTree = ProbProcessTree.formatPPTree
                        | pptf == LaTeX = ProbProcessTree.latexPPTree
+
 
 mineWithProb :: ToothpasteArgs -> String -> (String, String, String)
 mineWithProb tpargs logtext =

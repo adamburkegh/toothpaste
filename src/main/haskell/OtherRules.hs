@@ -3,7 +3,7 @@ module OtherRules where
 import ProbProcessTree
 import Toothpaste
 
-import Data.List (partition,sortOn)
+import Data.List (sortOn)
 
 -- This rule is not a beta trap, ie it may introduce non-determinisim, 
 -- so is not included in Toothpaste.

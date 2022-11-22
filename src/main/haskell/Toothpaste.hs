@@ -624,6 +624,13 @@ baseRuleList = [
             TRule{rulename="loopFixToProb", trule=loopFixToProb} 
             ]
 
+
+denoiseRuleList :: (Eq a, Ord a) => Float -> [TRule a]
+denoiseRuleList thr = 
+    baseRuleList ++
+    [ TRule{rulename="choicePrune__" ++ show thr, 
+      trule=(\pt -> choicePrune pt thr) } ] 
+
 ruleList :: (Show a, Eq a, Ord a) => [TRule a]
 ruleList = baseRuleList
 
@@ -632,8 +639,12 @@ ruleList = baseRuleList
 transform :: (Show a, Eq a, Ord a) => PPTree a -> PPTree a
 transform = transformRuleOrdered
 
+transformNoise :: (Show a, Eq a, Ord a) => PPTree a -> Float -> PPTree a
+transformNoise pt noise = maxTransformRuleOrder pt (denoiseRuleList noise)
+
 -- transformClean x = maxTransformBreadth x ruleList 
-transformRuleOrdered x = maxTransformRuleOrder x ruleList
+transformRuleOrdered :: (Show a, Eq a, Ord a) => PPTree a -> PPTree a
+transformRuleOrdered pt = maxTransformRuleOrder pt ruleList
 
 transformInRuleOrder :: (Show a, Eq a) => PPTRuleTransform a
 transformInRuleOrder pt [r] = transformPT pt r

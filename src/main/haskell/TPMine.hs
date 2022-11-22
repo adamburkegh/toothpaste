@@ -3,7 +3,7 @@ module TPMine where
 import EventLog
 import PetriNet
 import ProbProcessTree
-import Toothpaste (transform)
+import Toothpaste (transform,transformNoise)
 import Debug.Trace
 import Data.List (sort)
 import Data.Set (fromList,union,unions)
@@ -37,6 +37,10 @@ discover parser = transform . traceModel . parser
 
 discoverGen :: (Ord a, Eq a, Show a) => Log a -> PPTree a
 discoverGen log = transform $ traceModel log
+
+discoverNoise :: (Ord a, Eq a, Show a) => Log a -> Float -> PPTree a
+discoverNoise log noise = transformNoise (traceModel log) noise
+
 
 -- Petri net conversion
 -- Limited to Petri nets of Strings

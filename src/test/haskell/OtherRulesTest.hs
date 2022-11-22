@@ -3,12 +3,19 @@ module OtherRulesTest where
 import OtherRules
 import ProbProcessTree
 
+import PPTTestUtil
+
 import Test.HUnit
+
 
 la   = Leaf "a" 1
 la2  = Leaf "a" 2
+la3  = Leaf "a" 3
 lb   = Leaf "b" 1
+lb2  = Leaf "b" 2
 lc   = Leaf "c" 1
+lc3  = Leaf "c" 3
+ld4  = Leaf "d" 4
 
 saaat = NodeN Seq [la,NodeN Seq [la,la] 1] 1
 
@@ -71,8 +78,25 @@ fixedLoopRollTestsNforN = [
             ~=? fixedLoopRollListN [la,lb,lc] [la,lb,lc] 6
         ]
 
+choicePruneTests = [
+    "cpNoop" ~: la ~=? choicePrune la 0.1,
+    "cpNoop2" ~:  choiceP [la,lb2] 3 ~=? choicePrune (choiceP [la,lb2 ] 3 ) 0.1,
+    "cpPruneAll" ~: Silent 3 ~=? choicePrune (choiceP [la,lb,lc ] 3 ) 0.5,
+    "cpPruneToLeaf"   ~: la3 ~=? choicePrune (choiceP [la2,lb] 3) 0.5,
+    "cpPrune1"   ~: True ~=?
+        choiceP [Leaf "b" (12/5),Leaf "c" (18/5) ] 6 
+        `acmp` choicePrune (choiceP [la,lb2,lc3] 6) (1/4),
+    "cpPrune2"   ~: True ~=?
+        choiceP [Leaf "b" (20/9), Leaf "c" (30/9), 
+                             Leaf "d" (40/9)] 10
+        `acmp` choicePrune (choiceP [la,lb2,lc3,ld4] 10) 0.2,
+    "cpPrune2"   ~: True ~=?
+        choiceP [Leaf "c" (30/7), Leaf "d" (40/7)] 10
+        `acmp` choicePrune (choiceP [la,lb2,lc3,ld4] 10) 0.3
+    ]
 
 
 huTests     = choiceSkipSuffixTests
             ++ fixedLoopRollTestsNSingle ++ fixedLoopRollTestsNforN
+            ++ choicePruneTests 
 

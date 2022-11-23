@@ -33,7 +33,7 @@ In toothpaste
 
 ## Graphviz
 
-Requires installing graphviz, with the dot graphing tool to be on the PATH, for the graph rendering steps.
+Graphviz is required, with the dot graphing tool to be on the PATH, for the graph rendering steps. Without this, either a text or LaTeX (Tikz) visualization will have to be used.
 
 If you have chocolatey
 
@@ -48,7 +48,7 @@ Then run `dot -c` to initialize
 # Running
 `scripts/red.sh data/exercise1.xes` invokes the Toothpaste Miner prototype, outputting `var/exercise1.png` and various intermediates.
 
-`scripts/st.sh exercise` to just invoke the miner on a DCDT file and output a process tree.
+`scripts/st.sh exercise` invokes the miner on a DCDT file and outputs a probabilistic process tree.
 
 The test scaffold entry point is `ModelRunner.java`
 

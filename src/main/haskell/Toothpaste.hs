@@ -143,40 +143,6 @@ fixedLoopRollExisting x = x
 fixedLoopRoll :: (Eq a, Ord a) => PRule a
 fixedLoopRoll pt = fixedLoopRollExisting $ fixedLoopRollSingle pt
 
--- remove when probLoopRoll converted to sim-merge style
-loopRollEndPattern :: (Eq a) => PPTree a -> Float -> POper1 -> PPTree a
-loopRollEndPattern prev ct poper
-    | ct > 1  = Node1 poper prev ct (weight prev)
-    | ct <= 1 = prev
-
-
--- Not in the paper and not currently used
--- no loops of subseq >= 2
-probLoopRoll :: Eq a => PRule a
-probLoopRoll (NodeN Seq (u1:ptl) w) 
-    | nptl /= ptl = NodeN Seq nptl w
-    where nptl = probLoopRollList ptl u1 1
-probLoopRoll x = x    
-
-probLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
-probLoopRollList ((Node1 PLoop u1 r1 w1):ptl) prev ct
-    | u1 =~= prev = probLoopRollList ptl (seqMerge u1 prev) (ct+r1-1)
-    | not(u1 =~= prev) = probLoopRollEndPattern prev ct:
-                           probLoopRollList ptl u1 r1
-probLoopRollList (u1:ptl) prev ct 
-    | u1 =~= prev            = probLoopRollList ptl (seqMerge u1 prev) (ct+1)
-    | not (u1 =~= prev) = probLoopRollEndPattern prev ct:
-                            probLoopRollList ptl u1 1
-probLoopRollList [] prev ct = [probLoopRollEndPattern prev ct]
-     
-
-probLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
-probLoopRollEndPattern prev ct = loopRollEndPattern prev ct PLoop
-
-
-loopFixToProb :: PRule a
-loopFixToProb (Node1 FLoop x m w) = Node1 PLoop x m w
-loopFixToProb x = x
 
 loopNest :: PRule a
 loopNest (Node1 FLoop (Node1 FLoop x r1 w1) r2 w2) = Node1 FLoop x (r1*r2) w2
@@ -190,14 +156,31 @@ loopGeo :: (Eq a, Ord a) => PRule a
 loopGeo = choiceChildMR loopGeoList
 
 loopGeoList :: (Eq a) => LRule a
-loopGeoList ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl) 
+loopGeoList ((Node1 op1 u1 r1 w1):(Node1 op2 u2 r2 w2):ptl) 
     | u1 =~= u2 = loopGeoList  (
                     Node1 PLoop (merge u1 u2) 
                                  (((r1*w1)+(r2*w2))/(w1+w2)) 
                                  (w1+w2) 
                     :ptl)
-    | otherwise = (Node1 FLoop u1 r1 w1) : 
-                    loopGeoList ( (Node1 FLoop u2 r2 w2) :ptl)
+    | otherwise = (Node1 op1 u1 r1 w1) : 
+                    loopGeoList ( (Node1 op2 u2 r2 w2) :ptl)
+loopGeoList ((Node1 op1 u1 r1 w1):u2:ptl)
+    | u1 =~= u2 = loopGeoList  
+                    ((Node1 PLoop (merge u1 u2) 
+                                  (((r1*w1)+w2)/(w1+w2)) 
+                                  (w1+w2)  ) 
+                                 : ptl )
+    | otherwise =  (Node1 op1 u1 r1 w1) : 
+                    loopGeoList (u2:ptl)
+    where w2 = weight u2
+loopGeoList (u1:(Node1 op2 u2 r2 w2):ptl) 
+    | u1 =~= u2 = loopGeoList  (
+                    (Node1 PLoop (merge u1 u2) 
+                                 (((w1)+(r2*w2))/(w1+w2)) 
+                                 (w1+w2)  )
+                                 :ptl)
+    | otherwise =  u1: loopGeoList ( (Node1 op2 u2 r2 w2) :ptl)
+    where w1 = weight u1
 loopGeoList (pt1:ptl) = pt1:loopGeoList ptl
 loopGeoList pt = pt
 
@@ -622,8 +605,7 @@ baseRuleList = [
             TRule{rulename="loopConcFromChoice",trule=loopConcFromChoice},
             TRule{rulename="loopConcFromChoiceSuffix",
                   trule=loopConcFromChoiceSuffix},
-            TRule{rulename="loopConcSubsume",trule=loopConcSubsume},
-            TRule{rulename="loopFixToProb", trule=loopFixToProb} 
+            TRule{rulename="loopConcSubsume",trule=loopConcSubsume}
             ]
 
 
@@ -642,23 +624,33 @@ transform :: (Show a, Eq a, Ord a) => PPTree a -> PPTree a
 transform = transformRuleOrdered
 
 transformNoise :: (Show a, Eq a, Ord a) => PPTree a -> Float -> PPTree a
-transformNoise pt noise = maxTransformRuleOrder pt (denoiseRuleList noise)
+transformNoise pt noise = 
+    maxTransformRuleOrder firstPass (denoiseRuleList noise)
+    where firstPass = maxTransformRuleOrder pt baseRuleList
 
 -- transformClean x = maxTransformBreadth x ruleList 
 transformRuleOrdered :: (Show a, Eq a, Ord a) => PPTree a -> PPTree a
 transformRuleOrdered pt = maxTransformRuleOrder pt ruleList
 
+exhaustTransform :: (Show a, Eq a) => PPTree a -> TRule a -> PPTree a
+exhaustTransform pt r   | pt == tpt = pt
+                        | otherwise = exhaustTransform tpt r
+    where tpt = transformPT pt r
+
+
 transformInRuleOrder :: (Show a, Eq a) => PPTRuleTransform a
-transformInRuleOrder pt [r] = transformPT pt r
+-- transformInRuleOrder pt [r] = transformPT pt r
+transformInRuleOrder pt [r] = exhaustTransform pt r
 transformInRuleOrder pt (r:rs) =
           transformInRuleOrder (transformInRuleOrder pt [r]) rs
 transformInRuleOrder x _ = x
 
 maxTransformRuleOrder :: (Show a, Eq a) => PPTRuleTransform a
-maxTransformRuleOrder x rules | x == y      = x
-                     | otherwise   = maxTransformRuleOrder y rules
-                     where y = debug ("=== Count:" ++ show (ncount x)
-                                    ++  "===") (transformInRuleOrder x rules)
+maxTransformRuleOrder x rules 
+    | x == y      = x
+    | otherwise   = maxTransformRuleOrder y rules
+    where y = debug ("=== Count:" ++ show (ncount x)
+                     ++  "===") (transformInRuleOrder x rules)
 
 
 

@@ -60,12 +60,10 @@ fixedLoopRollLengthN (NodeN Seq ptl w)
           nptl     = head rs
 fixedLoopRollLengthN x = x
 
-{-
 loopRollEndPattern :: (Eq a) => PPTree a -> Float -> POper1 -> PPTree a
 loopRollEndPattern prev ct poper
     | ct > 1  = Node1 poper prev ct (weight prev)
     | ct <= 1 = prev
--}
 
 fixedLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
 fixedLoopRollEndPattern prev ct = loopRollEndPattern prev ct FLoop
@@ -107,8 +105,6 @@ fixedLoopRollListN iptl prev ct
                             fixedLoopRollListN ptl next 1
     where (next, ptl) = splitAt (length prev) iptl
 
-
-
 loopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> POper1 -> [PPTree a]
 loopRollEndPatternL prev ct poper
     | ct > 1  = [Node1 poper (seqP prev w) ct w]
@@ -116,7 +112,36 @@ loopRollEndPatternL prev ct poper
     where w = weight $ head prev
 
 
-
 fixedLoopRollEndPatternL :: (Eq a) => [PPTree a] -> Float -> [PPTree a]
 fixedLoopRollEndPatternL prev ct = loopRollEndPatternL prev ct FLoop
+
+
+loopFixToProb :: PRule a
+loopFixToProb (Node1 FLoop x m w) = Node1 PLoop x m w
+loopFixToProb x = x
+
+
+-- Not in the paper and not currently used
+-- no loops of subseq >= 2
+probLoopRoll :: Eq a => PRule a
+probLoopRoll (NodeN Seq (u1:ptl) w)
+    | nptl /= ptl = NodeN Seq nptl w
+    where nptl = probLoopRollList ptl u1 1
+probLoopRoll x = x
+
+probLoopRollList :: (Eq a) => [PPTree a] -> PPTree a -> Float -> [PPTree a]
+probLoopRollList ((Node1 PLoop u1 r1 w1):ptl) prev ct
+    | u1 =~= prev = probLoopRollList ptl (seqMerge u1 prev) (ct+r1-1)
+    | not(u1 =~= prev) = probLoopRollEndPattern prev ct:
+                           probLoopRollList ptl u1 r1
+probLoopRollList (u1:ptl) prev ct
+    | u1 =~= prev            = probLoopRollList ptl (seqMerge u1 prev) (ct+1)
+    | not (u1 =~= prev) = probLoopRollEndPattern prev ct:
+                            probLoopRollList ptl u1 1
+probLoopRollList [] prev ct = [probLoopRollEndPattern prev ct]
+
+
+probLoopRollEndPattern :: (Eq a) => PPTree a -> Float -> PPTree a
+probLoopRollEndPattern prev ct = loopRollEndPattern prev ct PLoop
+
 

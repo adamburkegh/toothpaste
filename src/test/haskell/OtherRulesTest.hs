@@ -11,10 +11,14 @@ la2  = Leaf "a" 2
 la3  = Leaf "a" 3
 lb   = Leaf "b" 1
 lb2  = Leaf "b" 2
+lb3 = Leaf "b" 3
+
 lc   = Leaf "c" 1
 lc3  = Leaf "c" 3
 ld4  = Leaf "d" 4
 
+saa = NodeN Seq [la,la] 1
+saaa = NodeN Seq [la,la,la] 1
 saaat = NodeN Seq [la,NodeN Seq [la,la] 1] 1
 
 
@@ -76,8 +80,29 @@ fixedLoopRollTestsNforN = [
             ~=? fixedLoopRollListN [la,lb,lc] [la,lb,lc] 6
         ]
 
+probLoopRollTests = [
+    "ploopRoll1" ~: la ~=? probLoopRoll la ,
+    "ploopRoll2" ~: NodeN Seq [Node1 PLoop la 2 1] 1
+                        ~=? probLoopRoll saa ,
+    "ploopRoll3" ~: NodeN Seq [Node1 PLoop la 3 1] 1
+                        ~=? probLoopRoll saaa ,
+    "ploopRollMid1" ~: saaat ~=? probLoopRoll saaat ,
+    "ploopRollMid2" ~: NodeN Seq [lb,Node1 PLoop la 3 1] 1
+                ~=? probLoopRoll (NodeN Seq [lb,la,la,la] 1),
+    "ploopRollSim" ~: NodeN Seq [lb3,
+                                 Node1 PLoop (NodeN Choice
+                                                    [Leaf "a" 1.5,
+                                                     Leaf "b" 1.5] 3) 2 3,
+                                 la3] 3
+                ~=? probLoopRoll (NodeN Seq [lb3,NodeN Choice [la2,lb] 3,
+                                                 NodeN Choice [la,lb2] 3,
+                                                la3] 3)
+    ]
+
 
 
 huTests     = choiceSkipSuffixTests
             ++ fixedLoopRollTestsNSingle ++ fixedLoopRollTestsNforN
+            ++ probLoopRollTests
+
 

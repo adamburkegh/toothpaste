@@ -431,24 +431,6 @@ fixedLoopRollTests = [
          ~=? fixedLoopRoll (NodeN Seq [la,lb,lc,la,lb,lc,la,lb,lc] 1)
         ]
 
-probLoopRollTests = [
-    "ploopRoll1" ~: la ~=? probLoopRoll la ,
-    "ploopRoll2" ~: NodeN Seq [Node1 PLoop la 2 1] 1
-                        ~=? probLoopRoll saa ,
-    "ploopRoll3" ~: NodeN Seq [Node1 PLoop la 3 1] 1
-                        ~=? probLoopRoll saaa ,
-    "ploopRollMid1" ~: saaat ~=? probLoopRoll saaat ,
-    "ploopRollMid2" ~: NodeN Seq [lb,Node1 PLoop la 3 1] 1 
-                ~=? probLoopRoll (NodeN Seq [lb,la,la,la] 1),
-    "ploopRollSim" ~: NodeN Seq [lb3,
-                                 Node1 PLoop (NodeN Choice 
-                                                    [Leaf "a" 1.5,
-                                                     Leaf "b" 1.5] 3) 2 3,
-                                 la3] 3
-                ~=? probLoopRoll (NodeN Seq [lb3,NodeN Choice [la2,lb] 3,
-                                                 NodeN Choice [la,lb2] 3, 
-                                                la3] 3)
-    ]
 
 loopNestTests = [
     "loopNestFF1" ~: Node1 FLoop la5 6 5
@@ -472,8 +454,7 @@ loopGeoTests = [
                                           Node1 FLoop la 4 1] 2)
         ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
                                    Node1 FLoop la 4 1] 2),
-    -- FLoop / PLoop merge depends on PLoop conversion 
-    "loopGeo3" ~: NodeN Choice [Node1 PLoop lb2 3 2, Node1 FLoop lb 3 1] 3
+    "loopGeo3" ~: Node1 PLoop lb3 3 3
         ~=? loopGeo (NodeN Choice [Node1 FLoop lb 2 1,
                                    Node1 FLoop lb 4 1,
                                    Node1 FLoop lb 3 1] 3),
@@ -485,6 +466,16 @@ loopGeoTests = [
         ~=? loopGeo (NodeN Choice [lc,
                                    Node1 FLoop la 2 1,
                                    Node1 FLoop la 4 1,
+                                   lb] 4),
+    "loopGeoPartial3" ~: choiceP [Node1 PLoop la2 3 2, lb, lc] 4
+        ~=? loopGeo (NodeN Choice [lc,
+                                   Node1 FLoop la 2 1,
+                                   Node1 PLoop la 4 1,
+                                   lb] 4),
+    "loopGeoPartial4" ~: choiceP [Node1 PLoop la2 2 2, lb, lc] 4
+        ~=? loopGeo (NodeN Choice [lc,
+                                   Node1 FLoop la 3 1,
+                                   la,
                                    lb] 4)
     ]
 
@@ -786,7 +777,6 @@ ruleTests   = silentSeqTests  ++ silentConcTests
            ++ concFromChoiceTests
            ++ concSubsumeTests
            ++ fixedLoopRollTests ++ loopNestTests ++ loopGeoTests
-           ++ probLoopRollTests 
            ++ loopChoiceFoldTests
            ++ flattenTests
            ++ choicePruneTests

@@ -8,7 +8,6 @@ fi
 
 date
 
-# stack run -- --logformat=dcdt --eventlog var/$f.dcdt --pnetfile var/$f.pnml --ptreefile var/$f.ptree 
 stack run -- --logformat=dcdt --eventlog var/$f.dcdt --pnetfile var/$f.pnml --ptreefile var/$f.ptree --impl=mnode --noise=$n
 
 date

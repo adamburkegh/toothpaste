@@ -84,13 +84,13 @@ latexFormatTests = [
             ++ forEnd
                     ~=? latexPPTree (Silent 2),
      "floop" ~: forStart ++
-            "        [ {\\loopn[3]}\\pcol 1\n\
+            "        [ {\\loopn{3}}\\pcol 1\n\
             \          [ \\text{a}\\pcol 1]\n\
             \        ]\n"
             ++ forEnd
               ~=? latexPPTree (Node1 FLoop la 3 1),
      "ploop" ~: forStart ++
-            "        [ {\\loopp[2]}\\pcol 1\n\
+            "        [ {\\loopp{2}}\\pcol 1\n\
             \          [ \\text{b}\\pcol 1]\n\
             \        ]\n"
             ++ forEnd

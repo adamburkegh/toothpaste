@@ -265,8 +265,8 @@ latexWeight n  = "\\pcol " ++ latexFloat n
 latexCloseNode = "]\n"
 
 latexLoopOp :: POper1 -> Repeat -> String
-latexLoopOp FLoop r = "{\\loopn[" ++ latexFloat r ++ "]}"
-latexLoopOp PLoop r = "{\\loopp[" ++ latexFloat r ++ "]}"
+latexLoopOp FLoop r = "{\\loopn{" ++ latexFloat r ++ "}}"
+latexLoopOp PLoop r = "{\\loopp{" ++ latexFloat r ++ "}}"
 
 latexNOp :: POperN -> String
 latexNOp Choice = "\\choicep"

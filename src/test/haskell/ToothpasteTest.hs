@@ -480,7 +480,12 @@ loopGeoTests = [
     "loopGeoPartial" ~: choiceP [Node1 PLoop la2 3 2, lb] 3
         ~=? loopGeo (NodeN Choice [Node1 FLoop la 2 1,
                                    Node1 FLoop la 4 1,
-                                   lb] 3)
+                                   lb] 3),
+    "loopGeoPartial2" ~: choiceP [Node1 PLoop la2 3 2, lb, lc] 4
+        ~=? loopGeo (NodeN Choice [lc,
+                                   Node1 FLoop la 2 1,
+                                   Node1 FLoop la 4 1,
+                                   lb] 4)
     ]
 
 

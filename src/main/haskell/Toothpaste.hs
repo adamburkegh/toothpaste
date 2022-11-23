@@ -196,8 +196,10 @@ loopGeoList ((Node1 FLoop u1 r1 w1):(Node1 FLoop u2 r2 w2):ptl)
                                  (((r1*w1)+(r2*w2))/(w1+w2)) 
                                  (w1+w2) 
                     :ptl)
-    | otherwise = u1 : loopGeoList (u2:ptl)
-loopGeoList x = x
+    | otherwise = (Node1 FLoop u1 r1 w1) : 
+                    loopGeoList ( (Node1 FLoop u2 r2 w2) :ptl)
+loopGeoList (pt1:ptl) = pt1:loopGeoList ptl
+loopGeoList pt = pt
 
 
 flattenRule :: (Eq a) => PRule a
@@ -299,7 +301,7 @@ loopChoiceSkip =
     choiceChildMR (anyMerge (headLeafSimMS (=&=)) (headSilentMergeMM lmerge))
 
 loopChoiceSkipCompress :: (Eq a, Ord a) => PRule a
-loopChoiceSkipCompress pt = norm $ choiceFoldPrefix $ loopChoiceSkip pt
+loopChoiceSkipCompress pt = norm $ loopChoiceFoldPrefix $ loopChoiceSkip pt
 
 -- concFromChoice (Prefix) 
 -- len == 2 only

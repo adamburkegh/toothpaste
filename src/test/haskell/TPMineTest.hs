@@ -84,7 +84,7 @@ pmidConcbout = Place "" "p8"
 tcoa = WTransition "a" "t6" 1
 tcob = WTransition "b" "t9" 1
 ttau2 = WTransition "tau" "t2" 2
-ttau3 = WTransition "tau" "t3" 1
+ttau3 = WTransition "tau" "t3" 2
 translateConcExpected =
     WeightedNet (fromList[pin,pout,pmidConcain,pmidConcaout,
                           pmidConcbin,pmidConcbout])
@@ -217,7 +217,6 @@ translateLoops = [
                             WToPlace ttauout2 pout])
                    pin pout 6
                    ~=? translate (Node1 PLoop la10 5 10) ,
-    -- TODO failing, outputs match, tranids off by one
     "translateLoopChoice" ~:
        WeightedNet (fromList [pin,pout,pmidLoop1])
                    (fromList [tlpa4_id7, tlpb4, ttauin10, ttauout2])

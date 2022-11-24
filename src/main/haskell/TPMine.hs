@@ -105,7 +105,7 @@ ptreeWeightedNet (NodeN Seq ptl w) pi po idp =
 ptreeWeightedNet (NodeN Conc ptl w) pi po idp =
     let ptlr = ptreeWeightedNetConcList ptl trantauin trantauout (idp+2)
         trantauin  = WTransition "tau" (nextid idp) w
-        trantauout = WTransition "tau" (nextid (idp+1)) 1
+        trantauout = WTransition "tau" (nextid (idp+1)) w
     in WeightedNet (unions (map wnplaces ptlr 
                            ++ [fromList[pi,po]]))
                    (unions (map wntransitions ptlr

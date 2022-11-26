@@ -162,24 +162,24 @@ loopGeoList ((Node1 op1 u1 r1 w1):(Node1 op2 u2 r2 w2):ptl)
                                  (((r1*w1)+(r2*w2))/(w1+w2)) 
                                  (w1+w2) 
                     :ptl)
-    | otherwise = (Node1 op1 u1 r1 w1) : 
-                    loopGeoList ( (Node1 op2 u2 r2 w2) :ptl)
+    | otherwise = Node1 op1 u1 r1 w1 : 
+                    loopGeoList ( Node1 op2 u2 r2 w2 :ptl)
 loopGeoList ((Node1 op1 u1 r1 w1):u2:ptl)
     | u1 =~= u2 = loopGeoList  
-                    ((Node1 PLoop (merge u1 u2) 
+                    (Node1 PLoop (merge u1 u2) 
                                   (((r1*w1)+w2)/(w1+w2)) 
-                                  (w1+w2)  ) 
+                                  (w1+w2)   
                                  : ptl )
-    | otherwise =  (Node1 op1 u1 r1 w1) : 
+    | otherwise =  Node1 op1 u1 r1 w1 : 
                     loopGeoList (u2:ptl)
     where w2 = weight u2
 loopGeoList (u1:(Node1 op2 u2 r2 w2):ptl) 
     | u1 =~= u2 = loopGeoList  (
-                    (Node1 PLoop (merge u1 u2) 
-                                 (((w1)+(r2*w2))/(w1+w2)) 
-                                 (w1+w2)  )
+                    Node1 PLoop (merge u1 u2) 
+                                 ((w1+(r2*w2))/(w1+w2)) 
+                                 (w1+w2)  
                                  :ptl)
-    | otherwise =  u1: loopGeoList ( (Node1 op2 u2 r2 w2) :ptl)
+    | otherwise =  u1: loopGeoList ( Node1 op2 u2 r2 w2 :ptl)
     where w1 = weight u1
 loopGeoList (pt1:ptl) = pt1:loopGeoList ptl
 loopGeoList pt = pt
@@ -613,7 +613,7 @@ denoiseRuleList :: (Eq a, Ord a) => Float -> [TRule a]
 denoiseRuleList thr = 
     baseRuleList ++
     [ TRule{rulename="choicePrune__" ++ show thr, 
-      trule=(\pt -> choicePrune pt thr) } ] 
+      trule= (`choicePrune` thr) } ] 
 
 ruleList :: (Show a, Eq a, Ord a) => [TRule a]
 ruleList = baseRuleList

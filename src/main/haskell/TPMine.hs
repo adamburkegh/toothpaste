@@ -39,7 +39,7 @@ discoverGen :: (Ord a, Eq a, Show a) => Log a -> PPTree a
 discoverGen log = transform $ traceModel log
 
 discoverNoise :: (Ord a, Eq a, Show a) => Log a -> Float -> PPTree a
-discoverNoise log noise = transformNoise (traceModel log) noise
+discoverNoise log = transformNoise (traceModel log) 
 
 
 -- Petri net conversion

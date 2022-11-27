@@ -53,7 +53,7 @@ toothpasteArgs = ToothpasteArgs{
             &= help "Prune subtrees below this threshold [0..1], Default 0." } 
             &=
     help "Discover stochastic models from event logs" 
-        &= summary "Toothpaste Miner 0.9.1.1, 2021-22 (GPL)" 
+        &= summary "Toothpaste Miner 0.9.1.2, 2021-22 (GPL)" 
 
 ptreeOutMain = Binpaste.inputMain
 

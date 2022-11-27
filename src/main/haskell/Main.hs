@@ -72,7 +72,7 @@ implSelector :: String -> Impl
 implSelector istr | istr == "incr"  = Incr
                   | istr == "batch" = Batch
                   | istr == "mnode" = MNode
-                  | otherwise       = Batch
+                  | otherwise       = MNode
 
 ptreeformatSelector :: String -> PTreeFormat
 ptreeformatSelector istr | istr == "ptree" = PTree

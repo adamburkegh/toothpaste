@@ -1,3 +1,6 @@
+REM Expects a python virtual environment to already be present in 
+REM VDIR=%TPHOME%toothpaste\scripts
+REM Change that line to point somewhere else
 
 echo on
 
@@ -15,7 +18,7 @@ echo "Preparing event log ..."
 echo "TPHOME" %TPHOME%
 echo "OUTD"   %OUTD%
 
-set VDIR=%TPHOME%tpvenv\scripts
+set VDIR=%TPHOME%toothpaste\scripts
 set PYTHON_HOME=%VDIR%
 
 echo %VDIR%\activate.bat
@@ -27,7 +30,7 @@ REM %VDIR%\activate.bat
 echo %DATE% %TIME%
 echo "Mining ..."
 
-%TPHOME%bin\toothpaste.exe --logformat=dcdt --eventlog %OUTD%\%lg%.dcdt --pnetfile %md% --ptreefile %OUTD%\%lg%.ptree 
+%TPHOME%bin\toothpaste.exe --logformat=dcdt --impl=mnode --eventlog %OUTD%\%lg%.dcdt --pnetfile %md% --ptreefile %OUTD%\%lg%.ptree 
 
 echo %DATE% %TIME%
 echo "ToothpasteMiner done."

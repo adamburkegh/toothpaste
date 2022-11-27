@@ -113,4 +113,23 @@ validateWeightedNet wnet
           valFailInit = "Validation failed for net. "
 
 
+debugTransition :: WTransition String -> String
+debugTransition (WTransition a nodeId weight) 
+    = "t" ++ a ++ ":" ++ show weight ++ "[" ++ nodeId ++ "]"
+
+debugPlace :: Place String -> String
+debugPlace (Place a nodeId) = "p(" ++ a  ++  "[" ++ nodeId ++ "] )"  
+
+debugEdge :: WEdge String -> String
+debugEdge (WToPlace a b)      = debugTransition a ++ " -> " ++ debugPlace b 
+debugEdge (WToTransition a b) = debugPlace a ++ " -> " ++ debugTransition b 
+
+formatWNetDebug :: WeightedNet -> String
+formatWNetDebug wnet =
+       "Places: "  ++ unwords ( map debugPlace (toList (wnplaces wnet)) ) 
+    ++ " Transitions: " 
+    ++ unwords ( map debugTransition (toList(wntransitions wnet)) )
+    ++ " Edges: " 
+    ++ unwords ( map debugEdge (toList (wnedges wnet) ) )
+
 

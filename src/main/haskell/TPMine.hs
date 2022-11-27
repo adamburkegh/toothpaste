@@ -75,17 +75,7 @@ ptreeWeightedNet (NodeN Choice ptl w) pi po idp =
         pi po (wnmaxnodeid (last ptlr))
 
 ptreeWeightedNet (Node1 FLoop x m w) pi po idp
-    | m <= 1 = ptreeWeightedNet x pi po idp
-    | m > 1  =
-        let midp1 = midp (idp+1)
-            px      =   ptreeWeightedNet x pi midp1 ( idp+2 )
-            nx      =   ptreeWeightedNet (Node1 FLoop x (m-1) w) midp1 po
-                                                        ( wnmaxnodeid px )
-        in WeightedNet (unions [wnplaces px,wnplaces nx,
-                               fromList [midp1,pi,po]]) 
-                   (wntransitions px `union` wntransitions nx)
-                   (wnedges px `union` wnedges nx)
-                   pi po (wnmaxnodeid px)
+    = ptreeWeightedNet (seqP (replicate (round m) x) w ) pi po idp
 
 ptreeWeightedNet (Node1 PLoop x m w) pi po idp =
     let midp1 = midp (idp+1)

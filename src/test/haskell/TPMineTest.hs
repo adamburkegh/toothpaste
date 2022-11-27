@@ -48,7 +48,6 @@ lb2 = Leaf "b" 2
 lb3 = Leaf "b" 3
 lc2 = Leaf "c" 2
 ld2 = Leaf "d" 2
-loopa1 = Node1 FLoop la 1 1
 
 
 -- Tests
@@ -194,7 +193,7 @@ ttauout1 = WTransition "tauout" "t5" 1
 ttauout2 = WTransition "tauout" "t5" 2
 
 
-translateLoops = [
+translatePLoops = [
     "translateLoopLeaf" ~:
         WeightedNet (fromList [pin,pout,pmidLoop1])
                  (fromList [tlpa4_id6, ttauin5, ttauout1])
@@ -245,7 +244,27 @@ translateLoops = [
                   ~=? translate (Node1 PLoop (NodeN Choice [la8,lb2] 10) 5 10)
                 ]
 
-translateTests = translateLoops ++ translateRest 
+
+tla5_1 = WTransition "a" "t3" 5
+tla5_2 = WTransition "a" "t4" 5
+pfl1 = Place "" "p2"
+
+translateFLoops = [
+    "translateLoopLeaf" ~:
+        WeightedNet (fromList [pin,pout,pfl1] )
+                 (fromList [tla5_1,tla5_2])
+                 (fromList [WToPlace tla5_1 pfl1,
+                            WToPlace tla5_2 pout,
+                            WToTransition pfl1 tla5_2,
+                            WToTransition pin  tla5_1 ])
+                   pin pout 4
+                   ~=? translate (Node1 FLoop la5 2 5),
+    "translateLoopLeaf3" ~:
+                   translate (NodeN Seq [la5,la5,la5] 5)
+                   ~=? translate (Node1 FLoop la5 3 5)
+                ]
+
+translateTests = translatePLoops ++ translateFLoops ++ translateRest 
 
 validationTests = [
     "validNet1" ~: valOk 

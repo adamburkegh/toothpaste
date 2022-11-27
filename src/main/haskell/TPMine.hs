@@ -16,6 +16,9 @@ debug = trace
 -- Debug OFF
 -- debug x y = y
 
+warn msg = trace ("Warn: " ++ msg)
+
+
 -- Mining
 traceModel :: (Ord a, Eq a) => Log a -> PPTree a
 traceModel lg = NodeN Choice ul ulw
@@ -46,7 +49,11 @@ discoverNoise log = transformNoise (traceModel log)
 -- Limited to Petri nets of Strings
 
 translate :: PPTree String -> WeightedNet
-translate ptree = ptreeWeightedNet ptree (Place "I" "pI") (Place "O" "pO") 1
+translate ptree 
+    | (valResult val) = net
+    | otherwise       = warn ( valMsg val ) net
+    where net =  ptreeWeightedNet ptree (Place "I" "pI") (Place "O" "pO") 1
+          val = validateWeightedNet net     
 
 nextid :: Int -> String
 nextid x = "t" ++ show (x+1)

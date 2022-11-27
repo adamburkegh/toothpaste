@@ -1,8 +1,9 @@
 module ProbProcessTree 
     (module ProbProcessTree,
-     Weight) where
+     Weight,
+     Validation) where
 
-import PetriNet -- mainly for Weight
+import PetriNet 
 import Data.List (nub,sort)
 
 
@@ -348,9 +349,6 @@ validate x = True
 validateList :: [PPTree a] -> Bool
 validateList = all validate 
 
-data Validation = Validation{valResult::Bool, valMsg:: String}
-    deriving (Show,Eq)
-valOk = Validation{valResult=True, valMsg="Ok"}
 verboseValidate :: (Show a) => PPTree a -> Validation
 verboseValidate (NodeN Seq ptl w)
     | validate  (NodeN Seq ptl w)  = valOk

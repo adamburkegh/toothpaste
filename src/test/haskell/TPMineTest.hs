@@ -245,11 +245,37 @@ translateLoops = [
                   ~=? translate (Node1 PLoop (NodeN Choice [la8,lb2] 10) 5 10)
                 ]
 
-translateTests = translateLoops ++ translateRest
+translateTests = translateLoops ++ translateRest 
+
+validationTests = [
+    "validNet1" ~: valOk 
+            ~=? validateWeightedNet 
+                    ( WeightedNet (fromList [pin,pout]) 
+                                  (fromList [tca,tcb1,tcc])
+                                  (fromList [WToTransition pin tca, 
+                                             WToPlace tca pout,
+                                             WToTransition pin tcb1, 
+                                             WToPlace tcb1 pout,
+                                             WToTransition pin tcc, 
+                                             WToPlace tcc pout] )
+                                  pin pout 6) ,
+    "invalidNet1" ~: False
+            ~=? valResult 
+                    (validateWeightedNet 
+                    ( WeightedNet (fromList [pin,pout]) 
+                                  (fromList [tca,tcb1,tcc])
+                                  (fromList [WToTransition pin tca, 
+                                             WToPlace tca pout,
+                                             WToTransition pin tcb1, 
+                                             WToPlace tcb1 pout,
+                                             -- WToTransition pin tcc, 
+                                             WToPlace tcc pout] )
+                                  pin pout 6)  )
+    ]
 
 
 --
 
-huTests     =  translateTests
+huTests     =  translateTests ++ validationTests
 
 

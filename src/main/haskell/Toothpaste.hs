@@ -3,6 +3,7 @@ module Toothpaste where
 import ProbProcessTree
 import Debug.Trace
 import Data.List(partition,sort)
+import PetriNet(valMsg)
 
 -- debug and trace
 debugOn :: String -> a -> a

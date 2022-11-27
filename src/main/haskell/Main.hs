@@ -46,11 +46,11 @@ toothpasteArgs = ToothpasteArgs{
     ptreefile = "" &= help "Output PPTree file",
     ptreeformat = "ptree" 
             &= help "Output PPT format. Valid values ptree or latex",
-    impl      = "batch" &= help "Discovery algo. Valid values batch or incr",
+    impl      = "mnode" &= help "Discovery algo. Valid values batch, incr, or mnode. Default mnode.",
     traceprobfile = ""
             &= help "Output trace probabilities to this file",
     noise = def
-            &= help "Prune subtrees below this threshold [0..1], Default 0." } 
+            &= help "Prune subtrees below this threshold. Range [0..1]. Default 0." } 
             &=
     help "Discover stochastic models from event logs" 
         &= summary "Toothpaste Miner 0.9.1.2, 2021-22 (GPL)" 

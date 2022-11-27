@@ -1,7 +1,7 @@
 module PetriNet where
 
 import ToString
-import Data.Set (Set, toList, fromList)
+import Data.Set (Set, toList, fromList,difference,empty)
 import Data.Typeable
 
 type Weight = Float
@@ -76,6 +76,41 @@ toPetriNet wnet = (wnplaces wnet,
                        map toTransition (toList (wntransitions wnet)),
                   fromList $ 
                        map toEdge ( toList (wnedges wnet) ) )
+
+-- General validation type. Not very PetriNet specific
+data Validation = Validation{valResult::Bool, valMsg:: String}
+    deriving (Show,Eq)
+valOk = Validation{valResult=True, valMsg="Ok"}
+
+valFail :: String -> Validation
+valFail msg = Validation{valResult=False, valMsg=msg}
+
+isTranSource :: WEdge a -> Bool
+isTranSource (WToPlace tran place) = True
+isTranSource x = False
+
+isTranTarget :: WEdge a -> Bool
+isTranTarget (WToTransition place tran) = True
+isTranTarget x = False
+
+validateWeightedNet :: WeightedNet -> Validation
+validateWeightedNet wnet 
+    | sdiff /= empty  
+        = valFail (valFailInit 
+                ++ "Transitions without sources:" 
+                ++ (show sdiff) ) 
+    | tdiff /= empty  
+        = valFail (valFailInit
+                ++ "Transitions without targets:" 
+                ++ (show tdiff) ) 
+    | otherwise       = valOk
+    where trans       = wntransitions wnet
+          edg         = toList (wnedges wnet)
+          sourcetrans = fromList [ tran | WToPlace tran place <- edg ]
+          targettrans = fromList [ tran | WToTransition place tran <- edg ]
+          sdiff       = trans `difference` sourcetrans
+          tdiff       = trans `difference` targettrans
+          valFailInit = "Validation failed for net. "
 
 
 

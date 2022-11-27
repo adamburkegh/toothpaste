@@ -765,9 +765,6 @@ validate x = True
 
 
 
-data Validation = Validation{valResult::Bool, valMsg:: String} 
-    deriving (Show,Eq)
-valOk = Validation{valResult=True, valMsg="Ok"}
 verboseValidate :: (Show a) => PPTree a -> Validation
 verboseValidate (Node2 Seq x y w) 
     | w /= weight x    = Validation{valResult=False ,

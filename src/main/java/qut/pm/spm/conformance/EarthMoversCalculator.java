@@ -33,7 +33,7 @@ public class EarthMoversCalculator implements SPNQualityCalculator {
 		LOGGER.info("Computing earth-movers' distance (SL) ");
 		EMSCParametersLogModelDefault parameters = new EMSCParametersLogModelDefault();
 		parameters.setComputeStochasticTraceAlignments(false);
-		parameters.setDebug(false);
+		parameters.setDebug( LOGGER.isDebugEnabled() );
 		parameters.setLogClassifier(classifier);
 		LanguageGenerationStrategyFromModelAbstract terminationStrategy = new LanguageGenerationStrategyFromModelDefault();
 		parameters.setModelTerminationStrategy(terminationStrategy);		

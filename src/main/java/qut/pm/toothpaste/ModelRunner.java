@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -16,8 +17,6 @@ import org.deckfour.xes.classification.XEventClassifier;
 import org.deckfour.xes.classification.XEventNameClassifier;
 import org.deckfour.xes.info.XLogInfoFactory;
 import org.deckfour.xes.model.XLog;
-import org.processmining.acceptingpetrinet.models.AcceptingPetriNet;
-import org.processmining.acceptingpetrinet.models.impl.AcceptingPetriNetImpl;
 import org.processmining.contexts.uitopia.UIPluginContext;
 import org.processmining.framework.plugin.PluginContext;
 import org.processmining.models.connections.GraphLayoutConnection;
@@ -37,6 +36,7 @@ import qut.pm.prom.helpers.HeadlessDefinitelyNotUIPluginContext;
 import qut.pm.prom.helpers.HeadlessUIPluginContext;
 import qut.pm.prom.helpers.PetrinetExportUtils;
 import qut.pm.spm.AcceptingStochasticNet;
+import qut.pm.spm.AcceptingStochasticNetImpl;
 import qut.pm.spm.Measure;
 import qut.pm.spm.PetrinetSource;
 import qut.pm.spm.RunState;
@@ -89,6 +89,7 @@ public class ModelRunner {
 	private boolean exportDOT = false;
 	private int kfoldLogs = 1;
 	private int kfoldLogsStart = 1;
+	// private String modelInputFileName = "";
 	private List<StochasticNetLogMiner> miners;
 	private List<PetrinetSource> models;
 	private List<SPNQualityCalculator> calculators;
@@ -140,26 +141,26 @@ public class ModelRunner {
 		for (String modelFile: modelFiles) {
 			String fname = modelPath + File.separator + modelFile.trim(); 
 			LOGGER.info("Loading model from {}",fname);
-			AcceptingPetriNet net = loadNet(new File(fname)); 
-			String shortName = modelFile.replace("omodel_", "");
-			shortName = shortName.substring(0, shortName.indexOf("_") );
-			LOGGER.info("Short name {}",shortName);
-			models.add( new PetrinetSource(net,shortName) );
+			AcceptingStochasticNet net = loadNet(new File(fname)); 
+			models.add( new PetrinetSource(net,net.getId()) );
 		}
 	}
 	
-	private static AcceptingPetriNet loadNet(File file) throws Exception {
-		PluginContext context = 
-				new HeadlessDefinitelyNotUIPluginContext(new ConsoleUIPluginContext(), "modelrunner_loadnet");
+	private AcceptingStochasticNet loadNet(File file) throws Exception {
+		PluginContext context = new HeadlessDefinitelyNotUIPluginContext(new ConsoleUIPluginContext(),
+				"modelrunner_loadnet");
+		String shortName = file.getName().replace("osmodel_", "");
+		shortName = shortName.substring(0, shortName.indexOf("_") );
+		LOGGER.info("Short name {}",shortName);
 		Serializer serializer = new Persister();
 		PNMLRoot pnml = serializer.read(PNMLRoot.class, file);
 		StochasticNetDeserializer converter = new StochasticNetDeserializer();
 		Object[] objs = converter.convertToNet(context, pnml, file.getName(), true);
-		AcceptingPetriNet apn = new AcceptingPetriNetImpl((StochasticNet) objs[0],
-														  (Marking)objs[1],(Marking)objs[2]);
+		AcceptingStochasticNet apn = new AcceptingStochasticNetImpl(shortName, (StochasticNet) objs[0],
+				(Marking) objs[1], Collections.singleton((Marking) objs[2]));
 		return apn;
 	}
-
+	
 
 	private void configureMiners(Properties cfg) {
 		miners = new ArrayList<>();
@@ -241,17 +242,17 @@ public class ModelRunner {
 										   throws Exception 
 	{
 		UIPluginContext uipc = 
-				new HeadlessUIPluginContext(new ConsoleUIPluginContext(), "spmrunner_logparser");	
+				new HeadlessUIPluginContext(new ConsoleUIPluginContext(), "tp_runnerlogparser");	
 		final String SEP = " -- ";
 		noteRunStart(miner, inputLogName, SEP);
 		String inputLogPrefix = logPrefix(inputLogName);
-		String outputModelName = nameFile(inputLogPrefix,miner.getShortID(),"omodel",PNML);
+		String outputModelName = nameFile(inputLogPrefix,miner.getShortID(),"osmodel",PNML);
 		RunStats runStats = new RunStats(inputLogName,outputModelName, miner.getReadableID());
 		TaskStats stats = new TaskStats("spmlogparser");
 		stats.markRunning();
 		try {
 			XLog log = loadLog(uipc, inputLogName, stats);
-			uipc = new HeadlessUIPluginContext(new ConsoleUIPluginContext(), "spmrunner_mining");
+			uipc = new HeadlessUIPluginContext(new ConsoleUIPluginContext(), "tp_runnermining");
 			stats = closeTaskAndMakeNew(runStats, stats, "miner");
 			LOGGER.debug(stats.formatStats()); 
 			File modelFile = new File(outputModelName);
@@ -265,7 +266,7 @@ public class ModelRunner {
 			stats = makeNewTask("visualize");
 			exportVisualization(miner,inputLogPrefix);
 			stats.markEnd();
-			uipc = new HeadlessUIPluginContext(new ConsoleUIPluginContext(), "spmrunner_postrun");	
+			uipc = new HeadlessUIPluginContext(new ConsoleUIPluginContext(), "tp_runnerpostrun");	
 			if (miner.isStochasticNetProducer()) {
 				TaskStats compStats = new TaskStats("complog"); 
 				// note these log count stats in compStats currently unused
@@ -407,13 +408,65 @@ public class ModelRunner {
 		}
 	}
 	
+	private TaskStats makeNewTask(RunStats runStats, String newTaskName) {
+		TaskStats newTaskStats = new TaskStats(newTaskName);
+		newTaskStats.markRunning();
+		runStats.addTask(newTaskStats);
+		return newTaskStats;
+	}
 
+	
+	private void calculatePostStats(PluginContext context, String inputLogPrefix, 
+			PetrinetSource model, XLog log, RunStats runStats) 
+				throws Exception
+	{		
+		TaskStats stats = null;
+		for (SPNQualityCalculator calc: calculators) {
+			stats = makeNewTask("calculate " + calc.getReadableId());
+			calc.calculate(context, model.getAcceptingPetriNet(), log, 
+					classifierFor(log), stats);
+			closeTask(runStats,stats);
+			// Conservatively export stats after every run
+			LOGGER.info(runStats.formatStats());
+			exportRun(model.getSourceId(), inputLogPrefix, runStats);
+		}
+	}
+
+	
+	public void runPredefinedModelVsLog(PetrinetSource model, String inputLogName ) throws Exception{
+		UIPluginContext uipc = 
+				new HeadlessUIPluginContext(new ConsoleUIPluginContext(), "tp_runnermvl");	
+		RunStats runStats = new RunStats(inputLogName,model.getNet().getLabel(), model.getSourceId());
+		String df = logPrefix(inputLogName);
+		// RunStats runStats = initPredefRunStats(model, "predef");
+		TaskStats stats = makeNewTask(runStats, "tpmlogparser");
+		try {
+			XLog log = loadLog(uipc, inputLogName, stats);
+			calculatePostStats(uipc, df, model, log, runStats);
+		} catch (Exception e) {
+			exportRun(model.getSourceId(), df, runStats);
+			throw new RuntimeException(e);
+		}
+	}
+	
+
+	
+	public void runPredefinedModelCollectionVsLog() throws Exception{
+		for (String df: dataFiles) {
+			for (PetrinetSource model : models) {
+				runPredefinedModelVsLog(model,df);
+			}
+		}
+	}	
 
 	public void runAll() throws Exception{
 		for (String df: dataFiles) {
 			// Basic sanity checks happen already at config load time
 			if (!miners.isEmpty()) {
 				runAllMiners(df);
+			}
+			if (miners.isEmpty() && !models.isEmpty()) {
+				runPredefinedModelCollectionVsLog();
 			}
 		}
 	}

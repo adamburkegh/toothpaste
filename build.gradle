@@ -15,7 +15,8 @@ apply plugin: 'eclipse'
 repositories {
     mavenLocal() 
     ivy {
-        layout 'pattern' , {
+        name 'ivyPromReleases'
+        patternLayout{
             artifact '[organisation]/Releases/Packages/[module]/[revision]/[artifact]-[revision].[ext]'
             ivy '[organisation]/Releases/Packages/[module]/[revision]/ivy.xml'
         }
@@ -25,7 +26,8 @@ repositories {
         }
     }
     ivy {
-        layout 'pattern' , {
+        name 'ivyPromLibraries'
+        patternLayout{
             artifact '[module]/[revision]/[artifact]-[revision].[ext]'
             ivy '[module]/[revision]/ivy.xml'
         }

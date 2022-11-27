@@ -35,7 +35,7 @@ public class EarthMoversTunedCalculator implements SPNQualityCalculator {
 		LOGGER.info("Computing earth-movers' distance (SL) with mass coverage: " + MASS_COVERAGE);
 		EMSCParametersLogModelDefault parameters = new EMSCParametersLogModelDefault();
 		parameters.setComputeStochasticTraceAlignments(false);
-		parameters.setDebug(false);
+		parameters.setDebug(true);
 		parameters.setLogClassifier(classifier);
 		LanguageGenerationStrategyFromModelAbstract terminationStrategy = new LanguageGenerationStrategyFromModelDefault();
 		terminationStrategy.setMaxMassCovered(MASS_COVERAGE);

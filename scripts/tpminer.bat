@@ -1,5 +1,5 @@
 
-echo off
+echo on
 
 set lg1=%1
 set md=%2
@@ -12,8 +12,14 @@ for %%a in ("%~dp0.") do @set TPHOME=%%~dpa
 
 echo "Preparing event log ..."
 
-REM echo "TPHOME" %TPHOME%
-REM echo "OUTD"   %OUTD%
+echo "TPHOME" %TPHOME%
+echo "OUTD"   %OUTD%
+
+set VDIR=%TPHOME%tpvenv\scripts
+set PYTHON_HOME=%VDIR%
+
+echo %VDIR%\activate.bat
+REM %VDIR%\activate.bat
 
 %PYTHON_HOME%\python %TPHOME%scripts\xesdcdt.py --outfile %OUTD%\%lg%.dcdt %lg1%
 

@@ -48,7 +48,7 @@ public class RunStats {
 	protected String outputModelFileName;
 	
 	@Attribute
-	protected String miner;
+	protected String artifactCreator;
 	
 	@Attribute
 	protected String machineName;
@@ -71,16 +71,16 @@ public class RunStats {
 	@Element
 	private RunState runState = RunState.INITIALIZING;
 	
-	public RunStats(String inputLogFileName, String outputModelFileName, String miner) 
+	public RunStats(String inputLogFileName, String outputModelFileName, String artifactCreator) 
 	{
 		this.inputLogFileName = inputLogFileName;
 		this.outputModelFileName = outputModelFileName;
-		this.miner = miner;
+		this.artifactCreator = artifactCreator;
 		this.runDate = ClockUtil.currentTime();
 		try {
 			this.machineName = InetAddress.getLocalHost().getHostName();
 		}catch (Exception e){
-			this.machineName = "Unkown (" + e.getMessage() + ")";
+			this.machineName = "Unknown (" + e.getMessage() + ")";
 		}
 		runnerVersion = BUILD_VERSION;
 	}
@@ -88,7 +88,7 @@ public class RunStats {
 	protected RunStats(RunStats other) {
 		this.inputLogFileName = other.inputLogFileName;
 		this.outputModelFileName = other.outputModelFileName;
-		this.miner = other.miner;
+		this.artifactCreator = other.artifactCreator;
 		this.runDate = other.runDate;
 		this.runState = other.runState;
 		this.machineName = other.machineName;
@@ -144,7 +144,7 @@ public class RunStats {
 	}
 	
 	public String getArtifactCreator() {
-		return miner;
+		return artifactCreator;
 	}
 	
 	public String formatStats() {

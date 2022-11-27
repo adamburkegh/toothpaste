@@ -48,7 +48,7 @@ public class ToothpasteMinerHP implements StochasticNetLogMiner{
 			throws Exception
 	{
 		File logFileObj = new File(logFile);
-		LOGGER.info("Invoking Toothpaste miner prototype out of process on {}", logFile);
+		LOGGER.info("Invoking Toothpaste miner out of process on {}", logFile);
 		callToothpasteMinerHP( logFileObj, outputModelFile );
 		Serializer serializer = new Persister();
 		PNMLRoot pnml = serializer.read(PNMLRoot.class, outputModelFile);

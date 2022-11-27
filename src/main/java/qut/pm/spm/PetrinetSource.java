@@ -1,14 +1,13 @@
 package qut.pm.spm;
 
-import org.processmining.acceptingpetrinet.models.AcceptingPetriNet;
 import org.processmining.models.graphbased.directed.petrinet.Petrinet;
 
 public class PetrinetSource {
 
-	private AcceptingPetriNet net;
+	private AcceptingStochasticNet net;
 	private String sourceId; // eg a filename
 	
-	public PetrinetSource(AcceptingPetriNet source, String sourceId) {
+	public PetrinetSource(AcceptingStochasticNet source, String sourceId) {
 		super();
 		this.net = source;
 		this.sourceId = sourceId;
@@ -22,7 +21,7 @@ public class PetrinetSource {
 		return sourceId;
 	}
 	
-	public AcceptingPetriNet getAcceptingPetriNet() {
+	public AcceptingStochasticNet getAcceptingPetriNet() {
 		return net;
 	}
 	

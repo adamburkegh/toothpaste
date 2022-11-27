@@ -45,7 +45,7 @@ public class SPNDiscoverReporter {
 				result = o1.artifactCreatorId.compareTo(other.artifactCreatorId);
 				if (result != 0)
 					return result;
-				result = o1.miner.compareTo(other.miner);
+				result = o1.artifactCreator.compareTo(other.artifactCreator);
 				return result;
 			}
 			
@@ -93,7 +93,7 @@ public class SPNDiscoverReporter {
 			result = artifactCreatorId.compareTo(other.artifactCreatorId);
 			if (result != 0)
 				return result;
-			result = this.miner.compareTo(other.miner);
+			result = this.artifactCreator.compareTo(other.artifactCreator);
 			return result;
 		}
 		

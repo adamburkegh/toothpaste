@@ -4,7 +4,7 @@ f=$1
 
 g=$2
 if [ x$2 == "x" ]; then
-    g=batch
+    g=mnode
 fi
 
 date

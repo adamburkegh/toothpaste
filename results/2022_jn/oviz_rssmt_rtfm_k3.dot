@@ -1,0 +1,163 @@
+digraph G { 
+ranksep=".3"; fontsize="14"; remincross=true; margin="0.0,0.0"; fontname="Arial";rankdir="LR";
+edge [arrowsize="0.5"];
+node [height=".2",width=".2",fontname="Arial",fontsize="14"];
+ratio=0.4;
+id1 [shape="box",margin="0, 0.1",label="Create Fine\n\n30076",style="filled"];
+id2 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau join\n\n30076",style="filled"];
+id3 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n29233",style="filled"];
+id4 [shape="box",label="Send Appeal to Prefecture\n\n6",style="filled"];
+id5 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n13391",style="filled"];
+id6 [shape="box",label="Send Fine\n\n1",style="filled"];
+id7 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau split\n\n34199",style="filled"];
+id8 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n18180",style="filled"];
+id9 [shape="box",label="Insert Fine Notification\n\n119",style="filled"];
+id10 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n18671",style="filled"];
+id11 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau start\n\n14674",style="filled"];
+id12 [shape="box",label="Payment\n\n1",style="filled"];
+id13 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n858",style="filled"];
+id14 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n14674",style="filled"];
+id15 [shape="box",label="Insert Date Appeal to Prefecture\n\n1",style="filled"];
+id16 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau split\n\n34199",style="filled"];
+id17 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau join\n\n34199",style="filled"];
+id18 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n18180",style="filled"];
+id19 [shape="box",label="Add penalty\n\n1",style="filled"];
+id20 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n34010",style="filled"];
+id21 [shape="box",label="Receive Result Appeal from Prefecture\n\n1",style="filled"];
+id22 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau split\n\n34199",style="filled"];
+id23 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau join\n\n34199",style="filled"];
+id24 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n34028",style="filled"];
+id25 [shape="box",label="Notify Result Appeal to Offender\n\n1",style="filled"];
+id26 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n34089",style="filled"];
+id27 [shape="box",label="Appeal to Judge\n\n1",style="filled"];
+id28 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n4124",style="filled"];
+id29 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau from tree\n\n18303",style="filled"];
+id30 [shape="box",label="Send for Credit Collection\n\n1",style="filled"];
+id31 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice0\n\n844",style="filled"];
+id32 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice1\n\n20809",style="filled"];
+id33 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice2\n\n11774",style="filled"];
+id34 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice3\n\n16020",style="filled"];
+id35 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice4\n\n856",style="filled"];
+id36 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice5\n\n16020",style="filled"];
+id37 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice6\n\n190",style="filled"];
+id38 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice7\n\n172",style="filled"];
+id39 [shape="box",margin="0, 0.1",color="black",fontcolor="white",label="tau choice8\n\n111",style="filled"];
+id40 [shape="circle",label=""];
+id41 [shape="circle",label=""];
+id42 [shape="circle",label=""];
+id43 [shape="circle",label=""];
+id44 [shape="circle",label=""];
+id45 [shape="circle",label=""];
+id46 [shape="circle",label=""];
+id47 [shape="circle",label=""];
+id48 [shape="circle",label=""];
+id49 [shape="circle",label=""];
+id50 [shape="circle",label=""];
+id51 [shape="circle",label=""];
+id52 [shape="circle",label=""];
+id53 [shape="circle",label=""];
+id54 [shape="circle",label=""];
+id55 [shape="circle",label=""];
+id56 [shape="circle",label=""];
+id57 [shape="circle",label=""];
+id58 [shape="circle",label=""];
+id59 [shape="circle",label=""];
+id60 [shape="circle",label=""];
+id61 [shape="circle",label=""];
+id62 [shape="circle",label=""];
+id63 [shape="circle",label=""];
+id64 [shape="circle",label=""];
+id65 [shape="circle",label=""];
+id66 [shape="circle",label=""];
+id67 [shape="circle",label=""];
+id68 [shape="circle",label=""];
+id69 [shape="circle",label=""];
+id70 [shape="circle",label=""];
+id71 [shape="circle",label=""];
+id16 -> id56
+id57 -> id17
+id69 -> id21
+id53 -> id12
+id65 -> id30
+id22 -> id59
+id2 -> id41
+id62 -> id23
+id36 -> id68
+id37 -> id69
+id19 -> id55
+id13 -> id53
+id6 -> id47
+id64 -> id6
+id43 -> id2
+id61 -> id26
+id1 -> id42
+id1 -> id44
+id10 -> id51
+id51 -> id16
+id15 -> id51
+id9 -> id49
+id24 -> id60
+id48 -> id8
+id48 -> id34
+id12 -> id52
+id59 -> id24
+id71 -> id27
+id27 -> id62
+id52 -> id14
+id60 -> id23
+id45 -> id2
+id3 -> id43
+id5 -> id47
+id50 -> id10
+id14 -> id51
+id23 -> id57
+id56 -> id20
+id25 -> id60
+id49 -> id16
+id67 -> id15
+id32 -> id64
+id38 -> id70
+id46 -> id28
+id16 -> id54
+id61 -> id39
+id30 -> id45
+id11 -> id53
+id44 -> id32
+id70 -> id25
+id4 -> id43
+id42 -> id31
+id8 -> id49
+id40 -> id1
+id39 -> id71
+id7 -> id48
+id46 -> id33
+id18 -> id55
+id22 -> id61
+id21 -> id58
+id66 -> id9
+id47 -> id7
+id26 -> id62
+id17 -> id46
+id68 -> id19
+id50 -> id35
+id44 -> id5
+id50 -> id11
+id28 -> id44
+id35 -> id67
+id55 -> id17
+id56 -> id37
+id42 -> id3
+id54 -> id36
+id20 -> id58
+id52 -> id13
+id31 -> id63
+id34 -> id66
+id29 -> id45
+id33 -> id65
+id7 -> id50
+id58 -> id22
+id63 -> id4
+id46 -> id29
+id59 -> id38
+id54 -> id18
+}

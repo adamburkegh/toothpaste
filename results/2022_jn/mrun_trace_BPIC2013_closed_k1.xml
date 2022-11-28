@@ -1,0 +1,52 @@
+<runStats miner="Trace Model With Unity Weights" machineName="SEF-1953019678" runnerVersion="">
+   <inputLogFileName>BPIC2013_closed_k1.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_trace_BPIC2013_closed_k1.pnml</outputModelFileName>
+   <runDate>2021-01-24 19:31:23.940 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>187</duration>
+         <start>1611480683940</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">1357</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">299</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>31</duration>
+         <start>1611480684127</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1611480686564</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">2417</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">2714</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.4882142183669621</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
+         <duration>1200104</duration>
+         <start>1611480686580</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
+            <number class="java.lang.Double">0.9334297820588805</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="visualize" runState="FAILED">
+         <duration>1202416</duration>
+         <start>1611480684471</start>
+         <errorMessage>Automaton&apos;s probabilities are out of range.</errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage>Automaton&apos;s probabilities are out of range.</errorMessage>
+   <runState>FAILED</runState>
+</runStats>

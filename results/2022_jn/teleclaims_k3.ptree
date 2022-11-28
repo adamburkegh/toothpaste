@@ -1,0 +1,81 @@
+Seq:703.0
+  "incoming claim":703.0
+  Choice:703.0
+    Seq:333.0
+      FLoop[2.0]:333.0
+        "B check if sufficient information is available":333.0
+      Choice:333.0
+        FLoop[2.0]:36.0
+          "end":36.0
+        Seq:297.0
+          FLoop[2.0]:297.0
+            "B register claim":297.0
+          FLoop[2.0]:297.0
+            "determine likelihood of claim":297.0
+          Choice:297.0
+            FLoop[2.0]:42.0
+              "end":42.0
+            Seq:255.0
+              FLoop[2.0]:255.0
+                "assess claim":255.0
+              Choice:255.0
+                FLoop[2.0]:56.0
+                  "end":56.0
+                Seq:199.0
+                  Choice:199.0
+                    Seq:96.0
+                      FLoop[2.0]:96.0
+                        "initiate payment":96.0
+                      Conc:96.0
+                        FLoop[2.0]:51.0
+                          "advise claimant on reimbursement":51.0
+                        FLoop[2.0]:45.0
+                          "close claim":45.0
+                    Seq:103.0
+                      FLoop[2.0]:103.0
+                        "advise claimant on reimbursement":103.0
+                      FLoop[2.0]:103.0
+                        "initiate payment":103.0
+                      FLoop[2.0]:103.0
+                        "close claim":103.0
+                  FLoop[2.0]:199.0
+                    "end":199.0
+    Seq:370.0
+      FLoop[2.0]:370.0
+        "S check if sufficient information is available":370.0
+      Choice:370.0
+        FLoop[2.0]:77.0
+          "end":77.0
+        Seq:293.0
+          FLoop[2.0]:293.0
+            "S register claim":293.0
+          FLoop[2.0]:293.0
+            "determine likelihood of claim":293.0
+          Choice:293.0
+            FLoop[2.0]:45.0
+              "end":45.0
+            Seq:248.0
+              FLoop[2.0]:248.0
+                "assess claim":248.0
+              Choice:248.0
+                FLoop[2.0]:44.0
+                  "end":44.0
+                Seq:204.0
+                  Choice:204.0
+                    Seq:101.0
+                      FLoop[2.0]:101.0
+                        "initiate payment":101.0
+                      Conc:101.0
+                        FLoop[2.0]:48.0
+                          "advise claimant on reimbursement":48.0
+                        FLoop[2.0]:53.000004
+                          "close claim":53.000004
+                    Seq:103.0
+                      FLoop[2.0]:103.0
+                        "advise claimant on reimbursement":103.0
+                      FLoop[2.0]:103.0
+                        "initiate payment":103.0
+                      FLoop[2.0]:103.0
+                        "close claim":103.0
+                  FLoop[2.0]:204.0
+                    "end":204.0

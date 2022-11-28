@@ -1,0 +1,125 @@
+digraph G { 
+ranksep=".3"; fontsize="14"; remincross=true; margin="0.0,0.0"; fontname="Arial";rankdir="LR";
+edge [arrowsize="0.5"];
+node [height=".2",width=".2",fontname="Arial",fontsize="14"];
+ratio=0.4;
+id1 [shape="box",margin="0, 0.1",label="begin editing\n\n8762",style="filled"];
+id2 [shape="box",margin="0, 0.1",label="change department\n\n1",style="filled"];
+id3 [shape="box",margin="0, 0.1",label="finish editing\n\n8762",style="filled"];
+id4 [shape="box",margin="0, 0.1",label="initialize\n\n8762",style="filled"];
+id5 [shape="box",margin="0, 0.1",label="save\n\n1260.150",style="filled"];
+id6 [shape="box",margin="0, 0.1",label="save\n\n30.171",style="filled"];
+id7 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id8 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id9 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id10 [shape="box",margin="0, 0.1",label="save\n\n148",style="filled"];
+id11 [shape="box",margin="0, 0.1",label="save\n\n148",style="filled"];
+id12 [shape="box",margin="0, 0.1",label="save\n\n148",style="filled"];
+id13 [shape="box",margin="0, 0.1",label="save\n\n148",style="filled"];
+id14 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id15 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id16 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id17 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id18 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id19 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id20 [shape="box",margin="0, 0.1",label="take original document\n\n164",style="filled"];
+id21 [shape="box",margin="0, 0.1",label="take original document\n\n1",style="filled"];
+id22 [shape="box",margin="0, 0.1",label="take original document\n\n1",style="filled"];
+id23 [shape="box",margin="0, 0.1",label="take original document\n\n1",style="filled"];
+id24 [shape="box",margin="0, 0.1",label="take original document\n\n1",style="filled"];
+id25 [shape="box",margin="0, 0.1",label="tau\n\n6285",style="filled"];
+id26 [shape="box",margin="0, 0.1",label="tau\n\n120",style="filled"];
+id27 [shape="box",margin="0, 0.1",label="tau\n\n43",style="filled"];
+id28 [shape="box",margin="0, 0.1",label="tau\n\n147",style="filled"];
+id29 [shape="box",margin="0, 0.1",label="tauin\n\n2163",style="filled"];
+id30 [shape="box",margin="0, 0.1",label="tauin\n\n44",style="filled"];
+id31 [shape="box",margin="0, 0.1",label="tauout\n\n902.850",style="filled"];
+id32 [shape="box",margin="0, 0.1",label="tauout\n\n13.829",style="filled"];
+id33 [shape="circle",label=""];
+id34 [shape="circle",label=""];
+id35 [shape="circle",label=""];
+id36 [shape="circle",label=""];
+id37 [shape="circle",label=""];
+id38 [shape="circle",label=""];
+id39 [shape="circle",label=""];
+id40 [shape="circle",label=""];
+id41 [shape="circle",label=""];
+id42 [shape="circle",label=""];
+id43 [shape="circle",label=""];
+id44 [shape="circle",label=""];
+id45 [shape="circle",label=""];
+id46 [shape="circle",label=""];
+id47 [shape="circle",label=""];
+id48 [shape="circle",label=""];
+id49 [shape="circle",label=""];
+id50 [shape="circle",label=""];
+id51 [shape="circle",label=""];
+id52 [shape="circle",label=""];
+id53 [shape="circle",label=""];
+id54 [shape="circle",label=""];
+id55 [shape="circle",label=""];
+id10 -> id42
+id51 -> id23
+id41 -> id28
+id1 -> id43
+id41 -> id22
+id24 -> id48
+id26 -> id55
+id21 -> id38
+id51 -> id20
+id8 -> id40
+id48 -> id16
+id43 -> id3
+id44 -> id12
+id37 -> id6
+id3 -> id51
+id36 -> id21
+id45 -> id13
+id40 -> id9
+id51 -> id25
+id36 -> id27
+id19 -> id55
+id32 -> id36
+id7 -> id39
+id46 -> id14
+id34 -> id30
+id33 -> id31
+id5 -> id33
+id6 -> id37
+id12 -> id45
+id27 -> id55
+id25 -> id55
+id2 -> id55
+id30 -> id37
+id39 -> id8
+id18 -> id53
+id52 -> id18
+id9 -> id55
+id22 -> id46
+id16 -> id50
+id4 -> id35
+id34 -> id26
+id42 -> id11
+id51 -> id10
+id28 -> id55
+id13 -> id41
+id23 -> id49
+id29 -> id33
+id20 -> id34
+id31 -> id55
+id17 -> id52
+id37 -> id32
+id51 -> id29
+id50 -> id17
+id51 -> id2
+id53 -> id19
+id11 -> id44
+id15 -> id55
+id33 -> id5
+id38 -> id7
+id14 -> id47
+id47 -> id15
+id54 -> id4
+id35 -> id1
+id49 -> id24
+}

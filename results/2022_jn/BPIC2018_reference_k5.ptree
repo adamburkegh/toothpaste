@@ -1,0 +1,770 @@
+Seq:8757.0
+  "initialize":8757.0
+  "performed":8757.0
+  Choice:8757.0
+    "change department":1.0
+    tau:6084.0
+    Seq:248.0
+      "insert document":248.0
+      Choice:248.0
+        Seq:4.0
+          "remove document":4.0
+          Choice:4.0
+            FLoop[2.0]:1.0
+              "save":1.0
+            Seq:2.0
+              "save":2.0
+              Choice:2.0
+                tau:1.0
+                Seq:1.0
+                  "insert document":1.0
+                  FLoop[2.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  FLoop[5.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  FLoop[10.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  FLoop[2.0]:1.0
+                    "save":1.0
+            Seq:1.0
+              "insert document":1.0
+              "save":1.0
+              "insert document":1.0
+              "save":1.0
+        Seq:206.0
+          PLoop[1.5048543]:206.0
+            "save":206.0
+          Choice:206.0
+            tau:176.0
+            Seq:25.0
+              "insert document":25.0
+              Choice:25.0
+                FLoop[3.0]:1.0
+                  "save":1.0
+                Seq:19.0
+                  "save":19.0
+                  Choice:19.0
+                    tau:14.0
+                    Seq:4.0
+                      "insert document":4.0
+                      Choice:4.0
+                        FLoop[2.0]:1.0
+                          "save":1.0
+                        Seq:3.0
+                          "save":3.0
+                          Choice:3.0
+                            tau:1.0
+                            Seq:2.0
+                              "insert document":2.0
+                              Choice:2.0
+                                Seq:1.0
+                                  "save":1.0
+                                  "insert document":1.0
+                                Seq:1.0
+                                  FLoop[2.0]:1.0
+                                    "save":1.0
+                                  "insert document":1.0
+                                  "save":1.0
+                                  "insert document":1.0
+                                  "save":1.0
+                                  "insert document":1.0
+                                  "save":1.0
+                                  FLoop[3.0]:1.0
+                                    "insert document":1.0
+                              "save":2.0
+                    Seq:1.0
+                      "remove document":1.0
+                      FLoop[2.0]:1.0
+                        "save":1.0
+                Seq:1.0
+                  FLoop[4.0]:1.0
+                    "save":1.0
+                  FLoop[3.0]:1.0
+                    "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  FLoop[3.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  FLoop[2.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                Seq:4.0
+                  FLoop[2.0]:4.0
+                    "save":4.0
+                  Choice:4.0
+                    tau:2.0
+                    Seq:2.0
+                      "insert document":2.0
+                      "save":2.0
+                      "insert document":2.0
+                      Choice:2.0
+                        "save":1.0
+                        Seq:1.0
+                          FLoop[4.0]:1.0
+                            "save":1.0
+                          "insert document":1.0
+                          "save":1.0
+            Seq:4.0
+              "remove document":4.0
+              Choice:4.0
+                FLoop[6.0]:1.0
+                  "save":1.0
+                Seq:2.0
+                  "save":2.0
+                  Choice:2.0
+                    tau:1.0
+                    Seq:1.0
+                      "insert document":1.0
+                      FLoop[2.0]:1.0
+                        "save":1.0
+                      "insert document":1.0
+                      "save":1.0
+                Seq:1.0
+                  FLoop[3.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+            Seq:1.0
+              FLoop[2.0]:1.0
+                "insert document":1.0
+              "save":1.0
+              "insert document":1.0
+              FLoop[5.0]:1.0
+                "save":1.0
+        Seq:1.0
+          FLoop[9.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          "save":1.0
+          "insert document":1.0
+          FLoop[4.0]:1.0
+            "save":1.0
+        Seq:1.0
+          FLoop[13.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          FLoop[4.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          FLoop[3.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          "save":1.0
+        Seq:4.0
+          FLoop[6.0]:4.0
+            "save":4.0
+          Choice:4.0
+            tau:2.0
+            Seq:2.0
+              "insert document":2.0
+              Choice:2.0
+                FLoop[2.0]:1.0
+                  "save":1.0
+                Seq:1.0
+                  "save":1.0
+                  FLoop[2.0]:1.0
+                    "insert document":1.0
+                  "save":1.0
+        Seq:5.0
+          FLoop[2.0]:5.0
+            "save":5.0
+          Choice:5.0
+            Seq:4.0
+              "insert document":4.0
+              Choice:4.0
+                Seq:2.0
+                  "save":2.0
+                  Choice:2.0
+                    "insert document":1.0
+                    Seq:1.0
+                      FLoop[3.0]:1.0
+                        "insert document":1.0
+                      "save":1.0
+                      "insert document":1.0
+                      "save":1.0
+                      "insert document":1.0
+                  "save":2.0
+                  "insert document":2.0
+                  "save":2.0
+                Seq:1.0
+                  FLoop[2.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  FLoop[3.0]:1.0
+                    "save":1.0
+                Seq:1.0
+                  FLoop[3.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  FLoop[5.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                  FLoop[2.0]:1.0
+                    "insert document":1.0
+                  FLoop[3.0]:1.0
+                    "save":1.0
+                  FLoop[2.0]:1.0
+                    "insert document":1.0
+                  FLoop[5.0]:1.0
+                    "save":1.0
+            Seq:1.0
+              FLoop[2.0]:1.0
+                "insert document":1.0
+              FLoop[5.0]:1.0
+                "save":1.0
+        Seq:13.0
+          FLoop[3.0]:13.0
+            "save":13.0
+          Choice:13.0
+            tau:10.0
+            Seq:2.0
+              "insert document":2.0
+              Choice:2.0
+                Seq:1.0
+                  "save":1.0
+                  "insert document":1.0
+                  "save":1.0
+                  FLoop[2.0]:1.0
+                    "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  FLoop[2.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  FLoop[7.0]:1.0
+                    "save":1.0
+                Seq:1.0
+                  FLoop[4.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  FLoop[3.0]:1.0
+                    "save":1.0
+            Seq:1.0
+              FLoop[2.0]:1.0
+                "insert document":1.0
+              "save":1.0
+        Seq:14.0
+          FLoop[4.0]:14.0
+            "save":14.0
+          Choice:14.0
+            tau:11.0
+            Seq:3.0
+              "insert document":3.0
+              Choice:3.0
+                FLoop[6.0]:1.0
+                  "save":1.0
+                Seq:2.0
+                  FLoop[2.0]:2.0
+                    "save":2.0
+                  Choice:2.0
+                    tau:1.0
+                    Seq:1.0
+                      "insert document":1.0
+                      "save":1.0
+                      "insert document":1.0
+                      FLoop[2.0]:1.0
+                        "save":1.0
+    Seq:1339.0
+      PLoop[1.7908887]:1339.0
+        "save":1339.0
+      Choice:1339.0
+        tau:1085.0
+        Seq:253.0
+          "insert document":253.0
+          Choice:253.0
+            Seq:166.0
+              PLoop[1.626506]:166.0
+                "save":166.0
+              Choice:166.0
+                tau:158.0
+                Seq:6.0
+                  "insert document":6.0
+                  Choice:6.0
+                    Seq:4.0
+                      "save":4.0
+                      Choice:4.0
+                        tau:2.0
+                        Seq:2.0
+                          "insert document":2.0
+                          Choice:2.0
+                            Seq:1.0
+                              "save":1.0
+                              FLoop[2.0]:1.0
+                                "insert document":1.0
+                              "save":1.0
+                            Seq:1.0
+                              FLoop[2.0]:1.0
+                                "save":1.0
+                              "insert document":1.0
+                              FLoop[2.0]:1.0
+                                "save":1.0
+                              "insert document":1.0
+                              FLoop[2.0]:1.0
+                                "save":1.0
+                    Seq:2.0
+                      Choice:2.0
+                        "remove document":1.0
+                        Seq:1.0
+                          FLoop[3.0]:1.0
+                            "save":1.0
+                          "insert document":1.0
+                          "save":1.0
+                          "insert document":1.0
+                          FLoop[3.0]:1.0
+                            "save":1.0
+                          "insert document":1.0
+                          "save":1.0
+                          "insert document":1.0
+                          "save":1.0
+                          "remove document":1.0
+                          "save":1.0
+                          "remove document":1.0
+                          FLoop[2.0]:1.0
+                            "save":1.0
+                          "insert document":1.0
+                      "save":2.0
+                Seq:1.0
+                  "remove document":1.0
+                  "save":1.0
+                Seq:1.0
+                  FLoop[2.0]:1.0
+                    "insert document":1.0
+                  FLoop[4.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  FLoop[4.0]:1.0
+                    "save":1.0
+            Seq:1.0
+              FLoop[10.0]:1.0
+                "save":1.0
+              "insert document":1.0
+              "save":1.0
+            Seq:6.0
+              FLoop[5.0]:6.0
+                "save":6.0
+              Choice:6.0
+                tau:3.0
+                Seq:3.0
+                  Choice:3.0
+                    "insert document":2.0
+                    Seq:1.0
+                      "remove document":1.0
+                      "insert document":1.0
+                      "remove document":1.0
+                      "save":1.0
+                      "insert document":1.0
+                  PLoop[2.3333333]:3.0
+                    "save":3.0
+            Seq:9.0
+              FLoop[4.0]:9.0
+                "save":9.0
+              Choice:9.0
+                tau:4.0
+                Seq:4.0
+                  "insert document":4.0
+                  PLoop[3.0]:4.0
+                    "save":4.0
+                  Choice:4.0
+                    tau:3.0
+                    Seq:1.0
+                      "insert document":1.0
+                      "save":1.0
+                Seq:1.0
+                  "remove document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  FLoop[2.0]:1.0
+                    "save":1.0
+            Seq:18.0
+              FLoop[3.0]:18.0
+                "save":18.0
+              Choice:18.0
+                tau:15.0
+                Seq:3.0
+                  "insert document":3.0
+                  Choice:3.0
+                    FLoop[2.0]:1.0
+                      "save":1.0
+                    Seq:2.0
+                      "save":2.0
+                      Choice:2.0
+                        tau:1.0
+                        Seq:1.0
+                          "insert document":1.0
+                          "save":1.0
+                          "remove document":1.0
+                          "save":1.0
+                          "insert document":1.0
+                          "save":1.0
+                          FLoop[2.0]:1.0
+                            "insert document":1.0
+                          "save":1.0
+                          FLoop[2.0]:1.0
+                            "insert document":1.0
+                          "save":1.0
+            Seq:51.0
+              FLoop[2.0]:51.0
+                "save":51.0
+              Choice:51.0
+                tau:44.0
+                Seq:7.0
+                  "insert document":7.0
+                  Choice:7.0
+                    Seq:3.0
+                      "save":3.0
+                      Choice:3.0
+                        tau:2.0
+                        Seq:1.0
+                          "insert document":1.0
+                          FLoop[2.0]:1.0
+                            "save":1.0
+                          FLoop[2.0]:1.0
+                            "insert document":1.0
+                          "save":1.0
+                    Seq:1.0
+                      FLoop[3.0]:1.0
+                        "save":1.0
+                      "insert document":1.0
+                      "save":1.0
+                      "insert document":1.0
+                      FLoop[2.0]:1.0
+                        "save":1.0
+                    Seq:3.0
+                      FLoop[2.0]:3.0
+                        "save":3.0
+                      Choice:3.0
+                        tau:2.0
+                        Seq:1.0
+                          "insert document":1.0
+                          FLoop[6.0]:1.0
+                            "save":1.0
+                          "insert document":1.0
+                          "save":1.0
+            Seq:2.0
+              Choice:2.0
+                "remove document":1.0
+                Seq:1.0
+                  FLoop[12.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+              FLoop[2.0]:2.0
+                "save":2.0
+        Seq:1.0
+          FLoop[2.0]:1.0
+            "insert document":1.0
+          FLoop[2.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          FLoop[2.0]:1.0
+            "save":1.0
+    Seq:1.0
+      FLoop[19.0]:1.0
+        "save":1.0
+      "insert document":1.0
+      FLoop[4.0]:1.0
+        "save":1.0
+    Seq:2.0
+      FLoop[15.0]:2.0
+        "save":2.0
+      Choice:2.0
+        tau:1.0
+        Seq:1.0
+          "insert document":1.0
+          "save":1.0
+          "insert document":1.0
+          FLoop[3.0]:1.0
+            "save":1.0
+    Seq:2.0
+      FLoop[16.0]:2.0
+        "save":2.0
+      Choice:2.0
+        tau:1.0
+        Seq:1.0
+          "insert document":1.0
+          FLoop[2.0]:1.0
+            "save":1.0
+    Seq:3.0
+      FLoop[3.0]:3.0
+        "save":3.0
+      "insert document":3.0
+      Choice:3.0
+        FLoop[19.0]:1.0
+          "save":1.0
+        Seq:2.0
+          "save":2.0
+          Choice:2.0
+            "insert document":1.0
+            "remove document":1.0
+          "save":2.0
+    Seq:3.0
+      FLoop[7.0]:3.0
+        "save":3.0
+      "insert document":3.0
+      FLoop[5.0]:3.0
+        "save":3.0
+    Seq:6.0
+      FLoop[4.0]:6.0
+        "save":6.0
+      Choice:6.0
+        Seq:5.0
+          "insert document":5.0
+          Choice:5.0
+            FLoop[8.0]:1.0
+              "save":1.0
+            Seq:4.0
+              PLoop[2.0]:4.0
+                "save":4.0
+              "insert document":4.0
+              PLoop[2.0]:4.0
+                "save":4.0
+        Seq:1.0
+          FLoop[2.0]:1.0
+            "insert document":1.0
+          "save":1.0
+    Seq:6.0
+      FLoop[5.0]:6.0
+        "save":6.0
+      "insert document":6.0
+      Choice:6.0
+        PLoop[4.5]:4.0
+          "save":4.0
+        Seq:2.0
+          "remove document":2.0
+          "insert document":2.0
+          "save":2.0
+    Seq:6.0
+      FLoop[12.0]:6.0
+        "save":6.0
+      Choice:6.0
+        tau:5.0
+        Seq:1.0
+          "insert document":1.0
+          FLoop[7.0]:1.0
+            "save":1.0
+    Seq:8.0
+      FLoop[6.0]:8.0
+        "save":8.0
+      "insert document":8.0
+      Choice:8.0
+        PLoop[8.8]:5.0
+          "save":5.0
+        Seq:1.0
+          FLoop[2.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          FLoop[2.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          "save":1.0
+          "insert document":1.0
+          FLoop[3.0]:1.0
+            "save":1.0
+        Seq:2.0
+          FLoop[3.0]:2.0
+            "save":2.0
+          "insert document":2.0
+          PLoop[4.5]:2.0
+            "save":2.0
+    Seq:9.0
+      FLoop[11.0]:9.0
+        "save":9.0
+      Choice:9.0
+        tau:6.0
+        Seq:3.0
+          "insert document":3.0
+          Choice:3.0
+            PLoop[3.0]:2.0
+              "save":2.0
+            Seq:1.0
+              FLoop[2.0]:1.0
+                "save":1.0
+              "remove document":1.0
+              FLoop[2.0]:1.0
+                "save":1.0
+              "insert document":1.0
+              "save":1.0
+    Seq:11.0
+      FLoop[2.0]:11.0
+        "save":11.0
+      Choice:11.0
+        Seq:10.0
+          "insert document":10.0
+          Choice:10.0
+            Seq:4.0
+              PLoop[5.75]:4.0
+                "save":4.0
+              Choice:4.0
+                tau:3.0
+                Seq:1.0
+                  "insert document":1.0
+                  "save":1.0
+                  "insert document":1.0
+                  FLoop[4.0]:1.0
+                    "save":1.0
+                  "insert document":1.0
+                  FLoop[2.0]:1.0
+                    "save":1.0
+            Seq:3.0
+              FLoop[4.0]:3.0
+                "save":3.0
+              Choice:3.0
+                tau:1.0
+                Seq:2.0
+                  PLoop[1.5]:2.0
+                    "insert document":2.0
+                  "save":2.0
+            Seq:3.0
+              Choice:3.0
+                PLoop[2.5]:2.0
+                  "save":2.0
+                Seq:1.0
+                  "remove document":1.0
+                  "save":1.0
+              "insert document":3.0
+              "save":3.0
+        Seq:1.0
+          FLoop[2.0]:1.0
+            "insert document":1.0
+          "save":1.0
+          FLoop[2.0]:1.0
+            "insert document":1.0
+          "save":1.0
+          "insert document":1.0
+          FLoop[5.0]:1.0
+            "save":1.0
+    Seq:11.0
+      FLoop[10.0]:11.0
+        "save":11.0
+      Choice:11.0
+        tau:9.0
+        Seq:2.0
+          "insert document":2.0
+          "save":2.0
+    Seq:41.0
+      FLoop[7.0]:41.0
+        "save":41.0
+      Choice:41.0
+        tau:40.0
+        Seq:1.0
+          "insert document":1.0
+          FLoop[8.0]:1.0
+            "save":1.0
+    Seq:98.0
+      FLoop[5.0]:98.0
+        "save":98.0
+      Choice:98.0
+        tau:93.0
+        Seq:5.0
+          "insert document":5.0
+          Choice:5.0
+            FLoop[8.0]:1.0
+              "save":1.0
+            Seq:1.0
+              "save":1.0
+              "insert document":1.0
+              FLoop[4.0]:1.0
+                "save":1.0
+            Seq:1.0
+              FLoop[5.0]:1.0
+                "save":1.0
+              "insert document":1.0
+              FLoop[3.0]:1.0
+                "save":1.0
+            Seq:2.0
+              FLoop[3.0]:2.0
+                "save":2.0
+              Choice:2.0
+                tau:1.0
+                Seq:1.0
+                  "insert document":1.0
+                  "save":1.0
+    Seq:170.0
+      FLoop[4.0]:170.0
+        "save":170.0
+      Choice:170.0
+        tau:168.0
+        Seq:2.0
+          "insert document":2.0
+          FLoop[5.0]:2.0
+            "save":2.0
+    Seq:245.0
+      FLoop[3.0]:245.0
+        "save":245.0
+      Choice:245.0
+        tau:243.0
+        Seq:2.0
+          "insert document":2.0
+          FLoop[3.0]:2.0
+            "save":2.0
+    Seq:456.0
+      FLoop[2.0]:456.0
+        "save":456.0
+      Choice:456.0
+        tau:452.0
+        Seq:4.0
+          "insert document":4.0
+          Choice:4.0
+            Seq:2.0
+              "save":2.0
+              "insert document":2.0
+              "save":2.0
+            Seq:2.0
+              FLoop[6.0]:2.0
+                "save":2.0
+              "insert document":2.0
+              FLoop[2.0]:2.0
+                "save":2.0
+              "insert document":2.0
+              FLoop[2.0]:2.0
+                "save":2.0
+    Seq:7.0
+      FLoop[2.0]:7.0
+        "insert document":7.0
+      Choice:7.0
+        Seq:5.0
+          "save":5.0
+          Choice:5.0
+            tau:1.0
+            Seq:4.0
+              "insert document":4.0
+              "save":4.0
+              Choice:4.0
+                tau:2.0
+                Seq:2.0
+                  Choice:2.0
+                    "insert document":1.0
+                    Seq:1.0
+                      "remove document":1.0
+                      "save":1.0
+                      "insert document":1.0
+                  FLoop[2.0]:2.0
+                    "save":2.0
+        Seq:1.0
+          FLoop[3.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          FLoop[2.0]:1.0
+            "save":1.0
+        Seq:1.0
+          FLoop[4.0]:1.0
+            "save":1.0
+          "insert document":1.0
+          "save":1.0

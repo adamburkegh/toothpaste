@@ -1,0 +1,315 @@
+Seq:30075.0
+  "Create Fine":30075.0
+  Choice:30075.0
+    Seq:9374.0
+      "Payment":9374.0
+      Choice:9374.0
+        tau:9265.0
+        Seq:109.0
+          "Send Fine":109.0
+          Choice:109.0
+            "Payment":13.0
+            tau:71.0
+            Seq:25.0
+              "Insert Fine Notification":25.0
+              Choice:25.0
+                Seq:2.0
+                  "Payment":2.0
+                  "Add penalty":2.0
+                  "Payment":2.0
+                Seq:22.0
+                  "Add penalty":22.0
+                  Choice:22.0
+                    "Payment":18.0
+                    "Send for Credit Collection":4.0
+                Seq:1.0
+                  "Insert Date Appeal to Prefecture":1.0
+                  "Send Appeal to Prefecture":1.0
+                  "Add penalty":1.0
+                  "Receive Result Appeal from Prefecture":1.0
+                  "Notify Result Appeal to Offender":1.0
+    Seq:20694.0
+      "Send Fine":20694.0
+      Choice:20694.0
+        tau:4084.0
+        FLoop[2.0]:1.0
+          "Payment":1.0
+        Seq:602.0
+          "Payment":602.0
+          Choice:602.0
+            tau:589.0
+            Seq:13.0
+              "Insert Fine Notification":13.0
+              Choice:13.0
+                Seq:1.0
+                  "Payment":1.0
+                  "Add penalty":1.0
+                  "Payment":1.0
+                Seq:12.0
+                  "Add penalty":12.0
+                  Choice:12.0
+                    "Payment":9.0
+                    "Send for Credit Collection":3.0
+        Seq:15972.0
+          "Insert Fine Notification":15972.0
+          Choice:15972.0
+            Seq:778.0
+              "Payment":778.0
+              "Add penalty":778.0
+              Choice:778.0
+                "Send for Credit Collection":110.0
+                FLoop[2.0]:2.0
+                  "Payment":2.0
+                Seq:666.0
+                  "Payment":666.0
+                  Choice:666.0
+                    "Send for Credit Collection":2.0
+                    tau:664.0
+            Seq:14437.0
+              "Add penalty":14437.0
+              Choice:14437.0
+                "Send for Credit Collection":11266.0
+                Seq:117.0
+                  "Insert Date Appeal to Prefecture":117.0
+                  Choice:117.0
+                    Seq:110.0
+                      "Send Appeal to Prefecture":110.0
+                      Choice:110.0
+                        "Payment":1.0
+                        tau:83.0
+                        Seq:26.0
+                          "Receive Result Appeal from Prefecture":26.0
+                          Choice:26.0
+                            tau:3.0
+                            Seq:22.0
+                              "Notify Result Appeal to Offender":22.0
+                              Choice:22.0
+                                "Payment":11.0
+                                "Send for Credit Collection":6.0
+                                tau:2.0
+                                FLoop[2.0]:1.0
+                                  "Payment":1.0
+                                Seq:2.0
+                                  "Appeal to Judge":2.0
+                                  "Payment":2.0
+                            Seq:1.0
+                              "Appeal to Judge":1.0
+                              "Notify Result Appeal to Offender":1.0
+                              "Payment":1.0
+                    Seq:7.0
+                      "Receive Result Appeal from Prefecture":7.0
+                      Choice:7.0
+                        Seq:1.0
+                          "Send Appeal to Prefecture":1.0
+                          "Notify Result Appeal to Offender":1.0
+                          "Payment":1.0
+                        Seq:6.0
+                          "Notify Result Appeal to Offender":6.0
+                          Choice:6.0
+                            "Payment":5.0
+                            Seq:1.0
+                              "Send for Credit Collection":1.0
+                              "Send Appeal to Prefecture":1.0
+                Seq:5.0
+                  "Receive Result Appeal from Prefecture":5.0
+                  "Notify Result Appeal to Offender":5.0
+                  Choice:5.0
+                    "Payment":3.0
+                    "Appeal to Judge":1.0
+                    tau:1.0
+                Seq:23.0
+                  "Appeal to Judge":23.0
+                  Choice:23.0
+                    "Send for Credit Collection":3.0
+                    tau:9.0
+                    PLoop[1.3636364]:11.0
+                      "Payment":11.0
+                Seq:3026.0
+                  PLoop[1.2656972]:3026.0
+                    "Payment":3026.0
+                  Choice:3026.0
+                    "Send for Credit Collection":323.0
+                    tau:2703.0
+            Seq:698.0
+              "Insert Date Appeal to Prefecture":698.0
+              Choice:698.0
+                Seq:3.0
+                  "Payment":3.0
+                  "Add penalty":3.0
+                  "Send Appeal to Prefecture":3.0
+                Seq:625.0
+                  "Add penalty":625.0
+                  Choice:625.0
+                    "Payment":4.0
+                    Seq:618.0
+                      "Send Appeal to Prefecture":618.0
+                      Choice:618.0
+                        "Payment":3.0
+                        tau:537.0
+                        Seq:78.0
+                          "Receive Result Appeal from Prefecture":78.0
+                          Choice:78.0
+                            "Payment":2.0
+                            tau:2.0
+                            Seq:74.0
+                              "Notify Result Appeal to Offender":74.0
+                              Choice:74.0
+                                "Send for Credit Collection":20.0
+                                tau:5.0
+                                PLoop[1.1875]:32.0
+                                  "Payment":32.0
+                                Seq:17.0
+                                  "Appeal to Judge":17.0
+                                  Choice:17.0
+                                    "Payment":5.0
+                                    "Send for Credit Collection":1.0
+                                    tau:11.0
+                    Seq:3.0
+                      "Receive Result Appeal from Prefecture":3.0
+                      Choice:3.0
+                        "Payment":1.0
+                        "Send Appeal to Prefecture":1.0
+                        Seq:1.0
+                          "Notify Result Appeal to Offender":1.0
+                          "Appeal to Judge":1.0
+                Seq:70.0
+                  "Send Appeal to Prefecture":70.0
+                  Choice:70.0
+                    Seq:59.0
+                      "Add penalty":59.0
+                      Choice:59.0
+                        PLoop[1.6666666]:3.0
+                          "Payment":3.0
+                        Seq:56.0
+                          "Receive Result Appeal from Prefecture":56.0
+                          Choice:56.0
+                            "Payment":2.0
+                            tau:5.0
+                            FLoop[2.0]:1.0
+                              "Payment":1.0
+                            Seq:47.0
+                              "Notify Result Appeal to Offender":47.0
+                              Choice:47.0
+                                "Payment":18.0
+                                "Send for Credit Collection":15.0
+                                tau:3.0
+                                FLoop[2.0]:1.0
+                                  "Payment":1.0
+                                Seq:10.0
+                                  "Appeal to Judge":10.0
+                                  Choice:10.0
+                                    "Payment":1.0
+                                    tau:9.0
+                            Seq:1.0
+                              "Appeal to Judge":1.0
+                              "Notify Result Appeal to Offender":1.0
+                              "Payment":1.0
+                    Seq:11.0
+                      "Receive Result Appeal from Prefecture":11.0
+                      Choice:11.0
+                        Seq:10.0
+                          "Add penalty":10.0
+                          Choice:10.0
+                            "Payment":1.0
+                            Seq:9.0
+                              "Notify Result Appeal to Offender":9.0
+                              Choice:9.0
+                                "Payment":1.0
+                                "Send for Credit Collection":3.0
+                                tau:2.0
+                                FLoop[2.0]:1.0
+                                  "Payment":1.0
+                                Seq:2.0
+                                  "Appeal to Judge":2.0
+                                  Choice:2.0
+                                    "Send for Credit Collection":1.0
+                                    tau:1.0
+                        Seq:1.0
+                          "Notify Result Appeal to Offender":1.0
+                          "Add penalty":1.0
+                          "Payment":1.0
+            Seq:1.0
+              "Send Appeal to Prefecture":1.0
+              "Insert Date Appeal to Prefecture":1.0
+              "Add penalty":1.0
+              "Receive Result Appeal from Prefecture":1.0
+              "Notify Result Appeal to Offender":1.0
+            Seq:49.0
+              "Appeal to Judge":49.0
+              Choice:49.0
+                Seq:48.0
+                  "Add penalty":48.0
+                  Choice:48.0
+                    "Send for Credit Collection":14.0
+                    Seq:34.0
+                      PLoop[1.617647]:34.0
+                        "Payment":34.0
+                      Choice:34.0
+                        "Send for Credit Collection":1.0
+                        tau:33.0
+                Seq:1.0
+                  "Insert Date Appeal to Prefecture":1.0
+                  "Send Appeal to Prefecture":1.0
+                  "Add penalty":1.0
+                  "Receive Result Appeal from Prefecture":1.0
+                  "Notify Result Appeal to Offender":1.0
+                  "Payment":1.0
+            Seq:9.0
+              FLoop[2.0]:9.0
+                "Payment":9.0
+              "Add penalty":9.0
+              "Payment":9.0
+        Seq:31.0
+          "Insert Date Appeal to Prefecture":31.0
+          Choice:31.0
+            Seq:1.0
+              "Payment":1.0
+              "Send Appeal to Prefecture":1.0
+            Seq:5.0
+              "Insert Fine Notification":5.0
+              "Add penalty":5.0
+              Choice:5.0
+                "Payment":1.0
+                "Send Appeal to Prefecture":4.0
+            Seq:25.0
+              "Send Appeal to Prefecture":25.0
+              Choice:25.0
+                "Payment":1.0
+                tau:24.0
+        Seq:1.0
+          "Send Appeal to Prefecture":1.0
+          "Insert Fine Notification":1.0
+          "Insert Date Appeal to Prefecture":1.0
+          "Add penalty":1.0
+          "Payment":1.0
+        Seq:3.0
+          "Appeal to Judge":3.0
+          Choice:3.0
+            tau:2.0
+            Seq:1.0
+              "Insert Date Appeal to Prefecture":1.0
+              "Send Appeal to Prefecture":1.0
+    Seq:4.0
+      "Insert Date Appeal to Prefecture":4.0
+      Choice:4.0
+        Seq:3.0
+          "Send Fine":3.0
+          Choice:3.0
+            "Send Appeal to Prefecture":1.0
+            Seq:2.0
+              "Insert Fine Notification":2.0
+              "Add penalty":2.0
+              "Send Appeal to Prefecture":2.0
+        Seq:1.0
+          "Send Appeal to Prefecture":1.0
+          "Send Fine":1.0
+          "Insert Fine Notification":1.0
+          "Payment":1.0
+          "Add penalty":1.0
+          "Payment":1.0
+    Seq:3.0
+      FLoop[2.0]:3.0
+        "Payment":3.0
+      Choice:3.0
+        "Send Fine":1.0
+        tau:2.0

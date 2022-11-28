@@ -1,0 +1,568 @@
+<pnml xmlns="http://www.pnml.org/version-2009/grammar/pnml">
+   <net id="converted from efficient tree" type="http://www.pnml.org/version-2009/grammar/ptnet">
+      <toolspecific tool="StochasticPetriNet" version="0.2"/>
+      <page id="p1">
+         <transition id="n0">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">1.0</property>
+               <property key="invisible">true</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>tau split</text>
+            </name>
+         </transition>
+         <transition id="n1">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">1.0</property>
+               <property key="invisible">true</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>tau join</text>
+            </name>
+         </transition>
+         <transition id="n2">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">211.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>ER Registration</text>
+            </name>
+         </transition>
+         <transition id="n3">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">211.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>ER Triage</text>
+            </name>
+         </transition>
+         <transition id="n4">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">1.0</property>
+               <property key="invisible">true</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>tau join</text>
+            </name>
+         </transition>
+         <transition id="n5">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">210.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>ER Sepsis Triage</text>
+            </name>
+         </transition>
+         <transition id="n6">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">147.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>IV Liquid</text>
+            </name>
+         </transition>
+         <transition id="n7">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">268.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>Admission NC</text>
+            </name>
+         </transition>
+         <transition id="n8">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">167.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>IV Antibiotics</text>
+            </name>
+         </transition>
+         <transition id="n9">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">25.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>Admission IC</text>
+            </name>
+         </transition>
+         <transition id="n10">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">1.0</property>
+               <property key="invisible">true</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>tau from tree</text>
+            </name>
+         </transition>
+         <transition id="n11">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">322.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>LacticAcid</text>
+            </name>
+         </transition>
+         <transition id="n12">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">759.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>CRP</text>
+            </name>
+         </transition>
+         <transition id="n13">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">1.0</property>
+               <property key="invisible">true</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>tau from tree</text>
+            </name>
+         </transition>
+         <transition id="n14">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">777.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>Leucocytes</text>
+            </name>
+         </transition>
+         <transition id="n15">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">1.0</property>
+               <property key="invisible">true</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>tau from tree</text>
+            </name>
+         </transition>
+         <transition id="n16">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">146.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>Release A</text>
+            </name>
+         </transition>
+         <transition id="n17">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">5.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>Release C</text>
+            </name>
+         </transition>
+         <transition id="n18">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">5.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>Release D</text>
+            </name>
+         </transition>
+         <transition id="n19">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">62.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>Return ER</text>
+            </name>
+         </transition>
+         <transition id="n20">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">1.0</property>
+               <property key="invisible">true</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>tau from tree</text>
+            </name>
+         </transition>
+         <transition id="n21">
+            <graphics>
+               <dimension x="25.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">14.0</property>
+               <property key="invisible">false</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>Release B</text>
+            </name>
+         </transition>
+         <transition id="n22">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <toolspecific tool="StochasticPetriNet" version="0.2">
+               <property key="distributionType">IMMEDIATE</property>
+               <property key="trainingData"></property>
+               <property key="weight">1.0</property>
+               <property key="invisible">true</property>
+               <property key="distributionParameters"></property>
+               <property key="priority">0</property>
+            </toolspecific>
+            <name>
+               <text>tau from tree</text>
+            </name>
+         </transition>
+         <place id="n23">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>net source</text>
+            </name>
+            <initialMarking>
+               <text>1</text>
+            </initialMarking>
+         </place>
+         <place id="n24">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>net sink</text>
+            </name>
+         </place>
+         <place id="n25">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 23</text>
+            </name>
+         </place>
+         <place id="n26">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>source 24</text>
+            </name>
+         </place>
+         <place id="n27">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 25</text>
+            </name>
+         </place>
+         <place id="n28">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 26</text>
+            </name>
+         </place>
+         <place id="n29">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>source 28</text>
+            </name>
+         </place>
+         <place id="n30">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 29</text>
+            </name>
+         </place>
+         <place id="n31">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 31</text>
+            </name>
+         </place>
+         <place id="n32">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>replacement source 33</text>
+            </name>
+         </place>
+         <place id="n33">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>source 34</text>
+            </name>
+         </place>
+         <place id="n34">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 35</text>
+            </name>
+         </place>
+         <place id="n35">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 37</text>
+            </name>
+         </place>
+         <place id="n36">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>replacement source 39</text>
+            </name>
+         </place>
+         <place id="n37">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 41</text>
+            </name>
+         </place>
+         <place id="n38">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>replacement source 43</text>
+            </name>
+         </place>
+         <place id="n39">
+            <graphics>
+               <dimension x="20.0" y="20.0"/>
+            </graphics>
+            <name>
+               <text>sink 44</text>
+            </name>
+         </place>
+         <arc id="a0" source="n10" target="n32"/>
+         <arc id="a1" source="n29" target="n5"/>
+         <arc id="a2" source="n16" target="n39"/>
+         <arc id="a3" source="n9" target="n31"/>
+         <arc id="a4" source="n32" target="n8"/>
+         <arc id="a5" source="n6" target="n31"/>
+         <arc id="a6" source="n32" target="n9"/>
+         <arc id="a7" source="n27" target="n1"/>
+         <arc id="a8" source="n25" target="n16"/>
+         <arc id="a9" source="n0" target="n26"/>
+         <arc id="a10" source="n23" target="n0"/>
+         <arc id="a11" source="n25" target="n17"/>
+         <arc id="a12" source="n13" target="n36"/>
+         <arc id="a13" source="n25" target="n21"/>
+         <arc id="a14" source="n37" target="n1"/>
+         <arc id="a15" source="n21" target="n24"/>
+         <arc id="a16" source="n33" target="n11"/>
+         <arc id="a17" source="n5" target="n30"/>
+         <arc id="a18" source="n37" target="n15"/>
+         <arc id="a19" source="n32" target="n6"/>
+         <arc id="a20" source="n3" target="n29"/>
+         <arc id="a21" source="n15" target="n38"/>
+         <arc id="a22" source="n34" target="n4"/>
+         <arc id="a23" source="n17" target="n39"/>
+         <arc id="a24" source="n28" target="n3"/>
+         <arc id="a25" source="n31" target="n10"/>
+         <arc id="a26" source="n7" target="n31"/>
+         <arc id="a27" source="n32" target="n7"/>
+         <arc id="a28" source="n25" target="n22"/>
+         <arc id="a29" source="n3" target="n32"/>
+         <arc id="a30" source="n11" target="n34"/>
+         <arc id="a31" source="n20" target="n24"/>
+         <arc id="a32" source="n12" target="n35"/>
+         <arc id="a33" source="n26" target="n2"/>
+         <arc id="a34" source="n14" target="n37"/>
+         <arc id="a35" source="n25" target="n18"/>
+         <arc id="a36" source="n35" target="n13"/>
+         <arc id="a37" source="n39" target="n20"/>
+         <arc id="a38" source="n31" target="n4"/>
+         <arc id="a39" source="n0" target="n38"/>
+         <arc id="a40" source="n1" target="n25"/>
+         <arc id="a41" source="n22" target="n24"/>
+         <arc id="a42" source="n3" target="n33"/>
+         <arc id="a43" source="n30" target="n4"/>
+         <arc id="a44" source="n38" target="n14"/>
+         <arc id="a45" source="n18" target="n39"/>
+         <arc id="a46" source="n8" target="n31"/>
+         <arc id="a47" source="n2" target="n28"/>
+         <arc id="a48" source="n4" target="n27"/>
+         <arc id="a49" source="n39" target="n19"/>
+         <arc id="a50" source="n35" target="n1"/>
+         <arc id="a51" source="n19" target="n24"/>
+         <arc id="a52" source="n0" target="n36"/>
+         <arc id="a53" source="n36" target="n12"/>
+      </page>
+   </net>
+</pnml>

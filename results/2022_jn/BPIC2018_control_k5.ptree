@@ -1,0 +1,39 @@
+Seq:8759.0
+  "initialize":8759.0
+  "begin editing":8759.0
+  "finish editing":8759.0
+  Choice:8759.0
+    "change department":2.0
+    tau:6397.0
+    Seq:144.0
+      "take original document":144.0
+      Choice:144.0
+        tau:108.0
+        Seq:36.0
+          PLoop[3.4722223]:36.0
+            "save":36.0
+          Choice:36.0
+            "take original document":1.0
+            tau:35.0
+    Seq:1732.0
+      PLoop[2.734411]:1732.0
+        "save":1732.0
+      Choice:1732.0
+        tau:1730.0
+        Seq:2.0
+          "insert document":2.0
+          FLoop[2.0]:2.0
+            "save":2.0
+    Seq:484.0
+      FLoop[2.0]:484.0
+        "save":484.0
+      Choice:484.0
+        tau:482.0
+        Seq:1.0
+          "insert document":1.0
+          FLoop[2.0]:1.0
+            "save":1.0
+        Seq:1.0
+          FLoop[3.0]:1.0
+            "take original document":1.0
+          "save":1.0

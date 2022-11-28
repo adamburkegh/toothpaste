@@ -1,0 +1,264 @@
+digraph G { 
+ranksep=".3"; fontsize="14"; remincross=true; margin="0.0,0.0"; fontname="Arial";rankdir="LR";
+edge [arrowsize="0.5"];
+node [height=".2",width=".2",fontname="Arial",fontsize="14"];
+ratio=0.4;
+id1 [shape="box",margin="0, 0.1",label="B check if sufficient information is available\n\n43",style="filled"];
+id2 [shape="box",margin="0, 0.1",label="B check if sufficient information is available\n\n43",style="filled"];
+id3 [shape="box",margin="0, 0.1",label="B check if sufficient information is available\n\n310",style="filled"];
+id4 [shape="box",margin="0, 0.1",label="B check if sufficient information is available\n\n310",style="filled"];
+id5 [shape="box",margin="0, 0.1",label="B register claim\n\n43",style="filled"];
+id6 [shape="box",margin="0, 0.1",label="B register claim\n\n43",style="filled"];
+id7 [shape="box",margin="0, 0.1",label="B register claim\n\n264",style="filled"];
+id8 [shape="box",margin="0, 0.1",label="B register claim\n\n264",style="filled"];
+id9 [shape="box",margin="0, 0.1",label="S check if sufficient information is available\n\n42",style="filled"];
+id10 [shape="box",margin="0, 0.1",label="S check if sufficient information is available\n\n42",style="filled"];
+id11 [shape="box",margin="0, 0.1",label="S check if sufficient information is available\n\n304",style="filled"];
+id12 [shape="box",margin="0, 0.1",label="S check if sufficient information is available\n\n304",style="filled"];
+id13 [shape="box",margin="0, 0.1",label="S register claim\n\n42",style="filled"];
+id14 [shape="box",margin="0, 0.1",label="S register claim\n\n42",style="filled"];
+id15 [shape="box",margin="0, 0.1",label="S register claim\n\n241",style="filled"];
+id16 [shape="box",margin="0, 0.1",label="S register claim\n\n241",style="filled"];
+id17 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n85",style="filled"];
+id18 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n85",style="filled"];
+id19 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n103",style="filled"];
+id20 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n103",style="filled"];
+id21 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n54",style="filled"];
+id22 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n54",style="filled"];
+id23 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n90",style="filled"];
+id24 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n90",style="filled"];
+id25 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n49",style="filled"];
+id26 [shape="box",margin="0, 0.1",label="advise claimant on reimbursement\n\n49",style="filled"];
+id27 [shape="box",margin="0, 0.1",label="assess claim\n\n85",style="filled"];
+id28 [shape="box",margin="0, 0.1",label="assess claim\n\n85",style="filled"];
+id29 [shape="box",margin="0, 0.1",label="assess claim\n\n207",style="filled"];
+id30 [shape="box",margin="0, 0.1",label="assess claim\n\n207",style="filled"];
+id31 [shape="box",margin="0, 0.1",label="assess claim\n\n185",style="filled"];
+id32 [shape="box",margin="0, 0.1",label="assess claim\n\n185",style="filled"];
+id33 [shape="box",margin="0, 0.1",label="close claim\n\n85",style="filled"];
+id34 [shape="box",margin="0, 0.1",label="close claim\n\n85",style="filled"];
+id35 [shape="box",margin="0, 0.1",label="close claim\n\n103",style="filled"];
+id36 [shape="box",margin="0, 0.1",label="close claim\n\n103",style="filled"];
+id37 [shape="box",margin="0, 0.1",label="close claim\n\n54",style="filled"];
+id38 [shape="box",margin="0, 0.1",label="close claim\n\n54",style="filled"];
+id39 [shape="box",margin="0, 0.1",label="close claim\n\n90",style="filled"];
+id40 [shape="box",margin="0, 0.1",label="close claim\n\n90",style="filled"];
+id41 [shape="box",margin="0, 0.1",label="close claim\n\n49",style="filled"];
+id42 [shape="box",margin="0, 0.1",label="close claim\n\n49",style="filled"];
+id43 [shape="box",margin="0, 0.1",label="determine likelihood of claim\n\n85",style="filled"];
+id44 [shape="box",margin="0, 0.1",label="determine likelihood of claim\n\n85",style="filled"];
+id45 [shape="box",margin="0, 0.1",label="determine likelihood of claim\n\n264",style="filled"];
+id46 [shape="box",margin="0, 0.1",label="determine likelihood of claim\n\n264",style="filled"];
+id47 [shape="box",margin="0, 0.1",label="determine likelihood of claim\n\n241",style="filled"];
+id48 [shape="box",margin="0, 0.1",label="determine likelihood of claim\n\n241",style="filled"];
+id49 [shape="box",margin="0, 0.1",label="end\n\n699",style="filled"];
+id50 [shape="box",margin="0, 0.1",label="end\n\n699",style="filled"];
+id51 [shape="box",margin="0, 0.1",label="incoming claim\n\n699",style="filled"];
+id52 [shape="box",margin="0, 0.1",label="initiate payment\n\n85",style="filled"];
+id53 [shape="box",margin="0, 0.1",label="initiate payment\n\n85",style="filled"];
+id54 [shape="box",margin="0, 0.1",label="initiate payment\n\n103",style="filled"];
+id55 [shape="box",margin="0, 0.1",label="initiate payment\n\n103",style="filled"];
+id56 [shape="box",margin="0, 0.1",label="initiate payment\n\n54",style="filled"];
+id57 [shape="box",margin="0, 0.1",label="initiate payment\n\n54",style="filled"];
+id58 [shape="box",margin="0, 0.1",label="initiate payment\n\n90",style="filled"];
+id59 [shape="box",margin="0, 0.1",label="initiate payment\n\n90",style="filled"];
+id60 [shape="box",margin="0, 0.1",label="initiate payment\n\n49",style="filled"];
+id61 [shape="box",margin="0, 0.1",label="initiate payment\n\n49",style="filled"];
+id62 [shape="box",margin="0, 0.1",label="tau\n\n46",style="filled"];
+id63 [shape="box",margin="0, 0.1",label="tau\n\n57",style="filled"];
+id64 [shape="box",margin="0, 0.1",label="tau\n\n50",style="filled"];
+id65 [shape="box",margin="0, 0.1",label="tau\n\n63",style="filled"];
+id66 [shape="box",margin="0, 0.1",label="tau\n\n56",style="filled"];
+id67 [shape="box",margin="0, 0.1",label="tau\n\n46",style="filled"];
+id68 [shape="circle",label=""];
+id69 [shape="circle",label=""];
+id70 [shape="circle",label=""];
+id71 [shape="circle",label=""];
+id72 [shape="circle",label=""];
+id73 [shape="circle",label=""];
+id74 [shape="circle",label=""];
+id75 [shape="circle",label=""];
+id76 [shape="circle",label=""];
+id77 [shape="circle",label=""];
+id78 [shape="circle",label=""];
+id79 [shape="circle",label=""];
+id80 [shape="circle",label=""];
+id81 [shape="circle",label=""];
+id82 [shape="circle",label=""];
+id83 [shape="circle",label=""];
+id84 [shape="circle",label=""];
+id85 [shape="circle",label=""];
+id86 [shape="circle",label=""];
+id87 [shape="circle",label=""];
+id88 [shape="circle",label=""];
+id89 [shape="circle",label=""];
+id90 [shape="circle",label=""];
+id91 [shape="circle",label=""];
+id92 [shape="circle",label=""];
+id93 [shape="circle",label=""];
+id94 [shape="circle",label=""];
+id95 [shape="circle",label=""];
+id96 [shape="circle",label=""];
+id97 [shape="circle",label=""];
+id98 [shape="circle",label=""];
+id99 [shape="circle",label=""];
+id100 [shape="circle",label=""];
+id101 [shape="circle",label=""];
+id102 [shape="circle",label=""];
+id103 [shape="circle",label=""];
+id104 [shape="circle",label=""];
+id105 [shape="circle",label=""];
+id106 [shape="circle",label=""];
+id107 [shape="circle",label=""];
+id108 [shape="circle",label=""];
+id109 [shape="circle",label=""];
+id110 [shape="circle",label=""];
+id111 [shape="circle",label=""];
+id112 [shape="circle",label=""];
+id113 [shape="circle",label=""];
+id114 [shape="circle",label=""];
+id115 [shape="circle",label=""];
+id116 [shape="circle",label=""];
+id117 [shape="circle",label=""];
+id118 [shape="circle",label=""];
+id119 [shape="circle",label=""];
+id120 [shape="circle",label=""];
+id121 [shape="circle",label=""];
+id122 [shape="circle",label=""];
+id123 [shape="circle",label=""];
+id124 [shape="circle",label=""];
+id31 -> id112
+id74 -> id14
+id102 -> id22
+id16 -> id106
+id24 -> id113
+id111 -> id60
+id90 -> id56
+id3 -> id110
+id115 -> id39
+id45 -> id88
+id90 -> id64
+id112 -> id32
+id90 -> id19
+id37 -> id101
+id1 -> id70
+id62 -> id97
+id100 -> id21
+id4 -> id105
+id28 -> id77
+id52 -> id80
+id69 -> id5
+id118 -> id41
+id78 -> id28
+id13 -> id74
+id23 -> id114
+id30 -> id90
+id17 -> id82
+id107 -> id16
+id123 -> id51
+id106 -> id47
+id71 -> id6
+id15 -> id107
+id58 -> id116
+id75 -> id27
+id89 -> id1
+id33 -> id84
+id119 -> id61
+id67 -> id97
+id25 -> id122
+id42 -> id120
+id92 -> id54
+id89 -> id9
+id6 -> id68
+id66 -> id97
+id43 -> id76
+id14 -> id68
+id86 -> id8
+id111 -> id23
+id54 -> id95
+id70 -> id2
+id91 -> id30
+id93 -> id20
+id108 -> id31
+id5 -> id71
+id89 -> id11
+id29 -> id91
+id38 -> id100
+id84 -> id34
+id108 -> id66
+id39 -> id117
+id95 -> id55
+id113 -> id58
+id94 -> id35
+id22 -> id97
+id41 -> id121
+id48 -> id108
+id116 -> id59
+id97 -> id49
+id114 -> id24
+id63 -> id97
+id81 -> id33
+id87 -> id29
+id96 -> id36
+id60 -> id119
+id57 -> id98
+id103 -> id65
+id51 -> id89
+id101 -> id38
+id21 -> id102
+id88 -> id46
+id120 -> id25
+id7 -> id86
+id32 -> id111
+id73 -> id10
+id87 -> id63
+id34 -> id97
+id83 -> id45
+id110 -> id4
+id26 -> id97
+id85 -> id50
+id89 -> id3
+id105 -> id7
+id68 -> id43
+id44 -> id75
+id46 -> id87
+id56 -> id99
+id49 -> id85
+id79 -> id17
+id111 -> id67
+id8 -> id83
+id19 -> id93
+id77 -> id52
+id65 -> id97
+id10 -> id72
+id27 -> id78
+id82 -> id18
+id103 -> id15
+id11 -> id104
+id72 -> id13
+id55 -> id94
+id98 -> id37
+id117 -> id40
+id36 -> id97
+id18 -> id81
+id12 -> id103
+id20 -> id92
+id104 -> id12
+id122 -> id26
+id40 -> id97
+id53 -> id79
+id47 -> id109
+id2 -> id69
+id105 -> id62
+id61 -> id118
+id80 -> id53
+id109 -> id48
+id121 -> id42
+id9 -> id73
+id99 -> id57
+id50 -> id124
+id59 -> id115
+id35 -> id96
+id64 -> id97
+id76 -> id44
+}

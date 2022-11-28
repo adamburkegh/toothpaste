@@ -1,0 +1,117 @@
+digraph G { 
+ranksep=".3"; fontsize="14"; remincross=true; margin="0.0,0.0"; fontname="Arial";rankdir="LR";
+edge [arrowsize="0.5"];
+node [height=".2",width=".2",fontname="Arial",fontsize="14"];
+ratio=0.4;
+id1 [shape="box",margin="0, 0.1",label="begin editing\n\n8763",style="filled"];
+id2 [shape="box",margin="0, 0.1",label="change department\n\n1",style="filled"];
+id3 [shape="box",margin="0, 0.1",label="change department\n\n3",style="filled"];
+id4 [shape="box",margin="0, 0.1",label="finish editing\n\n8763",style="filled"];
+id5 [shape="box",margin="0, 0.1",label="initialize\n\n8763",style="filled"];
+id6 [shape="box",margin="0, 0.1",label="insert document\n\n1",style="filled"];
+id7 [shape="box",margin="0, 0.1",label="save\n\n17.260",style="filled"];
+id8 [shape="box",margin="0, 0.1",label="save\n\n1099.826",style="filled"];
+id9 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id10 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id11 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id12 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id13 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id14 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id15 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id16 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id17 [shape="box",margin="0, 0.1",label="save\n\n1",style="filled"];
+id18 [shape="box",margin="0, 0.1",label="save\n\n296",style="filled"];
+id19 [shape="box",margin="0, 0.1",label="save\n\n296",style="filled"];
+id20 [shape="box",margin="0, 0.1",label="save\n\n296",style="filled"];
+id21 [shape="box",margin="0, 0.1",label="take original document\n\n152",style="filled"];
+id22 [shape="box",margin="0, 0.1",label="take original document\n\n1",style="filled"];
+id23 [shape="box",margin="0, 0.1",label="tau\n\n6408",style="filled"];
+id24 [shape="box",margin="0, 0.1",label="tau\n\n124",style="filled"];
+id25 [shape="box",margin="0, 0.1",label="tau\n\n1902",style="filled"];
+id26 [shape="box",margin="0, 0.1",label="tau\n\n295",style="filled"];
+id27 [shape="box",margin="0, 0.1",label="tauin\n\n28",style="filled"];
+id28 [shape="box",margin="0, 0.1",label="tauin\n\n1904",style="filled"];
+id29 [shape="box",margin="0, 0.1",label="tauout\n\n10.740",style="filled"];
+id30 [shape="box",margin="0, 0.1",label="tauout\n\n804.174",style="filled"];
+id31 [shape="circle",label=""];
+id32 [shape="circle",label=""];
+id33 [shape="circle",label=""];
+id34 [shape="circle",label=""];
+id35 [shape="circle",label=""];
+id36 [shape="circle",label=""];
+id37 [shape="circle",label=""];
+id38 [shape="circle",label=""];
+id39 [shape="circle",label=""];
+id40 [shape="circle",label=""];
+id41 [shape="circle",label=""];
+id42 [shape="circle",label=""];
+id43 [shape="circle",label=""];
+id44 [shape="circle",label=""];
+id45 [shape="circle",label=""];
+id46 [shape="circle",label=""];
+id47 [shape="circle",label=""];
+id48 [shape="circle",label=""];
+id49 [shape="circle",label=""];
+id50 [shape="circle",label=""];
+id51 [shape="circle",label=""];
+id32 -> id7
+id40 -> id13
+id49 -> id23
+id49 -> id21
+id41 -> id4
+id46 -> id2
+id25 -> id51
+id9 -> id37
+id31 -> id27
+id22 -> id36
+id8 -> id35
+id48 -> id20
+id50 -> id5
+id7 -> id32
+id11 -> id39
+id20 -> id46
+id47 -> id19
+id39 -> id12
+id19 -> id48
+id26 -> id51
+id34 -> id25
+id35 -> id30
+id42 -> id14
+id43 -> id15
+id30 -> id34
+id23 -> id51
+id15 -> id51
+id16 -> id45
+id49 -> id28
+id33 -> id1
+id31 -> id24
+id28 -> id35
+id18 -> id47
+id14 -> id43
+id44 -> id16
+id29 -> id51
+id10 -> id38
+id49 -> id18
+id6 -> id44
+id49 -> id3
+id12 -> id40
+id27 -> id32
+id1 -> id41
+id35 -> id8
+id36 -> id9
+id32 -> id29
+id34 -> id6
+id37 -> id10
+id24 -> id51
+id13 -> id42
+id2 -> id51
+id5 -> id33
+id34 -> id22
+id17 -> id51
+id4 -> id49
+id3 -> id51
+id21 -> id31
+id45 -> id17
+id38 -> id11
+id46 -> id26
+}

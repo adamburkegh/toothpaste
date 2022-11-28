@@ -1,0 +1,30 @@
+<runStats miner="Split Miner" machineName="SEF-1953019678" runnerVersion="1.0.3">
+   <inputLogFileName>sepsis_k1.xes</inputLogFileName>
+   <outputModelFileName>var\omodel_split_sepsis_k1.pnml</outputModelFileName>
+   <runDate>2021-01-29 13:48:27.800 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmlogparser" runState="SUCCESS">
+         <duration>219</duration>
+         <start>1611892107800</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">212</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">2912</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>1015</duration>
+         <start>1611892108019</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1611892109065</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
+</runStats>

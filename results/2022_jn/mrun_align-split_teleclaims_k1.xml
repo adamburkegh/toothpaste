@@ -1,0 +1,47 @@
+<runStats miner="Alignment" machineName="SEF-1953019678" runnerVersion="1.0.3">
+   <inputLogFileName>teleclaims_k1.xes</inputLogFileName>
+   <outputModelFileName>var\osmodel_align-split_teleclaims_k1.pnml</outputModelFileName>
+   <runDate>2021-02-03 13:01:44.431 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>218</duration>
+         <start>1612321304431</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">9156</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">704</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1612321304961</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9982153480071386</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">56</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">66</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
+         <duration>31</duration>
+         <start>1612321304977</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
+            <number class="java.lang.Double">0.09299234334408213</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="spmrunner_postrun" runState="RUNNING">
+         <duration>0</duration>
+         <start>1612321304649</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
+</runStats>

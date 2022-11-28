@@ -47,8 +47,12 @@ public class RunStats {
 	@Element
 	protected String outputModelFileName;
 	
-	@Attribute
+	@Attribute(required=false)
 	protected String artifactCreator;
+
+	@Attribute(required=false)
+	protected String miner; 
+	// for back-compatibility; the old name for artifactCreator from 0.7 and earlier 
 	
 	@Attribute
 	protected String machineName;
@@ -89,6 +93,8 @@ public class RunStats {
 		this.inputLogFileName = other.inputLogFileName;
 		this.outputModelFileName = other.outputModelFileName;
 		this.artifactCreator = other.artifactCreator;
+		if (artifactCreator == null)
+			this.artifactCreator = other.miner;
 		this.runDate = other.runDate;
 		this.runState = other.runState;
 		this.machineName = other.machineName;

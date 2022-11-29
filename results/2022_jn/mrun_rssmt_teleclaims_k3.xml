@@ -33,6 +33,14 @@
             <number class="java.lang.Integer">60</number>
          </measureStats>
       </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>2044</duration>
+         <start>1669695301834</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.0</number>
+         </measureStats>
+      </taskStats>
    </taskRunStats>
    <errorMessage>Earth movers timeout 11 hours (manual edit)</errorMessage>
    <runState>FAILED</runState>

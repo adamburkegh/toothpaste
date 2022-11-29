@@ -33,6 +33,19 @@
             <number class="java.lang.Integer">60</number>
          </measureStats>
       </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>2249</duration>
+         <start>1669695296333</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.0</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="visualize" runState="SUCCESS">
+         <duration>4</duration>
+         <start>1669695295939</start>
+         <errorMessage></errorMessage>
+      </taskStats>
    </taskRunStats>
    <errorMessage>EM timeout (manual edit)</errorMessage>
    <runState>FAILED</runState>

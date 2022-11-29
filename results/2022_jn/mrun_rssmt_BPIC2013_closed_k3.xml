@@ -1,11 +1,11 @@
-<runStats miner="Rogge-Solti StochasticMinerPlugin (Tracing)" machineName="SEF-PA00143522" runnerVersion="">
+<runStats artifactCreator="Rogge-Solti StochasticMinerPlugin (Tracing)" machineName="SEF-PA00143522" runnerVersion="28-11-2022">
    <inputLogFileName>BPIC2013_closed_k3.xes</inputLogFileName>
-   <outputModelFileName>var\omodel_rssmt_BPIC2013_closed_k3.pnml</outputModelFileName>
-   <runDate>2021-02-04 02:47:32.117 AEST</runDate>
+   <outputModelFileName>var\osmodel_rssmt_BPIC2013_closed_k3.pnml</outputModelFileName>
+   <runDate>2022-11-29 11:24:45.575 AEST</runDate>
    <taskRunStats class="java.util.LinkedList">
       <taskStats taskName="spmlogparser" runState="SUCCESS">
-         <duration>40</duration>
-         <start>1612370852126</start>
+         <duration>15</duration>
+         <start>1669685085576</start>
          <errorMessage></errorMessage>
          <measureStats measure="LOG_TRACE_COUNT">
             <number class="java.lang.Integer">298</number>
@@ -15,38 +15,46 @@
          </measureStats>
       </taskStats>
       <taskStats taskName="miner" runState="SUCCESS">
-         <duration>65</duration>
-         <start>1612370852166</start>
+         <duration>79</duration>
+         <start>1669685085591</start>
          <errorMessage></errorMessage>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
-         <duration>0</duration>
-         <start>1612370852337</start>
+         <duration>1</duration>
+         <start>1669685085740</start>
          <errorMessage></errorMessage>
-         <measureStats measure="MODEL_EDGE_COUNT">
-            <number class="java.lang.Integer">30</number>
-         </measureStats>
          <measureStats measure="MODEL_ENTITY_COUNT">
             <number class="java.lang.Integer">25</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">30</number>
          </measureStats>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9943914750420639</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
-         <duration>2181459</duration>
-         <start>1612370852340</start>
-         <errorMessage>OutOfMemory - manual edit</errorMessage>
-         <!-- measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
+         <duration>23</duration>
+         <start>1669685085743</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
+            <number class="java.lang.Double">0.7547003449774494</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>4317</duration>
+         <start>1669685085768</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.0</number>
-         </measureStats -->
+         </measureStats>
       </taskStats>
       <taskStats taskName="visualize" runState="SUCCESS">
          <duration>1</duration>
-         <start>1612370852241</start>
+         <start>1669685085682</start>
          <errorMessage></errorMessage>
       </taskStats>
    </taskRunStats>
-   <errorMessage>Earth Movers OutOfMemory - Manual edit</errorMessage>
-   <runState>FAILED</runState>
+   <errorMessage></errorMessage>
+   <runState>SUCCESS</runState>
 </runStats>

@@ -33,6 +33,14 @@
             <number class="java.lang.Integer">114</number>
          </measureStats>
       </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>1772</duration>
+         <start>1669726355413</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.0</number>
+         </measureStats>
+      </taskStats>
    </taskRunStats>
    <errorMessage>Manual edit by AB EarthMovers OutOfMemory - but still outputting a number</errorMessage>
    <runState>FAILED</runState>

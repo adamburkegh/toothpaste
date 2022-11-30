@@ -1,0 +1,28 @@
+<runStats artifactCreator="rssmt_BPIC2018_control_k4" machineName="SEF-PA00143522" runnerVersion="0.9.1.4">
+   <inputLogFileName>BPIC2018_control.xes</inputLogFileName>
+   <outputModelFileName>7da4e6dd-7f44-46ad-bfaa-515af228a28b imported from (osmodel_rssmt_BPIC2018_control_k4.pnml)</outputModelFileName>
+   <runDate>2022-11-30 21:38:30.969 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="tpmlogparser" runState="RUNNING">
+         <duration>0</duration>
+         <start>1669808310969</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">35046</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">128723</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>45</duration>
+         <start>1669808314274</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.983</number>
+         </measureStats>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>RUNNING</runState>
+</runStats>

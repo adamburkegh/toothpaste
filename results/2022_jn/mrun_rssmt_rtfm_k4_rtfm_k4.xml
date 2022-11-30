@@ -1,0 +1,28 @@
+<runStats artifactCreator="rssmt_rtfm_k4" machineName="SEF-PA00143522" runnerVersion="0.9.1.4">
+   <inputLogFileName>rtfm.xes</inputLogFileName>
+   <outputModelFileName>181b332f-dc3f-4f09-a60b-1027ce4668e0 imported from (osmodel_rssmt_rtfm_k4.pnml)</outputModelFileName>
+   <runDate>2022-11-30 20:20:48.216 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="tpmlogparser" runState="RUNNING">
+         <duration>0</duration>
+         <start>1669803648217</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">449040</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">120295</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>630</duration>
+         <start>1669803651449</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.105</number>
+         </measureStats>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>RUNNING</runState>
+</runStats>

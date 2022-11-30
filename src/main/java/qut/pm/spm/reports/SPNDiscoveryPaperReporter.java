@@ -13,8 +13,8 @@ import qut.pm.spm.StochasticNetLogMiner;
 
 public class SPNDiscoveryPaperReporter extends SPNDiscoverReporter{
 
-	private static final Set<Measure> INCLUDED_MEASURES;
 	
+	private static final Set<Measure> INCLUDED_MEASURES;
 	private static Map<String,String> mapMinerName = new HashMap<>();
 	
 	static {
@@ -26,6 +26,7 @@ public class SPNDiscoveryPaperReporter extends SPNDiscoverReporter{
 	private static void registerMeasures() {
 		INCLUDED_MEASURES.add(Measure.MODEL_ENTITY_COUNT);
 		INCLUDED_MEASURES.add(Measure.EARTH_MOVERS_LIGHT_COVERAGE);
+		INCLUDED_MEASURES.add(Measure.ALPHA_PRECISION_UNRESTRICTED);
 	}
 	
 	private static void registerMinerNames() {

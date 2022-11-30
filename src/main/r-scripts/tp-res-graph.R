@@ -4,7 +4,7 @@ library(stringi)
 library(ggplot2)
 library(gridExtra)
 
-exportPic <- FALSE
+exportPic <- TRUE
 
 prepfig <- function(fprefix,logname, width=30, height=20, mar=c(1,1,1,1))
 {
@@ -83,21 +83,21 @@ em_vs_ap_graph <- function(workingPath, picName, rundata, ctLog){
   apcolName = "ALPHA_PRECISION_UNRESTRICTED"
 
   bpo <- rundata %>% 
-    filter (baseLog == ctLog) #  %>% 
-  # filter (shortId == 'rsd' | shortId == 'tmh')
+    filter (baseLog == ctLog)   %>% 
+    filter (shortId == 'rsd' | shortId == 'tmh')
   emtb <- as.numeric(bpo[[emcolName]])
   bpo[[emcolName]] <- emtb
   aptb <- as.numeric(bpo[[apcolName]])
   bpo[[apcolName]] <- aptb
   
   res <- ggplot(bpo, 
-                aes(x=EARTH_MOVERS_LIGHT_COVERAGE, 
-                    y=ALPHA_PRECISION_UNRESTRICTED,
+                aes(y=EARTH_MOVERS_LIGHT_COVERAGE, 
+                    x=ALPHA_PRECISION_UNRESTRICTED,
                     col=ShortId)) + 
     geom_point() +
     xlim(0,1) + ylim(0,1) + 
     ggtitle(ctLog) +
-    xlab("tEMSC0.8") + ylab("alpha precision")
+    ylab("tEMSC0.8") + xlab("alpha precision")
   # + stat_ellipse()
   res
 }
@@ -222,13 +222,13 @@ g4 <- em_vs_ap_graph( workingPath, picName = "",
                       rundata, ctLog = "BPIC2018 control" )
 g5 <- em_vs_ap_graph( workingPath, picName = "", 
                       rundata, ctLog = "BPIC2018 reference" )
-fullgrid <- grid.arrange(g1,g2,g3,g4) # ,ncol=2,nrow=2)
+g6 <- em_vs_ap_graph( workingPath, picName = "", 
+                      rundata, ctLog = "sepsis" )
+fullgrid <- grid.arrange(g1,g2,g3,g4,g5,g6) # ,ncol=2,nrow=2)
 
 
 if (exportPic){
-  png(paste(workingPath,'tpres.png'))
-  print(fullgrid)
-  dev.off()
+  ggsave(file=paste(workingPath,'tpres.png'),fullgrid)
 }
 
 

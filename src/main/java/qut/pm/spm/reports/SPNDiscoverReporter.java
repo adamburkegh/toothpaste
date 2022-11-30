@@ -187,8 +187,7 @@ public class SPNDiscoverReporter {
 	private static void registerMeasures() {
 		INCLUDED_MEASURES.add(Measure.MODEL_EDGE_COUNT);
 		INCLUDED_MEASURES.add(Measure.MODEL_ENTITY_COUNT);
-		INCLUDED_MEASURES.add(Measure.ENTROPY_PRECISION);
-		INCLUDED_MEASURES.add(Measure.ENTROPY_RECALL);
+		INCLUDED_MEASURES.add(Measure.ALPHA_PRECISION_UNRESTRICTED);
 		INCLUDED_MEASURES.add(Measure.EARTH_MOVERS_LIGHT_COVERAGE);
 		INCLUDED_MEASURES.add(Measure.LOG_EVENT_COUNT);
 		INCLUDED_MEASURES.add(Measure.LOG_TRACE_COUNT);
@@ -361,7 +360,7 @@ public class SPNDiscoverReporter {
 	protected String rewriteArtifactCreator(String artifactCreator) {
 		// Ugly, but the long text is in all the result files already
 		if (artifactCreator.equals("Rogge-Solti StochasticMinerPlugin (Tracing)")) {
-			return "Rogge-Solti Discovery";
+			return "GDT_SPN discovery";
 		}
 		if (artifactCreator.equals("Fork Distributed (Bill Clinton) Estimator")) {
 			return "Fork Distributed Estimator";

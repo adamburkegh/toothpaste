@@ -66,6 +66,7 @@ public class ModelRunner {
 
 	private static final String XES_SUFFIX = ".xes";
 	private static final String PNML = "pnml";
+	private static final String PNML_SUFFIX = "." + PNML;
 	
 	private static final String CONFIG_DATA_FILES 	= "mr.data.files";
 	private static final String CONFIG_DATA_DIR 	= "mr.data.dir";
@@ -140,9 +141,21 @@ public class ModelRunner {
 		String[] modelFiles = modelConfig.split(",");
 		for (String modelFile: modelFiles) {
 			String fname = modelPath + File.separator + modelFile.trim(); 
-			LOGGER.info("Loading model from {}",fname);
-			AcceptingStochasticNet net = loadNet(new File(fname)); 
-			models.add( new PetrinetSource(net,net.getId()) );
+			if (kfoldLogs == 1) {
+				LOGGER.info("Loading model from {}",fname);
+				AcceptingStochasticNet net = loadNet(new File(fname)); 
+				models.add( new PetrinetSource(net,net.getId()) );
+			} else {
+				LOGGER.info("Using k={} k-fold models", kfoldLogs);
+				for (int i=kfoldLogsStart; i<kfoldLogs+1; i++) {
+					String modelFnamePrefix = modelFile.substring(0, modelFile.lastIndexOf(PNML_SUFFIX));
+					String kmodelName = modelFnamePrefix + "_k" + i + PNML_SUFFIX;
+					AcceptingStochasticNet net = 
+							loadNet(new File(modelPath + File.separator + kmodelName)); 
+					models.add( new PetrinetSource(net,net.getId(), i) );					
+				}
+			}
+
 		}
 	}
 	
@@ -150,7 +163,7 @@ public class ModelRunner {
 		PluginContext context = new HeadlessDefinitelyNotUIPluginContext(new ConsoleUIPluginContext(),
 				"modelrunner_loadnet");
 		String shortName = file.getName().replace("osmodel_", "");
-		shortName = shortName.substring(0, shortName.indexOf("_") );
+		shortName = shortName.substring(0, shortName.indexOf(PNML_SUFFIX) );
 		LOGGER.info("Short name {}",shortName);
 		Serializer serializer = new Persister();
 		PNMLRoot pnml = serializer.read(PNMLRoot.class, file);
@@ -231,10 +244,18 @@ public class ModelRunner {
 		}else {
 			for (int i=kfoldLogsStart; i<kfoldLogs+1; i++) {
 				String df = logPrefix(inputLogName);
-				runSingleMinerRun( miner, df + "_k"  + i + XES_SUFFIX, 
-										  df + "_nk" + i + XES_SUFFIX);
+				runSingleMinerRun( miner, kLogName(i, df), 
+										  nkLogName(i, df));
 			}
 		}
+	}
+
+	private String nkLogName(int i, String df) {
+		return df + "_nk" + i + XES_SUFFIX;
+	}
+
+	private String kLogName(int i, String df) {
+		return df + "_k"  + i + XES_SUFFIX;
 	}
 
 	private void runSingleMinerRun(StochasticNetLogMiner miner, String inputLogName, 
@@ -437,14 +458,31 @@ public class ModelRunner {
 		UIPluginContext uipc = 
 				new HeadlessUIPluginContext(new ConsoleUIPluginContext(), "tp_runnermvl");	
 		RunStats runStats = new RunStats(inputLogName,model.getNet().getLabel(), model.getSourceId());
-		String df = logPrefix(inputLogName);
-		// RunStats runStats = initPredefRunStats(model, "predef");
+		String logPrefix = logPrefix(inputLogName);
+		boolean singleModelForKFold =kfoldLogs > 1 && model.getKIndex() < 1;  
+		if (singleModelForKFold) {
+			LOGGER.warn("K-index not set for k-fold run, treating as single model");
+		}
+		if (kfoldLogs == 1 || singleModelForKFold) {
+			loadAndCalcPostStats(model, inputLogName, inputLogName, uipc, runStats, logPrefix);			
+		} else {
+			String klogName = kLogName(model.getKIndex(), logPrefix);
+			String klogPrefix = logPrefix(klogName);
+			loadAndCalcPostStats(model, klogName, nkLogName(model.getKIndex(), logPrefix),  
+					uipc, runStats, klogPrefix);
+		}
+	}
+
+	private void loadAndCalcPostStats(PetrinetSource model, String inputLogName, 
+			String comparisonLogName, UIPluginContext uipc,
+			RunStats runStats, String logPrefix) throws Exception 
+	{
 		TaskStats stats = makeNewTask(runStats, "tpmlogparser");
 		try {
-			XLog log = loadLog(uipc, inputLogName, stats);
-			calculatePostStats(uipc, df, model, log, runStats);
+			XLog log = loadLog(uipc, comparisonLogName, stats);
+			calculatePostStats(uipc, logPrefix, model, log, runStats);
 		} catch (Exception e) {
-			exportRun(model.getSourceId(), df, runStats);
+			exportRun(model.getSourceId(), logPrefix, runStats);
 			throw new RuntimeException(e);
 		}
 	}

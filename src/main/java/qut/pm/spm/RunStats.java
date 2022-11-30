@@ -35,8 +35,8 @@ public class RunStats {
 			// TODO Move out to ModelRunner
 			byte[] encoded = Files.readAllBytes( Paths.get( "buildid.txt" ));
 			String text = new String(encoded,StandardCharsets.UTF_8);
-			BUILD_VERSION = text.split(" ")[1];
-		}catch(Exception e) {
+			BUILD_VERSION = text.split(" ")[0];
+		}catch(Exception e) {	
 		}
 	}
 

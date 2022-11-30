@@ -307,6 +307,7 @@ public class ModelRunner {
 
 	
 	private XLog loadLog(UIPluginContext uipc, String inputLogName, TaskStats stats) throws Exception {
+		LOGGER.info("Loading log: " + inputLogName);
 		String inputLogFileName = dataDir + File.separator + inputLogName;
 		XLog log = (XLog) new OpenLogFileLiteImplPlugin().importFile(uipc, inputLogFileName);
 		initLogInfo(log);
@@ -392,21 +393,7 @@ public class ModelRunner {
 	}
 
 
-	private void calculatePostStats(PluginContext context, String inputLogPrefix, 
-			StochasticNetLogMiner miner, XLog log, RunStats runStats) 
-				throws Exception
-	{		
-		TaskStats stats = null;
-		for (SPNQualityCalculator calc: calculators) {
-			stats = makeNewTask("calculate " + calc.getReadableId());
-			calc.calculate(context, miner.getStochasticNetDescriptor(), log, 
-					classifierFor(log), stats);
-			closeTask(runStats,stats);
-			// Conservatively export stats after every run
-			LOGGER.info(runStats.formatStats());
-			exportRun(miner.getShortID(), inputLogPrefix, runStats);
-		}
-	}
+
 
 
 	private void noteRunStart(StochasticNetLogMiner miner, String inputLogName, final String SEP) {
@@ -450,6 +437,22 @@ public class ModelRunner {
 			// Conservatively export stats after every run
 			LOGGER.info(runStats.formatStats());
 			exportRun(model.getSourceId(), inputLogPrefix, runStats);
+		}
+	}
+	
+	private void calculatePostStats(PluginContext context, String inputLogPrefix, 
+			StochasticNetLogMiner miner, XLog log, RunStats runStats) 
+				throws Exception
+	{		
+		TaskStats stats = null;
+		for (SPNQualityCalculator calc: calculators) {
+			stats = makeNewTask("calculate " + calc.getReadableId());
+			calc.calculate(context, miner.getStochasticNetDescriptor(), log, 
+					classifierFor(log), stats);
+			closeTask(runStats,stats);
+			// Conservatively export stats after every run
+			LOGGER.info(runStats.formatStats());
+			exportRun(miner.getShortID(), inputLogPrefix, runStats);
 		}
 	}
 

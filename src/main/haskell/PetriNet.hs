@@ -98,11 +98,11 @@ validateWeightedNet wnet
     | sdiff /= empty  
         = valFail (valFailInit 
                 ++ "Transitions without sources:" 
-                ++ (show sdiff) ) 
+                ++ show sdiff ) 
     | tdiff /= empty  
         = valFail (valFailInit
                 ++ "Transitions without targets:" 
-                ++ (show tdiff) ) 
+                ++ show tdiff ) 
     | otherwise       = valOk
     where trans       = wntransitions wnet
           edg         = toList (wnedges wnet)

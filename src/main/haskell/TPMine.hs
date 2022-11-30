@@ -50,7 +50,7 @@ discoverNoise log = transformNoise (traceModel log)
 
 translate :: PPTree String -> WeightedNet
 translate ptree 
-    | (valResult val) = net
+    | valResult val = net
     | otherwise       = warn ( valMsg val ) net
     where net =  ptreeWeightedNet ptree (Place "I" "pI") (Place "O" "pO") 1
           val = validateWeightedNet net     

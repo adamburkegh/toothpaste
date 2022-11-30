@@ -1,11 +1,11 @@
-<runStats artifactCreator="Rogge-Solti StochasticMinerPlugin (Tracing)" machineName="SEF-PA00143522" runnerVersion="28-11-2022">
+<runStats artifactCreator="Rogge-Solti StochasticMinerPlugin (Tracing)" machineName="SEF-PA00143522" runnerVersion="0.9.1.4">
    <inputLogFileName>BPIC2013_closed_k2.xes</inputLogFileName>
    <outputModelFileName>var\osmodel_rssmt_BPIC2013_closed_k2.pnml</outputModelFileName>
-   <runDate>2022-11-29 11:24:41.58 AEST</runDate>
+   <runDate>2022-11-30 18:41:28.770 AEST</runDate>
    <taskRunStats class="java.util.LinkedList">
       <taskStats taskName="spmlogparser" runState="SUCCESS">
-         <duration>17</duration>
-         <start>1669685081058</start>
+         <duration>15</duration>
+         <start>1669797688770</start>
          <errorMessage></errorMessage>
          <measureStats measure="LOG_TRACE_COUNT">
             <number class="java.lang.Integer">298</number>
@@ -15,13 +15,13 @@
          </measureStats>
       </taskStats>
       <taskStats taskName="miner" runState="SUCCESS">
-         <duration>98</duration>
-         <start>1669685081075</start>
+         <duration>91</duration>
+         <start>1669797688785</start>
          <errorMessage></errorMessage>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
-         <start>1669685081242</start>
+         <start>1669797688975</start>
          <errorMessage></errorMessage>
          <measureStats measure="MODEL_ENTITY_COUNT">
             <number class="java.lang.Integer">25</number>
@@ -34,16 +34,16 @@
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
-         <duration>11</duration>
-         <start>1669685081245</start>
+         <duration>39</duration>
+         <start>1669797688981</start>
          <errorMessage></errorMessage>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
-            <number class="java.lang.Double">0.7380923772695738</number>
+            <number class="java.lang.Double">0.7501464387448222</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
-         <duration>4311</duration>
-         <start>1669685081259</start>
+         <duration>4253</duration>
+         <start>1669797689024</start>
          <errorMessage></errorMessage>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.0</number>
@@ -51,7 +51,7 @@
       </taskStats>
       <taskStats taskName="visualize" runState="SUCCESS">
          <duration>1</duration>
-         <start>1669685081188</start>
+         <start>1669797688896</start>
          <errorMessage></errorMessage>
       </taskStats>
    </taskRunStats>

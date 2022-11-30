@@ -1,27 +1,27 @@
-<runStats artifactCreator="ToothpasteMinerHP" machineName="SEF-PA00143522" runnerVersion="27-11-2022">
+<runStats artifactCreator="ToothpasteMinerHP" machineName="SEF-PA00143522" runnerVersion="28-11-2022">
    <inputLogFileName>sepsis_k1.xes</inputLogFileName>
    <outputModelFileName>var\osmodel_tmh_sepsis_k1.pnml</outputModelFileName>
-   <runDate>2022-11-27 23:00:26.347 AEST</runDate>
+   <runDate>2022-11-29 14:26:07.70 AEST</runDate>
    <taskRunStats class="java.util.LinkedList">
       <taskStats taskName="spmlogparser" runState="SUCCESS">
-         <duration>180</duration>
-         <start>1669554026347</start>
+         <duration>204</duration>
+         <start>1669695967070</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_EVENT_COUNT">
-            <number class="java.lang.Integer">2885</number>
-         </measureStats>
          <measureStats measure="LOG_TRACE_COUNT">
             <number class="java.lang.Integer">212</number>
          </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">2885</number>
+         </measureStats>
       </taskStats>
       <taskStats taskName="miner" runState="SUCCESS">
-         <duration>5733</duration>
-         <start>1669554026527</start>
+         <duration>6025</duration>
+         <start>1669695967274</start>
          <errorMessage></errorMessage>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
-         <start>1669554033874</start>
+         <start>1669695975024</start>
          <errorMessage></errorMessage>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.761862275934788</number>
@@ -34,24 +34,24 @@
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
-         <duration>255</duration>
-         <start>1669554033885</start>
+         <duration>214</duration>
+         <start>1669695975037</start>
          <errorMessage></errorMessage>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
-            <number class="java.lang.Double">0.7440722640874606</number>
+            <number class="java.lang.Double">0.7466868906513381</number>
          </measureStats>
       </taskStats>
-      <taskStats taskName="calculate Earth Movers Similarity" runState="SUCCESS">
-         <duration>232</duration>
-         <start>1669554034143</start>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>1435</duration>
+         <start>1669695975254</start>
          <errorMessage></errorMessage>
-         <measureStats measure="EARTH_MOVERS_SIMILARITY">
-            <number class="java.lang.Double">0.7370392563162063</number>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.029</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="visualize" runState="SUCCESS">
-         <duration>1128</duration>
-         <start>1669554032645</start>
+         <duration>1194</duration>
+         <start>1669695973676</start>
          <errorMessage></errorMessage>
       </taskStats>
    </taskRunStats>

@@ -41,6 +41,15 @@
             <number class="java.lang.Double">0.7283886182703736</number>
          </measureStats>
       </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+	 <!-- added 2022-12-01 -->
+         <duration>6475</duration>
+         <start>1669817841286</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.849</number>
+         </measureStats>
+      </taskStats>
       <taskStats taskName="visualize" runState="SUCCESS">
          <duration>6562</duration>
          <start>1611894095761</start>

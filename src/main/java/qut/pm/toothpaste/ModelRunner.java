@@ -474,6 +474,8 @@ public class ModelRunner {
 			loadAndCalcPostStats(model, klogName, nkLogName(model.getKIndex(), logPrefix),  
 					uipc, runStats, klogPrefix);
 		}
+		runStats.markEnd();
+		exportRun(model.getSourceId(), logPrefix, runStats);
 	}
 
 	private void loadAndCalcPostStats(PetrinetSource model, String inputLogName, 
@@ -485,6 +487,7 @@ public class ModelRunner {
 			XLog log = loadLog(uipc, comparisonLogName, stats);
 			calculatePostStats(uipc, logPrefix, model, log, runStats);
 		} catch (Exception e) {
+			runStats.markFailed(e.getMessage());
 			exportRun(model.getSourceId(), logPrefix, runStats);
 			throw new RuntimeException(e);
 		}

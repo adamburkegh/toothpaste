@@ -4,7 +4,7 @@ library(stringi)
 library(ggplot2)
 library(gridExtra)
 
-exportPic <- TRUE
+exportPic <- FALSE
 
 prepfig <- function(fprefix,logname, width=30, height=20, mar=c(1,1,1,1))
 {
@@ -33,7 +33,6 @@ em_vs_ap_graph_plot <- function(workingPath, picName, rundata, ctLog){
   
   bpo <- rundata %>% 
       filter (baseLog == ctLog) #  %>% 
-      # filter (shortId == 'rsd' | shortId == 'tmh')
   emtb <- as.numeric(bpo[[emcolName]])
   bpo[[emcolName]] <- emtb
   aptb <- as.numeric(bpo[[apcolName]])
@@ -83,8 +82,8 @@ em_vs_ap_graph <- function(workingPath, picName, rundata, ctLog){
   apcolName = "ALPHA_PRECISION_UNRESTRICTED"
 
   bpo <- rundata %>% 
-    filter (baseLog == ctLog)   %>% 
-    filter (shortId == 'rsd' | shortId == 'tmh')
+    filter (baseLog == ctLog)    %>% 
+    filter (shortId == 'rsd' | shortId == 'tmh' | shortId == 'trace' | shortId == 'align-inductive')
   emtb <- as.numeric(bpo[[emcolName]])
   bpo[[emcolName]] <- emtb
   aptb <- as.numeric(bpo[[apcolName]])
@@ -97,8 +96,8 @@ em_vs_ap_graph <- function(workingPath, picName, rundata, ctLog){
     geom_point() +
     xlim(0,1) + ylim(0,1) + 
     ggtitle(ctLog) +
-    ylab("tEMSC0.8") + xlab("alpha precision")
-  # + stat_ellipse()
+    ylab("tEMSC0.8") + xlab("alpha precision") 
+    # + stat_ellipse()
   res
 }
 
@@ -181,7 +180,7 @@ clncreators <- recode(rundata$ShortId,
 
 rundata$shortId <- clncreators
 
-baseLogs <- stri_sub(rundata$Log,0,-4)
+baseLogs <- sub(' k.','', rundata$Log)
 
 rundata$baseLog = baseLogs
 
@@ -192,7 +191,7 @@ rundata <- rundata %>% filter (shortId != "split")
 # logs <- c("BPIC2013 closed")
 # logs <- c("BPIC2018 control")
 # logs <- c("BPIC2018 reference")
-logs <- c("rtfm")
+# logs <- c("rtfm")
 # logs <- c("teleclaims")
 
 emappicName   <- paste("emap", gsub(" ","_", tolower(logs)), sep="") 
@@ -202,8 +201,8 @@ rundata$col = factor(rundata$shortId)
 
 # count <- 1
 # for (log in logs){
-  em_vs_ap_graph( workingPath, picName = empicName[count], 
-			  rundata, ctLog = log )
+#  em_vs_ap_graph( workingPath, picName = empicName[count], 
+#			  rundata, ctLog = log )
 #	entct_graph( workingPath, picName = entcpicName[count], 
 #		  rundata, ctLog = log )
 #	edgect_graph( workingPath, picName = edgepicName[count], 
@@ -213,17 +212,18 @@ rundata$col = factor(rundata$shortId)
 #	count= count +1
 #}
 g1 <- em_vs_ap_graph( workingPath, picName = "", 
-                  rundata, ctLog = "rtfm" )
+                   rundata, ctLog = "rtfm" )
 g2 <- em_vs_ap_graph( workingPath, picName = "", 
-                rundata, ctLog = "teleclaims" )
+                 rundata, ctLog = "teleclaims" )
 g3 <- em_vs_ap_graph( workingPath, picName = "", 
                       rundata, ctLog = "BPIC2013 closed" )
+
 g4 <- em_vs_ap_graph( workingPath, picName = "", 
-                      rundata, ctLog = "BPIC2018 control" )
+                       rundata, ctLog = "BPIC2018 control" )
 g5 <- em_vs_ap_graph( workingPath, picName = "", 
-                      rundata, ctLog = "BPIC2018 reference" )
+                     rundata, ctLog = "BPIC2018 reference" )
 g6 <- em_vs_ap_graph( workingPath, picName = "", 
-                      rundata, ctLog = "sepsis" )
+                     rundata, ctLog = "sepsis" )
 fullgrid <- grid.arrange(g1,g2,g3,g4,g5,g6) # ,ncol=2,nrow=2)
 
 

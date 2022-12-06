@@ -1,58 +1,50 @@
-<runStats miner="Frequency Estimator" machineName="SEF-1953019678" runnerVersion="1.0.3">
-   <inputLogFileName>sepsis_k2.xes</inputLogFileName>
-   <outputModelFileName>var\osmodel_fe-split_sepsis_k2.pnml</outputModelFileName>
-   <runDate>2021-01-29 14:02:22.41 AEST</runDate>
+<runStats artifactCreator="fe-split_sepsis_k2" machineName="cl5n015.ib0.hpc.qut.edu.au" runnerVersion="0.9.1.4">
+   <inputLogFileName>sepsis.xes</inputLogFileName>
+   <outputModelFileName>net1 imported from (omodel_split_sepsis_k2.pnml) imported from (osmodel_fe-split_sepsis_k2.pnml)</outputModelFileName>
+   <runDate>2022-12-06 10:20:02.499 AEST</runDate>
    <taskRunStats class="java.util.LinkedList">
-      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
-         <duration>31</duration>
-         <start>1611892942041</start>
+      <taskStats taskName="tpmlogparser" runState="RUNNING">
+         <duration>0</duration>
+         <start>1670286002499</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">211</number>
-         </measureStats>
          <measureStats measure="LOG_EVENT_COUNT">
-            <number class="java.lang.Integer">3045</number>
+            <number class="java.lang.Integer">12261</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">839</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
-         <start>1611892942182</start>
+         <start>1670286002715</start>
          <errorMessage></errorMessage>
-         <measureStats measure="MODEL_ENTITY_COUNT">
-            <number class="java.lang.Integer">51</number>
-         </measureStats>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
-            <number class="java.lang.Double">0.9947407346536281</number>
+            <number class="java.lang.Double">0.9947801973737868</number>
          </measureStats>
          <measureStats measure="MODEL_EDGE_COUNT">
             <number class="java.lang.Integer">64</number>
          </measureStats>
-      </taskStats>
-      <taskStats taskName="calculate Entropy Precision and Recall" runState="SUCCESS">
-         <duration>1015</duration>
-         <start>1611892942182</start>
-         <errorMessage></errorMessage>
-         <measureStats measure="ENTROPY_PRECISION">
-            <number class="java.lang.Double">0.136298937136223</number>
-         </measureStats>
-         <measureStats measure="ENTROPY_RECALL">
-            <number class="java.lang.Double">0.2096037040348788</number>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">49</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
-         <duration>78</duration>
-         <start>1611892943197</start>
+         <duration>90</duration>
+         <start>1670286002731</start>
          <errorMessage></errorMessage>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
-            <number class="java.lang.Double">0.5369311491923969</number>
+            <number class="java.lang.Double">0.47468544758596465</number>
          </measureStats>
       </taskStats>
-      <taskStats taskName="spmrunner_postrun" runState="RUNNING">
-         <duration>0</duration>
-         <start>1611892942088</start>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>40</duration>
+         <start>1670286002828</start>
          <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.0</number>
+         </measureStats>
       </taskStats>
    </taskRunStats>
    <errorMessage></errorMessage>
-   <runState>SUCCESS</runState>
+   <runState>RUNNING</runState>
 </runStats>

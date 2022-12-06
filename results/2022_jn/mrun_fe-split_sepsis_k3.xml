@@ -1,58 +1,50 @@
-<runStats miner="Frequency Estimator" machineName="SEF-1953019678" runnerVersion="1.0.3">
-   <inputLogFileName>sepsis_k3.xes</inputLogFileName>
-   <outputModelFileName>var\osmodel_fe-split_sepsis_k3.pnml</outputModelFileName>
-   <runDate>2021-01-29 14:02:23.275 AEST</runDate>
+<runStats artifactCreator="fe-split_sepsis_k3" machineName="cl5n015.ib0.hpc.qut.edu.au" runnerVersion="0.9.1.4">
+   <inputLogFileName>sepsis.xes</inputLogFileName>
+   <outputModelFileName>net1 imported from (omodel_split_sepsis_k3.pnml) imported from (osmodel_fe-split_sepsis_k3.pnml)</outputModelFileName>
+   <runDate>2022-12-06 10:20:02.874 AEST</runDate>
    <taskRunStats class="java.util.LinkedList">
-      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
-         <duration>16</duration>
-         <start>1611892943275</start>
+      <taskStats taskName="tpmlogparser" runState="RUNNING">
+         <duration>0</duration>
+         <start>1670286002874</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">211</number>
-         </measureStats>
          <measureStats measure="LOG_EVENT_COUNT">
-            <number class="java.lang.Integer">2947</number>
+            <number class="java.lang.Integer">12037</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">839</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
-         <start>1611892943384</start>
+         <start>1670286003035</start>
          <errorMessage></errorMessage>
-         <measureStats measure="MODEL_ENTITY_COUNT">
-            <number class="java.lang.Integer">51</number>
-         </measureStats>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
-            <number class="java.lang.Double">0.9947827504687372</number>
+            <number class="java.lang.Double">0.9950153692780593</number>
          </measureStats>
          <measureStats measure="MODEL_EDGE_COUNT">
-            <number class="java.lang.Integer">64</number>
+            <number class="java.lang.Integer">60</number>
          </measureStats>
-      </taskStats>
-      <taskStats taskName="calculate Entropy Precision and Recall" runState="SUCCESS">
-         <duration>1000</duration>
-         <start>1611892943384</start>
-         <errorMessage></errorMessage>
-         <measureStats measure="ENTROPY_PRECISION">
-            <number class="java.lang.Double">0.18207664116378822</number>
-         </measureStats>
-         <measureStats measure="ENTROPY_RECALL">
-            <number class="java.lang.Double">0.2114350431907708</number>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">47</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
-         <duration>47</duration>
-         <start>1611892944384</start>
+         <duration>20</duration>
+         <start>1670286003052</start>
          <errorMessage></errorMessage>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
-            <number class="java.lang.Double">0.5056152244436243</number>
+            <number class="java.lang.Double">0.42794488681550336</number>
          </measureStats>
       </taskStats>
-      <taskStats taskName="spmrunner_postrun" runState="RUNNING">
-         <duration>0</duration>
-         <start>1611892943306</start>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>30</duration>
+         <start>1670286003078</start>
          <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.0</number>
+         </measureStats>
       </taskStats>
    </taskRunStats>
    <errorMessage></errorMessage>
-   <runState>SUCCESS</runState>
+   <runState>RUNNING</runState>
 </runStats>

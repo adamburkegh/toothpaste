@@ -4,7 +4,7 @@ library(stringi)
 library(ggplot2)
 library(gridExtra)
 
-exportPic <- FALSE
+exportPic <- TRUE
 
 prepfig <- function(fprefix,logname, width=30, height=20, mar=c(1,1,1,1))
 {
@@ -83,7 +83,8 @@ em_vs_ap_graph <- function(workingPath, picName, rundata, ctLog){
 
   bpo <- rundata %>% 
     filter (baseLog == ctLog)    %>% 
-    filter (shortId == 'rsd' | shortId == 'tmh' | shortId == 'trace' | shortId == 'align-inductive')
+    filter (ShortId == 'GDT_SPN' | ShortId == 'tp' | ShortId == 'trace' | 
+            ShortId == 'walign-inductive' | ShortId == 'wfreq-split' )
   emtb <- as.numeric(bpo[[emcolName]])
   bpo[[emcolName]] <- emtb
   aptb <- as.numeric(bpo[[apcolName]])
@@ -173,18 +174,24 @@ names(rundata) <- gsub("\\.", "", names(rundata))
 rundata <- rundata %>% select (-X)
 
 clncreators <- recode(rundata$ShortId,
+           "align-inductive" = "walign-inductive",
 			     "bce-fodina" = "fork-fodina",
            "bce-inductive" = "fork-inductive",
            "bce-split" = "fork-split",
-           "rssmt" = "rsd")
+			     "fe-split" = "wfreq-split",
+           "rssmt" = "GDT_SPN",
+			     "tmh" = "tp")
 
-rundata$shortId <- clncreators
 
-baseLogs <- sub(' k.','', rundata$Log)
+rundata$ShortId <- clncreators
+
+baseLogs <- sub(' k.','', rundata$Log) 
+
+baseLogs <- recode(baseLogs, "sepsis" = "Sepsis")
 
 rundata$baseLog = baseLogs
 
-rundata <- rundata %>% filter (shortId != "split")
+# rundata <- rundata %>% filter (shortId != "split")
 
 
 # logs <- unique(baseLogs)
@@ -212,19 +219,19 @@ rundata$col = factor(rundata$shortId)
 #	count= count +1
 #}
 g1 <- em_vs_ap_graph( workingPath, picName = "", 
-                   rundata, ctLog = "rtfm" )
-g2 <- em_vs_ap_graph( workingPath, picName = "", 
-                 rundata, ctLog = "teleclaims" )
-g3 <- em_vs_ap_graph( workingPath, picName = "", 
                       rundata, ctLog = "BPIC2013 closed" )
-
+g2 <- em_vs_ap_graph( workingPath, picName = "", 
+                      rundata, ctLog = "BPIC2018 control" )
+g3 <- em_vs_ap_graph( workingPath, picName = "", 
+                      rundata, ctLog = "BPIC2018 reference" )
 g4 <- em_vs_ap_graph( workingPath, picName = "", 
-                       rundata, ctLog = "BPIC2018 control" )
+                   rundata, ctLog = "rtfm" )
 g5 <- em_vs_ap_graph( workingPath, picName = "", 
-                     rundata, ctLog = "BPIC2018 reference" )
+                      rundata, ctLog = "Sepsis" )
 g6 <- em_vs_ap_graph( workingPath, picName = "", 
-                     rundata, ctLog = "sepsis" )
+                 rundata, ctLog = "teleclaims" )
 fullgrid <- grid.arrange(g1,g2,g3,g4,g5,g6) # ,ncol=2,nrow=2)
+#fullgrid <- grid.arrange(g5) # ,ncol=2,nrow=2)
 
 
 if (exportPic){

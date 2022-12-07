@@ -34,7 +34,7 @@ headLength x (y:ys) | x == y = (1+sn,st)
 
 traceConsolidate :: (Eq a) => Log a -> [PPTree a]
 traceConsolidate (t1:lg) = 
-    (tracePPTree (fromIntegral hl+1) t1):(traceConsolidate ltl)
+    tracePPTree (fromIntegral hl+1) t1:traceConsolidate ltl
     where (hl,ltl) = headLength t1 lg
 traceConsolidate []  = []
 

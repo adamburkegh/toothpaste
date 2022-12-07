@@ -294,7 +294,7 @@ validationTests = [
 
 
 traceConsolidateTests = [
-    "empty" ~: ([]::[PPTree Int]) ~=? traceConsolidate ([]),
+    "empty" ~: ([]::[PPTree Int]) ~=? traceConsolidate [],
     "singleton" ~: [la] ~=? traceConsolidate [["a"]],
     "twoDiff" ~:  [la,lb] ~=? traceConsolidate [["a"],["b"]],
     "twoDiffSeq" ~:  [la,seqP [lb,lc] 1] ~=? traceConsolidate [["a"],["b","c"]],

@@ -25,15 +25,22 @@ traceModel lg = NodeN Choice ul ulw
     where ul  = traceConsolidate $ sort lg
           ulw = sum (map weight ul)
 
+-- return how often the first element occurs at the head, and the tail
+headLength :: (Eq a) => a -> [a] -> (Int,[a])
+headLength x [] = (0,[])
+headLength x (y:ys) | x == y = (1+sn,st)
+                    | x /= y = (0,y:ys)
+    where (sn,st) = headLength x ys 
+
 traceConsolidate :: (Eq a) => Log a -> [PPTree a]
-traceConsolidate (t1:t2:lg) 
-    | t1 == t2 = tracePPTree 2 t1:traceConsolidate lg
-    | t1 /= t2 = tracePPTree 1 t1:traceConsolidate (t2:lg)
-traceConsolidate [t] = [tracePPTree 1 t]
+traceConsolidate (t1:lg) = 
+    (tracePPTree (fromIntegral hl+1) t1):(traceConsolidate ltl)
+    where (hl,ltl) = headLength t1 lg
 traceConsolidate []  = []
 
+
 tracePPTree :: Weight -> Trace a -> PPTree a
-tracePPTree rf t = NodeN Seq (map (`Leaf` rf) t) rf
+tracePPTree rf t = seqP (map (`Leaf` rf) t) rf
 
 discover :: Parser -> String -> PPTree String
 discover parser = transform . traceModel . parser
@@ -43,6 +50,28 @@ discoverGen log = transform $ traceModel log
 
 discoverNoise :: (Ord a, Eq a, Show a) => Log a -> Float -> PPTree a
 discoverNoise log = transformNoise (traceModel log) 
+
+incDiscover :: (Ord a, Eq a, Show a) => Trace a -> PPTree a -> PPTree a
+incDiscover t pt = transform $ choiceP [tracePPTree 1 t,pt] (1+weight pt)
+
+
+incDiscoverDebug :: (Ord a, Eq a, Show a) => Trace a -> PPTree a -> PPTree a
+incDiscoverDebug t m = debug ("Processing " ++ show (weight m) )
+                                (incDiscover t m)
+
+batchIncDiscover :: (Ord a, Eq a, Show a) => Log a -> PPTree a
+batchIncDiscover []     = emptyTree
+batchIncDiscover [t]    = tracePPTree 1 t
+batchIncDiscover (t:ts) = debug ("Processing log with " ++ show (length (t:ts))
+                                    ++ " traces")
+                              (batchIncDiscoverR (sort ts)
+                                                 (transform $ tracePPTree 1 t))
+
+batchIncDiscoverR :: (Ord a, Eq a, Show a) => Log a -> PPTree a -> PPTree a
+batchIncDiscoverR []     m = m
+batchIncDiscoverR [t]    m = incDiscover t m
+batchIncDiscoverR (t:ts) m = batchIncDiscoverR ts (incDiscoverDebug t m)
+
 
 
 -- Petri net conversion

@@ -293,8 +293,18 @@ validationTests = [
     ]
 
 
+traceConsolidateTests = [
+    "empty" ~: ([]::[PPTree Int]) ~=? traceConsolidate ([]),
+    "singleton" ~: [la] ~=? traceConsolidate [["a"]],
+    "twoDiff" ~:  [la,lb] ~=? traceConsolidate [["a"],["b"]],
+    "twoDiffSeq" ~:  [la,seqP [lb,lc] 1] ~=? traceConsolidate [["a"],["b","c"]],
+    "twoSame" ~: [la2] ~=?  traceConsolidate [["a"],["a"]],
+    "threeSame" ~: [la3] ~=?  traceConsolidate [["a"],["a"],["a"]],
+    "fourSame" ~: [la4] ~=?  traceConsolidate [["a"],["a"],["a"],["a"]]
+    ]
+
 --
 
-huTests     =  translateTests ++ validationTests
+huTests     =  translateTests ++ validationTests ++ traceConsolidateTests
 
 

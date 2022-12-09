@@ -1,57 +1,57 @@
-<runStats artifactCreator="ToothpasteMinerHP" machineName="SEF-PA00143522" runnerVersion="28-11-2022">
+<runStats artifactCreator="ToothpasteMinerHP" machineName="SEF-PA00143522" runnerVersion="0.9.1.5">
    <inputLogFileName>BPIC2018_reference_k2.xes</inputLogFileName>
    <outputModelFileName>var\osmodel_tmh_BPIC2018_reference_k2.pnml</outputModelFileName>
-   <runDate>2022-11-29 14:51:51.182 AEST</runDate>
+   <runDate>2022-12-09 15:18:06.213 AEST</runDate>
    <taskRunStats class="java.util.LinkedList">
       <taskStats taskName="spmlogparser" runState="SUCCESS">
-         <duration>1048</duration>
-         <start>1669697511183</start>
+         <duration>1060</duration>
+         <start>1670563086214</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">8761</number>
-         </measureStats>
          <measureStats measure="LOG_EVENT_COUNT">
             <number class="java.lang.Integer">25614</number>
          </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">8761</number>
+         </measureStats>
       </taskStats>
       <taskStats taskName="miner" runState="SUCCESS">
-         <duration>11887</duration>
-         <start>1669697512231</start>
+         <duration>9977</duration>
+         <start>1670563087274</start>
          <errorMessage></errorMessage>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
-         <duration>0</duration>
-         <start>1669697527484</start>
+         <duration>1</duration>
+         <start>1670563100649</start>
          <errorMessage></errorMessage>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">1404</number>
+         </measureStats>
          <measureStats measure="MODEL_ENTITY_COUNT">
             <number class="java.lang.Integer">1270</number>
          </measureStats>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9863609869827084</number>
          </measureStats>
-         <measureStats measure="MODEL_EDGE_COUNT">
-            <number class="java.lang.Integer">1404</number>
-         </measureStats>
       </taskStats>
       <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
-         <duration>90</duration>
-         <start>1669697527487</start>
+         <duration>96</duration>
+         <start>1670563100654</start>
          <errorMessage></errorMessage>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
-            <number class="java.lang.Double">0.661059674026895</number>
+            <number class="java.lang.Double">0.960863580256902</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
-         <duration>146</duration>
-         <start>1669697527580</start>
+         <duration>159</duration>
+         <start>1670563100753</start>
          <errorMessage></errorMessage>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
-            <number class="java.lang.Double">0.01</number>
+            <number class="java.lang.Double">0.954</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="visualize" runState="SUCCESS">
-         <duration>138</duration>
-         <start>1669697524287</start>
+         <duration>156</duration>
+         <start>1670563097416</start>
          <errorMessage></errorMessage>
       </taskStats>
    </taskRunStats>

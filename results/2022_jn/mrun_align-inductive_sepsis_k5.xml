@@ -1,0 +1,50 @@
+<runStats artifactCreator="align-inductive_sepsis_k5" machineName="cl4n007.ib0.hpc.qut.edu.au" runnerVersion="0.9.1.4">
+   <inputLogFileName>sepsis.xes</inputLogFileName>
+   <outputModelFileName>converted from efficient tree imported from (osmodel_align-inductive_sepsis_k5.pnml)</outputModelFileName>
+   <runDate>2022-12-06 22:29:14.614 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="tpmlogparser" runState="RUNNING">
+         <duration>0</duration>
+         <start>1670329754644</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">845</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">12043</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1670329754954</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.993855351656564</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">55</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">74</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
+         <duration>1306026</duration>
+         <start>1670329754977</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
+            <number class="java.lang.Double">0.5152710582455047</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>4658</duration>
+         <start>1670331061030</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.0</number>
+         </measureStats>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>RUNNING</runState>
+</runStats>

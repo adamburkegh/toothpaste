@@ -11,7 +11,9 @@ data Place a = Place {placeName :: a, placeId :: String } deriving (Eq, Ord)
 instance (Ord a, Show a, Typeable a) => Show (Place a) where
   show (Place a nodeId) = "p(" ++ toString a  ++ ")"
 
-data Transition a = Transition {transitionName :: a, tranId :: String} 
+-- TODO add visibility
+data Transition a = Transition {transitionName :: a, 
+                                tranId :: String }
         deriving (Eq, Ord)
 instance (Show a, Typeable a) => Show (Transition a) where
   show (Transition a nodeId) = "t" ++ toString a
@@ -37,12 +39,21 @@ data WorkflowNet = WorkflowNet { places :: Set (Place String),
 -- We could probably have a better type relationship
 -- Fair bit of repetition
 data WTransition a  
-     = WTransition {wtransitionName :: a, wtranId :: String,
-                  tweight :: Weight} 
+     = WTransition {wtransitionName :: a, 
+                    wtranId :: String,
+                    tweight :: Weight,
+                    wsilent :: Bool} 
       deriving (Eq, Ord)
 instance (Show a, Typeable a) => Show (WTransition a) where
-  show (WTransition a nodeId weight) = "t" ++ toString a 
+  show (WTransition a nodeId weight sil) = "t" ++ toString a 
         ++ ":" ++ show weight 
+
+wtransition :: a -> String -> Weight -> WTransition a
+wtransition name tranId w = WTransition name tranId w False
+
+silentTransition :: a -> String -> Weight -> WTransition a
+silentTransition name tranId w = WTransition name tranId w True
+
 
 toTransition :: WTransition a -> Transition a
 toTransition wt = Transition (wtransitionName wt) (wtranId wt)  
@@ -114,7 +125,7 @@ validateWeightedNet wnet
 
 
 debugTransition :: WTransition String -> String
-debugTransition (WTransition a nodeId weight) 
+debugTransition (WTransition a nodeId weight vis) 
     = "t" ++ a ++ ":" ++ show weight ++ "[" ++ nodeId ++ "]"
 
 debugPlace :: Place String -> String

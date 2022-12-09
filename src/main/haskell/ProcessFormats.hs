@@ -53,26 +53,26 @@ spnToolAttrs = [Attr (unqual "tool") "StochasticPetriNet",
                 Attr (unqual "version") "0.2" ] 
 
 instance (Show a, Ord a, Typeable a) => XMLOutput (WTransition a) where
-    toXML (WTransition x nodeId w) idStr = 
+    toXML (WTransition x nodeId w sil) idStr = 
         element "transition" (idAttr nodeId) 
                 [Elem (nameNode x), 
                  Elem $ element "toolspecific"
                          spnToolAttrs
                          [propertyNode "distributionType" "IMMEDIATE",
                           propertyNode "weight" (show w),
-                          propertyNode "invisible" "false",
+                          propertyNode "invisible" (show sil),
                           propertyNode "priority" "0" ] ] 
--- TODO missing properties and weights
+-- TODO missing visible property
 
 
 instance (Show a, Ord a, Typeable a) => XMLOutput (WEdge a) where
-    toXML (WToPlace (WTransition tr trId w) (Place pl plId) ) idStr = 
+    toXML (WToPlace (WTransition tr trId w sil) (Place pl plId) ) idStr = 
             element "arc" 
                     [Attr (unqual "source") trId, 
                         Attr (unqual "target") plId,
                         Attr (unqual "id") idStr] 
                     [] 
-    toXML (WToTransition (Place pl plId) (WTransition tr trId w) ) idStr = 
+    toXML (WToTransition (Place pl plId) (WTransition tr trId w sil) ) idStr = 
             element "arc" 
                     [Attr (unqual "source") plId, 
                         Attr (unqual "target") trId,

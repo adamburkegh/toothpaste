@@ -57,20 +57,20 @@ ld2 = Leaf "d" 2
 pin = Place "I" "pI"
 pout = Place "O" "pO"
 
-tla = WTransition "a" "t2" 1
+tla = wtransition "a" "t2" 1
 
 pmidSeq  = Place "" "p2"
 pmidSeq2 = Place "" "p4"
-tsa = WTransition "a" "t3" 1
-tsb4 = WTransition "b" "t4" 1
-tsb5 = WTransition "b" "t5" 1
-tsc = WTransition "c" "t6" 1
+tsa = wtransition "a" "t3" 1
+tsb4 = wtransition "b" "t4" 1
+tsb5 = wtransition "b" "t5" 1
+tsc = wtransition "c" "t6" 1
 
-tca = WTransition "a" "t3" 1
-tcb = WTransition "b" "t4" 1
+tca = wtransition "a" "t3" 1
+tcb = wtransition "b" "t4" 1
 
-tcb1 = WTransition "b" "t5" 1
-tcc = WTransition "c" "t6" 1
+tcb1 = wtransition "b" "t5" 1
+tcc = wtransition "c" "t6" 1
 
 pmidLoop1 = Place "" "p2"
 pmidLoop2 = Place "" "p3"
@@ -80,10 +80,10 @@ pmidConcain = Place "" "p4"
 pmidConcaout = Place "" "p5"
 pmidConcbin = Place "" "p7"
 pmidConcbout = Place "" "p8"
-tcoa = WTransition "a" "t6" 1
-tcob = WTransition "b" "t9" 1
-ttau2 = WTransition "tau" "t2" 2
-ttau3 = WTransition "tau" "t3" 2
+tcoa = wtransition "a" "t6" 1
+tcob = wtransition "b" "t9" 1
+ttau2 = silentTransition "tau" "t2" 2
+ttau3 = silentTransition "tau" "t3" 2
 translateConcExpected =
     WeightedNet (fromList[pin,pout,pmidConcain,pmidConcaout,
                           pmidConcbin,pmidConcbout])
@@ -176,21 +176,21 @@ lb5  = Leaf "b" 5
 lb8  = Leaf "b" 8
 
 
-tlpa32_5 = WTransition "a" "t7" (32/5)
-tlpa4_id6    = WTransition "a" "t6" 4
-tlpa4_id7    = WTransition "a" "t7" 4
-tlpa8    = WTransition "a" "t6" 8
+tlpa32_5 = wtransition "a" "t7" (32/5)
+tlpa4_id6    = wtransition "a" "t6" 4
+tlpa4_id7    = wtransition "a" "t7" 4
+tlpa8    = wtransition "a" "t6" 8
 
-tlpb4   = WTransition "b" "t8" 4
-tlpb8_5 = WTransition "b" "t8" (8/5)
+tlpb4   = wtransition "b" "t8" 4
+tlpb8_5 = wtransition "b" "t8" (8/5)
 
 
-ttauin2  = WTransition "tauin" "t4" 2
-ttauin5  = WTransition "tauin" "t4" 5
-ttauin10 = WTransition "tauin" "t4" 10
+ttauin2  = silentTransition "tauin" "t4" 2
+ttauin5  = silentTransition "tauin" "t4" 5
+ttauin10 = silentTransition "tauin" "t4" 10
 
-ttauout1 = WTransition "tauout" "t5" 1
-ttauout2 = WTransition "tauout" "t5" 2
+ttauout1 = silentTransition "tauout" "t5" 1
+ttauout2 = silentTransition "tauout" "t5" 2
 
 
 translatePLoops = [
@@ -245,8 +245,8 @@ translatePLoops = [
                 ]
 
 
-tla5_1 = WTransition "a" "t3" 5
-tla5_2 = WTransition "a" "t4" 5
+tla5_1 = wtransition "a" "t3" 5
+tla5_2 = wtransition "a" "t4" 5
 pfl1 = Place "" "p2"
 
 translateFLoops = [

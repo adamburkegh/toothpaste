@@ -316,35 +316,35 @@ discoverTests = [
 pin = Place "I" "pI"
 pout = Place "O" "pO"
 
-tla = WTransition "a" "t2" 1
+tla = wtransition "a" "t2" 1
 
 
 pmidSeq = Place "" "p2"
-tsa = WTransition "a" "t4" 1
-tsb = WTransition "b" "t5" 1
+tsa = wtransition "a" "t4" 1
+tsb = wtransition "b" "t5" 1
 
-tca = WTransition "a" "t3" 1
-tcb = WTransition "b" "t4" 1
+tca = wtransition "a" "t3" 1
+tcb = wtransition "b" "t4" 1
 
-tcb1 = WTransition "b" "t5" 1
-tcc = WTransition "c" "t6" 1
+tcb1 = wtransition "b" "t5" 1
+tcc = wtransition "c" "t6" 1
 
 pmidLoop1 = Place "" "p2" 
 pmidLoop2 = Place "" "p3" 
-tlpa = WTransition "a" "t6" 4
-ttauin1 = WTransition "tauin" "t4" 1
-ttauout2 = WTransition "tauout" "t5" 1
+tlpa = wtransition "a" "t6" 4
+ttauin1 = silentTransition "tauin" "t4" 1 
+ttauout2 = silentTransition "tauout" "t5" 1
 
 
 pmidConc1 = Place "" "p4"
 pmidConc2 = Place "" "p5"
 pmidConc3 = Place "" "p6"
 pmidConc4 = Place "" "p7"
-tcoa = WTransition "a" "t9" 1
-tcob = WTransition "b" "t10" 1
-ttau = WTransition "tau" "t2" 1
-ttau2= WTransition "tau" "t2" 2
-ttauout = WTransition "tau" "t3" 1
+tcoa = wtransition "a" "t9" 1
+tcob = wtransition "b" "t10" 1
+ttau = silentTransition "tau" "t2" 1
+ttau2= silentTransition "tau" "t2" 2
+ttauout = silentTransition "tau" "t3" 1
 translateConcExpected = 
     WeightedNet (fromList[pin,pout,pmidConc1,pmidConc2,pmidConc3,pmidConc4])
                 (fromList[tcoa,tcob,ttau2,ttauout])

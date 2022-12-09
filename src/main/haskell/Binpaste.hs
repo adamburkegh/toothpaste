@@ -699,8 +699,8 @@ ptreeWeightedNet (Node1 FLoop x m w) pi po idp
 
 ptreeWeightedNet (Node1 PLoop x m w) pi po idp = 
     let midp1 = midp (idp+1)
-        trantauin  = WTransition "tauin"  (nextid (idp+2)) w
-        trantauout = WTransition "tauout" (nextid (idp+3)) 1
+        trantauin  = silentTransition "tauin"  (nextid (idp+2)) w
+        trantauout = silentTransition "tauout" (nextid (idp+3)) 1
         px      =   ptreeWeightedNet (replaceWeight x (m-1)) 
                                      midp1 midp1 ( idp+4 )
     in WeightedNet (wnplaces px `union` fromList [midp1,pi,po] ) 
@@ -722,8 +722,8 @@ ptreeWeightedNet (Node2 Seq x y w) pi po idp =
                    pi po (wnmaxnodeid py)
 
 ptreeWeightedNet (Node2 Conc x y w) pi po idp =
-    let trantauin   = WTransition "tau" (nextid idp) w
-        trantauout  = WTransition "tau" (nextid (idp+1)) 1 
+    let trantauin   = silentTransition "tau" (nextid idp) w
+        trantauout  = silentTransition "tau" (nextid (idp+1)) 1 
         midpx = midp (idp+3)
         midpy = midp (idp+4)
         endpx = midp (idp+5)
@@ -743,13 +743,16 @@ ptreeWeightedNet (Node2 Conc x y w) pi po idp =
             pi po (wnmaxnodeid py)
 
 ptreeWeightedNet (Leaf x w) pi po idp =
-        let tx = WTransition x (nextid idp) w
+        let tx = wtransition x (nextid idp) w 
         in WeightedNet (fromList[pi,po]) (fromList[tx])
                        (fromList [WToTransition pi tx, WToPlace tx po] )
                        pi po (idp+1)
 
 ptreeWeightedNet (Silent w) pi po idp 
-    = ptreeWeightedNet (Leaf tau w) pi po (idp+1)
+    =   let tx = silentTransition "tau" (nextid idp) w 
+        in WeightedNet (fromList[pi,po]) (fromList[tx])
+                       (fromList [WToTransition pi tx, WToPlace tx po] )
+                       pi po (idp+1)
     
 
 validate :: PPTree a -> Bool

@@ -75,7 +75,7 @@ jar {
 
 
 group = 'qut.pm'
-version = '0.9.1.5'
+version = '0.9.1.6'
 description = 'toothpaste'
 sourceCompatibility = '1.8'
 

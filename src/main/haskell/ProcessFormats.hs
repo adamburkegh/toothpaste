@@ -71,7 +71,7 @@ instance (Show a, Ord a, Typeable a) => XMLOutput (WTransition a) where
                          [propertyNode "distributionType" "IMMEDIATE",
                           propertyNode "weight" (show w),
                           propertyNode "invisible" (show sil),
-                          propertyNode "priority" "0" ] ] 
+                          propertyNode "priority" "1" ] ] 
 
 
 instance (Show a, Ord a, Typeable a) => XMLOutput (WEdge a) where

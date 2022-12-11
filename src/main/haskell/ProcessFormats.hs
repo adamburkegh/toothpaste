@@ -3,7 +3,7 @@ module ProcessFormats where
 import PetriNet
 import ToString
 import Text.XML.Light
-import Data.Set (Set, toList, fromList)
+import Data.Set (Set, toList)
 import Data.Typeable
 
 element :: String -> [Attr] -> [Content] -> Element
@@ -29,7 +29,17 @@ class (Show a) => XMLOutput a where
 
 instance (Show a, Ord a, Typeable a) => XMLOutput (Transition a) where
     toXML (Transition x nodeId) idStr = 
-        element "transition" (idAttr nodeId) [Elem (nameNode x) ] 
+        element "transition" (idAttr nodeId) 
+            [Elem (nameNode x),
+             Elem $ element "toolspecific"
+                spnToolAttrs
+                [propertyNode "invisible" "False"] ]
+    toXML (SilentTransition nodeId) idStr = 
+        element "transition" (idAttr nodeId) 
+            [Elem (nameNode "tau"),
+             Elem $ element "toolspecific"
+                spnToolAttrs
+                [propertyNode "invisible" "True"] ]
 
 instance (Show a, Ord a, Typeable a) => XMLOutput (Place a) where
     toXML (Place x nodeId) idStr = 
@@ -62,7 +72,6 @@ instance (Show a, Ord a, Typeable a) => XMLOutput (WTransition a) where
                           propertyNode "weight" (show w),
                           propertyNode "invisible" (show sil),
                           propertyNode "priority" "0" ] ] 
--- TODO missing visible property
 
 
 instance (Show a, Ord a, Typeable a) => XMLOutput (WEdge a) where
@@ -122,21 +131,4 @@ weightedNetToXML net name =
 weightedNetToString :: WeightedNet -> String -> String
 weightedNetToString net name = ppElement $ weightedNetToXML net name
 
-
--- basic demonstration
-
-pI = Place "I" "pI"
-pO = Place "O" "pO"
-
-ta = Transition "a" "ta1"
-itoa = ToTransition pI ta
-atoi = ToPlace ta pO
-
-ts = fromList [ta]
-ps = fromList [pI :: Place [Char], pO :: Place [Char]]
-es = fromList[itoa,atoi]
-net = (ps,ts,es)
-
-out = showElement $ toXML itoa "arc1"
-out2 = ppElement $ petriNetToXML net "pnet1"
 

@@ -241,8 +241,8 @@ tcc = Transition "c" "t6"
 pmidLoop1 = Place "" "p2"
 pmidLoop2 = Place "" "p3"
 tlpa = Transition "a" "t6"
-ttau1 = Transition "tauin" "t4"
-ttau2 = Transition "tauout" "t5"
+ttau1 = SilentTransition "t4"
+ttau2 = SilentTransition "t5"
 
 
 pmidConc1 = Place "" "p4"
@@ -251,8 +251,8 @@ pmidConc3 = Place "" "p6"
 pmidConc4 = Place "" "p7"
 tcoa = Transition "a" "t9"
 tcob = Transition "b" "t10"
-ttau = Transition "tau" "t2"
-ttauout = Transition "tau" "t3"
+ttau = SilentTransition  "t2"
+ttauout = SilentTransition "t3"
 translateConcExpected = 
     WorkflowNet (fromList[pin,pout,pmidConc1,pmidConc2,pmidConc3,pmidConc4])
                 (fromList[tcoa,tcob,ttau,ttauout])

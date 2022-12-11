@@ -11,12 +11,13 @@ data Place a = Place {placeName :: a, placeId :: String } deriving (Eq, Ord)
 instance (Ord a, Show a, Typeable a) => Show (Place a) where
   show (Place a nodeId) = "p(" ++ toString a  ++ ")"
 
--- TODO add visibility
 data Transition a = Transition {transitionName :: a, 
                                 tranId :: String }
+                   | SilentTransition {tranId :: String }
         deriving (Eq, Ord)
 instance (Show a, Typeable a) => Show (Transition a) where
   show (Transition a nodeId) = "t" ++ toString a
+  show (SilentTransition nodeId) = "tau"
 
 data Edge a = ToPlace (Transition a) (Place a) 
             | ToTransition (Place a) (Transition a) deriving (Eq, Ord)
@@ -56,7 +57,8 @@ silentTransition name tranId w = WTransition name tranId w True
 
 
 toTransition :: WTransition a -> Transition a
-toTransition wt = Transition (wtransitionName wt) (wtranId wt)  
+toTransition wt | wsilent wt = SilentTransition (wtranId wt)  
+                | otherwise  = Transition (wtransitionName wt) (wtranId wt) 
 
 data WEdge a = WToPlace (WTransition a) (Place a) 
              | WToTransition (Place a) (WTransition a) deriving (Eq, Ord)

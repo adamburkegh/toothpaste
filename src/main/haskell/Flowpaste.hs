@@ -519,8 +519,8 @@ ptreeWFNet (Node2 Choice x y) pi po idp =
 
 ptreeWFNet (Node1 Loop x) pi po idp = 
     let midp1 = midp (idp+1)
-        trantauin  = Transition "tauin" (nextid (idp+2))
-        trantauout = Transition "tauout" (nextid (idp+3)) 
+        trantauin  = SilentTransition  (nextid (idp+2))
+        trantauout = SilentTransition  (nextid (idp+3)) 
         px      =   ptreeWFNet x midp1 midp1 ( idp+4 )
     in WorkflowNet (places px `union` fromList [midp1,pi,po] ) 
                    (transitions px `union` fromList [trantauin,trantauout] )
@@ -548,8 +548,8 @@ ptreeWFNet (Node2 Seq x y) pi po idp
                    pi po (maxnodeid py)
 
 ptreeWFNet (Node2 Conc x y) pi po idp =
-    let trantauin  = Transition "tau" (nextid idp)
-        trantauout  = Transition "tau" (nextid (idp+1) )
+    let trantauin   = SilentTransition (nextid idp)
+        trantauout  = SilentTransition (nextid (idp+1) )
         midpx = midp (idp+3)
         midpy = midp (idp+4)
         endpx = midp (idp+5)
@@ -571,13 +571,16 @@ ptreeWFNet (Node2 Conc x y) pi po idp =
 ptreeWFNet (Leaf x) pi po idp
     | x == terminalLabel = ptreeWFNet (Leaf tau) pi po (idp+1)
     | otherwise = 
-        let tx = Transition x (nextid idp)
+        let tx = Transition x (nextid idp) 
         in WorkflowNet (fromList[pi,po]) (fromList[tx])
                        (fromList [ToTransition pi tx, ToPlace tx po] )
                        pi po (idp+1)
 
-ptreeWFNet Silent pi po idp = ptreeWFNet (Leaf tau) pi po (idp+1)
-    
+ptreeWFNet Silent pi po idp = 
+        let tx = SilentTransition (nextid idp) 
+        in WorkflowNet (fromList[pi,po]) (fromList[tx])
+                       (fromList [ToTransition pi tx, ToPlace tx po] )
+                       pi po (idp+1)
 
 
 -- main

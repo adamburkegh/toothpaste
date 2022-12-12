@@ -1,0 +1,50 @@
+<runStats artifactCreator="align-inductive_BPIC2013_closed_k4" machineName="cl5n022.ib0.hpc.qut.edu.au" runnerVersion="0.9.1.4">
+   <inputLogFileName>BPIC2013_closed.xes</inputLogFileName>
+   <outputModelFileName>converted from efficient tree imported from (osmodel_align-inductive_BPIC2013_closed_k4.pnml)</outputModelFileName>
+   <runDate>2022-12-12 16:11:08.98 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="tpmlogparser" runState="RUNNING">
+         <duration>0</duration>
+         <start>1670825468098</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">5386</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">1189</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1670825468218</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9981433345711103</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">9</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">10</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
+         <duration>22</duration>
+         <start>1670825468260</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
+            <number class="java.lang.Double">0.6956392697257205</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
+         <duration>10</duration>
+         <start>1670825468294</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
+            <number class="java.lang.Double">0.99</number>
+         </measureStats>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>RUNNING</runState>
+</runStats>

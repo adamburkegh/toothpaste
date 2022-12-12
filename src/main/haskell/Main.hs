@@ -18,11 +18,11 @@ import System.IO
 
 data ToothpasteArgs = 
         ToothpasteArgs{logformat :: String, modeltype :: String,
-                       eventlog :: String,
-                       pnetfile :: String, ptreefile :: String,
+                       eventlog :: FilePath,
+                       pnetfile :: FilePath, ptreefile :: FilePath,
                        ptreeformat :: String,
                        impl :: String,
-                       traceprobfile :: String,
+                       traceprobfile :: FilePath,
                        noise :: Float }
         deriving (Show,Data,Typeable)
 

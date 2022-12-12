@@ -94,7 +94,7 @@ em_vs_ap_graph <- function(workingPath, picName, rundata, ctLog){
   res <- ggplot(bpo, 
                 aes(y=EARTH_MOVERS_LIGHT_COVERAGE, 
                     x=ALPHA_PRECISION_UNRESTRICTED,
-                    col=ShortId)) + 
+                    col=ShortId, shape=ShortId)) + 
     geom_point() +
     xlim(0,1) + ylim(0,1) + 
     ggtitle(ctLog) +
@@ -189,7 +189,9 @@ rundata$ShortId <- clncreators
 
 baseLogs <- sub(' k.','', rundata$Log) 
 
-baseLogs <- recode(baseLogs, "sepsis" = "Sepsis")
+baseLogs <- recode(baseLogs, "sepsis" = "Sepsis",
+                             "rtfm"   = "Road Traffic Fines",
+                             "teleclaims" = "Teleclaims")
 
 rundata$baseLog = baseLogs
 
@@ -227,11 +229,11 @@ g2 <- em_vs_ap_graph( workingPath, picName = "",
 g3 <- em_vs_ap_graph( workingPath, picName = "", 
                       rundata, ctLog = "BPIC2018 reference" )
 g4 <- em_vs_ap_graph( workingPath, picName = "", 
-                   rundata, ctLog = "rtfm" )
+                   rundata, ctLog = "Road Traffic Fines" )
 g5 <- em_vs_ap_graph( workingPath, picName = "", 
                       rundata, ctLog = "Sepsis" )
 g6 <- em_vs_ap_graph( workingPath, picName = "", 
-                 rundata, ctLog = "teleclaims" )
+                 rundata, ctLog = "Teleclaims" )
 fullgrid <- grid.arrange(g1,g2,g3,g4,g5,g6) # ,ncol=2,nrow=2)
 #fullgrid <- grid.arrange(g5) # ,ncol=2,nrow=2)
 

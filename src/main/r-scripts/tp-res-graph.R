@@ -83,7 +83,7 @@ em_vs_ap_graph <- function(workingPath, picName, rundata, ctLog){
 
   bpo <- rundata %>% 
     filter (baseLog == ctLog)    %>% 
-    filter (ShortId == 'GDT_SPN' | ShortId == 'tp' | ShortId == 'trace' | 
+    filter (ShortId == 'GDT_SPN' | ShortId == 'toothpaste' | ShortId == 'trace' | 
             ShortId == 'walign-inductive' | ShortId == 'wfreq-split' | 
             ShortId == 'wpairscale-split' )
   emtb <- as.numeric(bpo[[emcolName]])
@@ -182,7 +182,7 @@ clncreators <- recode(rundata$ShortId,
 			     "fe-split" = "wfreq-split",
 			     "msaprh-split" = "wpairscale-split",
            "rssmt" = "GDT_SPN",
-			     "tmh" = "tp")
+			     "tmh" = "toothpaste")
 
 
 rundata$ShortId <- clncreators

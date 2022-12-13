@@ -1,0 +1,40 @@
+<runStats artifactCreator="msaprh-split_teleclaims_k4" machineName="cl4n028.ib0.hpc.qut.edu.au" runnerVersion="0.9.1.4">
+   <inputLogFileName>teleclaims.xes</inputLogFileName>
+   <outputModelFileName>net1 imported from (omodel_split_teleclaims_k4.pnml) imported from (osmodel_msaprh-split_teleclaims_k4.pnml)</outputModelFileName>
+   <runDate>2022-12-13 14:17:54.554 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="tpmlogparser" runState="RUNNING">
+         <duration>0</duration>
+         <start>1670905074554</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">2809</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">37089</number>
+         </measureStats>
+      </taskStats>
+       <!-- separate run var/mrun_split_teleclaims_k4.xml merged into common file -->
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>817</duration>
+         <start>1670764495445</start>
+         <errorMessage></errorMessage>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1670905074950</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">57</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9981665722990644</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">68</number>
+         </measureStats>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage></errorMessage>
+   <runState>RUNNING</runState>
+</runStats>

@@ -45,6 +45,6 @@
          </measureStats>
       </taskStats>
    </taskRunStats>
-   <errorMessage></errorMessage>
-   <runState>RUNNING</runState>
+   <errorMessage>OutOfMemory</errorMessage>
+   <runState>FAILED</runState>
 </runStats>

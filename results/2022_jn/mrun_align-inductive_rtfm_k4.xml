@@ -14,6 +14,12 @@
             <number class="java.lang.Integer">120295</number>
          </measureStats>
       </taskStats>
+       <!-- separate run var/mrun_inductive_rtfm_k4.xml merged into common file -->
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>675</duration>
+         <start>1670225261643</start>
+         <errorMessage></errorMessage>
+      </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>1</duration>
          <start>1670816289909</start>

@@ -14,6 +14,12 @@
             <number class="java.lang.Integer">5251</number>
          </measureStats>
       </taskStats>
+       <!-- separate run var/mrun_split_BPIC2013_closed_k5.xml merged into common file -->
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>716</duration>
+         <start>1670224574767</start>
+         <errorMessage></errorMessage>
+      </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
          <start>1670285194177</start>

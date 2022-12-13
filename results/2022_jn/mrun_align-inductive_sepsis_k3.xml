@@ -1,0 +1,34 @@
+<runStats artifactCreator="align-inductive_sepsis_k3" machineName="cl4n028.ib0.hpc.qut.edu.au" runnerVersion="0.9.1.4">
+   <inputLogFileName>sepsis.xes</inputLogFileName>
+   <outputModelFileName>converted from efficient tree imported from (osmodel_align-inductive_sepsis_k3.pnml)</outputModelFileName>
+   <runDate>2022-12-12 11:42:59.189 AEST</runDate>
+   <taskRunStats class="java.util.LinkedList">
+      <taskStats taskName="tpmlogparser" runState="RUNNING">
+         <duration>0</duration>
+         <start>1670809379189</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">12037</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">839</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
+         <duration>0</duration>
+         <start>1670809379615</start>
+         <errorMessage></errorMessage>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">52</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">68</number>
+         </measureStats>
+         <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
+            <number class="java.lang.Double">0.9943507518484672</number>
+         </measureStats>
+      </taskStats>
+   </taskRunStats>
+   <errorMessage>Timeout</errorMessage>
+   <runState>FAILED</runState>
+</runStats>

@@ -1,50 +1,50 @@
-<runStats artifactCreator="fe-split_teleclaims_k3" machineName="cl5n015.ib0.hpc.qut.edu.au" runnerVersion="0.9.1.4">
-   <inputLogFileName>teleclaims.xes</inputLogFileName>
-   <outputModelFileName>net1 imported from (omodel_split_teleclaims_k3.pnml) imported from (osmodel_fe-split_teleclaims_k3.pnml)</outputModelFileName>
-   <runDate>2022-12-06 10:34:18.486 AEST</runDate>
+<runStats artifactCreator="align-inductive_sepsis_k1" machineName="cl4n030.ib0.hpc.qut.edu.au" runnerVersion="0.9.1.4">
+   <inputLogFileName>sepsis.xes</inputLogFileName>
+   <outputModelFileName>converted from efficient tree imported from (osmodel_align-inductive_sepsis_k1.pnml)</outputModelFileName>
+   <runDate>2022-12-08 15:10:18.768 AEST</runDate>
    <taskRunStats class="java.util.LinkedList">
       <taskStats taskName="tpmlogparser" runState="RUNNING">
          <duration>0</duration>
-         <start>1670286858486</start>
+         <start>1670476218769</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">2809</number>
-         </measureStats>
          <measureStats measure="LOG_EVENT_COUNT">
-            <number class="java.lang.Integer">36837</number>
+            <number class="java.lang.Integer">12329</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">838</number>
          </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_split_teleclaims_k3.xml merged into common file -->
+       <!-- separate run var/mrun_inductive_sepsis_k1.xml merged into common file -->
       <taskStats taskName="miner" runState="SUCCESS">
-         <duration>897</duration>
-         <start>1670764494081</start>
+         <duration>142</duration>
+         <start>1670225306962</start>
          <errorMessage></errorMessage>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
-         <duration>0</duration>
-         <start>1670286858864</start>
+         <duration>1</duration>
+         <start>1670476219411</start>
          <errorMessage></errorMessage>
-         <measureStats measure="MODEL_ENTITY_COUNT">
-            <number class="java.lang.Integer">56</number>
-         </measureStats>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
-            <number class="java.lang.Double">0.9982083231533513</number>
+            <number class="java.lang.Double">0.9944845486251926</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">52</number>
          </measureStats>
          <measureStats measure="MODEL_EDGE_COUNT">
-            <number class="java.lang.Integer">66</number>
+            <number class="java.lang.Integer">68</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Earth Movers Similarity Tuned" runState="SUCCESS">
-         <duration>188443</duration>
-         <start>1670286858885</start>
+         <duration>3930700</duration>
+         <start>1670476219463</start>
          <errorMessage></errorMessage>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
-            <number class="java.lang.Double">0.631792552063076</number>
+            <number class="java.lang.Double">0.45158841836050523</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Alpha Precision Unrestricted alpha-sig 0.0" runState="SUCCESS">
-         <duration>774</duration>
-         <start>1670287047382</start>
+         <duration>4786</duration>
+         <start>1670480150178</start>
          <errorMessage></errorMessage>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.0</number>

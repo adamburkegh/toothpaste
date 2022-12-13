@@ -14,6 +14,12 @@
             <number class="java.lang.Integer">839</number>
          </measureStats>
       </taskStats>
+       <!-- separate run var/mrun_split_sepsis_k2.xml merged into common file -->
+      <taskStats taskName="miner" runState="SUCCESS">
+         <duration>897</duration>
+         <start>1670224741864</start>
+         <errorMessage></errorMessage>
+      </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
          <start>1670286002715</start>

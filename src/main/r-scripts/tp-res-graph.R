@@ -195,6 +195,8 @@ baseLogs <- recode(baseLogs, "sepsis" = "Sepsis",
 
 rundata$baseLog = baseLogs
 
+rundata$TotalDuration = rundata$MinerDuration + rundata$EstimatorDuration
+
 # rundata <- rundata %>% filter (shortId != "split")
 
 
@@ -242,4 +244,13 @@ if (exportPic){
   ggsave(file=paste(workingPath,'tpres.png'),fullgrid)
 }
 
-
+# Runtime and entity count  export
+# 
+#  rundata %>% select(ShortId,MinerDuration,EstimatorDuration,TotalDuration,MODEL_ENTITY_COUNT,baseLog) %>% 
+#               group_by(baseLog,ShortId) %>% 
+#               summarize(exmean=round(mean(TotalDuration),2), 
+#                        exsd=round(sd(TotalDuration),2),
+#                        scmean=round(mean(MODEL_ENTITY_COUNT),2), 
+#                        scsd=round(sd(MODEL_ENTITY_COUNT),2)) %>% 
+#               write_csv(paste(workingPath,'runtimes.csv',sep=''))
+#

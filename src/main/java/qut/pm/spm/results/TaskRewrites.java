@@ -18,7 +18,6 @@ public class TaskRewrites {
 		RunStats sourceRunStats = serializer.read(RunStats.class, sourceRunFile );
 		TaskStats sourceTask = findSourceTask(sourceFile, stat, sourceRunStats);
 		sourceTask.setNote(note);
-		sourceRunStats.addTask(sourceTask);
 		serializer.write(sourceRunStats, sourceRunFile);		
 	}
 	

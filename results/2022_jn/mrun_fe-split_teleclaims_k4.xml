@@ -7,6 +7,7 @@
          <duration>0</duration>
          <start>1670287048175</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="LOG_TRACE_COUNT">
             <number class="java.lang.Integer">2809</number>
          </measureStats>
@@ -14,27 +15,40 @@
             <number class="java.lang.Integer">37089</number>
          </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_split_teleclaims_k4.xml merged into common file -->
       <taskStats taskName="miner" runState="SUCCESS">
          <duration>817</duration>
          <start>1670764495445</start>
          <errorMessage></errorMessage>
+         <note>Miner run merged 13 Dec 2022</note>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
          <start>1670287048541</start>
          <errorMessage></errorMessage>
-         <measureStats measure="MODEL_ENTITY_COUNT">
-            <number class="java.lang.Integer">57</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9981665722990644</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">57</number>
          </measureStats>
          <measureStats measure="MODEL_EDGE_COUNT">
             <number class="java.lang.Integer">68</number>
          </measureStats>
       </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>59</duration>
+         <start>1670224516847</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_fe-split_teleclaims_k4.xml on Wed Dec 14 15:52:54 AEST 2022</note>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">703</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">9119</number>
+         </measureStats>
+      </taskStats>
    </taskRunStats>
    <errorMessage>OutOfMemory</errorMessage>
-   <runState>FAILED</runState>
+   <runState>RUNNING</runState>
 </runStats>

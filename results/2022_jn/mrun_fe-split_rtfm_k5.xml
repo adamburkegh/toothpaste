@@ -7,23 +7,25 @@
          <duration>0</duration>
          <start>1670285713530</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">120301</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="LOG_EVENT_COUNT">
             <number class="java.lang.Integer">449255</number>
          </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">120301</number>
+         </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_split_rtfm_k5.xml merged into common file -->
       <taskStats taskName="miner" runState="SUCCESS">
          <duration>1593</duration>
          <start>1670224731326</start>
          <errorMessage></errorMessage>
+         <note>Miner run merged 13 Dec 2022</note>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>1</duration>
          <start>1670285718822</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9999065118919099</number>
          </measureStats>
@@ -38,6 +40,7 @@
          <duration>452</duration>
          <start>1670285718844</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
             <number class="java.lang.Double">0.5760049260323883</number>
          </measureStats>
@@ -46,8 +49,21 @@
          <duration>175</duration>
          <start>1670285719305</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.137</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>673</duration>
+         <start>1670224401371</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_fe-split_rtfm_k5.xml on Wed Dec 14 15:52:17 AEST 2022</note>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">112215</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">30069</number>
          </measureStats>
       </taskStats>
    </taskRunStats>

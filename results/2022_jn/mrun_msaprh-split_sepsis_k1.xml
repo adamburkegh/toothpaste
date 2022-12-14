@@ -7,23 +7,25 @@
          <duration>0</duration>
          <start>1670300461518</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_EVENT_COUNT">
-            <number class="java.lang.Integer">12329</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="LOG_TRACE_COUNT">
             <number class="java.lang.Integer">838</number>
          </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">12329</number>
+         </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_split_sepsis_k1.xml merged into common file -->
       <taskStats taskName="miner" runState="SUCCESS">
          <duration>963</duration>
          <start>1670224740659</start>
          <errorMessage></errorMessage>
+         <note>Miner run merged 13 Dec 2022</note>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
          <start>1670300462229</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9949712060994403</number>
          </measureStats>
@@ -34,8 +36,19 @@
             <number class="java.lang.Integer">47</number>
          </measureStats>
       </taskStats>
-	<!-- Earth movers and alpha precision timeout 9 hours -->
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>47</duration>
+         <start>1670224741666</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_msaprh-split_sepsis_k1.xml on Wed Dec 14 15:54:22 AEST 2022</note>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">212</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">2885</number>
+         </measureStats>
+      </taskStats>
    </taskRunStats>
    <errorMessage>Timeout</errorMessage>
-   <runState>FAILED</runState>
+   <runState>RUNNING</runState>
 </runStats>

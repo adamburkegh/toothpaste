@@ -7,23 +7,25 @@
          <duration>0</duration>
          <start>1670285321312</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">35045</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="LOG_EVENT_COUNT">
             <number class="java.lang.Integer">129371</number>
          </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">35045</number>
+         </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_split_BPIC2018_control_k1.xml merged into common file -->
       <taskStats taskName="miner" runState="SUCCESS">
          <duration>1574</duration>
          <start>1670224589661</start>
          <errorMessage></errorMessage>
+         <note>Miner run merged 13 Dec 2022</note>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
          <start>1670285327290</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="MODEL_EDGE_COUNT">
             <number class="java.lang.Integer">22</number>
          </measureStats>
@@ -38,6 +40,7 @@
          <duration>266</duration>
          <start>1670285327333</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
             <number class="java.lang.Double">0.7146901131446219</number>
          </measureStats>
@@ -46,8 +49,21 @@
          <duration>152</duration>
          <start>1670285327609</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.998</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>739</duration>
+         <start>1670224073412</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_fe-split_BPIC2018_control_k1.xml on Wed Dec 14 15:51:18 AEST 2022</note>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">31925</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">8763</number>
          </measureStats>
       </taskStats>
    </taskRunStats>

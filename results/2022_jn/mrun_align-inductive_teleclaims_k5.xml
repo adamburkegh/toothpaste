@@ -7,23 +7,25 @@
          <duration>0</duration>
          <start>1670291283597</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">2813</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="LOG_EVENT_COUNT">
             <number class="java.lang.Integer">36825</number>
          </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">2813</number>
+         </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_inductive_teleclaims_k5.xml merged into common file -->
       <taskStats taskName="miner" runState="SUCCESS">
          <duration>13</duration>
          <start>1670225401953</start>
          <errorMessage></errorMessage>
+         <note>Miner run merged 13 Dec 2022</note>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>1</duration>
          <start>1670291283974</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9991853360488798</number>
          </measureStats>
@@ -38,6 +40,7 @@
          <duration>55</duration>
          <start>1670291284011</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
             <number class="java.lang.Double">0.5171036487140881</number>
          </measureStats>
@@ -46,8 +49,21 @@
          <duration>28</duration>
          <start>1670291284073</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.0</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>66</duration>
+         <start>1670225401979</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_align-inductive_teleclaims_k5.xml on Wed Dec 14 15:50:24 AEST 2022</note>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">9095</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">699</number>
          </measureStats>
       </taskStats>
    </taskRunStats>

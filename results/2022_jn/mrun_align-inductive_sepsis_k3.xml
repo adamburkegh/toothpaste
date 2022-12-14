@@ -7,6 +7,7 @@
          <duration>0</duration>
          <start>1670809379189</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="LOG_EVENT_COUNT">
             <number class="java.lang.Integer">12037</number>
          </measureStats>
@@ -18,17 +19,30 @@
          <duration>0</duration>
          <start>1670809379615</start>
          <errorMessage></errorMessage>
-         <measureStats measure="MODEL_ENTITY_COUNT">
-            <number class="java.lang.Integer">52</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="MODEL_EDGE_COUNT">
             <number class="java.lang.Integer">68</number>
+         </measureStats>
+         <measureStats measure="MODEL_ENTITY_COUNT">
+            <number class="java.lang.Integer">52</number>
          </measureStats>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9943507518484672</number>
          </measureStats>
       </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>562</duration>
+         <start>1670225308429</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_align-inductive_sepsis_k3.xml on Wed Dec 14 15:49:27 AEST 2022</note>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">3177</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">211</number>
+         </measureStats>
+      </taskStats>
    </taskRunStats>
    <errorMessage>Timeout</errorMessage>
-   <runState>FAILED</runState>
+   <runState>RUNNING</runState>
 </runStats>

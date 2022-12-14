@@ -7,17 +7,19 @@
          <duration>0</duration>
          <start>1670329754644</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">845</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="LOG_EVENT_COUNT">
             <number class="java.lang.Integer">12043</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">845</number>
          </measureStats>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
          <start>1670329754954</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.993855351656564</number>
          </measureStats>
@@ -32,6 +34,7 @@
          <duration>1306026</duration>
          <start>1670329754977</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
             <number class="java.lang.Double">0.5152710582455047</number>
          </measureStats>
@@ -40,11 +43,24 @@
          <duration>4658</duration>
          <start>1670331061030</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.0</number>
          </measureStats>
       </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>511</duration>
+         <start>1670225309659</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_align-inductive_sepsis_k5.xml on Wed Dec 14 15:49:35 AEST 2022</note>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">3171</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">205</number>
+         </measureStats>
+      </taskStats>
    </taskRunStats>
    <errorMessage>OutOfMemory</errorMessage>
-   <runState>FAILED</runState>
+   <runState>RUNNING</runState>
 </runStats>

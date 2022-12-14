@@ -7,28 +7,30 @@
          <duration>0</duration>
          <start>1670824133386</start>
          <errorMessage></errorMessage>
-         <measureStats measure="LOG_TRACE_COUNT">
-            <number class="java.lang.Integer">35041</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="LOG_EVENT_COUNT">
             <number class="java.lang.Integer">102965</number>
          </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">35041</number>
+         </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_inductive_BPIC2018_reference_k3.xml merged into common file -->
       <taskStats taskName="miner" runState="SUCCESS">
          <duration>83</duration>
          <start>1670225205231</start>
          <errorMessage></errorMessage>
+         <note>Miner run merged 13 Dec 2022</note>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>1</duration>
          <start>1670824136627</start>
          <errorMessage></errorMessage>
-         <measureStats measure="MODEL_EDGE_COUNT">
-            <number class="java.lang.Integer">28</number>
-         </measureStats>
+         <note></note>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9997280629340067</number>
+         </measureStats>
+         <measureStats measure="MODEL_EDGE_COUNT">
+            <number class="java.lang.Integer">28</number>
          </measureStats>
          <measureStats measure="MODEL_ENTITY_COUNT">
             <number class="java.lang.Integer">23</number>
@@ -38,6 +40,7 @@
          <duration>91</duration>
          <start>1670824136649</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
             <number class="java.lang.Double">0.9805568819124412</number>
          </measureStats>
@@ -46,8 +49,21 @@
          <duration>101</duration>
          <start>1670824136750</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.946</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>661</duration>
+         <start>1670225205325</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_align-inductive_BPIC2018_reference_k3.xml on Wed Dec 14 15:47:53 AEST 2022</note>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">25589</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">8761</number>
          </measureStats>
       </taskStats>
    </taskRunStats>

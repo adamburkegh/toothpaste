@@ -7,6 +7,7 @@
          <duration>0</duration>
          <start>1670298973942</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="LOG_TRACE_COUNT">
             <number class="java.lang.Integer">1189</number>
          </measureStats>
@@ -14,17 +15,17 @@
             <number class="java.lang.Integer">5386</number>
          </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_split_BPIC2013_closed_k4.xml merged into commo
-n file -->
       <taskStats taskName="miner" runState="SUCCESS">
          <duration>723</duration>
          <start>1670224573954</start>
          <errorMessage></errorMessage>
+         <note>Miner run merged 13 Dec 2022</note>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>1</duration>
          <start>1670298974151</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="MODEL_ENTITY_COUNT">
             <number class="java.lang.Integer">17</number>
          </measureStats>
@@ -39,6 +40,7 @@ n file -->
          <duration>37</duration>
          <start>1670298974167</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
             <number class="java.lang.Double">0.9395936356111928</number>
          </measureStats>
@@ -47,8 +49,21 @@ n file -->
          <duration>182</duration>
          <start>1670298974212</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.713</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>12</duration>
+         <start>1670224574685</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_msaprh-split_BPIC2013_closed_k4.xml on Wed Dec 14 15:53:11 AEST 2022</note>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">298</number>
+         </measureStats>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">1274</number>
          </measureStats>
       </taskStats>
    </taskRunStats>

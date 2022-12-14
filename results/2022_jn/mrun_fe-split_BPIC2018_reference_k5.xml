@@ -7,6 +7,7 @@
          <duration>0</duration>
          <start>1670285523017</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="LOG_EVENT_COUNT">
             <number class="java.lang.Integer">102589</number>
          </measureStats>
@@ -14,16 +15,17 @@
             <number class="java.lang.Integer">35045</number>
          </measureStats>
       </taskStats>
-       <!-- separate run var/mrun_split_BPIC2018_reference_k5.xml merged into common file -->
       <taskStats taskName="miner" runState="SUCCESS">
          <duration>1432</duration>
          <start>1670224694444</start>
          <errorMessage></errorMessage>
+         <note>Miner run merged 13 Dec 2022</note>
       </taskStats>
       <taskStats taskName="calculate Naive SPN entity count" runState="SUCCESS">
          <duration>0</duration>
          <start>1670285527666</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="NORMALIZED_PETRI_NET_EDGE_SIMPLICITY">
             <number class="java.lang.Double">0.9997465615221904</number>
          </measureStats>
@@ -38,6 +40,7 @@
          <duration>497</duration>
          <start>1670285527685</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="EARTH_MOVERS_LIGHT_COVERAGE">
             <number class="java.lang.Double">0.8284519209228157</number>
          </measureStats>
@@ -46,8 +49,21 @@
          <duration>271</duration>
          <start>1670285528189</start>
          <errorMessage></errorMessage>
+         <note></note>
          <measureStats measure="ALPHA_PRECISION_UNRESTRICTED">
             <number class="java.lang.Double">0.68</number>
+         </measureStats>
+      </taskStats>
+      <taskStats taskName="spmrunner_estimator" runState="SUCCESS">
+         <duration>580</duration>
+         <start>1670224136725</start>
+         <errorMessage></errorMessage>
+         <note>Copied from c:/users/burkeat/bpm/spd_we/var/mrun_fe-split_BPIC2018_reference_k5.xml on Wed Dec 14 15:51:56 AEST 2022</note>
+         <measureStats measure="LOG_EVENT_COUNT">
+            <number class="java.lang.Integer">25965</number>
+         </measureStats>
+         <measureStats measure="LOG_TRACE_COUNT">
+            <number class="java.lang.Integer">8757</number>
          </measureStats>
       </taskStats>
    </taskRunStats>

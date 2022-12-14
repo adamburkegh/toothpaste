@@ -17,13 +17,13 @@ import qut.pm.spm.TaskStats;
 public class CopyTaskTest {
 
 	private static final String CREATOR = CopyTaskTest.class.getName();
-	private CopyTask copyTask = null;
+	private TaskRewrites copyTask = null;
 	private File rs1f = null;
 	private File rs2f = null;
 	
 	@Before
 	public void setUp() throws Exception {
-		copyTask = new CopyTask();
+		copyTask = new TaskRewrites();
 		rs1f = File.createTempFile("ctt", "xml");
 		rs2f = File.createTempFile("ctt", "xml");
 	}

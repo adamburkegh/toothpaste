@@ -28,6 +28,9 @@ public class TaskStats{
 	@Element(required=false)
 	private String errorMessage = "";
 	
+	@Element(required=false)
+	private String note = "";
+	
 	@Attribute
 	private RunState runState = RunState.INITIALIZING;
 	
@@ -79,6 +82,9 @@ public class TaskStats{
 		return errorMessage;
 	}	
 
+	public void setNote(String note) {
+		this.note = note;
+	}
 	
 	public String formatStats() {
 		return "Run " + runState + SEP + 

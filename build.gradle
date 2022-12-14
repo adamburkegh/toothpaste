@@ -89,6 +89,11 @@ task(pnmlToDot, dependsOn: 'classes', type: JavaExec) {
    jvmArgs '-Dlog4j.configurationFile=config/static/log4j2.xml'
 }
 
+task(copyTask, dependsOn: 'classes', type: JavaExec) {
+   main 'qut.pm.spm.results.CopyTask'
+   classpath sourceSets.main.runtimeClasspath
+}
+
 
 applicationDistribution.from('config') {
     into "config"

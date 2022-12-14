@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -151,6 +152,10 @@ public class RunStats {
 	
 	public String getArtifactCreator() {
 		return artifactCreator;
+	}
+
+	public List<TaskStats> getTaskRunStats() {
+		return Collections.unmodifiableList( taskRunStats );
 	}
 	
 	public String formatStats() {

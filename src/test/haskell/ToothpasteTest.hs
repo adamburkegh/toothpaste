@@ -516,8 +516,7 @@ concFromChoiceSuffixTests = [
                             ~=? concFromChoice( NodeN Choice [sab,sab] 2),
     "cfcs2" ~: concP [la,lb2] 3 
                         ~=? concFromChoiceSuffix (NodeN Choice [sab,sba2] 3),
-    "cfcs3" ~: seqP [ choiceP [la, Silent 2] 3, 
-                      concP [lb,lc2] 3] 3 
+    "cfcs3" ~: NodeN Choice [sabc,scb2] 3
                         ~=? concFromChoiceSuffix (NodeN Choice [sabc,scb2] 3),
     "cfcs4" ~: seqP [ choiceP [lc,ld2] 3,  concP [la,lb2 ] 3 ] 3
                         ~=? concFromChoiceSuffix (NodeN Choice [scab,sdba2] 3) 
@@ -554,8 +553,7 @@ loopConcFromChoiceSuffixTests = [
                             ~=? loopConcFromChoice( choiceP [slab,sab] 2),
     "lcfcs2" ~: concP [ploop la 2 1,lb2] 3 
                     ~=? loopConcFromChoiceSuffix (NodeN Choice [slab,sba2] 3),
-    "lcfcs3" ~: seqP [choiceP [la, Silent 2] 3, 
-                      concP [lb,ploop lc2 2 2] 3] 3 
+    "lcfcs3" ~: NodeN Choice [sablc,scb2] 3
                     ~=? loopConcFromChoiceSuffix (NodeN Choice [sablc,scb2] 3),
     "lcfcs4" ~: seqP [ choiceP [lc,ld2] 3,  concP [la,ploop lb2 3 2] 3 ] 3
                     ~=? loopConcFromChoiceSuffix (NodeN Choice [scab,sdlba2] 3) 

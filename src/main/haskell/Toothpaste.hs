@@ -331,10 +331,12 @@ concFromChoiceSuffix = concFromChoiceMR conc2TailSim conc2TailMerge
 -- O(n)
 conc2TailSim :: (Eq a, Ord a) => PSim a
 conc2TailSim (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2) 
-    = length ptl1 > 1 && length ptl2 > 1 
-        &&  ptx1 =~= ptx2 && pty1 =~= pty2 
-    where (_,[ptx1,pty1]) = tail2 ptl1
-          (_,[pty2,ptx2]) = tail2 ptl2
+    =  length ptl1 > 1 && length ptl2 > 1 
+         &&  ptx1 =~= ptx2 && pty1 =~= pty2 
+         &&  ((null hd1  && null hd2)
+              || length hd1 >=1 && length hd2 >= 1 )
+    where (hd1,[ptx1,pty1]) = tail2 ptl1
+          (hd2,[pty2,ptx2]) = tail2 ptl2
 conc2TailSim pt1 pt2 = False
 
 conc2TailMerge :: (Ord a) => PMerge a
@@ -405,8 +407,10 @@ lconc2TailSim (NodeN Seq ptl1 w1) (NodeN Seq ptl2 w2)
     = length ptl1 > 1 && length ptl2 > 1 
         && ( (ptx1 =~= ptx2 && pty1 =&= pty2) 
              ||  (ptx1 =&= ptx2 && pty1 =~= pty2 ) )
-    where (_,[ptx1,pty1]) = tail2 ptl1
-          (_,[pty2,ptx2]) = tail2 ptl2
+        && ((null hd1 && null hd2)
+            || length hd1 >=1 && length hd2 >= 1 )
+    where (hd1,[ptx1,pty1]) = tail2 ptl1
+          (hd2,[pty2,ptx2]) = tail2 ptl2
 lconc2TailSim pt1 pt2 = False
 
 lconc2TailMerge :: (Ord a) => PMerge a

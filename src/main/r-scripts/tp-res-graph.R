@@ -268,16 +268,36 @@ rdn <-
   rd %>% drop_na() %>% 
   select(
     baseLog,
-    Log,
     ShortId,
     EARTH_MOVERS_LIGHT_COVERAGE,
     ALPHA_PRECISION_UNRESTRICTED,
     MODEL_ENTITY_COUNT
   )
 
-psel(
-  rdn,
+paretoWide <- psel(
+  group_by(rdn,baseLog),
   high(EARTH_MOVERS_LIGHT_COVERAGE) * high(ALPHA_PRECISION_UNRESTRICTED) *
     low(MODEL_ENTITY_COUNT) ,
-  show_level = TRUE
-) %>% write_csv(paste(workingPath,'pareto.csv',sep=''))
+  show_level = TRUE,
+  top_level=1
+) 
+
+paretoWide %>% write_csv(paste(workingPath,'pareto.csv',sep=''))
+  
+rdMeans <- rdn %>%
+  group_by(baseLog,ShortId) %>%
+  summarize(scmean=round(mean(MODEL_ENTITY_COUNT),2),
+            apmean=round(mean(ALPHA_PRECISION_UNRESTRICTED),2),
+            emmean=round(mean(EARTH_MOVERS_LIGHT_COVERAGE),2)
+            )  
+
+paretoMean <- 
+  psel(
+    group_by(rdMeans,baseLog),
+    high(emmean) * high(apmean) *
+    low(scmean) ,
+    show_level = TRUE,
+    top_level=1
+  ) 
+
+paretoMean %>% write_csv(paste(workingPath,'paretoMean.csv',sep=''))

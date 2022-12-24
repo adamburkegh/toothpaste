@@ -1,0 +1,24 @@
+baseLog,ShortId,scmean,apmean,emmean,.level
+BPIC2013 closed,toothpaste,435,0.78,0.86,1
+BPIC2013 closed,trace,2368.6,0.91,0.97,1
+BPIC2013 closed,walign-inductive,7.2,1,0.7,1
+BPIC2013 closed,wpairscale-split,16,0.76,0.91,1
+BPIC2018 control,GDT_SPN,31.6,0.99,0.99,1
+BPIC2018 control,trace,55758.8,1,1,1
+BPIC2018 control,walign-inductive,21.8,0.98,0.96,1
+BPIC2018 control,wpairscale-split,20.6,0.9,0.92,1
+BPIC2018 reference,GDT_SPN,32.6,0.95,0.97,1
+BPIC2018 reference,trace,42663.2,0.99,1,1
+BPIC2018 reference,walign-inductive,22,0.97,0.96,1
+Road Traffic Fines,toothpaste,355,0.91,0.96,1
+Road Traffic Fines,walign-inductive,32.2,0.3,0.78,1
+Road Traffic Fines,wpairscale-split,31.8,0.69,0.75,1
+Sepsis,toothpaste,3057,0.23,0.79,1
+Sepsis,trace,5877.6,0.86,0.7,1
+Sepsis,walign-inductive,50,0,0.52,1
+Sepsis,wfreq-split,48.4,0,0.49,1
+Teleclaims,toothpaste,116,0.86,0.95,1
+Teleclaims,trace,17754.8,1,0.98,1
+Teleclaims,walign-inductive,28.6,0,0.52,1
+Teleclaims,wfreq-split,56,0,0.63,1
+Teleclaims,wpairscale-split,56,0,0.63,1

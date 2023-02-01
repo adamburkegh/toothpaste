@@ -94,6 +94,11 @@ task(copyTask, dependsOn: 'classes', type: JavaExec) {
    classpath sourceSets.main.runtimeClasspath
 }
 
+task(addNote, dependsOn: 'classes', type: JavaExec) {
+   main 'qut.pm.spm.results.AddNote'
+   classpath sourceSets.main.runtimeClasspath
+}
+
 
 applicationDistribution.from('config') {
     into "config"

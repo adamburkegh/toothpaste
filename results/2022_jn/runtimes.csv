@@ -1,0 +1,37 @@
+baseLog,ShortId,exmean,exsd,scmean,scsd,emmean,apmean
+BPIC2013 closed,GDT_SPN,181.00,251.57,25.20,3.90,0.67,0.01
+BPIC2013 closed,toothpaste,2863.00,1899.89,435.00,108.20,0.86,0.78
+BPIC2013 closed,trace,12.00,12.88,2368.60,105.71,0.97,0.91
+BPIC2013 closed,walign-inductive,110.20,150.37,7.20,1.64,0.70,1.00
+BPIC2013 closed,wfreq-split,767.00,58.37,16.00,1.41,0.67,0.85
+BPIC2013 closed,wpairscale-split,770.20,64.84,16.00,1.41,0.91,0.76
+BPIC2018 control,GDT_SPN,706.20,262.90,31.60,1.34,0.99,0.99
+BPIC2018 control,toothpaste,9069.40,204.30,51.20,6.83,0.92,0.99
+BPIC2018 control,trace,177.80,52.08,55758.80,485.53,1.00,1.00
+BPIC2018 control,walign-inductive,886.00,224.45,21.80,1.30,0.96,0.98
+BPIC2018 control,wfreq-split,2205.80,63.63,20.60,2.41,0.80,0.86
+BPIC2018 control,wpairscale-split,2195.00,82.37,20.60,2.41,0.92,0.90
+BPIC2018 reference,GDT_SPN,1177.40,582.45,32.60,1.82,0.97,0.95
+BPIC2018 reference,toothpaste,9592.00,241.33,1379.80,190.92,0.96,0.96
+BPIC2018 reference,trace,137.40,41.83,42663.20,311.90,1.00,0.99
+BPIC2018 reference,walign-inductive,864.00,223.00,22.00,1.22,0.96,0.97
+BPIC2018 reference,wfreq-split,2086.00,121.66,23.00,2.74,0.81,0.77
+BPIC2018 reference,wpairscale-split,2077.40,90.65,23.00,2.74,0.96,0.78
+Road Traffic Fines,GDT_SPN,61796.60,122011.90,68.80,3.77,0.76,0.10
+Road Traffic Fines,toothpaste,9387.40,151.13,355.00,30.81,0.96,0.91
+Road Traffic Fines,trace,657.20,155.05,194516.00,370.02,NaN,NaN
+Road Traffic Fines,walign-inductive,1597.60,343.21,32.20,3.27,0.78,0.30
+Road Traffic Fines,wfreq-split,2351.20,111.64,31.80,0.45,0.62,0.14
+Road Traffic Fines,wpairscale-split,2350.40,99.34,31.80,0.45,0.75,0.69
+Sepsis,GDT_SPN,10147434.00,11267371.16,95.00,6.48,NaN,0.00
+Sepsis,toothpaste,4711.40,3224.87,3057.00,282.94,0.79,0.23
+Sepsis,trace,25.00,23.58,5877.60,335.38,0.70,0.86
+Sepsis,walign-inductive,580.40,152.72,50.40,4.16,0.52,0.00
+Sepsis,wfreq-split,926.80,57.44,48.40,1.67,0.49,0.00
+Sepsis,wpairscale-split,969.50,57.28,48.00,1.41,NaN,NaN
+Teleclaims,GDT_SPN,453.00,27.14,60.00,0.00,NaN,0.00
+Teleclaims,toothpaste,2404.60,329.08,116.00,0.00,0.95,0.86
+Teleclaims,trace,61.60,33.31,17754.80,241.82,0.98,1.00
+Teleclaims,walign-inductive,143.80,107.50,28.60,0.55,0.52,0.00
+Teleclaims,wfreq-split,1267.25,710.65,56.25,0.50,0.63,0.00
+Teleclaims,wpairscale-split,1192.00,645.96,56.20,0.45,0.63,0.00

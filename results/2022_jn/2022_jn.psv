@@ -1,0 +1,178 @@
+Artifact Creator | Short Id | Miner algo | Log | Miner Duration | Estimator Duration | LOG_EVENT_COUNT | LOG_TRACE_COUNT | MODEL_ENTITY_COUNT | MODEL_EDGE_COUNT | ALPHA_PRECISION_UNRESTRICTED | EARTH_MOVERS_LIGHT_COVERAGE | Run file | Machine | 
+align-inductive_BPIC2013_closed_k1 | align-inductive | inductive | BPIC2013 closed | 166 | 213 | 1357 | 299 | 6 | 6 | 0.998 | 0.7129617755821109 | mrun_align-inductive_BPIC2013_closed_k1.xml | cl5n022.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2013_closed_k2 | align-inductive | inductive | BPIC2013 closed | 7 | 45 | 1309 | 298 | 6 | 6 | 1.0 | 0.6168338064710819 | mrun_align-inductive_BPIC2013_closed_k2.xml | cl5n022.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2013_closed_k3 | align-inductive | inductive | BPIC2013 closed | 7 | 34 | 1311 | 298 | 9 | 10 | 0.993 | 0.7586922584903646 | mrun_align-inductive_BPIC2013_closed_k3.xml | cl5n022.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2013_closed_k4 | align-inductive | inductive | BPIC2013 closed | 9 | 33 | 1274 | 298 | 9 | 10 | 0.99 | 0.6956392697257205 | mrun_align-inductive_BPIC2013_closed_k4.xml | cl5n022.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2013_closed_k5 | align-inductive | inductive | BPIC2013 closed | 5 | 32 | 1409 | 294 | 6 | 6 | 0.998 | 0.7172022851226292 | mrun_align-inductive_BPIC2013_closed_k5.xml | cl5n022.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2013_closed_k1 | fe-split | split | BPIC2013 closed | 832 | 38 | 1357 | 299 | 17 | 20 | 0.738 | 0.6730755212520754 | mrun_fe-split_BPIC2013_closed_k1.xml | cl4n007.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2013_closed_k2 | fe-split | split | BPIC2013 closed | 734 | 15 | 1309 | 298 | 15 | 18 | 0.996 | 0.6168338064710819 | mrun_fe-split_BPIC2013_closed_k2.xml | cl4n007.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2013_closed_k3 | fe-split | split | BPIC2013 closed | 739 | 13 | 1311 | 298 | 17 | 20 | 0.809 | 0.647973158937009 | mrun_fe-split_BPIC2013_closed_k3.xml | cl4n007.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2013_closed_k4 | fe-split | split | BPIC2013 closed | 723 | 12 | 1274 | 298 | 17 | 20 | 0.721 | 0.8135297129654336 | mrun_fe-split_BPIC2013_closed_k4.xml | cl4n007.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2013_closed_k5 | fe-split | split | BPIC2013 closed | 716 | 13 | 1409 | 294 | 14 | 16 | 0.997 | 0.6202414263786149 | mrun_fe-split_BPIC2013_closed_k5.xml | cl4n007.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2013_closed_k1 | msaprh-split | split | BPIC2013 closed | 832 | 53 | 1357 | 299 | 17 | 20 | 0.702 | 0.9411847218478846 | mrun_msaprh-split_BPIC2013_closed_k1.xml | cl4n019.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2013_closed_k2 | msaprh-split | split | BPIC2013 closed | 734 | 15 | 1309 | 298 | 15 | 18 | 0.845 | 0.8634579642891472 | mrun_msaprh-split_BPIC2013_closed_k2.xml | cl4n019.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2013_closed_k3 | msaprh-split | split | BPIC2013 closed | 739 | 13 | 1311 | 298 | 17 | 20 | 0.702 | 0.9403049367251619 | mrun_msaprh-split_BPIC2013_closed_k3.xml | cl4n019.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2013_closed_k4 | msaprh-split | split | BPIC2013 closed | 723 | 12 | 1274 | 298 | 17 | 20 | 0.713 | 0.9395936356111928 | mrun_msaprh-split_BPIC2013_closed_k4.xml | cl4n019.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2013_closed_k5 | msaprh-split | split | BPIC2013 closed | 716 | 14 | 1409 | 294 | 14 | 16 | 0.815 | 0.8850518808960205 | mrun_msaprh-split_BPIC2013_closed_k5.xml | cl4n019.ib0.hpc.qut.edu.au | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2013 closed k1 | 630 | 0 | 1357 | 299 | 31 | 38 | 0.069 | 0.5504957250223956 | mrun_rssmt_BPIC2013_closed_k1.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2013 closed k1 | 6261 | 0 | 1357 | 299 | 425 | 476 | 0.514 | 0.7731656082444617 | mrun_tmh_BPIC2013_closed_k1.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2013 closed k1 | 35 | 0 | 1357 | 299 | 2417 | 2714 | 0.893 | 0.9743262473538562 | mrun_trace_BPIC2013_closed_k1.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2013 closed k2 | 91 | 0 | 1309 | 298 | 25 | 30 | 0.0 | 0.7501464387448222 | mrun_rssmt_BPIC2013_closed_k2.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2013 closed k2 | 2070 | 0 | 1309 | 298 | 367 | 420 | 0.824 | 0.9077324185205292 | mrun_tmh_BPIC2013_closed_k2.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2013 closed k2 | 7 | 0 | 1309 | 298 | 2322 | 2618 | 0.909 | 0.9691059822655266 | mrun_trace_BPIC2013_closed_k2.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2013 closed k3 | 78 | 0 | 1311 | 298 | 25 | 30 | 0.0 | 0.7545438244812456 | mrun_rssmt_BPIC2013_closed_k3.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2013 closed k3 | 2005 | 0 | 1311 | 298 | 390 | 440 | 0.844 | 0.9041314921611103 | mrun_tmh_BPIC2013_closed_k3.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2013 closed k3 | 7 | 0 | 1311 | 298 | 2326 | 2622 | 0.926 | 0.9674197459443226 | mrun_trace_BPIC2013_closed_k3.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2013 closed k4 | 47 | 0 | 1274 | 298 | 25 | 30 | 0.0 | 0.7466009495939243 | mrun_rssmt_BPIC2013_closed_k4.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2013 closed k4 | 1969 | 0 | 1274 | 298 | 369 | 408 | 0.842 | 0.7579013780197128 | mrun_tmh_BPIC2013_closed_k4.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2013 closed k4 | 5 | 0 | 1274 | 298 | 2252 | 2548 | 0.941 | 0.9697916712090466 | mrun_trace_BPIC2013_closed_k4.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2013 closed k5 | 59 | 0 | 1409 | 294 | 20 | 24 | 0.0 | 0.5297902554733971 | mrun_rssmt_BPIC2013_closed_k5.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2013 closed k5 | 2010 | 0 | 1409 | 294 | 624 | 688 | 0.855 | 0.9568021090413693 | mrun_tmh_BPIC2013_closed_k5.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2013 closed k5 | 6 | 0 | 1409 | 294 | 2526 | 2818 | 0.901 | 0.9728638186860552 | mrun_trace_BPIC2013_closed_k5.xml | SEF-PA00143522 | 
+align-inductive_BPIC2018_control_k1 | align-inductive | inductive | BPIC2018 control | 314 | 937 | 31925 | 8763 | 23 | 28 | 0.973 | 0.9442928845739327 | mrun_align-inductive_BPIC2018_control_k1.xml | cl5n015.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2018_control_k2 | align-inductive | inductive | BPIC2018 control | 261 | 693 | 32154 | 8762 | 23 | 28 | 0.966 | 0.9447678587708773 | mrun_align-inductive_BPIC2018_control_k2.xml | cl5n015.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2018_control_k3 | align-inductive | inductive | BPIC2018 control | 50 | 698 | 32378 | 8762 | 20 | 24 | 0.995 | 0.9691669107632069 | mrun_align-inductive_BPIC2018_control_k3.xml | cl5n015.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2018_control_k4 | align-inductive | inductive | BPIC2018 control | 63 | 699 | 32573 | 8762 | 22 | 26 | 0.966 | 0.9689923452895876 | mrun_align-inductive_BPIC2018_control_k4.xml | cl5n015.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2018_control_k5 | align-inductive | inductive | BPIC2018 control | 44 | 671 | 32266 | 8759 | 21 | 26 | 0.995 | 0.9803167570054196 | mrun_align-inductive_BPIC2018_control_k5.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_control_k1 | fe-split | split | BPIC2018 control | 1574 | 739 | 31925 | 8763 | 18 | 22 | 0.998 | 0.7146901131446219 | mrun_fe-split_BPIC2018_control_k1.xml | cl4n072.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_control_k2 | fe-split | split | BPIC2018 control | 1506 | 677 | 32154 | 8762 | 18 | 22 | 0.995 | 0.7148626199642654 | mrun_fe-split_BPIC2018_control_k2.xml | cl4n072.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_control_k3 | fe-split | split | BPIC2018 control | 1522 | 690 | 32378 | 8762 | 22 | 26 | 0.875 | 0.855481610772161 | mrun_fe-split_BPIC2018_control_k3.xml | cl4n072.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_control_k4 | fe-split | split | BPIC2018 control | 1489 | 676 | 32573 | 8762 | 22 | 26 | 0.68 | 0.8929574348616915 | mrun_fe-split_BPIC2018_control_k4.xml | cl4n072.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_control_k5 | fe-split | split | BPIC2018 control | 1491 | 665 | 32266 | 8759 | 23 | 28 | 0.76 | 0.8309970642124578 | mrun_fe-split_BPIC2018_control_k5.xml | cl4n072.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_control_k1 | msaprh-split | split | BPIC2018 control | 1574 | 767 | 31925 | 8763 | 18 | 22 | 0.995 | 0.9404222581954187 | mrun_msaprh-split_BPIC2018_control_k1.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_control_k2 | msaprh-split | split | BPIC2018 control | 1506 | 649 | 32154 | 8762 | 18 | 22 | 0.993 | 0.940553370716934 | mrun_msaprh-split_BPIC2018_control_k2.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_control_k3 | msaprh-split | split | BPIC2018 control | 1522 | 653 | 32378 | 8762 | 22 | 26 | 0.834 | 0.8970235660020988 | mrun_msaprh-split_BPIC2018_control_k3.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_control_k4 | msaprh-split | split | BPIC2018 control | 1489 | 655 | 32573 | 8762 | 22 | 26 | 0.831 | 0.8976138502243493 | mrun_msaprh-split_BPIC2018_control_k4.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_control_k5 | msaprh-split | split | BPIC2018 control | 1491 | 669 | 32266 | 8759 | 23 | 28 | 0.828 | 0.899988018084735 | mrun_msaprh-split_BPIC2018_control_k5.xml | cl4n091.ib0.hpc.qut.edu.au | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 control k1 | 1146 | 0 | 31925 | 8763 | 31 | 36 | 0.985 | 0.9967731630001551 | mrun_rssmt_BPIC2018_control_k1.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 control k1 | 9416 | 0 | 31925 | 8763 | 51 | 60 | 0.993 | 0.8959159551611479 | mrun_tmh_BPIC2018_control_k1.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 control k1 | 270 | 0 | 31925 | 8763 | 55089 | 63850 | 1.0 | 0.9997259507188545 | mrun_trace_BPIC2018_control_k1.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 control k2 | 749 | 0 | 32154 | 8762 | 31 | 36 | 0.987 | 0.9943866811120298 | mrun_rssmt_BPIC2018_control_k2.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 control k2 | 8884 | 0 | 32154 | 8762 | 60 | 72 | 0.998 | 0.9331787931152226 | mrun_tmh_BPIC2018_control_k2.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 control k2 | 150 | 0 | 32154 | 8762 | 55548 | 64308 | 1.0 | 0.9997569573929791 | mrun_trace_BPIC2018_control_k2.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 control k3 | 590 | 0 | 32378 | 8762 | 31 | 36 | 0.992 | 0.9697557687568681 | mrun_rssmt_BPIC2018_control_k3.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 control k3 | 8972 | 0 | 32378 | 8762 | 55 | 64 | 0.996 | 0.8974827849688557 | mrun_tmh_BPIC2018_control_k3.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 control k3 | 161 | 0 | 32378 | 8762 | 55996 | 64756 | 0.999 | 0.9997097455014138 | mrun_trace_BPIC2018_control_k3.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 control k4 | 506 | 0 | 32573 | 8762 | 31 | 36 | 0.982 | 0.9794789990313658 | mrun_rssmt_BPIC2018_control_k4.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 control k4 | 9059 | 0 | 32573 | 8762 | 42 | 50 | 0.994 | 0.957338731173478 | mrun_tmh_BPIC2018_control_k4.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 control k4 | 163 | 0 | 32573 | 8762 | 56386 | 65146 | 0.998 | 0.9996620878104279 | mrun_trace_BPIC2018_control_k4.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 control k5 | 540 | 0 | 32266 | 8759 | 34 | 40 | 0.993 | 0.9948064723428698 | mrun_rssmt_BPIC2018_control_k5.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 control k5 | 9016 | 0 | 32266 | 8759 | 48 | 58 | 0.991 | 0.8924025475808832 | mrun_tmh_BPIC2018_control_k5.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 control k5 | 145 | 0 | 32266 | 8759 | 55775 | 64532 | 1.0 | 0.9996859762261464 | mrun_trace_BPIC2018_control_k5.xml | SEF-PA00143522 | 
+align-inductive_BPIC2018_reference_k1 | align-inductive | inductive | BPIC2018 reference | 248 | 997 | 25635 | 8762 | 22 | 26 | 0.989 | 0.9257380522112203 | mrun_align-inductive_BPIC2018_reference_k1.xml | cl5n015.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2018_reference_k2 | align-inductive | inductive | BPIC2018 reference | 74 | 808 | 25614 | 8761 | 22 | 26 | 0.988 | 0.9503336232748061 | mrun_align-inductive_BPIC2018_reference_k2.xml | cl5n015.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2018_reference_k3 | align-inductive | inductive | BPIC2018 reference | 83 | 661 | 25589 | 8761 | 23 | 28 | 0.946 | 0.9805568819124412 | mrun_align-inductive_BPIC2018_reference_k3.xml | cl5n015.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2018_reference_k4 | align-inductive | inductive | BPIC2018 reference | 62 | 655 | 25751 | 8761 | 23 | 28 | 0.942 | 0.9953231889980131 | mrun_align-inductive_BPIC2018_reference_k4.xml | cl5n015.ib0.hpc.qut.edu.au | 
+align-inductive_BPIC2018_reference_k5 | align-inductive | inductive | BPIC2018 reference | 40 | 692 | 25965 | 8757 | 20 | 24 | 0.998 | 0.9264895981546892 | mrun_align-inductive_BPIC2018_reference_k5.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_reference_k1 | fe-split | split | BPIC2018 reference | 1546 | 751 | 25635 | 8762 | 26 | 32 | 0.854 | 0.7772645249407351 | mrun_fe-split_BPIC2018_reference_k1.xml | cl4n072.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_reference_k2 | fe-split | split | BPIC2018 reference | 1452 | 612 | 25614 | 8761 | 21 | 26 | 0.767 | 0.803624765858246 | mrun_fe-split_BPIC2018_reference_k2.xml | cl4n072.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_reference_k3 | fe-split | split | BPIC2018 reference | 1489 | 572 | 25589 | 8761 | 21 | 26 | 0.759 | 0.8051443285252148 | mrun_fe-split_BPIC2018_reference_k3.xml | cl4n072.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_reference_k4 | fe-split | split | BPIC2018 reference | 1421 | 575 | 25751 | 8761 | 26 | 32 | 0.805 | 0.8583201671514776 | mrun_fe-split_BPIC2018_reference_k4.xml | cl4n072.ib0.hpc.qut.edu.au | 
+fe-split_BPIC2018_reference_k5 | fe-split | split | BPIC2018 reference | 1432 | 580 | 25965 | 8757 | 21 | 26 | 0.68 | 0.8284519209228157 | mrun_fe-split_BPIC2018_reference_k5.xml | cl4n072.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_reference_k1 | msaprh-split | split | BPIC2018 reference | 1546 | 683 | 25635 | 8762 | 26 | 32 | 0.713 | 0.9590372017282567 | mrun_msaprh-split_BPIC2018_reference_k1.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_reference_k2 | msaprh-split | split | BPIC2018 reference | 1452 | 616 | 25614 | 8761 | 21 | 26 | 0.839 | 0.9542507247840398 | mrun_msaprh-split_BPIC2018_reference_k2.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_reference_k3 | msaprh-split | split | BPIC2018 reference | 1489 | 586 | 25589 | 8761 | 21 | 26 | 0.822 | 0.9558400578503956 | mrun_msaprh-split_BPIC2018_reference_k3.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_reference_k4 | msaprh-split | split | BPIC2018 reference | 1421 | 583 | 25751 | 8761 | 26 | 32 | 0.71 | 0.9589058681229927 | mrun_msaprh-split_BPIC2018_reference_k4.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_BPIC2018_reference_k5 | msaprh-split | split | BPIC2018 reference | 1432 | 579 | 25965 | 8757 | 21 | 26 | 0.833 | 0.963675984484355 | mrun_msaprh-split_BPIC2018_reference_k5.xml | cl4n091.ib0.hpc.qut.edu.au | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 reference k1 | 2126 | 0 | 25635 | 8762 | 35 | 42 | 0.932 | 0.965352920808834 | mrun_rssmt_BPIC2018_reference_k1.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 reference k1 | 9543 | 0 | 25635 | 8762 | 1271 | 1398 | 0.959 | 0.9063764255417424 | mrun_tmh_BPIC2018_reference_k1.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 reference k1 | 212 | 0 | 25635 | 8762 | 42510 | 51270 | 0.989 | 0.998298839364076 | mrun_trace_BPIC2018_reference_k1.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 reference k2 | 1341 | 0 | 25614 | 8761 | 32 | 38 | 0.934 | 0.9503302538553762 | mrun_rssmt_BPIC2018_reference_k2.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 reference k2 | 9977 | 0 | 25614 | 8761 | 1270 | 1404 | 0.954 | 0.960863580256902 | mrun_tmh_BPIC2018_reference_k2.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 reference k2 | 116 | 0 | 25614 | 8761 | 42469 | 51228 | 0.99 | 0.9984884848549038 | mrun_trace_BPIC2018_reference_k2.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 reference k3 | 744 | 0 | 25589 | 8761 | 30 | 36 | 0.98 | 0.9783831775296292 | mrun_rssmt_BPIC2018_reference_k3.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 reference k3 | 9481 | 0 | 25589 | 8761 | 1187 | 1318 | 0.965 | 0.9502058228198829 | mrun_tmh_BPIC2018_reference_k3.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 reference k3 | 116 | 0 | 25589 | 8761 | 42419 | 51178 | 0.983 | 0.9982982832851696 | mrun_trace_BPIC2018_reference_k3.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 reference k4 | 760 | 0 | 25751 | 8761 | 33 | 40 | 0.98 | 0.9935314616647876 | mrun_rssmt_BPIC2018_reference_k4.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 reference k4 | 9330 | 0 | 25751 | 8761 | 1578 | 1714 | 0.958 | 0.9780869440736176 | mrun_tmh_BPIC2018_reference_k4.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 reference k4 | 119 | 0 | 25751 | 8761 | 42743 | 51502 | 0.99 | 0.998265430971371 | mrun_trace_BPIC2018_reference_k4.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | BPIC2018 reference k5 | 916 | 0 | 25965 | 8757 | 33 | 40 | 0.945 | 0.9667525525721622 | mrun_rssmt_BPIC2018_reference_k5.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | BPIC2018 reference k5 | 9629 | 0 | 25965 | 8757 | 1593 | 1728 | 0.949 | 0.9801704041196422 | mrun_tmh_BPIC2018_reference_k5.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | BPIC2018 reference k5 | 124 | 0 | 25965 | 8757 | 43175 | 51930 | 0.986 | 0.9984251338834725 | mrun_trace_BPIC2018_reference_k5.xml | SEF-PA00143522 | 
+align-inductive_rtfm_k1 | align-inductive | inductive | rtfm | 1232 | 978 | 112430 | 30076 | 33 | 42 | 0.275 | 0.7708939198968165 | mrun_align-inductive_rtfm_k1.xml | cl4n081.ib0.hpc.qut.edu.au | 
+align-inductive_rtfm_k2 | align-inductive | inductive | rtfm | 642 | 776 | 112003 | 30075 | 36 | 44 | 0.404 | 0.792484686533806 | mrun_align-inductive_rtfm_k2.xml | cl4n081.ib0.hpc.qut.edu.au | 
+align-inductive_rtfm_k3 | align-inductive | inductive | rtfm | 715 | 716 | 112392 | 30075 | 27 | 36 | 0.273 | 0.7757707256725678 | mrun_align-inductive_rtfm_k3.xml | cl4n081.ib0.hpc.qut.edu.au | 
+align-inductive_rtfm_k4 | align-inductive | inductive | rtfm | 675 | 771 | 112430 | 30075 | 33 | 40 | 0.274 | 0.7859648830997449 | mrun_align-inductive_rtfm_k4.xml | cl4n081.ib0.hpc.qut.edu.au | 
+align-inductive_rtfm_k5 | align-inductive | inductive | rtfm | 724 | 759 | 112215 | 30069 | 32 | 42 | 0.284 | 0.7510996843745991 | mrun_align-inductive_rtfm_k5.xml | cl4n081.ib0.hpc.qut.edu.au | 
+fe-split_rtfm_k1 | fe-split | split | rtfm | 1726 | 804 | 112430 | 30076 | 32 | 42 | 0.126 | 0.6561781410545671 | mrun_fe-split_rtfm_k1.xml | cl4n034.ib0.hpc.qut.edu.au | 
+fe-split_rtfm_k2 | fe-split | split | rtfm | 1594 | 682 | 112003 | 30075 | 32 | 42 | 0.148 | 0.6734871218638337 | mrun_fe-split_rtfm_k2.xml | cl4n034.ib0.hpc.qut.edu.au | 
+fe-split_rtfm_k3 | fe-split | split | rtfm | 1689 | 702 | 112392 | 30075 | 31 | 40 | 0.136 | 0.6227491408033142 | mrun_fe-split_rtfm_k3.xml | cl4n034.ib0.hpc.qut.edu.au | 
+fe-split_rtfm_k4 | fe-split | split | rtfm | 1616 | 677 | 112430 | 30075 | 32 | 42 | 0.138 | 0.579561671651484 | mrun_fe-split_rtfm_k4.xml | cl4n034.ib0.hpc.qut.edu.au | 
+fe-split_rtfm_k5 | fe-split | split | rtfm | 1593 | 673 | 112215 | 30069 | 32 | 42 | 0.137 | 0.5760049260323883 | mrun_fe-split_rtfm_k5.xml | cl4n034.ib0.hpc.qut.edu.au | 
+msaprh-split_rtfm_k1 | msaprh-split | split | rtfm | 1726 | 782 | 112430 | 30076 | 32 | 42 | 0.659 | 0.7468368547815769 | mrun_msaprh-split_rtfm_k1.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_rtfm_k2 | msaprh-split | split | rtfm | 1594 | 679 | 112003 | 30075 | 32 | 42 | 0.655 | 0.7687332828025444 | mrun_msaprh-split_rtfm_k2.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_rtfm_k3 | msaprh-split | split | rtfm | 1689 | 691 | 112392 | 30075 | 31 | 40 | 0.837 | 0.6872382765261129 | mrun_msaprh-split_rtfm_k3.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_rtfm_k4 | msaprh-split | split | rtfm | 1616 | 709 | 112430 | 30075 | 32 | 42 | 0.654 | 0.77030627887917 | mrun_msaprh-split_rtfm_k4.xml | cl4n091.ib0.hpc.qut.edu.au | 
+msaprh-split_rtfm_k5 | msaprh-split | split | rtfm | 1593 | 673 | 112215 | 30069 | 32 | 42 | 0.656 | 0.7681628262891668 | mrun_msaprh-split_rtfm_k5.xml | cl4n091.ib0.hpc.qut.edu.au | 
+GDT_SPN discovery | rssmt | rssmt | rtfm k1 | 6236 | 0 | 112430 | 30076 | 63 | 76 | 0.116 | 0.7689496697593123 | mrun_rssmt_rtfm_k1.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | rtfm k1 | 9608 | 0 | 112430 | 30076 | 331 | 426 | 0.904 | 0.951825221910528 | mrun_tmh_rtfm_k1.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | rtfm k1 | 814 | 0 | 112430 | 30076 | 194786 | 224860 |      |      | mrun_trace_rtfm_k1.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | rtfm k2 | 7941 | 0 | 112003 | 30075 | 69 | 84 | 0.088 | 0.7691297310748153 | mrun_rssmt_rtfm_k2.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | rtfm k2 | 9210 | 0 | 112003 | 30075 | 361 | 468 | 0.904 | 0.9712876170528331 | mrun_tmh_rtfm_k2.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | rtfm k2 | 576 | 0 | 112003 | 30075 | 193933 | 224006 |      |      | mrun_trace_rtfm_k2.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | rtfm k3 | 9137 | 0 | 112392 | 30075 | 71 | 86 | 0.066 | 0.7699634047525417 | mrun_rssmt_rtfm_k3.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | rtfm k3 | 9313 | 0 | 112392 | 30075 | 316 | 410 | 0.926 | 0.9579807564228119 | mrun_tmh_rtfm_k3.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | rtfm k3 | 525 | 0 | 112392 | 30075 | 194711 | 224784 |      |      | mrun_trace_rtfm_k3.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | rtfm k4 | 5625 | 0 | 112430 | 30075 | 68 | 82 | 0.112 | 0.7680618110601227 | mrun_rssmt_rtfm_k4.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | rtfm k4 | 9454 | 0 | 112430 | 30075 | 388 | 500 | 0.904 | 0.9598382699379508 | mrun_tmh_rtfm_k4.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | rtfm k4 | 837 | 0 | 112430 | 30075 | 194787 | 224860 |      |      | mrun_trace_rtfm_k4.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | rtfm k5 | 280044 | 0 | 112215 | 30069 | 73 | 90 | 0.113 | 0.7453029610466079 | mrun_rssmt_rtfm_k5.xml | SEF-PA00143522 | 
+ToothpasteMinerHP | tmh | tmh | rtfm k5 | 9352 | 0 | 112215 | 30069 | 379 | 486 | 0.903 | 0.9694654147565889 | mrun_tmh_rtfm_k5.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | rtfm k5 | 534 | 0 | 112215 | 30069 | 194363 | 224430 |      |      | mrun_trace_rtfm_k5.xml | SEF-PA00143522 | 
+align-inductive_sepsis_k1 | align-inductive | inductive | Sepsis | 142 | 546 | 2885 | 212 | 52 | 68 | 0.0 | 0.45158841836050523 | mrun_align-inductive_sepsis_k1.xml | cl4n030.ib0.hpc.qut.edu.au | 
+align-inductive_sepsis_k2 | align-inductive | inductive | Sepsis | 25 | 315 | 2953 | 211 | 44 | 58 | 0.0 | 0.5926922060279416 | mrun_align-inductive_sepsis_k2.xml | cl4n028.ib0.hpc.qut.edu.au | 
+align-inductive_sepsis_k3 | align-inductive | inductive | Sepsis | 141 | 562 | 3177 | 211 | 52 | 68 | RUNNING | RUNNING | mrun_align-inductive_sepsis_k3.xml | cl4n028.ib0.hpc.qut.edu.au | 
+align-inductive_sepsis_k4 | align-inductive | inductive | Sepsis | 141 | 378 | 3028 | 211 | 49 | 64 | 0.0 | 0.523953064610776 | mrun_align-inductive_sepsis_k4.xml | cl4n007.ib0.hpc.qut.edu.au | 
+align-inductive_sepsis_k5 | align-inductive | inductive | Sepsis | 141 | 511 | 3171 | 205 | 55 | 74 | 0.0 | 0.5152710582455047 | mrun_align-inductive_sepsis_k5.xml | cl4n007.ib0.hpc.qut.edu.au | 
+fe-split_sepsis_k1 | fe-split | split | Sepsis | 963 | 55 | 2885 | 212 | 47 | 62 | 0.0 | 0.5745794184877846 | mrun_fe-split_sepsis_k1.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_sepsis_k2 | fe-split | split | Sepsis | 897 | 21 | 2953 | 211 | 49 | 64 | 0.0 | 0.47468544758596465 | mrun_fe-split_sepsis_k2.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_sepsis_k3 | fe-split | split | Sepsis | 876 | 27 | 3177 | 211 | 47 | 60 | 0.0 | 0.42794488681550336 | mrun_fe-split_sepsis_k3.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_sepsis_k4 | fe-split | split | Sepsis | 841 | 21 | 3028 | 211 | 51 | 66 | 0.0 | 0.47063554405498675 | mrun_fe-split_sepsis_k4.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_sepsis_k5 | fe-split | split | Sepsis | 912 | 21 | 3171 | 205 | 48 | 62 | 0.0 | 0.48835631173536165 | mrun_fe-split_sepsis_k5.xml | cl5n015.ib0.hpc.qut.edu.au | 
+msaprh-split_sepsis_k1 | msaprh-split | split | Sepsis | 963 | 47 | 2885 | 212 | 47 | 62 | RUNNING | RUNNING | mrun_msaprh-split_sepsis_k1.xml | cl4n093.ib0.hpc.qut.edu.au | 
+msaprh-split_sepsis_k2 | msaprh-split | split | Sepsis | 897 | 32 | 2953 | 211 | 49 | 64 | RUNNING | RUNNING | mrun_msaprh-split_sepsis_k2.xml | cl4n009.ib0.hpc.qut.edu.au | 
+tmh_sepsis_k4 | tmh | tmh | Sepsis | 0 | 0 | 12186 | 839 | 2943 | 3154 | 0.215 | 0.8011615596374094 | mrun_tmh_sepsis_k4.xml | cl4n017.ib0.hpc.qut.edu.au | 
+GDT_SPN discovery | rssmt | rssmt | sepsis k1 | 3677220 | 0 | 2912 | 212 | 89 | 114 | 0.0 | FAILED | mrun_rssmt_sepsis_k1.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | sepsis k1 | 9029 | 0 | 2885 | 212 | 2734 | 2936 | 0.212 | 0.793525505709468 | mrun_tmh_sepsis_k1.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | sepsis k1 | 62 | 0 | 2912 | 212 | 5614 | 5824 | 0.849 | 0.7283886182703736 | mrun_trace_sepsis_k1.xml | SEF-1953019678 | 
+GDT_SPN discovery | rssmt | rssmt | sepsis k2 | 6611922 | 0 | 3045 | 211 | 92 | 118 | 0.0 | FAILED | mrun_rssmt_sepsis_k2.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | sepsis k2 | 4157 | 0 | 2953 | 211 | 2898 | 3102 | 0.237 | 0.7903187079158686 | mrun_tmh_sepsis_k2.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | sepsis k2 | 15 | 0 | 3045 | 211 | 5881 | 6090 | 0.863 | 0.7028274304594719 | mrun_trace_sepsis_k2.xml | SEF-1953019678 | 
+GDT_SPN discovery | rssmt | rssmt | sepsis k3 | 29614883 | 0 | 2947 | 211 | 102 | 128 | 0.0 | FAILED | mrun_rssmt_sepsis_k3.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | sepsis k3 | 5145 | 0 | 3177 | 211 | 3357 | 3552 | 0.273 | 0.7861738844084762 | mrun_tmh_sepsis_k3.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | sepsis k3 | 16 | 0 | 2947 | 211 | 5685 | 5894 | 0.853 | 0.6875145395044155 | mrun_trace_sepsis_k3.xml | SEF-1953019678 | 
+GDT_SPN discovery | rssmt | rssmt | sepsis k4 | 9270624 | 0 | 3330 | 211 | 102 | 128 | 0.0 | FAILED | mrun_rssmt_sepsis_k4.xml | SEF-1953019678 | 
+Trace Model With Unity Weights | trace | trace | sepsis k4 | 32 | 0 | 3330 | 211 | 6451 | 6660 | 0.814 | 0.7013686771990284 | mrun_trace_sepsis_k4.xml | SEF-1953019678 | 
+GDT_SPN discovery | rssmt | rssmt | sepsis k5 | 1562521 | 0 | 2980 | 205 | 90 | 114 | 0.0 | FAILED | mrun_rssmt_sepsis_k5.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | sepsis k5 | 5226 | 0 | 3171 | 205 | 3353 | 3556 | 0.238 | 0.7970592145684177 | mrun_tmh_sepsis_k5.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | sepsis k5 | 0 | 0 | 2980 | 205 | 5757 | 5960 | 0.898 | 0.6946280961090505 | mrun_trace_sepsis_k5.xml | SEF-1953019678 | 
+align-inductive_teleclaims_k1 | align-inductive | inductive | teleclaims | 153 | 182 | 9340 | 704 | 28 | 30 | 0.0 | 0.5181717646755921 | mrun_align-inductive_teleclaims_k1.xml | cl4n011.ib0.hpc.qut.edu.au | 
+align-inductive_teleclaims_k2 | align-inductive | inductive | teleclaims | 30 | 81 | 9285 | 703 | 29 | 32 | 0.0 | 0.5254971085340936 | mrun_align-inductive_teleclaims_k2.xml | cl4n011.ib0.hpc.qut.edu.au | 
+align-inductive_teleclaims_k3 | align-inductive | inductive | teleclaims | 22 | 73 | 9299 | 703 | 29 | 32 | 0.0 | 0.5270547644873229 | mrun_align-inductive_teleclaims_k3.xml | cl4n011.ib0.hpc.qut.edu.au | 
+align-inductive_teleclaims_k4 | align-inductive | inductive | teleclaims | 22 | 77 | 9119 | 703 | 29 | 32 | 0.0 | 0.5255427307149907 | mrun_align-inductive_teleclaims_k4.xml | cl4n011.ib0.hpc.qut.edu.au | 
+align-inductive_teleclaims_k5 | align-inductive | inductive | teleclaims | 13 | 66 | 9095 | 699 | 28 | 30 | 0.0 | 0.5171036487140881 | mrun_align-inductive_teleclaims_k5.xml | cl4n011.ib0.hpc.qut.edu.au | 
+fe-split_teleclaims_k1 | fe-split | split | teleclaims | 2240 | 92 | 9340 | 704 | 56 | 66 | 0.0 | 0.6332451531906641 | mrun_fe-split_teleclaims_k1.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_teleclaims_k2 | fe-split | split | teleclaims | 849 | 54 | 9285 | 703 | 56 | 66 | 0.0 | 0.6310449044718052 | mrun_fe-split_teleclaims_k2.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_teleclaims_k3 | fe-split | split | teleclaims | 897 | 61 | 9299 | 703 | 56 | 66 | 0.0 | 0.631792552063076 | mrun_fe-split_teleclaims_k3.xml | cl5n015.ib0.hpc.qut.edu.au | 
+fe-split_teleclaims_k4 | fe-split | split | teleclaims | 817 | 59 | 9119 | 703 | 57 | 68 | RUNNING | RUNNING | mrun_fe-split_teleclaims_k4.xml | cl5n015.ib0.hpc.qut.edu.au | 
+msaprh-split_teleclaims_k1 | msaprh-split | split | teleclaims | 2240 | 106 | 9340 | 704 | 56 | 66 | 0.0 | 0.6332549806712902 | mrun_msaprh-split_teleclaims_k1.xml | cl4n028.ib0.hpc.qut.edu.au | 
+msaprh-split_teleclaims_k2 | msaprh-split | split | teleclaims | 849 | 56 | 9285 | 703 | 56 | 66 | 0.0 | 0.630424697479022 | mrun_msaprh-split_teleclaims_k2.xml | cl4n028.ib0.hpc.qut.edu.au | 
+msaprh-split_teleclaims_k3 | msaprh-split | split | teleclaims | 897 | 59 | 9299 | 703 | 56 | 66 | 0.0 | 0.6311878176148586 | mrun_msaprh-split_teleclaims_k3.xml | cl4n028.ib0.hpc.qut.edu.au | 
+msaprh-split_teleclaims_k4 | msaprh-split | split | teleclaims | 817 | 50 | 9119 | 703 | 57 | 68 | RUNNING | RUNNING | mrun_msaprh-split_teleclaims_k4.xml | cl4n028.ib0.hpc.qut.edu.au | 
+msaprh-split_teleclaims_k5 | msaprh-split | split | teleclaims | 828 | 58 | 9095 | 699 | 56 | 66 | 0.0 | 0.6296405334878499 | mrun_msaprh-split_teleclaims_k5.xml | cl4n068.ib0.hpc.qut.edu.au | 
+GDT_SPN discovery | rssmt | rssmt | teleclaims k1 | 500 | 0 | 9156 | 704 | 60 | 76 | 0.0 | FAILED | mrun_rssmt_teleclaims_k1.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | teleclaims k1 | 2953 | 0 | 9340 | 704 | 116 | 126 | 0.862 | 0.9528958148098884 | mrun_tmh_teleclaims_k1.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | teleclaims k1 | 121 | 0 | 9156 | 704 | 17610 | 18312 | 1.0 | 0.9831573647611281 | mrun_trace_teleclaims_k1.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | teleclaims k2 | 437 | 0 | 9319 | 703 | 60 | 76 | 0.0 |      | mrun_rssmt_teleclaims_k2.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | teleclaims k2 | 2463 | 0 | 9285 | 703 | 116 | 126 | 0.863 | 0.9518514349180109 | mrun_tmh_teleclaims_k2.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | teleclaims k2 | 46 | 0 | 9319 | 703 | 17937 | 18638 | 1.0 | 0.9777856886386871 | mrun_trace_teleclaims_k2.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | teleclaims k3 | 437 | 0 | 9301 | 703 | 60 | 76 | 0.0 | FAILED | mrun_rssmt_teleclaims_k3.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | teleclaims k3 | 2251 | 0 | 9299 | 703 | 116 | 126 | 0.862 | 0.9561677449668934 | mrun_tmh_teleclaims_k3.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | teleclaims k3 | 51 | 0 | 9301 | 703 | 17901 | 18602 | 1.0 | 0.9581254288793247 | mrun_trace_teleclaims_k3.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | teleclaims k4 | 438 | 0 | 9049 | 703 | 60 | 76 | 0.0 | FAILED | mrun_rssmt_teleclaims_k4.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | teleclaims k4 | 2141 | 0 | 9119 | 703 | 116 | 126 | 0.855 | 0.9474202136393466 | mrun_tmh_teleclaims_k4.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | teleclaims k4 | 44 | 0 | 9049 | 703 | 17397 | 18098 | 1.0 | 1.0 | mrun_trace_teleclaims_k4.xml | SEF-PA00143522 | 
+GDT_SPN discovery | rssmt | rssmt | teleclaims k5 | 453 | 0 | 9313 | 699 | 60 | 76 | 0.0 | FAILED | mrun_rssmt_teleclaims_k5.xml | SEF-1953019678 | 
+ToothpasteMinerHP | tmh | tmh | teleclaims k5 | 2215 | 0 | 9095 | 699 | 116 | 126 | 0.849 | 0.9485524117295862 | mrun_tmh_teleclaims_k5.xml | SEF-PA00143522 | 
+Trace Model With Unity Weights | trace | trace | teleclaims k5 | 46 | 0 | 9313 | 699 | 17929 | 18626 | 1.0 | 0.9663510332053358 | mrun_trace_teleclaims_k5.xml | SEF-PA00143522 | 
+

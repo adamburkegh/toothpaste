@@ -3,6 +3,7 @@ library(pals)
 library(stringi)
 library(ggplot2)
 library(gridExtra)
+library(rPref)
 
 exportPic <- TRUE
 
@@ -244,13 +245,50 @@ if (exportPic){
   ggsave(file=paste(workingPath,'tpres.png'),fullgrid)
 }
 
+
+rf <- function(an,rnddigits=2){
+  format(round(an, digits=rnddigits), nsmall = rnddigits) 
+}
+
+
 # Runtime and entity count  export
 # 
-#  rundata %>% select(ShortId,MinerDuration,EstimatorDuration,TotalDuration,MODEL_ENTITY_COUNT,baseLog) %>% 
-#               group_by(baseLog,ShortId) %>% 
-#               summarize(exmean=round(mean(TotalDuration),2), 
-#                        exsd=round(sd(TotalDuration),2),
-#                        scmean=round(mean(MODEL_ENTITY_COUNT),2), 
-#                        scsd=round(sd(MODEL_ENTITY_COUNT),2)) %>% 
-#               write_csv(paste(workingPath,'runtimes.csv',sep=''))
-#
+rundata %>%
+  select(
+    ShortId,
+    MinerDuration,
+    EstimatorDuration,
+    TotalDuration,
+    MODEL_ENTITY_COUNT,
+    EARTH_MOVERS_LIGHT_COVERAGE,
+    ALPHA_PRECISION_UNRESTRICTED,
+    baseLog
+  ) %>%
+  group_by(baseLog, ShortId) %>%
+  summarize(
+    exmean = rf(mean(TotalDuration)),
+    exsd = rf(sd(TotalDuration)),
+    scmean = rf(mean(MODEL_ENTITY_COUNT)),
+    scsd = rf(sd(MODEL_ENTITY_COUNT)),
+    emmean = rf(mean(
+      as.numeric(EARTH_MOVERS_LIGHT_COVERAGE), na.rm = TRUE
+    )),
+    apmean = rf(mean(
+      as.numeric(ALPHA_PRECISION_UNRESTRICTED), na.rm = TRUE
+    ))
+  ) %>%
+  write_csv(paste(workingPath, 'runtimes.csv', sep = ''))
+
+
+## Pareto
+
+forcenum <- function(df){
+  as.numeric(as.character(df))
+}
+
+rd <- rundata
+rd$EARTH_MOVERS_LIGHT_COVERAGE <- forcenum(rd$EARTH_MOVERS_LIGHT_COVERAGE)
+rd$ALPHA_PRECISION_UNRESTRICTED <- forcenum(rd$ALPHA_PRECISION_UNRESTRICTED)
+rd$MODEL_ENTITY_COUNT <- forcenum(rd$MODEL_ENTITY_COUNT)
+
+rdn <- rd %>% drop_na()

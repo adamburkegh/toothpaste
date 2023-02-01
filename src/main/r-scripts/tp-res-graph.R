@@ -1,8 +1,10 @@
 library(dplyr)
+library(tidyr)
 library(pals)
 library(stringi)
 library(ggplot2)
 library(gridExtra)
+library(readr)
 library(rPref)
 
 exportPic <- TRUE
@@ -167,7 +169,7 @@ edgect_graph <- function(workingPath, picName, rundata, ctLog){
 		  ylim=c(0,90))
 }
 
-workingPath = "c:/Users/burkeat/bpm/toothpaste-public/toothpaste/var/"
+workingPath = "c:/Users/Adam/bpm/toothpaste3/toothpaste/var/"
 
 rundata = read.csv( paste(workingPath,"2022_jn.psv", sep=""), 
 			sep ="|", strip.white=TRUE)
@@ -208,10 +210,8 @@ rundata$TotalDuration = rundata$MinerDuration + rundata$EstimatorDuration
 # logs <- c("rtfm")
 # logs <- c("teleclaims")
 
-emappicName   <- paste("emap", gsub(" ","_", tolower(logs)), sep="") 
-
-
-rundata$col = factor(rundata$shortId)
+# deletable?
+# rundata$col = factor(rundata$shortId)
 
 # count <- 1
 # for (log in logs){
@@ -292,3 +292,59 @@ rd$ALPHA_PRECISION_UNRESTRICTED <- forcenum(rd$ALPHA_PRECISION_UNRESTRICTED)
 rd$MODEL_ENTITY_COUNT <- forcenum(rd$MODEL_ENTITY_COUNT)
 
 rdn <- rd %>% drop_na()
+=======
+
+rundata %>% select(ShortId,MinerDuration,EstimatorDuration,TotalDuration,MODEL_ENTITY_COUNT,baseLog) %>%
+              group_by(baseLog,ShortId) %>%
+              summarize(exmean=round(mean(TotalDuration),2),
+                       exsd=round(sd(TotalDuration),2),
+                       scmean=round(mean(MODEL_ENTITY_COUNT),2),
+                       scsd=round(sd(MODEL_ENTITY_COUNT),2)) %>%
+              write_csv(paste(workingPath,'runtimes.csv',sep=''))
+
+tonum <- function(df){
+  res <- as.numeric(as.character(df))
+}
+
+rd <- rundata
+rd$EARTH_MOVERS_LIGHT_COVERAGE <- tonum(rd$EARTH_MOVERS_LIGHT_COVERAGE)
+rd$ALPHA_PRECISION_UNRESTRICTED <- tonum(rd$ALPHA_PRECISION_UNRESTRICTED)
+rd$MODEL_ENTITY_COUNT <- tonum(rd$MODEL_ENTITY_COUNT)
+
+rdn <-
+  rd %>% drop_na() %>% 
+  select(
+    baseLog,
+    ShortId,
+    EARTH_MOVERS_LIGHT_COVERAGE,
+    ALPHA_PRECISION_UNRESTRICTED,
+    MODEL_ENTITY_COUNT
+  )
+
+paretoWide <- psel(
+  group_by(rdn,baseLog),
+  high(EARTH_MOVERS_LIGHT_COVERAGE) * high(ALPHA_PRECISION_UNRESTRICTED) *
+    low(MODEL_ENTITY_COUNT) ,
+  show_level = TRUE,
+  top_level=1
+) 
+
+paretoWide %>% write_csv(paste(workingPath,'pareto.csv',sep=''))
+  
+rdMeans <- rdn %>%
+  group_by(baseLog,ShortId) %>%
+  summarize(scmean=round(mean(MODEL_ENTITY_COUNT),2),
+            apmean=round(mean(ALPHA_PRECISION_UNRESTRICTED),2),
+            emmean=round(mean(EARTH_MOVERS_LIGHT_COVERAGE),2)
+            )  
+
+paretoMean <- 
+  psel(
+    group_by(rdMeans,baseLog),
+    high(emmean) * high(apmean) *
+    low(scmean) ,
+    show_level = TRUE,
+    top_level=1
+  ) 
+
+paretoMean %>% write_csv(paste(workingPath,'paretoMean.csv',sep=''))

@@ -6,21 +6,10 @@ import PetriNet
 import EventLog
 import Data.List (sort)
 import Data.Set (Set,fromList,union)
-import Debug.Trace
+import TraceUtil
 
 -- Some data structures and manipulations for process trees and 
 -- similar structures
-
-debug :: String -> a -> a
--- Debug ON
-debugOn :: String -> a -> a
-debugOn = trace
-
--- Debug OFF
-debugOff :: String -> a -> a
-debugOff x y = y 
-
-debug = debugOff
 
 changeDebug :: Bool -> String -> a -> a
 changeDebug cond msg x = if cond then debug ("=> " ++ msg) x else x

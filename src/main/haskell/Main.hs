@@ -3,16 +3,18 @@
 module Main where
 
 import Binpaste 
+import EventLog
 import Flowpaste hiding (main)
+import ProcessFormats
 import ProbProcessTree
 import TPConform
 import TPMine
-import EventLog
-import ProcessFormats
 
+import Control.Logger.Simple
 import Data.List (intercalate,nub)
 import Data.Map (Map,lookup)
 import Data.Maybe (fromJust)
+import qualified Data.Text as T
 import System.Console.CmdArgs
 import System.IO
 
@@ -23,7 +25,8 @@ data ToothpasteArgs =
                        ptreeformat :: String,
                        impl :: String,
                        traceprobfile :: FilePath,
-                       noise :: Float }
+                       noise :: Float,
+                       verbose :: Bool }
         deriving (Show,Data,Typeable)
 
 data Model = Stochastic | ControlFlow
@@ -35,6 +38,10 @@ data PTreeFormat = PTree | LaTeX
 
 data Impl = Incr | Binary | MNode
         deriving (Show,Eq)
+
+
+summaryStr :: String
+summaryStr = "Toothpaste Miner 0.9.2.1, 2020-22 (GPL)" 
 
 toothpasteArgs = ToothpasteArgs{
     logformat = "dt" &= 
@@ -50,10 +57,12 @@ toothpasteArgs = ToothpasteArgs{
     traceprobfile = ""
             &= help "Output trace probabilities to this file",
     noise = def
-            &= help "Prune subtrees below this threshold. Range [0..1]. Default 0." } 
+            &= help "Prune subtrees below this threshold. Range [0..1]. Default 0.",
+    verbose = def &= help "Verbose output"
+            } 
             &=
     help "Discover stochastic models from event logs" 
-        &= summary "Toothpaste Miner 0.9.2.1, 2020-22 (GPL)" 
+        &= summary summaryStr
 
 ptreeOutMain = Binpaste.inputMain
 
@@ -198,8 +207,16 @@ mineWithProb tpargs logtext =
 
 
 main :: IO ()
-main = do
+main = 
+    withGlobalLogging (LogConfig Nothing True) $
+    do
     tpargs <- cmdArgs toothpasteArgs
+    if (verbose tpargs)
+        then do 
+            setLogLevel LogDebug
+            logDebug $ T.pack summaryStr
+        else do 
+            setLogLevel LogInfo
     inhandle <- openFile (eventlog tpargs) ReadMode
     contents <- hGetContents inhandle
     if null $ traceprobfile tpargs  

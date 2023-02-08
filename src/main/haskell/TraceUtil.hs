@@ -1,15 +1,12 @@
 module TraceUtil where
 
-import Debug.Trace
+import Control.Logger.Simple
+import qualified Data.Text as T
 
 -- debug and trace
 debug :: String -> a -> a
--- Debug ON
-debug = trace
-
--- Debug OFF
--- debug x y = y
+debug x = pureDebug $ T.pack x
 
 warn :: String -> a -> a
-warn msg = trace ("WARNING " ++ msg) 
+warn x = pureWarn $ T.pack x
 

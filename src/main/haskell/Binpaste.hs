@@ -2,19 +2,12 @@ module Binpaste where
 
 import PetriNet
 import EventLog
+import TraceUtil
 import Data.List (sort)
 import Data.Set (Set,fromList,union)
-import Debug.Trace
 
 -- Some data structures and manipulations for process trees and 
 -- similar structures
-
-debug :: String -> a -> a
--- Debug ON
-debug = trace
-
--- Debug OFF
--- debug x y = y 
 
 changeDebug :: Bool -> String -> a -> a
 changeDebug cond msg x = if cond then debug ("=> " ++ msg) x else x

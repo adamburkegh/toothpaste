@@ -4,19 +4,9 @@ import EventLog
 import PetriNet
 import ProbProcessTree
 import Toothpaste (transform,transformNoise)
-import Debug.Trace
+import TraceUtil
 import Data.List (sort)
 import Data.Set (fromList,union,unions)
-
--- debug and trace
-debug :: String -> a -> a
--- Debug ON
-debug = trace
-
--- Debug OFF
--- debug x y = y
-
-warn msg = trace ("Warn: " ++ msg)
 
 
 -- Mining

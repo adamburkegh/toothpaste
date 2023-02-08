@@ -22,7 +22,9 @@ dependencies:
 - base >= 4.7 && < 5
 - cmdargs >= 0.10.20 && < 2
 - containers > 0.1 && < 2
+- simple-logger >= 0.1.0 && < 2
 - split > 0.2.3 && < 2
+- text > 1.2 && < 2
 - xml > 1.3 && < 2
 - HUnit >= 1.6.1.0 && < 2
 

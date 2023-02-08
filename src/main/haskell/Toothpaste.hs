@@ -1,26 +1,10 @@
 module Toothpaste where
 
 import ProbProcessTree
-import Debug.Trace
-import Data.List(partition,sort)
+import TraceUtil
 import PetriNet(valMsg)
 
--- debug and trace
-debugOn :: String -> a -> a
-debugOn = trace
-
-debugOff :: String -> a -> a
-debugOff s x = x
-
-debug :: String -> a -> a
--- Debug ON
-debug = debugOn
-
--- Debug OFF
--- debug = debugOff
-
-warn :: String -> a -> a
-warn = trace 
+import Data.List(partition,sort)
 
 
 -- Rule types

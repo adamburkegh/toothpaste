@@ -4,7 +4,7 @@ public class AddNote {
 
 	public static void main(String[] args) throws Exception{
 		if (args.length < 3 || args.length > 3) {
-			System.out.println("Usage: CopyTask sourceFile stat targetFile");
+			System.out.println("Usage: AddNote sourceFile stat targetFile");
 		}
 		String sourceFile = args[0];
 		String stat = args[1];

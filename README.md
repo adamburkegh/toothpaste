@@ -4,6 +4,29 @@ This project shows a technique for discovering Stochastic Petri Nets from event 
 
 The technique is explained formally in *Burke, A., Leemans, S. J. J., & Wynn, Moe Thandar. (2021). Discovering Stochastic Process Models By Reduction and Abstraction. International conference on applications and theory of Petri nets and concurrency*. [This blog post](https://adamburkeware.net/2021/08/02/toothpaste.html) gives a quick overview. It's also the subject of ongoing research.
 
+# Running
+
+## Windows CLI
+From version 0.9.3.0, a `toothpaste-win-exe-version.zip` file is included in the release. When unzipped it contains a self-contained executable file and a Python wrapper.
+
+`bin\toothpaste.exe` is a command line application. See the help included using `toothpaste --help`.
+
+## Python 
+`scripts/toothpaste.py` is a Python wrapper using pm4py. pm4py will need to be available in the Python environment and `toothpaste.exe` on the PATH. It invokes the toothpaste miner using the CLI and returns a pm4py Petri net. The script can also be copied as a starting point for more sophisticated use if needed.
+
+## Development-like environment
+
+`scripts/red.sh data/exercise1.xes` invokes the Toothpaste Miner prototype, outputting `var/exercise1.png` and various intermediates.
+
+`scripts/st.sh exercise` invokes the miner on a DCDT file and outputs a probabilistic process tree.
+
+The test scaffold entry point is `ModelRunner.java`
+
+The reporting entry point is `SPNDiscoverReporter.java`
+
+Some scripts for running on Windows and Unix are in `scripts/`.
+
+
 
 # Development Setup and Installation
 
@@ -44,17 +67,6 @@ Then run `dot -c` to initialize
 (It's a [weird graphviz thing](https://stackoverflow.com/a/62549025/5729872))
 
 
-
-# Running
-`scripts/red.sh data/exercise1.xes` invokes the Toothpaste Miner prototype, outputting `var/exercise1.png` and various intermediates.
-
-`scripts/st.sh exercise` invokes the miner on a DCDT file and outputs a probabilistic process tree.
-
-The test scaffold entry point is `ModelRunner.java`
-
-The reporting entry point is `SPNDiscoverReporter.java`
-
-Some scripts for running on Windows and Unix are in `scripts/`.
 
 # Results
 

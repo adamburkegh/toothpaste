@@ -1,5 +1,5 @@
 name:                toothpaste
-version:             0.9.2.1
+version:             0.9.3.0
 github:              "githubuser/adamburkegh/toothpaste"
 license:             GPL-3
 author:              "Adam Burke"
@@ -30,6 +30,14 @@ dependencies:
 
 library:
   source-dirs: src/main/haskell
+  exposed-modules:
+    - Toothpaste.EventLog
+    - Toothpaste.PetriNet
+    - Toothpaste.ProbProcessTree
+    - Toothpaste.Toothpaste
+    - Toothpaste.TPConform
+    - Toothpaste.TPMine
+
 
 executables:
   toothpaste:
@@ -47,14 +55,15 @@ executables:
 
 tests:
   toothpaste-test:
-    main:                Main.hs
-    source-dirs:         src/test/haskell
+    main:                TestMain.hs
+    source-dirs:         
+        - src/test/haskell
+        - src/main/haskell
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - toothpaste
     - HUnit
     - HUnit-approx
 

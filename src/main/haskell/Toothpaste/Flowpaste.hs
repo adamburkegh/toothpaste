@@ -1,12 +1,12 @@
-module Flowpaste where
+module Toothpaste.Flowpaste where
 -- Flowpaste is a copy/paste/edit fork of the stochastic version, Toothpaste,
 -- rather than a beautiful sharing of abstractions, at this point in time
 
-import PetriNet
-import EventLog
+import Toothpaste.PetriNet
+import Toothpaste.EventLog
+import Toothpaste.TraceUtil
 import Data.List (sort)
 import Data.Set (Set,fromList,union)
-import TraceUtil
 
 -- Some data structures and manipulations for process trees and 
 -- similar structures

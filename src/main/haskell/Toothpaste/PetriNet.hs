@@ -1,6 +1,6 @@
-module PetriNet where
+module Toothpaste.PetriNet where
 
-import ToString
+import Toothpaste.ToString
 import Data.Set (Set, toList, fromList,difference,empty)
 import Data.Typeable
 

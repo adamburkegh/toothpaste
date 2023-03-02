@@ -6,12 +6,12 @@
 -- of the generated ids.
 -- 
 
-module TPMineTest where
+module Toothpaste.TPMineTest where
 
-import PetriNet
-import ProbProcessTree
-import Toothpaste hiding (main)
-import TPMine
+import Toothpaste.PetriNet
+import Toothpaste.ProbProcessTree
+import Toothpaste.Toothpaste hiding (main)
+import Toothpaste.TPMine
 
 import Data.List (sort)
 import Data.Set (Set,toList,fromList)

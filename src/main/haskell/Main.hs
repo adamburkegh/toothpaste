@@ -2,13 +2,13 @@
 
 module Main where
 
-import Binpaste 
-import EventLog
-import Flowpaste hiding (main)
-import ProcessFormats
-import ProbProcessTree
-import TPConform
-import TPMine
+import qualified Toothpaste.Binpaste as Binpaste
+import Toothpaste.EventLog
+import qualified Toothpaste.Flowpaste as Flowpaste hiding (main) 
+import Toothpaste.ProcessFormats
+import qualified Toothpaste.ProbProcessTree as ProbProcessTree
+import Toothpaste.TPConform
+import qualified Toothpaste.TPMine as TPMine
 
 import Control.Logger.Simple
 import Data.List (intercalate,nub)
@@ -41,7 +41,7 @@ data Impl = Incr | Binary | MNode
 
 
 summaryStr :: String
-summaryStr = "Toothpaste Miner 0.9.2.1, 2020-22 (GPL)" 
+summaryStr = "Toothpaste Miner 0.9.3.0, 2020-22 (GPL)" 
 
 toothpasteArgs = ToothpasteArgs{
     logformat = "dt" &= 
@@ -143,7 +143,7 @@ ptreeOnIntNoise tpargs rawlog =
 
 
 -- Flowpaste
-ptree ::  ToothpasteArgs -> String -> PTree String
+ptree ::  ToothpasteArgs -> String -> Flowpaste.PTree String
 ptree tpargs = Flowpaste.discover (parseSelector $ logformat tpargs)
 
 
@@ -178,7 +178,8 @@ mine tpargs logtext
          (pptformatter pptn, 
           weightedNetToString (TPMine.translate pptn) "spn" ) 
     | model == ControlFlow = 
-        (formatPTree pt,  petriNetToString (Flowpaste.translate pt) "pnet" )
+        (Flowpaste.formatPTree pt,  
+         petriNetToString (Flowpaste.translate pt) "pnet" )
     where model  = modelSelector $ modeltype tpargs 
           parser = parseSelector $ logformat tpargs
           algo   = implSelector  $ impl tpargs

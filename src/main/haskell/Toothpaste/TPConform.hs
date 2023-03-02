@@ -1,9 +1,9 @@
 {-# LANGUAGE ImplicitParams #-}
 
-module TPConform where
+module Toothpaste.TPConform where
 
-import ProbProcessTree
-import TraceUtil
+import Toothpaste.ProbProcessTree
+import Toothpaste.TraceUtil
 
 import Data.List (sort)
 

@@ -1,6 +1,6 @@
 -- Event log parsers for a few formats
 
-module EventLog where
+module Toothpaste.EventLog where
 
 import Data.List (isPrefixOf)
 import Data.List.Split

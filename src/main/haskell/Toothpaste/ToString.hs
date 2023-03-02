@@ -1,4 +1,4 @@
-module ToString where
+module Toothpaste.ToString where
 
 import Data.Typeable
 

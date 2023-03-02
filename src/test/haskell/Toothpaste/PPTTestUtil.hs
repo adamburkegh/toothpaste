@@ -1,6 +1,6 @@
-module PPTTestUtil where
+module Toothpaste.PPTTestUtil where
 
-import ProbProcessTree
+import Toothpaste.ProbProcessTree
 
 putTree :: (Show a) => PPTree a -> IO()
 putTree x = putStrLn (formatPPTree x)

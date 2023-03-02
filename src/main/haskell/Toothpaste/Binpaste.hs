@@ -1,8 +1,8 @@
-module Binpaste where
+module Toothpaste.Binpaste where
 
-import PetriNet
-import EventLog
-import TraceUtil
+import Toothpaste.PetriNet
+import Toothpaste.EventLog
+import Toothpaste.TraceUtil
 import Data.List (sort)
 import Data.Set (Set,fromList,union)
 

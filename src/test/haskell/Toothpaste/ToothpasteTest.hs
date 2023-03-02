@@ -1,9 +1,9 @@
-module ToothpasteTest where
+module Toothpaste.ToothpasteTest where
 
-import ProbProcessTree
-import Toothpaste hiding (main)
+import Toothpaste.ProbProcessTree
+import Toothpaste.Toothpaste hiding (main)
 
-import PPTTestUtil
+import Toothpaste.PPTTestUtil
 
 import Data.Set (Set,toList,fromList)
 import Test.HUnit

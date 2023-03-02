@@ -1,6 +1,6 @@
-module ProbProcessTreeTest where
+module Toothpaste.ProbProcessTreeTest where
 
-import ProbProcessTree
+import Toothpaste.ProbProcessTree
 
 import Test.HUnit
 

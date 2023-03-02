@@ -1,6 +1,6 @@
-module EventLogTest where
+module Toothpaste.EventLogTest where
 
-import EventLog
+import Toothpaste.EventLog
 import Data.Map (Map,empty,fromList)
 
 import System.Exit

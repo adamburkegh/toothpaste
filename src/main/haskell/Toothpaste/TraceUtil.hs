@@ -1,4 +1,4 @@
-module TraceUtil where
+module Toothpaste.TraceUtil where
 
 import Control.Logger.Simple
 import qualified Data.Text as T

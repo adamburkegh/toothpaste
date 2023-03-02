@@ -1,7 +1,7 @@
-module OtherRules where
+module Toothpaste.OtherRules where
 
-import ProbProcessTree
-import Toothpaste
+import Toothpaste.ProbProcessTree
+import Toothpaste.Toothpaste
 
 import Data.List (sortOn)
 

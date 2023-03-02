@@ -1,11 +1,11 @@
 {-# LANGUAGE ImplicitParams #-}
 
-module TPConformTest where
+module Toothpaste.TPConformTest where
 
 import qualified Data.Set as Set
 
-import ProbProcessTree
-import TPConform
+import Toothpaste.ProbProcessTree
+import Toothpaste.TPConform
 
 -- import PPTTestUtil
 

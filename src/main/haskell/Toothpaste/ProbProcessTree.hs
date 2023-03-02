@@ -1,9 +1,9 @@
-module ProbProcessTree 
-    (module ProbProcessTree,
+module Toothpaste.ProbProcessTree 
+    (module Toothpaste.ProbProcessTree,
      Weight,
      Validation) where
 
-import PetriNet 
+import Toothpaste.PetriNet 
 import Data.List (nub,sort)
 
 

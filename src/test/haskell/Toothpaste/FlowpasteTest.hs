@@ -1,8 +1,8 @@
-module FlowpasteTest where
+module Toothpaste.FlowpasteTest where
 
-import Flowpaste hiding (main)
-import PetriNet
-import EventLog
+import Toothpaste.Flowpaste hiding (main)
+import Toothpaste.PetriNet
+import Toothpaste.EventLog
 import Data.Set (Set,toList,fromList)
 
 import System.Exit

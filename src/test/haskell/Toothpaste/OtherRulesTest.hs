@@ -1,7 +1,7 @@
-module OtherRulesTest where
+module Toothpaste.OtherRulesTest where
 
-import OtherRules
-import ProbProcessTree
+import Toothpaste.OtherRules
+import Toothpaste.ProbProcessTree
 
 import Test.HUnit
 

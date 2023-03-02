@@ -1,8 +1,8 @@
-module Toothpaste where
+module Toothpaste.Toothpaste where
 
-import ProbProcessTree
-import TraceUtil
-import PetriNet(valMsg)
+import Toothpaste.ProbProcessTree
+import Toothpaste.TraceUtil
+import Toothpaste.PetriNet(valMsg)
 
 import Data.List(partition,sort)
 

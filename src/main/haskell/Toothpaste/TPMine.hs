@@ -1,10 +1,10 @@
-module TPMine where
+module Toothpaste.TPMine where
 
-import EventLog
-import PetriNet
-import ProbProcessTree
-import Toothpaste (transform,transformNoise)
-import TraceUtil
+import Toothpaste.EventLog
+import Toothpaste.PetriNet
+import Toothpaste.ProbProcessTree
+import Toothpaste.Toothpaste (transform,transformNoise)
+import Toothpaste.TraceUtil
 import Data.List (sort)
 import Data.Set (fromList,union,unions)
 

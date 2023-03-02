@@ -1,7 +1,7 @@
-module ProcessFormats where
+module Toothpaste.ProcessFormats where
 
-import PetriNet
-import ToString
+import Toothpaste.PetriNet
+import Toothpaste.ToString
 import Text.XML.Light
 import Data.Set (Set, toList)
 import Data.Typeable

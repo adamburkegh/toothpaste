@@ -20,9 +20,12 @@ Mine the logfile using the toothpaste miner. The resulting stochastic labelled
 Petri net is returned as a pm4py PetriNet object, and written to outfile. This
 convenience method is implemented as an external call to a toothpaste binary
 executable, which must be on the PATH. Note that three other files are 
-written to the directory of the outfile: a PNML stochastic Petri net model, a PTREE Probabilistic Process Tree, and an intermediate log. If outfile is None, thefiles are written to the logfile directory with the prefix from the logfile. 
+written to the directory of the outfile: a PNML stochastic Petri net model, a 
+PTREE Probabilistic Process Tree, and an intermediate log. If outfile is None, 
+the files are written to the logfile directory with the prefix from the 
+logfile. 
 
-For richer parameters, such as noise reducition, see the command line help
+For richer parameters, such as noise reduction, see the command line help
 for Toothpaste miner.
 """
 def mine(logfile,outfile=None):

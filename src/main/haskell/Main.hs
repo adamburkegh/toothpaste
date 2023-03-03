@@ -11,6 +11,7 @@ import qualified Toothpaste.ProbProcessTree as ProbProcessTree
 import Toothpaste.TPConform
 import qualified Toothpaste.TPMine as TPMine
 
+import Control.Monad
 import Control.Logger.Simple
 import Data.List (intercalate,nub)
 import Data.Map (Map,lookup)
@@ -214,14 +215,11 @@ main =
     withGlobalLogging (LogConfig Nothing True) $
     do
     tpargs <- cmdArgsRun toothpasteArgs
-    if ((null $ eventlog tpargs)  
+    when ((null $ eventlog tpargs)  
      || (null $ pnetfile tpargs)
      || (null $ ptreefile tpargs) )
-        then do 
-            putStr "--eventlog, --pnetfile and --ptreefile are required arguments\n" 
-            exitFailure
-        else do 
-            return tpargs
+        (do putStr "--eventlog, --pnetfile and --ptreefile are required arguments\n" 
+            exitFailure)
     if (verbose tpargs)
         then do 
             setLogLevel LogDebug

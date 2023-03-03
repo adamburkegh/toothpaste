@@ -11,6 +11,9 @@ from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.exporter.xes import exporter as xes_exporter
 
 TBIN="toothpaste"
+CLASSIFIER="concept:name"
+DELIM=",,"
+
 
 """
 Mine the logfile using the toothpaste miner. The resulting stochastic labelled
@@ -48,7 +51,13 @@ def minerVersion():
 
 def xestodcdt(xesfile,outfile):
     log = xes_importer.apply(xesfile)
-    xes_exporter.apply(log,outfile)
+    with open(outfile,'w') as outf:
+        for line in log:
+            outline = line[0][CLASSIFIER]
+            for entry in line[1:]:
+                outline += DELIM + entry[CLASSIFIER]
+            outline += "\n"
+            outf.write(outline)
 
 
  

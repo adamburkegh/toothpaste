@@ -44,7 +44,7 @@ data Impl = Incr | Binary | MNode
 
 
 summaryStr :: String
-summaryStr = "Toothpaste Miner 0.9.3.0, 2020-22 (GPL)" 
+summaryStr = "Toothpaste Miner 0.9.3.1, 2020-23 (GPL)" 
 
 toothpasteArgs = cmdArgsMode $ ToothpasteArgs{
     logformat = "dt" &= 

@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable #-}
+ {-# OPTIONS_GHC -fno-cse #-}
 
 module Main where
 
@@ -16,6 +17,7 @@ import Data.Map (Map,lookup)
 import Data.Maybe (fromJust)
 import qualified Data.Text as T
 import System.Console.CmdArgs
+import System.Console.CmdArgs.Explicit
 import System.IO
 
 data ToothpasteArgs = 
@@ -43,14 +45,14 @@ data Impl = Incr | Binary | MNode
 summaryStr :: String
 summaryStr = "Toothpaste Miner 0.9.3.0, 2020-22 (GPL)" 
 
-toothpasteArgs = ToothpasteArgs{
+toothpasteArgs = cmdArgsMode $ ToothpasteArgs{
     logformat = "dt" &= 
         help "Event log format. Valid values dt or dtct", 
     modeltype = "stoch" &= 
         help "Output model type. Valid values stoch or cflow", 
-    eventlog  = ""  &= help "Event log file name",
-    pnetfile  = "" &= help "Output Petri Net PNML file",
-    ptreefile = "" &= help "Output PPTree file",
+    eventlog  = def &= help "Event log file name. Required.",
+    pnetfile  = def &= help "Output Petri Net PNML file",
+    ptreefile = def &= help "Output PPTree file",
     ptreeformat = "ptree" 
             &= help "Output PPT format. Valid values ptree or latex",
     impl      = "mnode" &= help "Discovery algo. Valid values binary, incr, or mnode. Default mnode.",
@@ -206,12 +208,28 @@ mineWithProb tpargs logtext =
           pptformatter | pptf == PTree = ProbProcessTree.formatPPTree
                        | pptf == LaTeX = ProbProcessTree.latexPPTree
 
+helpAndExit :: (Data a) => String -> a -> IO (a)
+helpAndExit msg args = 
+    do
+    let cm = cmdArgsMode args
+    let ht = msg ++ "\n\n" 
+             -- ++  (show $ helpText [] HelpFormatDefault cm )
+             ++ show cm
+    cmdArgsApply (CmdArgs{cmdArgsValue=args,
+                          cmdArgsHelp = Just ht,
+                          cmdArgsVersion = Nothing,
+                          cmdArgsVerbosity = Nothing } )
 
 main :: IO ()
 main = 
     withGlobalLogging (LogConfig Nothing True) $
     do
-    tpargs <- cmdArgs toothpasteArgs
+    tpargs <- cmdArgsRun toothpasteArgs
+    if (null $ eventlog tpargs) 
+        then do 
+            helpAndExit "--eventlog is a required argument" tpargs 
+        else do
+            return tpargs
     if (verbose tpargs)
         then do 
             setLogLevel LogDebug

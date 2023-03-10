@@ -5,6 +5,19 @@ import java.util.Map;
 
 import qut.pm.spm.TraceFreq;
 
+/**
+* Implements a variation on the Alpha Precision measure, from
+* Depaire et al (2022) - Alpha Precision: Estimating the Significant System 
+* Behavior in a Model 
+* 
+* Current implementation is 
+* P_na(M,S) = sum_{sigma in L} prob_M(sigma) I_alpha(sigma)
+* 
+* not 
+* P_alpha(M,S) = sum_{sigma in M} prob_M(sigma) I_alpha(sigma)
+* 
+* as in the paper.
+*/
 public class AlphaPrecisionCalculation {
 
 	public double calculatePrecision(TraceFreq tfLog, TraceFreq tfModel, int logTotalEvents, 

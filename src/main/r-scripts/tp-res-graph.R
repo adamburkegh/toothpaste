@@ -7,7 +7,8 @@ library(gridExtra)
 library(readr)
 library(rPref)
 
-exportPic <- TRUE
+exportPic <- FALSE
+# Export doesn't work - crude save from display in this script
 
 prepfig <- function(fprefix,logname, width=30, height=20, mar=c(1,1,1,1))
 {
@@ -69,8 +70,8 @@ em_vs_ap_graph_plot <- function(workingPath, picName, rundata, ctLog){
     # main= paste("Earth Movers vs Alpha-Precision ", ctLog),
     main= paste(ctLog),
     # names.arg = bnames,
-    xlab="Earth Movers",
-    ylab="Alpha Precision",
+    xlab="Earth Movers (EM)",
+    ylab="Existential Precision (XPU)",
     # horiz=FALSE, cex.names=0.8, las=2,
     xlim = xlim, ylim = ylim,
     col=bpo$col,
@@ -101,7 +102,7 @@ em_vs_ap_graph <- function(workingPath, picName, rundata, ctLog){
     geom_point() +
     xlim(0,1) + ylim(0,1) + 
     ggtitle(ctLog) +
-    ylab("tEMSC0.8") + xlab("alpha precision") 
+    ylab("Earth Movers (EM)") + xlab("Existential Precision (XPU)") 
     # + stat_ellipse()
   res
 }
@@ -142,7 +143,7 @@ em_graph <- function(workingPath, picName, rundata, ctLog){
 		  rundata, 
 		  ctMeasure = "Earth Movers", 
 		  ctLog = ctLog,
-		  ctShortMeasure = "tEMSC 0.8",
+		  ctShortMeasure = "EM",
 		  colName = "EARTH_MOVERS_LIGHT_COVERAGE",
 		  ylim=c(0,1))
 }
@@ -169,7 +170,8 @@ edgect_graph <- function(workingPath, picName, rundata, ctLog){
 		  ylim=c(0,90))
 }
 
-workingPath = "c:/Users/Adam/bpm/toothpaste3/toothpaste/var/"
+# workingPath = "c:/Users/Adam/bpm/toothpaste3/toothpaste/var/"
+workingPath = "c:/Users/burkeat/bpm/toothpaste-public/toothpaste/var/"
 
 rundata = read.csv( paste(workingPath,"2022_jn.psv", sep=""), 
 			sep ="|", strip.white=TRUE)
@@ -292,7 +294,7 @@ rd$ALPHA_PRECISION_UNRESTRICTED <- forcenum(rd$ALPHA_PRECISION_UNRESTRICTED)
 rd$MODEL_ENTITY_COUNT <- forcenum(rd$MODEL_ENTITY_COUNT)
 
 rdn <- rd %>% drop_na()
-=======
+## ======= Looks like a separate script, poor man's code reuse ======
 
 rundata %>% select(ShortId,MinerDuration,EstimatorDuration,TotalDuration,MODEL_ENTITY_COUNT,baseLog) %>%
               group_by(baseLog,ShortId) %>%

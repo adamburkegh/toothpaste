@@ -9,7 +9,7 @@ The technique is explained formally in *Burke, A., Leemans, S. J. J., & Wynn, Mo
 ## Windows CLI
 From version 0.9.3.0, a `toothpaste-win-exe-version.zip` file is included in the release. When unzipped it contains a self-contained executable file and a Python wrapper.
 
-`bin\toothpaste.exe` is a command line application. See the help included using `toothpaste --help`.
+`toothpaste.exe` is a command line application. See the help included using `toothpaste --help`.
 
 ## Python 
 `scripts/toothpaste.py` is a Python wrapper using [pm4py](https://pm4py.fit.fraunhofer.de/). pm4py will need to be available in the Python environment and `toothpaste.exe` on the PATH. It invokes the toothpaste miner using the CLI and returns a pm4py Petri net. The script can also be copied as a starting point for more sophisticated use if needed.

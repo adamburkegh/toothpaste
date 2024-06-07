@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.35.0.
+-- This file has been generated from package.yaml by hpack version 0.36.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d62f42e283a45978f7f6db4d295357acd8faa6d9a4626a8282b11f58b87f069a
+-- hash: 26eec89cf08688171b8bf76a2f7a8271c5a36a9bc6ebe79074d0c8987948fcdd
 
 name:           toothpaste
-version:        0.9.3.1
+version:        0.9.3.2
 description:    Please see the README
 homepage:       https://github.com/githubuser/adamburkegh#readme
 bug-reports:    https://github.com/githubuser/adamburkegh/issues

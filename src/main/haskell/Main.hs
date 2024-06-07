@@ -44,7 +44,7 @@ data Impl = Incr | Binary | MNode
 
 
 summaryStr :: String
-summaryStr = "Toothpaste Miner 0.9.3.1, 2020-24 (GPL)" 
+summaryStr = "Toothpaste Miner 0.9.3.2, 2020-24 (GPL)" 
 
 lfDelimitedText            = "dt"
 lfDoubleCommaDelimitedText = "dcdt"

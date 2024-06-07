@@ -44,11 +44,17 @@ data Impl = Incr | Binary | MNode
 
 
 summaryStr :: String
-summaryStr = "Toothpaste Miner 0.9.3.1, 2020-23 (GPL)" 
+summaryStr = "Toothpaste Miner 0.9.3.1, 2020-24 (GPL)" 
+
+lfDelimitedText            = "dt"
+lfDoubleCommaDelimitedText = "dcdt"
 
 toothpasteArgs = cmdArgsMode $ ToothpasteArgs{
-    logformat = "dt" &= 
-        help "Event log format. Valid values dt or dtct", 
+    logformat = lfDelimitedText &= 
+        help ("Event log format. Valid values " 
+                ++ lfDelimitedText ++ " or " 
+                ++ lfDoubleCommaDelimitedText 
+                ++ ".  Default " ++ lfDelimitedText ++ "."), 
     modeltype = "stoch" &= 
         help "Output model type. Valid values stoch or cflow", 
     eventlog  = def &= help "Event log file name. Required.",
@@ -71,9 +77,9 @@ ptreeOutMain = Binpaste.inputMain
 
 
 parseSelector :: String -> String -> Log String
-parseSelector pstr | pstr == "dcdt" = parseDCDT
-                   | pstr == "dt"   = parseDelimitedTrace
-                   | otherwise      = parseDelimitedTrace
+parseSelector pstr | pstr == lfDoubleCommaDelimitedText = parseDCDT
+                   | pstr == lfDelimitedText            = parseDelimitedTrace
+                   | otherwise                          = parseDelimitedTrace
 
 modelSelector :: String -> Model
 modelSelector mstr | mstr == "stoch" = Stochastic

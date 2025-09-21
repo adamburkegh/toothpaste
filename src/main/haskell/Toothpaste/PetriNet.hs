@@ -1,10 +1,10 @@
 module Toothpaste.PetriNet where
 
+import Toothpaste.BaseTypes
 import Toothpaste.ToString
 import Data.Set (Set, toList, fromList,difference,empty)
 import Data.Typeable
 
-type Weight = Float
 
 -- Petri nets
 data Place a = Place {placeName :: a, placeId :: String } deriving (Eq, Ord)

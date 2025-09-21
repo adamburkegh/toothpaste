@@ -3,6 +3,7 @@ module Toothpaste.ProbProcessTree
      Weight,
      Validation) where
 
+import Toothpaste.BaseTypes
 import Toothpaste.PetriNet 
 import Data.List (nub,sort)
 

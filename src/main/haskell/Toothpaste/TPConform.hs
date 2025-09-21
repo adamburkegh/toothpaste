@@ -2,6 +2,7 @@
 
 module Toothpaste.TPConform where
 
+import Toothpaste.BaseTypes
 import Toothpaste.ProbProcessTree
 import Toothpaste.TraceUtil
 
@@ -76,6 +77,7 @@ formatToken :: (Show a) => PFToken a -> String
 formatToken (PFSymbol t) = show t
 formatToken PFSilent = "tau"
 formatToken PFNull = "=X="
+
 
 
 -- default epsilon for approximations

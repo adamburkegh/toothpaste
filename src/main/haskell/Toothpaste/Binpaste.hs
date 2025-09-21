@@ -1,5 +1,6 @@
 module Toothpaste.Binpaste where
 
+import Toothpaste.BaseTypes
 import Toothpaste.PetriNet
 import Toothpaste.EventLog
 import Toothpaste.TraceUtil

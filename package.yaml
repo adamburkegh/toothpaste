@@ -1,5 +1,5 @@
 name:                toothpaste
-version:             0.9.3.2
+version:             0.9.4.0
 github:              "githubuser/adamburkegh/toothpaste"
 license:             GPL-3
 author:              "Adam Burke"
@@ -20,6 +20,8 @@ description:         Please see the README
 
 dependencies:
 - base >= 4.7 && < 5
+- algebraic-graphs >= 0.7 && < 0.8
+- bimap >= 0.5 && < 0.6
 - cmdargs >= 0.10.20 && < 2
 - containers > 0.1 && < 2
 - simple-logger >= 0.1.0 && < 2

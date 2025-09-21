@@ -11,6 +11,20 @@ packages:
       size: 376
   original:
     hackage: simple-logger-0.1.1
+- completed:
+    hackage: algebraic-graphs-0.7@sha256:de8e3c278b3ebe546f263a3a21f5175a01ca4a34f3e0aa962388b43f68431104,8800
+    pantry-tree:
+      sha256: 9b07e817d5cae523d63bc5fa87160dc547242c63d4d5d2bd129d9b2b42692c23
+      size: 4347
+  original:
+    hackage: algebraic-graphs-0.7
+- completed:
+    hackage: bimap-0.5.0@sha256:aba506d02a1c93fc2b50dcbe728d2a4d07cca89b7033945418061a0b08576ebd,1889
+    pantry-tree:
+      sha256: 285f5e86640f4bef3b7a60991defb8dd4b3714f8c294495d1136da182c1315a3
+      size: 470
+  original:
+    hackage: bimap-0.5.0
 snapshots:
 - completed:
     sha256: 32716534fff554b7f90762130fdb985cabf29f157758934dd1c8f3892a646430

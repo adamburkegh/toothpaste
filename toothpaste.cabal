@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.36.0.
+-- This file has been generated from package.yaml by hpack version 0.38.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 26eec89cf08688171b8bf76a2f7a8271c5a36a9bc6ebe79074d0c8987948fcdd
+-- hash: 68ed0c4273041bc5878d1e5492f123640c78b09295b29c42abf505caef8ab92b
 
 name:           toothpaste
-version:        0.9.3.2
+version:        0.9.4.0
 description:    Please see the README
 homepage:       https://github.com/githubuser/adamburkegh#readme
 bug-reports:    https://github.com/githubuser/adamburkegh/issues
@@ -35,18 +35,22 @@ library
       Toothpaste.TPMine
   other-modules:
       Main
+      Toothpaste.BaseTypes
       Toothpaste.Binpaste
       Toothpaste.Flowpaste
       Toothpaste.OtherRules
       Toothpaste.ProcessFormats
       Toothpaste.ToString
       Toothpaste.TraceUtil
+      Toothpaste.WeightedAutomata
       Paths_toothpaste
   hs-source-dirs:
       src/main/haskell
   build-depends:
       HUnit >=1.6.1.0 && <2
+    , algebraic-graphs ==0.7.*
     , base >=4.7 && <5
+    , bimap ==0.5.*
     , cmdargs >=0.10.20 && <2
     , containers >0.1 && <2
     , simple-logger >=0.1.0 && <2
@@ -58,6 +62,7 @@ library
 executable toothpaste
   main-is: Main.hs
   other-modules:
+      Toothpaste.BaseTypes
       Toothpaste.Binpaste
       Toothpaste.EventLog
       Toothpaste.Flowpaste
@@ -70,13 +75,16 @@ executable toothpaste
       Toothpaste.TPConform
       Toothpaste.TPMine
       Toothpaste.TraceUtil
+      Toothpaste.WeightedAutomata
       Paths_toothpaste
   hs-source-dirs:
       src/main/haskell
   ghc-options: -threaded -fwarn-unused-imports -rtsopts -with-rtsopts=-N
   build-depends:
       HUnit >=1.6.1.0 && <2
+    , algebraic-graphs ==0.7.*
     , base >=4.7 && <5
+    , bimap ==0.5.*
     , cmdargs >=0.10.20 && <2
     , containers >0.1 && <2
     , simple-logger >=0.1.0 && <2
@@ -99,7 +107,9 @@ test-suite toothpaste-test
       Toothpaste.ToothpasteTest
       Toothpaste.TPConformTest
       Toothpaste.TPMineTest
+      Toothpaste.WeightedAutomataTest
       Main
+      Toothpaste.BaseTypes
       Toothpaste.Binpaste
       Toothpaste.EventLog
       Toothpaste.Flowpaste
@@ -112,6 +122,7 @@ test-suite toothpaste-test
       Toothpaste.TPConform
       Toothpaste.TPMine
       Toothpaste.TraceUtil
+      Toothpaste.WeightedAutomata
       Paths_toothpaste
   hs-source-dirs:
       src/test/haskell
@@ -120,7 +131,9 @@ test-suite toothpaste-test
   build-depends:
       HUnit
     , HUnit-approx
+    , algebraic-graphs ==0.7.*
     , base >=4.7 && <5
+    , bimap ==0.5.*
     , cmdargs >=0.10.20 && <2
     , containers >0.1 && <2
     , simple-logger >=0.1.0 && <2

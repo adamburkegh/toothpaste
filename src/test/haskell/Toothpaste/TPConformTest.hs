@@ -746,7 +746,11 @@ wsfaTests = [
                 ~=? pptToWSFA (NodeN Seq [la, lb] 1),
     "wchoice1"  ~:  wsfaFromList 1 4 [ 1 --< ("a",2) >-- 4,
                                        1 --< ("b",1) >-- 4] 
-                ~=? pptToWSFA (NodeN Choice [la2, lb] 3)
+                ~=? pptToWSFA (NodeN Choice [la2, lb] 3),
+    "wfloop1"   ~:  wsfaFromList 1 4 [ 1 --< ("a",2) >-- 2,
+                                       2 --< ("a",2) >-- 3,
+                                       3 --< ("a",2) >-- 4 ]
+                ~=? pptToWSFA (Node1 FLoop la2 3 3)
     ]
 
 --

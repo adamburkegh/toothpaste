@@ -288,6 +288,7 @@ pptToWSFA :: (Eq a, Ord a, Show a) => PPTree a -> WSFA a
 pptToWSFA u = pptToWSFAOffset u 1 (statebudget u+1)
 
 statebudget :: PPTree a -> Int
+statebudget (Node1 FLoop pt r w) = (round r) * (statebudget pt)
 statebudget u = (ncount u) 
 
 -- Conversion with index ranges
@@ -304,7 +305,8 @@ pptToEdgeDetails (NodeN Seq ptl w) init final =
     pptToWSFAOffsetSeq ptl init final
 pptToEdgeDetails (NodeN Choice ptl w) init final = 
     pptToWSFAOffsetChoice ptl init final
-
+pptToEdgeDetails (Node1 FLoop pt r w) init final = 
+     pptToWSFAOffsetSeq (duplicate [pt] (round r)) init final   
 
 pptToWSFAOffsetSeq :: (Eq a, Ord a, Show a) => 
     [PPTree a] -> State -> State -> [EdgeDetails a]
@@ -320,15 +322,8 @@ pptToWSFAOffsetChoice (u:us) init final =
     (pptToEdgeDetails u init final) ++ (pptToWSFAOffsetChoice us init final)
 
 
+
 {-
-probEps s (NodeN Choice ptl w) =  
-    sum (map (\u -> weight u * probEps s u) ptl) / wt
-    where wt = sum (map weight ptl)
-probEps s (Leaf x w) | s == [x]    = 1
-                     | otherwise = 0
-probEps s (Silent w) | null s    = 1
-                     | otherwise = 0
-probEps s (NodeN Seq  ptl w) = probSeq s ptl
 probEps s (Node1 FLoop pt r w) 
     = probEps s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
 probEps s (NodeN Conc ptl w) = 

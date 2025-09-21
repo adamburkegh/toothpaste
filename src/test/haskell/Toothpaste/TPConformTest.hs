@@ -6,6 +6,7 @@ import qualified Data.Set as Set
 
 import Toothpaste.ProbProcessTree
 import Toothpaste.TPConform
+import Toothpaste.WeightedAutomata
 
 -- import PPTTestUtil
 
@@ -733,6 +734,20 @@ concSilentEgTests = [
     ]
 
 
+--
+
+wsfaTests = [ 
+    "wleaf1"    ~:  wsfaFromList 1 2 [ 1 --< ("a",1)  >-- 2 ] 
+                ~=? pptToWSFA la ,
+    "wsilent1"  ~:  wsfaFromList 1 2 [ 1 --<* 2 >-- 2 ] 
+                ~=? pptToWSFA (Silent 2::PPTree Int),
+    "wseq1"     ~:  wsfaFromList 1 4 [ 1 --< ("a",1) >-- 2,
+                                       2 --< ("b",1) >-- 4] 
+                ~=? pptToWSFA (NodeN Seq [la, lb] 1),
+    "wchoice1"  ~:  wsfaFromList 1 4 [ 1 --< ("a",2) >-- 4,
+                                       1 --< ("b",1) >-- 4] 
+                ~=? pptToWSFA (NodeN Choice [la2, lb] 3)
+    ]
 
 --
 
@@ -754,8 +769,10 @@ probTests = probBasicTests ++ pathsetSingletons
 
 paperExampleTests = dupeConcEgTests ++ teleclaimsEgTests ++ concSilentEgTests
 
+
 huTests = probTests ++ utilTests ++ shuffleProbTests ++ pfTests 
        ++ paperExampleTests
+       ++ wsfaTests
 
 
 

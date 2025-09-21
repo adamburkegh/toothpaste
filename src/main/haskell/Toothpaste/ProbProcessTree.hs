@@ -136,7 +136,6 @@ latexTau = "\\tau"
 emptyTree :: PPTree a
 emptyTree = Silent 0
 
-epsilon = 0.0001
 
 -- pre: input trees are structurally equal
 -- note implementation always takes lhs for efficiency

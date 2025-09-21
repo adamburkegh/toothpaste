@@ -17,47 +17,47 @@ testeps = 0.0001
 wa1 = WSFA 1 1 (BM.insert 1 [] BM.empty)
 
 
-etrain      = EdgeDetails 1 2 (Act "train") "e1" 1
+etrain      = EdgeDetails 1 2 (Just "train") 1
 
-watrain1    = wsfaFromList 1 2 [ 1 --< ("train","e1",1) >-- 2 ]
+watrain1    = wsfaFromList 1 2 [ 1 --< ("train",1) >-- 2 ]
 
 watrainbusseq = wsfaFromList 1 3
-                [ 1 --< ("train","e1", 1) >-- 2 ,
-                  2 --< ("bus",  "e2", 1) >-- 3 ]
+                [ 1 --< ("train", 1) >-- 2 ,
+                  2 --< ("bus",   1) >-- 3 ]
 
 watrainbuschoice = wsfaFromList 1 2
-                [ 1 --< ("train","e1", 2) >-- 2 ,
-                  1 --< ("bus",  "e2", 1) >-- 2 ]
+                [ 1 --< ("train", 2) >-- 2 ,
+                  1 --< ("bus",   1) >-- 2 ]
 
 watrainbusbikechoice = wsfaFromList 1 2
-                [ 1 --< ("train","e1", 2) >-- 2,
-                  1 --< ("bus",  "e2", 1) >-- 2,
-                  1 --< ("bike", "e3", 1) >-- 2]
+                [ 1 --< ("train", 2) >-- 2,
+                  1 --< ("bus",   1) >-- 2,
+                  1 --< ("bike",  1) >-- 2]
 
-waempty1    = wsfaFromList 1 2 [ 1 --<* ("e1",1) >-- 2 ]
+waempty1    = wsfaFromList 1 2 [ 1 --<* (1) >-- 2 ]
 
 wachoiceseq = wsfaFromList 1 3
-                [ 1 --< ("a", "e1", 2) >-- 2,
-                  1 --< ("b", "e2", 1) >-- 2,
-                  2 --< ("c", "e3", 1) >-- 3]
+                [ 1 --< ("a",  2) >-- 2,
+                  1 --< ("b",  1) >-- 2,
+                  2 --< ("c",  1) >-- 3]
 
 wa2choice =  wsfaFromList 1 3
-                [ 1 --< ("a", "e1", 2) >-- 2,
-                  1 --< ("b", "e2", 1) >-- 2,
-                  2 --< ("c", "e3", 1) >-- 3,
-                  2 --< ("d", "e3", 1) >-- 3 ]
+                [ 1 --< ("a",  2) >-- 2,
+                  1 --< ("b",  1) >-- 2,
+                  2 --< ("c",  1) >-- 3,
+                  2 --< ("d",  1) >-- 3 ]
 
 wasilentchoice = wsfaFromList 1 2
-                [ 1 --< ("a","e1", 2) >-- 2 ,
-                  1 --<*(    "e2", 1) >-- 2 ]
+                [ 1 --< ("a", 2) >-- 2 ,
+                  1 --<*(     1) >-- 2 ]
 
 waloop1     = wsfaFromList 1 2
-                [ 1 --< ("a","e1", 1) >-- 1,
-                  1 --< ("b","e2", 2) >-- 2 ]
+                [ 1 --< ("a", 1) >-- 1,
+                  1 --< ("b", 2) >-- 2 ]
 
 wasilloop1  = wsfaFromList 1 2
-                [ 1 --<* (   "e1", 1) >-- 1,
-                  1 --< ("b","e2", 3) >-- 2 ]
+                [ 1 --<* (    1) >-- 1,
+                  1 --< ("b", 3) >-- 2 ]
 
 probBasicTests = 
     [ "noEdge"      ~: 0 ~=? wprob ["a"] wa1 ,
@@ -65,7 +65,7 @@ probBasicTests =
       "oneMatch"    ~: 1 ~=? wprob ["train"] watrain1,
       "twoMatch"    ~: 1 ~=? wprob ["train","bus"] watrainbusseq,
       "twoNoMatch"  ~: 0 ~=? wprob ["train"] watrainbusseq,
-      "oneSilent"   ~: 1 ~=? wprob [] waempty1 
+      "oneSilent"   ~: 1 ~=? wprob ([]::[String]) waempty1 
       ]
 
 probChoiceTests = 

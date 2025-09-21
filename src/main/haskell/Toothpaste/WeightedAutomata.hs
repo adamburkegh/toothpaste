@@ -11,64 +11,59 @@ import qualified Data.Bimap as BM   -- could be regular Map now
 -- import Debug.Trace
 
 -- pretty much a hack instead of (Monoid a) =>
-type Activity = String
+-- type Activity = String
 
-data Label = Silent | Act Activity
-    deriving (Eq, Ord, Show)
+-- data Label = Silent | Act Activity
+--     deriving (Eq, Ord, Show)
 
-instance Semigroup (Label) where
-    (<>) Silent Silent = Silent
-    (<>) Silent l2     = l2
-    (<>) l1 Silent     = l1
-    (<>) l1 l2         = l1 <> l2
+-- instance Semigroup (Label) where
+--     (<>) Silent Silent = Silent
+--     (<>) Silent l2     = l2
+--     (<>) l1 Silent     = l1
+--     (<>) l1 l2         = l1 <> l2
 
-instance Monoid (Label) where
-    mempty = Silent
+-- instance Monoid (Label) where
+--     mempty = Silent
 
 type State = Int
 
 
-data EdgeDetails = EdgeDetails {fromState    :: State,
-                                toState      :: State,
-                                detailLabel  :: Label,
-                                edgeId       :: String,
-                                edgeWeight   :: Weight}
+data EdgeDetails a = EdgeDetails {fromState    :: State,
+                                  toState      :: State,
+                                  detailLabel  :: Maybe a,
+                                  -- eid       :: String TODO remove from fns
+                                  edgeWeight   :: Weight}
         deriving (Eq, Ord, Show)
 
-
-we :: State -> State -> String -> Weight -> String -> EdgeDetails 
-we from to label weight edgeid = EdgeDetails from to (Act label) edgeid weight
-
-wes :: State -> State -> Weight -> String -> EdgeDetails 
-wes from to weight edgeid = EdgeDetails from to Silent edgeid weight
 
 
 -- These two operators combine to make edges
 -- Eg 1 --< ("train","e1", 1) >-- 2
 --
 -- lhs edge construction operator
-(--<) :: State -> (String,String,Weight) -> (State,Label,String,Weight) 
-v1 --< (l1,eid,w) = (v1,Act l1,eid,w)
+(--<) :: (Eq a, Ord a, Show a) => 
+    State -> (a,Weight) -> (State,Maybe a,Weight) 
+v1 --< (l1,w) = (v1,Just l1,w)
 
-(--<*) :: State -> (String,Weight) -> (State,Label,String,Weight)
-v1 --<* (eid,w) = (v1,Silent,eid,w)
+(--<*) :: State -> Weight -> (State,Maybe a,Weight)
+v1 --<* w = (v1,Nothing,w)
 
 -- rhs edge construction operator
-(>--) :: (State,Label,String,Weight) -> State -> EdgeDetails
-(v1,l1,eid,w) >-- v2 = EdgeDetails v1 v2 l1 eid w
+(>--) :: (State,Maybe a,Weight) -> State -> EdgeDetails a
+(v1,l1,w) >-- v2 = EdgeDetails v1 v2 l1 w
 
 
 
 
-type EdgeMap = BM.Bimap State [EdgeDetails]
+type EdgeMap a = BM.Bimap State [EdgeDetails a]
 
-data WSFA = WSFA{ initial    :: Int,
-                  final      :: Int,
-                  -- intMap     :: IM.AdjacencyIntMap,
-                  edgeMap    :: EdgeMap }
-           deriving (Show)
+data WSFA a = WSFA{ initial :: State,
+                    final   :: State,
+                    edgeMap :: EdgeMap a}
+           deriving (Eq,Show)
 
-wsfaFromList :: State -> State -> [EdgeDetails] -> WSFA
+wsfaFromList :: (Eq a, Ord a, Show a) =>
+    State -> State -> [EdgeDetails a] -> WSFA a
 wsfaFromList start end el = WSFA start end edgemap
     where edgemap    = BM.fromList ml
           ml         = zip states stateEdges
@@ -78,20 +73,18 @@ wsfaFromList start end el = WSFA start end edgemap
                            states
 
 
--- default epsilon for approximations
-defaulteps = 0.001
-
-wprob :: [Activity] -> WSFA -> Float
+wprob :: (Eq a, Ord a, Show a) => [a] -> WSFA a -> Float
 wprob s ws = let ?eps = defaulteps in wprobEps s ws
 
-wprobEps :: (?eps :: Float) => [Activity] -> WSFA -> Float 
+wprobEps :: (Eq a, Ord a, Show a, ?eps :: Float) => [a] -> WSFA a -> Float 
 wprobEps s (WSFA initial final em) = 
     wprobS s (WSFA initial final em) initial ?eps 1 Data.Set.empty
 
 
 -- wprobS sequence wsfa vertex seen -> prob
 -- Should be IntSet State instead of Set?
-wprobS :: [Activity] -> WSFA -> State -> Float -> Float -> Set State -> Float
+wprobS :: (Eq b, Ord b) => 
+    [b] -> WSFA b -> State -> Float -> Float -> Set State -> Float
 wprobS (a:as) (WSFA initial final em) v eps p seen 
     | wt    == 0     = 0
     | p <= eps     = 
@@ -120,8 +113,8 @@ wprobS (a:as) (WSFA initial final em) v eps p seen
           edges     = em BM.! v
           weights   = map (\e -> edgeWeight e) edges
           wt        = sum weights
-          actsucc   = chooseEdges (Act a) em edges
-          silsucc   = chooseEdges Silent  em edges
+          actsucc   = chooseEdges (Just a) em edges
+          silsucc   = chooseEdges Nothing  em edges
 wprobS [] (WSFA initial final em) v eps p seen
     | final == v                = 1
     | final /= v && wt == 0     = 0
@@ -138,14 +131,15 @@ wprobS [] (WSFA initial final em) v eps p seen
           edges     = em BM.! v
           weights   = map (\e -> edgeWeight e) edges
           wt        = sum weights
-          silsucc   = chooseEdges Silent em edges
+          silsucc   = chooseEdges Nothing em edges
 
 
 neweps :: State -> Set State -> Float -> Float -> Float -> Float
 neweps v seen eps w wt | notMember v seen   = eps * w / wt
                        | member v seen      = eps
 
-chooseEdges :: Label -> EdgeMap -> [EdgeDetails] -> [EdgeDetails]
+chooseEdges :: (Eq a) => 
+    Maybe a -> EdgeMap a -> [EdgeDetails a] -> [EdgeDetails a]
 chooseEdges l1 em edges = 
     filter (\e -> l1 == detailLabel e) edges
 

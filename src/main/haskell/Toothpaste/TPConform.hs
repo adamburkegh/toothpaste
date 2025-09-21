@@ -5,6 +5,7 @@ module Toothpaste.TPConform where
 import Toothpaste.BaseTypes
 import Toothpaste.ProbProcessTree
 import Toothpaste.TraceUtil
+import Toothpaste.WeightedAutomata as WA
 
 import Data.List (sort)
 
@@ -79,9 +80,6 @@ formatToken PFSilent = "tau"
 formatToken PFNull = "=X="
 
 
-
--- default epsilon for approximations
-defaulteps = 0.001
 
 -- probability [0,1]
 prob :: (Eq a, Ord a) => [a] -> PPTree a -> Float
@@ -284,5 +282,58 @@ pftokenprob s PFSilent     | null s    = 1
                            | otherwise = 0
 pftokenprob s PFNull       | null s    = 1
                            | otherwise = 0
+
+-- Conversion from PPT to WSFA
+pptToWSFA :: (Eq a, Ord a, Show a) => PPTree a -> WSFA a
+pptToWSFA u = pptToWSFAOffset u 1 (statebudget u+1)
+
+statebudget :: PPTree a -> Int
+statebudget u = (ncount u) 
+
+-- Conversion with index ranges
+pptToWSFAOffset :: (Eq a, Ord a, Show a) => 
+    PPTree a -> State -> State -> WSFA a
+pptToWSFAOffset u init final = 
+    wsfaFromList init final (pptToEdgeDetails u init final)
+
+pptToEdgeDetails :: (Eq a, Ord a, Show a) => 
+    PPTree a -> State -> State -> [EdgeDetails a]
+pptToEdgeDetails (Leaf x w) init final = [ init --< (x,w)  >-- final ]
+pptToEdgeDetails (Silent w) init final = [ init --<* w >-- final ]
+pptToEdgeDetails (NodeN Seq ptl w) init final = 
+    pptToWSFAOffsetSeq ptl init final
+pptToEdgeDetails (NodeN Choice ptl w) init final = 
+    pptToWSFAOffsetChoice ptl init final
+
+
+pptToWSFAOffsetSeq :: (Eq a, Ord a, Show a) => 
+    [PPTree a] -> State -> State -> [EdgeDetails a]
+pptToWSFAOffsetSeq []     init final = []
+pptToWSFAOffsetSeq (u:us) init final = 
+    (pptToEdgeDetails u init f1) ++ (pptToWSFAOffsetSeq us f1 final)
+    where f1 = if (us == []) then final else init+statebudget u
+          -- hack?
+pptToWSFAOffsetChoice:: (Eq a, Ord a, Show a) => 
+    [PPTree a] -> State -> State -> [EdgeDetails a]
+pptToWSFAOffsetChoice []     init final = []
+pptToWSFAOffsetChoice (u:us) init final = 
+    (pptToEdgeDetails u init final) ++ (pptToWSFAOffsetChoice us init final)
+
+
+{-
+probEps s (NodeN Choice ptl w) =  
+    sum (map (\u -> weight u * probEps s u) ptl) / wt
+    where wt = sum (map weight ptl)
+probEps s (Leaf x w) | s == [x]    = 1
+                     | otherwise = 0
+probEps s (Silent w) | null s    = 1
+                     | otherwise = 0
+probEps s (NodeN Seq  ptl w) = probSeq s ptl
+probEps s (Node1 FLoop pt r w) 
+    = probEps s (NodeN Seq (duplicate [pt] (round r)) (weight pt) ) 
+probEps s (NodeN Conc ptl w) = 
+    pfprob s (pathset (NodeN Conc ptl w) ?eps)
+probEps s (Node1 PLoop pt r w) = probPLoop s pt r ?eps
+-}
 
 
